@@ -1,1 +1,1 @@
-# BachelorThesisForestFire
+# BachelorThesisForestFireControl

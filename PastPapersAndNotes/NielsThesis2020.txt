@@ -1,0 +1,86 @@
+###########################################
+#ISOLATING WILDFIRES USING A CONVOLUTIONAL#
+#NEURAL NETWORK BASED MULTI-AGENT SYSTEM  #
+###########################################
+by Niels Rocholl
+
+###Introduction###
+- CNN
+- 21, 41, 61 environment size
+- normal + fast fire propagation speed
+- 4 agents
+- 1 agent as comparison, always outperformed
+- Learning from Demonstration (LfD)
+- past research (not only from Intro):
+	- enforced subpopulations (Wiering, Mignogna, and Maassen, 2005)
+	- reinforcement learning (Wiering and Doringo, 1998)
+	- combination of RL and LfD (Hammond, Schaap, Sabatelli, and Wiering, 2020)
+	- LfD and ConvNets (Ywema and Wiering, 2020)
+	- Multi Agent System Background (Oprea, 2004)
+	- CNNs invention ConvNets (LeCun, ... , 1989)
+	- CNN for GO (Silver et al., 2016)
+	- storing previous positions, give as additional input for CNN
+	  (Wagenaar, Okafor, Frencken, and Wiering, 2017)
+	- Astar algorithm (Hart, Nilsson, and Raphael, 1968)
+	- binary vision grids in Tron game (Knegt, Drugan, and Wiering, 2018)
+
+
+- research question:
+	Can a multi-agent system which utilizes a convolu-
+	tional neural network for action selection effectively
+	be used to isolate wildfires in a simulation?
+
+
+###Environment###
+- possible cells: Agent, Tree, Dirt, Burnt, Fire
+- cell data members: Fuel, Temp, Ignition Threshold, Heat potential
+- randomly placed Agent at first
+- possible actions: UP, DOWN, LEFT, RIGHT, DIG, WAIT
+- Agents have heat sensors that prevent them from walking into the fire
+- fire in the middle
+- out of control if edge of map reached
+- fast FPS: all cells burning after 38 or 19 time steps
+- 11 different binary vision grids
+- 0, 3, 5, or all previous agent positions in the input data
+
+###CNN###
+- explanation of CNNs, layer types, actication&loss functions, Adam optimizer etc
+- architecture:
+	- conv1 (21x21, 41x41 or 61x61 input)
+	- pool
+	- conv2
+	- conv3
+	- softmax (6 output dimensions, 6 actions)
+- augmentation by rotation (but mirroring+dilation should give even more)
+
+###Experimental Setup###
+- 1. find best input configuration:
+	- fast FPS, 41x41 grid
+	- 7 configs
+	- 200 training, 80 validation episodes (3/4 through augmentation)
+	  (1 episode == 1 time step???)
+	- 10 CNNs, 100 test episodes
+
+- 2. final experiment:
+	- used best input config CNN
+	- 1, 2, 4 agents, each with own CNN
+	- 21, 41, 61 grid size
+	- fast+slow FPS -> 18 configs
+	- 20 models on 200 training, 80 val
+	- tested on 100 episodes
+	- early stopping used
+	- default adam optimizer hyper params
+	
+###Results###
+- 1. no previous input performed best
+
+- 2. - that config taken, used for 21, 41, 61 grids
+     - 4 agents always better in %contained(higher)
+       and %burned(lower is better)
+
+###Conclusions+Discussion###
+- more agents, better results
+- difficult to draw conclusions about rl-application
+- larger+more complex envs?
+- terrain, wind elevation etc?
+- between-agent communication?

@@ -1,6 +1,36 @@
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from tensorflow.keras import layers, models
+
+
+def build_model(envsize=256, channels=2, agents=10):
+    """Build model using models.Sequential()
+    @:param envsize determines the input dimensions
+    @:param channels amount of 'channels' the CNN can see, for now agents and fires
+    @:param agents determines how many normalized x,y outputs we will get
+
+    @:return the model that has to be compile()d, fit(), test()ed
+    """
+    model = models.Sequential()
+    # to make clear what numbers represent what:
+    model.add(layers.Conv2D(filters=32,             # convolution channels in output of this layer
+                            # https://stackoverflow.com/questions/51180234/keras-conv2d-filters-vs-kernel-size
+                            kernel_size=(3, 3),     # filter that walks in 'strides' over input images
+                            activation='relu',      # max(0, input), so quite fast
+                            input_shape=(envsize, envsize, channels))
+    )
+    # the layers in between are subject to experimentation
+    model.add(layers.MaxPooling2D((5,5)))           # reduce connections
+    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+    model.add(layers.Flatten())                     # prepare for Dense layer
+    model.add(layers.Dense(64, activation='relu'))
+    model.add(layers.Dense(2 * agents))             # x, y for each agent
+    model.summary()
+
+    return model
 
 
 def plot_history(history):

@@ -63,6 +63,7 @@ class View:
 
     self.clock = pygame.time.Clock() ## Don't know if necessary yet, or what it actually does
 
+    # Does nothing yet, for zooming functionality
     self.translation = (0, 0)
     self.scale = 1
 
@@ -126,8 +127,9 @@ class Controller:
   def __init__(self, model: Model, view: View):
     self.model = model
     self.view = view
-    self.mouse_button_pressed = False
-    self.last_clicked = (-1, 0)
+
+    # Initialization
+    self.mouse_button_pressed = False   ## Mouse button assumed not to be pressed initially
     
   
   def update(self, pygame_events):

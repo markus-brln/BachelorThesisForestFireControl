@@ -9,7 +9,7 @@ pygame.init()  ## Initialize Pygame
 COLOR = { "BLACK": (0, 0, 0), 
           "WHITE": (255, 255, 255),
           "RED": (255, 0,0 ),
-          "GREEN": (0, 180, 0)
+          "GREEN": (0, 255, 0)
           }
 
 class Model:
@@ -19,7 +19,7 @@ class Model:
   def __init__(self, length: int, agents):
     self.size = length
     self.agents = agents
-    self.selected_squares = [ (5, 5)]
+    self.selected_squares = []
 
     self.startEpisode()
     self.terminal_state = False
@@ -27,7 +27,7 @@ class Model:
 
   
   def startEpisode(self):
-    self.selected_squares = [ (5, 5)]
+    self.selected_squares = []
     self.time = 0
     self.firepos = [(self.size / 2, self.size / 2)]
 
@@ -57,14 +57,16 @@ class Model:
 ## Separate these classes, figure out how to import code from other file
 class View:
   def __init__(self, model: Model, grid_block_size: int):
-    model.view = self
     self.model = model
     self.grid_block_size = grid_block_size           ## Width and height of block in grid
     self.window_size = model.size * grid_block_size
-
     self.window = pygame.display.set_mode((self.window_size, self.window_size))
 
     self.clock = pygame.time.Clock() ## Don't know if necessary yet, or what it actually does
+
+    self.translation = (0, 0)
+    self.scale = 1
+
     self.update()
   
 
@@ -130,8 +132,8 @@ class Controller:
 
 
 def main():
-  environment = Model(20, [])
-  view = View(environment, 25)
+  environment = Model(256, [])
+  view = View(environment, 5)
   controller = Controller(environment, view)
   while(True):
     controller.update(pygame.event.get())

@@ -6,12 +6,6 @@ from time import sleep ## To redraw once a second. Should not be necessary
 
 pygame.init()  ## Initialize Pygame 
 
-COLOR = { "BLACK": (0, 0, 0), 
-          "WHITE": (255, 255, 255),
-          "RED": (255, 0,0 ),
-          "GREEN": (0, 255, 0)
-          }
-
 class Model:
   # Other parameters can be added later
   ## Length: Grid size
@@ -29,7 +23,7 @@ class Model:
   def startEpisode(self):
     self.selected_squares = []
     self.time = 0
-    self.firepos = [(self.size / 2, self.size / 2)]
+    self.firepos = [(int(self.size / 2), int(self.size / 2))]
 
 
   def time_step(self):
@@ -37,13 +31,12 @@ class Model:
     self.expand_fire()
 
 
-  def select_square(self, width, height):
-    if (width, height) in self.selected_squares:
-      self.selected_squares.remove((width, height))
+  def select_square(self, position):
+    if position in self.selected_squares:
+      self.selected_squares.remove(position)
     else:
-      self.selected_squares += [(width, height)]
-
-
+      self.selected_squares += [position]
+    
   ## TODO
   def expand_fire(self):
     pass
@@ -71,11 +64,16 @@ class View:
   
 
   def update(self):
-    self.window.fill(COLOR["GREEN"])
+    # Draw Background and grid
+    self.window.fill(pygame.Color("ForestGreen"))
     self.draw_grid()
+
+    # State Dependent drawing
     self.draw_selected()
     self.draw_fire()
     self.draw_agents()
+
+    # Update pygame display
     pygame.display.update()
 
 
@@ -84,56 +82,85 @@ class View:
     for x in range(self.model.size):
       for y in range(self.model.size):
         rect = pygame.Rect(x*block_size, y*block_size, block_size, block_size)
-        pygame.draw.rect(self.window, COLOR["WHITE"], rect, 1)
+        pygame.draw.rect(self.window, pygame.Color("black"), rect, 1)
 
 
-  def draw_agents(self):
-    pass
-
-
-  def draw_fire(self):
-    pass
-    
-
-  def draw_selected(self):
+  def fill_blocks(self, positions, color):
     block_size = self.grid_block_size
-    for selected in self.model.selected_squares:
-      ## I really do not want to do it like this
+    for selected in positions:
+      ## I really do not want to do it like this TODO possibly change
       for x in range(selected[0] * block_size, (selected[0] + 1) * block_size):
         for y in range(selected[1] * block_size, (selected[1] + 1) * block_size):
           rect = (x, y, 1, 1)
-          pygame.draw.rect(self.window, COLOR["RED"], rect, 1)
+          pygame.draw.rect(self.window, color, rect, 1)
+
+
+  def draw_agents(self):
+    self.fill_blocks(self.model.agents, pygame.Color("Cyan"))
+
+
+  def draw_fire(self):
+    self.fill_blocks(self.model.firepos, pygame.Color("FireBrick"))
+
+  def draw_selected(self):
+    self.fill_blocks(self.model.selected_squares, pygame.Color("Black"))
+  
+
+  # TODO: change after zooming
+  def pixel_belongs_to_block(self, pos):
+    x = int(pos[0] / self.grid_block_size)
+    y = int(pos[1] / self.grid_block_size)
+    return (x, y)
 
 
 class Controller:
   def __init__(self, model: Model, view: View):
     self.model = model
     self.view = view
+    self.mouse_button_pressed = False
+    self.last_clicked = (-1, 0)
     
   
   def update(self, pygame_events):
     for event in pygame_events:
       if event.type == pygame.QUIT:
         self.shut_down(event)
+      elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
+        self.select(event.pos)
+      elif event.type == pygame.KEYDOWN:
+        self.key_press(event)
       elif event.type == pygame.MOUSEBUTTONDOWN:
-        self.click(event)
+        self.mouse_button_pressed = True
+        self.select(event.pos)
+      elif event.type == pygame.MOUSEBUTTONUP:
+        self.mouse_button_pressed = False
       
   def shut_down(self, event):
     self.model.shut_down()
     exit(0)
-
   
-  def click(self, event):
-    (x, y) = event.pos
-    x = int(x / self.view.grid_block_size)
-    y = int(y / self.view.grid_block_size)
-    self.model.select_square(x, y)
+  def select(self, position):
+    position = self.view.pixel_belongs_to_block(position)
+    if position == self.last_clicked:
+      return
+    
+    self.model.select_square(position)
+    self.last_clicked = position
+    self.view.update()
+
+
+  def key_press(self, event):
+    if event.key == pygame.K_SPACE:
+      self.model.time_step()
+    if event.key == pygame.K_RETURN:
+      self.model.startEpisode()
+
     self.view.update()
 
 
 def main():
-  environment = Model(256, [])
-  view = View(environment, 5)
+  environment = Model(25, [])
+  view = View(environment, 25)
   controller = Controller(environment, view)
   while(True):
     controller.update(pygame.event.get())

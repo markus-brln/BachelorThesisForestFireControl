@@ -53,6 +53,7 @@ class Model:
     if(y > 0 & y < self.size):
       top = y + 1
       bottom = y - 1
+    ## new list of neighbouring cells
     neighbours = [(left, y), (x, top), (right, y), (x, bottom)]
     return neighbours
 
@@ -192,6 +193,7 @@ class Controller:
   def key_press(self, event):
     if event.key == pygame.K_SPACE:
       self.model.time_step()          ## Space to go to next timestep
+    ##TODO possibly add a revert time step option to go back one
     if event.key == pygame.K_RETURN:
       self.model.startEpisode()       ## Return / ENTER to go to next episode
 

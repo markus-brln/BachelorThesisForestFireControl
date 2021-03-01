@@ -29,7 +29,7 @@ class Model:
 
 
   ## Increment the time by one.
-  # TODO: possibly reset selection?
+  # TODO: possibly reset selection
   def time_step(self):
     self.time += 1                # Increment time
     self.expand_fire()            # Determine fire propagation

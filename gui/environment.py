@@ -9,8 +9,9 @@ class Model:
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
-  def __init__(self, length: int, agents):
+  def __init__(self, length: int, firesize, agents):
     self.size = length
+    self.firesize = firesize
     self.agents = agents
 
     self.startEpisode()           # Initialize episode
@@ -26,6 +27,16 @@ class Model:
     # Start fire in the middle of the map
     self.firepos = set()
     self.firepos.add((self.centreX, self.centreY))
+
+
+    idx = 1
+    while idx < self.firesize:
+     self.fire = list(self.firepos)
+     for pos in self.fire:
+      neighbours = self.getNeighbours(pos)
+      for neighbour in neighbours:
+       self.firepos.add(neighbour)
+     idx += 1
 
 
   ## Increment the time by one.
@@ -60,8 +71,8 @@ class Model:
   ## currently stops when the fire reaches the edge of the map for simplicity but
   ## also as it makes it impossible for the agent to contain the fire
   def expand_fire(self):
-    fire = list(self.firepos)
-    for pos in fire:
+    self.fire = list(self.firepos)
+    for pos in self.fire:
       neighbours = self.getNeighbours(pos)
       for neighbour in neighbours:
         self.firepos.add(neighbour)
@@ -202,7 +213,8 @@ class Controller:
 
 
 def main():
-  environment = Model(25, [])         ## Initialize Environment
+  firesize = 1
+  environment = Model(25, firesize, [])         ## Initialize Environment
   view = View(environment, 25)        ## Start View
   controller = Controller(environment, view) ## Initialize Controller with model and view
   while(True):

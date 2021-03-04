@@ -26,6 +26,7 @@ class Model:
     self.centreY = int(self.size / 2)
     # Start fire in the middle of the map
     self.firepos = set()
+    self.firepos.clear()
     self.firepos.add((self.centreX, self.centreY))
 
 
@@ -58,29 +59,44 @@ class Model:
     self.pos = position
     x = self.pos[0]
     y = self.pos[1]
-    if(x > 0 & x < self.size):
-      left = x - 1
-      right = x + 1
-    if(y > 0 & y < self.size):
-      top = y + 1
-      bottom = y - 1
+    self.left = x - 1
+    self.right = x + 1
+    self.top = y + 1
+    self.bottom = y - 1
     ## new list of neighbouring cells
-    neighbours = [(left, y), (x, top), (right, y), (x, bottom)]
-    return neighbours
+    neighbours = [(self.left, y), (x, self.top), (self.right, y), (x, self.bottom)]
+    for neighbour, (a, b) in enumerate(neighbours):
+     if self.position_in_bounds((a, b)):
+      return neighbours
+     else:
+      self.shut_down()
+
 
   ## currently stops when the fire reaches the edge of the map for simplicity but
   ## also as it makes it impossible for the agent to contain the fire
   def expand_fire(self):
     self.fire = list(self.firepos)
+    print(self.fire)
     for pos in self.fire:
       neighbours = self.getNeighbours(pos)
       for neighbour in neighbours:
         self.firepos.add(neighbour)
 
+  def position_in_bounds(self, position):
+    self.pos = position
+    self.x = self.pos[0]
+    self.y = self.pos[1]
+    # print("x: ", self.x, "y: ", self.y)
+    if ((self.x >= 0 & self.x <= self.size) & (self.y >= 0 & self.y <= self.size)):
+      return True
+    else:
+      return False
+
 
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
-    print("Shutting Down")
+    print("Fire out of control!")
+    self.startEpisode()
 
 
 ## Separate these classes, figure out how to import code from other file
@@ -168,6 +184,9 @@ class Controller:
       if event.type == pygame.QUIT:
         # Exit the program
         self.shut_down(event)
+      elif event.type == pygame.KEYDOWN:
+        # Keyboard button pressed
+        self.key_press(event)
       elif event.type == pygame.MOUSEBUTTONDOWN:
         # Mouse stationary and mouse button pressed
         self.mouse_button_pressed = event.button
@@ -179,9 +198,7 @@ class Controller:
       elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
         # Mouse button pressed and dragged
         self.select(event.pos)
-      elif event.type == pygame.KEYDOWN:
-        # Keyboard button pressed
-        self.key_press(event)
+
       
   def shut_down(self, event):
     self.model.shut_down()              ## Ensure proper shutdown of the model
@@ -207,15 +224,14 @@ class Controller:
     ##TODO possibly add a revert time step option to go back one
     if event.key == pygame.K_RETURN:
       self.model.startEpisode()       ## Return / ENTER to go to next episode
-
     # Update the view
     self.view.update()
 
 
 def main():
-  firesize = 1
-  environment = Model(25, firesize, [])         ## Initialize Environment
-  view = View(environment, 25)        ## Start View
+  starting_firesize = 1
+  environment = Model(9, starting_firesize, [])         ## Initialize Environment
+  view = View(environment, 20)        ## Start View
   controller = Controller(environment, view) ## Initialize Controller with model and view
   while(True):
     controller.update(pygame.event.get())    ## Let the controller take over

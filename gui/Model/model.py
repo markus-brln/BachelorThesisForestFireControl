@@ -9,9 +9,8 @@ class Model:
     self.agents = agents
 
     ## Fire initialization
-    self.firesize = firesize
     self.firepos = set()
-    self.centre = (self.size / 2, self.size / 2)
+    self.set_initial_fire(firesize)
 
     self.startEpisode()           # Initialize episode
 
@@ -23,16 +22,18 @@ class Model:
 
     # Start fire in the middle of the map
     self.firepos.clear()
-    self.firepos.add(self.centre)
+    self.firepos = set(self.initial_fire)
 
-    idx = 1
-    while idx < self.firesize:
-     self.fire = list(self.firepos)
-     for pos in self.fire:
-      neighbours = self.getNeighbours(pos)
-      for neighbour in neighbours:
-       self.firepos.add(neighbour)
-     idx += 1
+
+  def set_initial_fire(self, firesize):
+    self.centre = [(int(self.size / 2), int(self.size / 2))]
+    self.initial_fire = set(self.centre)
+    for _ in range(firesize - 1):
+      fire = list(self.initial_fire)
+      for pos in fire:
+        neighbours = self.getNeighbours(pos)
+        for neighbour in neighbours:
+          self.initial_fire.add(neighbour)
 
 
   ## Increment the time by one.
@@ -49,7 +50,8 @@ class Model:
 
   def deselect_square(self, position):
     self.selected_squares.discard(position) # Remove from list of waypoints
-    
+
+
   def getNeighbours(self, position):
     self.pos = position
     x = self.pos[0]
@@ -71,7 +73,6 @@ class Model:
   ## also as it makes it impossible for the agent to contain the fire
   def expand_fire(self):
     self.fire = list(self.firepos)
-    print(self.fire)
     for pos in self.fire:
       neighbours = self.getNeighbours(pos)
       for neighbour in neighbours:
@@ -81,7 +82,6 @@ class Model:
     self.pos = position
     self.x = self.pos[0]
     self.y = self.pos[1]
-    # print("x: ", self.x, "y: ", self.y)
     if ((self.x >= 0 & self.x <= self.size) & (self.y >= 0 & self.y <= self.size)):
       return True
     else:

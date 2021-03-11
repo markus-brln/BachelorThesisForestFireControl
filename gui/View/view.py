@@ -30,7 +30,7 @@ class View:
     # State Dependent drawing
     self.draw_selected()
     self.draw_fire()
-    self.draw_agents()
+    # self.draw_agents()
 
     # Update pygame display
     pygame.display.update()
@@ -68,7 +68,6 @@ class View:
     self.fill_blocks(self.model.selected_squares, pygame.Color("Black"))
   
   ## Determine in which block a pixel lies
-  # TODO: change after zooming
   def pixel_belongs_to_block(self, pos):
     x = int(pos[0] / self.grid_block_size)
     y = int(pos[1] / self.grid_block_size)

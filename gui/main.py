@@ -27,7 +27,7 @@ def main():
   agents = [Agent(random_position(size)) for _ in range(nr_of_agents)]
 
   # Initialization
-  environment = Model(size, agents)            ## Initialize Environment
+  environment = Model(size, agents)               ## Initialize Environment
   view = View(environment, block_size_in_pixels)  ## Start View
   controller = Controller(environment, view)      ## Initialize Controller with model and view
 

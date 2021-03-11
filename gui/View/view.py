@@ -28,10 +28,10 @@ class View:
     self.draw_grid()
 
     # State Dependent drawing
-    self.draw_selected()
     self.draw_fire()
-    self.draw_agents()
     self.draw_firebreaks()
+    self.draw_waypoints()
+    self.draw_agents()
 
     # Update pygame display
     pygame.display.update()
@@ -49,10 +49,10 @@ class View:
   # Fill the blocks at the provided positions with the provided color
   def fill_blocks(self, positions, color):
     block_size = self.grid_block_size
-    for selected in positions:
+    for waypoints in positions:
       ## I really do not want to do it like this TODO possibly change
-      for x in range(selected[0] * block_size, (selected[0] + 1) * block_size):
-        for y in range(selected[1] * block_size, (selected[1] + 1) * block_size):
+      for x in range(waypoints[0] * block_size, (waypoints[0] + 1) * block_size):
+        for y in range(waypoints[1] * block_size, (waypoints[1] + 1) * block_size):
           rect = (x, y, 1, 1)
           pygame.draw.rect(self.window, color, rect, 1)
 
@@ -68,9 +68,9 @@ class View:
   def draw_firebreaks(self):
     self.fill_blocks(self.model.firebreaks, pygame.Color("SaddleBrown"))
 
-  # Draw the selected positions black
-  def draw_selected(self):
-    self.fill_blocks(self.model.selected_squares, pygame.Color("Black"))
+  # Draw the waypoints positions black
+  def draw_waypoints(self):
+    self.fill_blocks(self.model.waypoints, pygame.Color("Black"))
   
   ## Determine in which block a pixel lies
   def pixel_belongs_to_block(self, pos):

@@ -30,7 +30,7 @@ class Model():
 ## Episode Initialization
   def start_episode(self):
     self.reset_agents()
-    self.selected_squares = set() # Reset selection
+    self.waypoints = set() # Reset selection
     self.time = 0                 # Reset time
     self.state = State.ONGOING
 
@@ -66,11 +66,11 @@ class Model():
   def time_step(self):
     self.time += 1                # Increment time
     self.expand_fire()            # Determine fire propagation
-    self.selected_squares.clear() # Reset selection
 
     for agent in self.agents:
       agent.timestep()
 
+    # self.waypoints.clear() # Reset selection
     if self.state == State.FIRE_OUT_OF_CONTROL:
       self.start_episode()
       return
@@ -90,6 +90,8 @@ class Model():
           self.state = State.FIRE_OUT_OF_CONTROL
         if not self.is_firebreak(neighbour):
           self.firepos.add(neighbour)
+          if neighbour in self.waypoints:
+            self.waypoints.remove(neighbour)
         else:
           print("can't expand through firebreak @", neighbour)
 
@@ -123,16 +125,17 @@ class Model():
         return
 
     if position not in self.firepos:       ## Cannot set waypoint in the fire
-      self.selected_squares.add(position)  # Add to list of waypoints
+      self.waypoints.add(position)  # Add to list of waypoints
 
 
   def deselect_square(self, position):
-    self.selected_squares.discard(position) # Remove from list of waypoints
+    self.waypoints.discard(position) # Remove from list of waypoints
 
   
   def dig_firebreak(self, agent):
     self.firebreaks.add(agent.position)
-    print(self.firebreaks)
+    if agent.position in self.waypoints:
+      self.waypoints.remove(agent.position)
 
 
 ## Proper shutdown

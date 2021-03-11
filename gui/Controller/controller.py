@@ -54,7 +54,9 @@ class Controller:
       self.model.time_step()          ## Space to go to next timestep
     ##TODO possibly add a revert time step option to go back one
     if event.key == pygame.K_RETURN:
-      self.model.startEpisode()       ## Return / ENTER to go to next episode
+      self.model.start_episode()       ## Return / ENTER to go to next episode
+    if event.key == pygame.K_c:
+      self.model.waypoints.clear()
 
     # Update the view
     self.view.update()

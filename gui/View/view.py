@@ -31,6 +31,7 @@ class View:
     self.draw_selected()
     self.draw_fire()
     self.draw_agents()
+    self.draw_firebreaks()
 
     # Update pygame display
     pygame.display.update()
@@ -57,11 +58,15 @@ class View:
 
   # Draw the agent positions blue
   def draw_agents(self):
-    self.fill_blocks(self.model.agent_positions(), pygame.Color("Cyan"))
+    self.fill_blocks(self.model.agent_positions(), pygame.Color("DarkBlue"))
 
   # Draw the fire positions red
   def draw_fire(self):
-    self.fill_blocks(self.model.firepos, pygame.Color("FireBrick"))
+    self.fill_blocks(self.model.firepos, pygame.Color("Red"))
+
+
+  def draw_firebreaks(self):
+    self.fill_blocks(self.model.firebreaks, pygame.Color("SaddleBrown"))
 
   # Draw the selected positions black
   def draw_selected(self):

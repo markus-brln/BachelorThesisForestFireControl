@@ -9,8 +9,8 @@ from View.view import View
 from Controller.controller import Controller
 
 
-pygame.init()  ## Initialize Pygame 
-
+pygame.init()  ## Initialize Pygame
+pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 def main():
   # Environment parameters

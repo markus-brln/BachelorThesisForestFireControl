@@ -12,7 +12,8 @@ class View:
     self.grid_block_size = grid_block_size           ## Width and height of block in grid
     window_size = model.size * grid_block_size
     self.window = pygame.display.set_mode((window_size, window_size))
-
+    programIcon = pygame.image.load('view/fire.png')
+    pygame.display.set_icon(programIcon)
     self.clock = pygame.time.Clock() ## Don't know if necessary yet, or what it actually does
 
     # Does nothing yet, for zooming functionality

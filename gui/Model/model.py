@@ -20,13 +20,21 @@ class Model():
     self.size = length
     self.nr_of_agents = nr_of_agents
 
+    ## map coords
+    self.north = list()
+    self.east = list()
+    self.south = list()
+    self.west = list()
+    self.quadrants()
+
     ## Fire initialization
     self.firepos = set()
     self.set_initial_fire(firesize)
-
     self.start_episode()           # Initialize episode
 
-  
+
+
+
 ## Episode Initialization
   def start_episode(self):
     self.reset_agents()
@@ -38,6 +46,13 @@ class Model():
     self.firepos.clear()
     self.firepos = set(self.initial_fire)
     self.firebreaks = set()
+
+  def quadrants(self):
+    n = self.size
+    m = 0
+    for x in range(0, int(self.size / 2)):
+      for y in range(n, m):
+        self.west.append(x, y)
 
   
   # Start agents at random positions
@@ -66,7 +81,8 @@ class Model():
   def time_step(self):
     self.time += 1                # Increment time
     self.expand_fire()            # Determine fire propagation
-    print(sum(self.firepos))
+    print(len(self.firepos))
+
     for agent in self.agents:
       agent.timestep()
 
@@ -142,3 +158,4 @@ class Model():
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
     self.start_episode()
+

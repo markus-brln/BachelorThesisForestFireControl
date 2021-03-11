@@ -66,7 +66,7 @@ class Model():
   def time_step(self):
     self.time += 1                # Increment time
     self.expand_fire()            # Determine fire propagation
-
+    print(sum(self.firepos))
     for agent in self.agents:
       agent.timestep()
 

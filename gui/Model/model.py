@@ -3,6 +3,7 @@ from enum import Enum
 
 import random
 
+from Model.direction import Direction
 
 # For data generation maybe lose the seed
 random.seed(1)

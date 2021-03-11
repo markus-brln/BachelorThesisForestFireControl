@@ -79,17 +79,19 @@ class Model():
   ## currently stops when the fire reaches the edge of the map for simplicity but
   ## also as it makes it impossible for the agent to contain the fire
   def expand_fire(self):
+    ## fire expands 3 times more slowly than agents can move
     if self.time % 3 != 0:
-      return 
-
+      return
     self.fire = list(self.firepos)
     for pos in self.fire:
       neighbours = self.get_neighbours(pos)
       for neighbour in neighbours:
         if not self.position_in_bounds(neighbour):
           self.state = State.FIRE_OUT_OF_CONTROL
-        
-        self.firepos.add(neighbour)
+        if not self.is_firebreak(neighbour):
+          self.firepos.add(neighbour)
+        else:
+          print("can't expand through firebreak @", neighbour)
 
 
 ## Position management
@@ -105,6 +107,8 @@ class Model():
   def get_random_position(self):
     return (random.randint(0, self.size - 1), random.randint(0, self.size - 1))
 
+  def is_firebreak(self, position):
+    return position in self.firebreaks
 
   def position_in_bounds(self, position):
     x, y = position

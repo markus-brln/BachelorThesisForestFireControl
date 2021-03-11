@@ -16,6 +16,7 @@ class Model:
 
   
   def startEpisode(self):
+    print("StartEpisode Called")
     self.selected_squares = set() # Reset selection
     self.time = 0                 # Reset time
     self.terminal_state = False   # Restart so at initial state
@@ -40,8 +41,9 @@ class Model:
   # TODO: possibly reset selection?
   def time_step(self):
     self.time += 1                # Increment time
-    self.expand_fire()            # Determine fire propagation
-
+    fire_in_bounds = self.expand_fire()            # Determine fire propagation
+    if not fire_in_bounds:
+      self.startEpisode()
 
   def select_square(self, position):
     if position not in self.firepos:       ## Cannot set waypoint in the fire
@@ -53,21 +55,8 @@ class Model:
 
 
   def getNeighbours(self, position):
-    self.pos = position
-    x = self.pos[0]
-    y = self.pos[1]
-    self.left = x - 1
-    self.right = x + 1
-    self.top = y + 1
-    self.bottom = y - 1
-    ## new list of neighbouring cells
-    neighbours = [(self.left, y), (x, self.top), (self.right, y), (x, self.bottom)]
-    for neighbour, (a, b) in enumerate(neighbours):
-     if self.position_in_bounds((a, b)):
-      return neighbours
-     else:
-      self.shut_down()
-
+    x, y = position
+    return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
   ## currently stops when the fire reaches the edge of the map for simplicity but
   ## also as it makes it impossible for the agent to contain the fire
@@ -76,19 +65,17 @@ class Model:
     for pos in self.fire:
       neighbours = self.getNeighbours(pos)
       for neighbour in neighbours:
+        if not self.position_in_bounds(neighbour):
+          return False
+        
         self.firepos.add(neighbour)
 
-  def position_in_bounds(self, position):
-    self.pos = position
-    self.x = self.pos[0]
-    self.y = self.pos[1]
-    if ((self.x >= 0 & self.x <= self.size) & (self.y >= 0 & self.y <= self.size)):
-      return True
-    else:
-      return False
+    return True
 
+  def position_in_bounds(self, position):
+    x, y = position
+    return x >= 0 and x <= self.size and y >= 0 and y <= self.size
 
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
-    print("Fire out of control!")
     self.startEpisode()

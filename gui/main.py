@@ -20,7 +20,7 @@ def random_position(size):
 
 def main():
   # Environment parameters
-  size = 25
+  size = 255
   nr_of_agents = 5
   block_size_in_pixels = int(900 / size)
 

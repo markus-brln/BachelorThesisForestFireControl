@@ -31,7 +31,7 @@ class Model():
     self.reset_agents()
     self.selected_squares = set() # Reset selection
     self.time = 0                 # Reset time
-    self.terminal_state = State.ONGOING
+    self.state = State.ONGOING
 
     # Start fire in the middle of the map
     self.firepos.clear()
@@ -65,7 +65,7 @@ class Model():
   def time_step(self):
     self.time += 1                # Increment time
     self.expand_fire()            # Determine fire propagation
-    if self.terminal_state == State.FIRE_OUT_OF_CONTROL:
+    if self.state == State.FIRE_OUT_OF_CONTROL:
       self.startEpisode()
 
   def select_square(self, position):
@@ -89,7 +89,7 @@ class Model():
       neighbours = self.getNeighbours(pos)
       for neighbour in neighbours:
         if not self.position_in_bounds(neighbour):
-          self.terminal_state = State.FIRE_OUT_OF_CONTROL
+          self.state = State.FIRE_OUT_OF_CONTROL
         
         self.firepos.add(neighbour)
 

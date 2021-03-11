@@ -1,12 +1,24 @@
 from Model.agent import Agent
+from enum import Enum
 
-class Model:
+import random
+
+
+# For data generation maybe lose the seed
+random.seed(1)
+
+class State(Enum):
+  ONGOING = 0
+  FIRE_CONTAINED = 1
+  FIRE_OUT_OF_CONTROL = 2
+
+class Model():
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
-  def __init__(self, length: int, agents, firesize = 1):
+  def __init__(self, length: int, nr_of_agents: int, firesize: int = 1):
     self.size = length
-    self.agents = agents
+    self.nr_of_agents = nr_of_agents
 
     ## Fire initialization
     self.firepos = set()
@@ -16,14 +28,25 @@ class Model:
 
   
   def startEpisode(self):
-    print("StartEpisode Called")
+    self.reset_agents()
     self.selected_squares = set() # Reset selection
     self.time = 0                 # Reset time
-    self.terminal_state = False   # Restart so at initial state
+    self.terminal_state = State.ONGOING
 
     # Start fire in the middle of the map
     self.firepos.clear()
     self.firepos = set(self.initial_fire)
+
+  
+  # Start agents at random positions
+  def reset_agents(self):
+    self.agents = []
+    for _ in range(self.nr_of_agents):
+      agent_pos = self.random_position()
+      while not self.position_in_bounds(agent_pos) or agent_pos in self.initial_fire:
+        agent_pos = self.random_position()
+      self.agents += [Agent(agent_pos)]
+
 
 
   def set_initial_fire(self, firesize):
@@ -41,8 +64,8 @@ class Model:
   # TODO: possibly reset selection?
   def time_step(self):
     self.time += 1                # Increment time
-    fire_in_bounds = self.expand_fire()            # Determine fire propagation
-    if not fire_in_bounds:
+    self.expand_fire()            # Determine fire propagation
+    if self.terminal_state == State.FIRE_OUT_OF_CONTROL:
       self.startEpisode()
 
   def select_square(self, position):
@@ -66,15 +89,22 @@ class Model:
       neighbours = self.getNeighbours(pos)
       for neighbour in neighbours:
         if not self.position_in_bounds(neighbour):
-          return False
+          self.terminal_state = State.FIRE_OUT_OF_CONTROL
         
         self.firepos.add(neighbour)
 
-    return True
+  def random_position(self):
+    return (random.randint(0, self.size - 1), random.randint(0, self.size - 1))
+
 
   def position_in_bounds(self, position):
     x, y = position
     return x >= 0 and x <= self.size and y >= 0 and y <= self.size
+
+
+  def agent_positions(self):
+    return [agent.position for agent in self.agents]
+
 
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):

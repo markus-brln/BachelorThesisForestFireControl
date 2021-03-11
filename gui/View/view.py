@@ -30,7 +30,7 @@ class View:
     # State Dependent drawing
     self.draw_selected()
     self.draw_fire()
-    # self.draw_agents()
+    self.draw_agents()
 
     # Update pygame display
     pygame.display.update()
@@ -57,7 +57,7 @@ class View:
 
   # Draw the agent positions blue
   def draw_agents(self):
-    self.fill_blocks(self.model.agents, pygame.Color("Cyan"))
+    self.fill_blocks(self.model.agent_positions(), pygame.Color("Cyan"))
 
   # Draw the fire positions red
   def draw_fire(self):

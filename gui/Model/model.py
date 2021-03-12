@@ -1,5 +1,6 @@
 from Model.agent import Agent
 from Model.direction import Direction
+from Model.data_saver import DataSaver
 from enum import Enum
 import random
 
@@ -31,6 +32,9 @@ class Model():
     self.firepos = set()
     self.set_initial_fire(firesize)
     self.start_episode()           # Initialize episode
+
+    ## Data saving initialization
+    self.DataSaver = DataSaver(self)
 
 
 
@@ -98,8 +102,10 @@ class Model():
     ## fire expands 3 times more slowly than agents can move
     if self.time % 3 != 0:
       return
-    self.fire = list(self.firepos)
-    for pos in self.fire:
+    fire_list = list(self.firepos)
+    print(type(fire_list))
+    print(len(fire_list))
+    for pos in fire_list:
       neighbours = self.get_neighbours(pos)
       for neighbour in neighbours:
         if not self.position_in_bounds(neighbour):
@@ -113,7 +119,7 @@ class Model():
 
 
 ## Position management
-  def get_neighbours(position):
+  def get_neighbours(self, position):
     x, y = position
     return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
@@ -157,5 +163,6 @@ class Model():
 ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
+    # FOR each recorded decision time step
     self.start_episode()
 

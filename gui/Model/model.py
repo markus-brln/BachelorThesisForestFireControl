@@ -1,9 +1,8 @@
 from Model.agent import Agent
+from Model.direction import Direction
 from enum import Enum
-
 import random
 
-from Model.direction import Direction
 
 # For data generation maybe lose the seed
 random.seed(1)
@@ -84,8 +83,8 @@ class Model():
     self.expand_fire()            # Determine fire propagation
     print(len(self.firepos))
 
-    for agent in self.agents:
-      agent.timestep()
+    for agent in self.agents:     # M: each agent should change color to show that it's its turn to be assigned a new
+      agent.timestep()            # waypoint to, then timesteps should pass where it walks to the waypoint & digs
 
     # self.waypoints.clear() # Reset selection
     if self.state == State.FIRE_OUT_OF_CONTROL:
@@ -114,7 +113,7 @@ class Model():
 
 
 ## Position management
-  def get_neighbours(self, position):
+  def get_neighbours(position):
     x, y = position
     return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 

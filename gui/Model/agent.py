@@ -21,6 +21,15 @@ class Agent:
     self.model = model 
 
   def timestep(self):
+
+    # IF timestep == a decision timestep (every 5-10 model time steps, first one should ofc be at time == 0)
+      # change color
+      # wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
+      # set new private waypoint
+    # ELSE
+      # walk towards waypoint + dig on every step
+
+
     self.move()
     if self.save_move:
       self.agent_hist.append((self.position))

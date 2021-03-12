@@ -21,20 +21,17 @@ class Agent:
     self.model = model 
 
   def timestep(self):
-
-    # TODO M agent time step
-    # IF timestep == a decision timestep (every 5-10 model time steps, first one should ofc be at time == 0)
-      # change color
-      # wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
-      # set new private waypoint
-      # save state of the env, maybe make a new class that is responsible for that, so on exit we know where all the data is
-    # ELSE
-      # walk towards waypoint (dumb / A-Star) + dig on every step
-
-
+    # M walk towards waypoint (dumb / A-Star) + dig on every step
     self.move()
     if self.save_move:
       self.agent_hist.append((self.position))
+
+  def assign_new_waypoint(self):
+    # TODO M agent new waypoints
+    # change color
+    # wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
+    # set new private waypoint
+    pass
 
   def dig(self):
     self.model.dig_firebreak(self)

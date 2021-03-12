@@ -13,7 +13,7 @@ class State(Enum):
   FIRE_CONTAINED = 1
   FIRE_OUT_OF_CONTROL = 2
 
-class Model():
+class Model:
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
@@ -83,17 +83,40 @@ class Model():
 ## Time propagation
   # TODO: possibly reset selection?
   def time_step(self):
-    self.time += 1                # Increment time
+    """Order of events happening during time step:
+    0. save old agent waypoints (if existent)
+    1. set agent waypoints (at start + every 5-10 waypoints)
+    2. agent time step (move towards waypoint)
+    3. expand fire
+    4. check whether fire out of control (restart episode if necessary)
+    5. check if fire contained (save episode + restart)
+    """
+    # 0 self.DataSaver.append_datapoint()
+    # 1 for agent in self.agents:
+    #      agent.assign_new_waypoint() # waypoint to
+
+    self.time += 1                # fire and agents need this info
+    # 2
+    for agent in self.agents:
+      agent.timestep()            # walks 1 step towards current waypoint & digs on the way
+
+    # 3
     self.expand_fire()            # Determine fire propagation
-    print(len(self.firepos))
+    # print(len(self.firepos))
 
-    for agent in self.agents:     # M: each agent should change color to show that it's its turn to be assigned a new
-      agent.timestep()            # waypoint to, then timesteps should pass where it walks to the waypoint & digs
-
+    # 4
     # self.waypoints.clear() # Reset selection
     if self.state == State.FIRE_OUT_OF_CONTROL:
+      # M do not safe the gathered data points of the episode
       self.start_episode()
       return
+
+    # 5
+    # IF fire contained
+      # self.DataSaver.append_episode()
+
+
+
 
 
   ## currently stops when the fire reaches the edge of the map for simplicity but
@@ -103,8 +126,6 @@ class Model():
     if self.time % 3 != 0:
       return
     fire_list = list(self.firepos)
-    print(type(fire_list))
-    print(len(fire_list))
     for pos in fire_list:
       neighbours = self.get_neighbours(pos)
       for neighbour in neighbours:
@@ -136,7 +157,9 @@ class Model():
 
   def position_in_bounds(self, position):
     x, y = position
-    return x >= 0 and x < self.size and y >= 0 and y < self.size
+    return 0 <= x < self.size and 0 <= y < self.size
+    # M maybe like this, since fire not containable anymore when it already touches borders
+    #return 1 <= x < self.size - 1 and 1 <= y < self.size - 1
 
   
 ## Model manipulation
@@ -163,6 +186,6 @@ class Model():
 ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
-    # FOR each recorded decision time step
+    # M self.DataSaver.save_data()  # data points of all successful episodes until here saved
     self.start_episode()
 

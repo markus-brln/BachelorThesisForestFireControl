@@ -18,6 +18,7 @@ class Agent:
     self.agent_hist.append(self.position)
     self.save_move = False
     self.waypoint = None
+    self.waypoint_old = None
     self.model = model 
 
   def timestep(self):
@@ -28,9 +29,12 @@ class Agent:
 
   def assign_new_waypoint(self):
     # TODO M agent new waypoints
-    # change color
-    # wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
-    # set new private waypoint
+    self.waypoint_old = self.waypoint     # waypoint_old == None for first assignment, so it won't be saved
+
+
+    # 1. change color of active agent, maybe draw "circle of reach" around it
+    # 2. wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
+    # 3. set new private waypoint
     pass
 
   def dig(self):

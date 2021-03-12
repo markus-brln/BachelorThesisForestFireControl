@@ -10,6 +10,14 @@ class DataSaver:
   def append_datapoint(self):
     """Should get called when new agent waypoints were set and model is about to
        fast-forward 5-10 timesteps to see how it played out."""
+
+
+    # TO BE SAVED
+    # agent pos + waypoints
+    # fire pos
+    # maybe tree pos
+    # maybe wind dir
+
     print("appending data point")
     data_point = []
     firepos = self.model.firepos

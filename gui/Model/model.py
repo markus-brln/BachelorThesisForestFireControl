@@ -13,15 +13,29 @@ class State(Enum):
   FIRE_CONTAINED = 1
   FIRE_OUT_OF_CONTROL = 2
 
+class WindDir(Enum):
+  NORTH = 0
+  SOUTH = 1
+  EAST = 2
+  WEST = 3
+
+
 class Model:
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
-  def __init__(self, length: int, nr_of_agents: int, firesize: int = 1):
+  def __init__(self, length: int, nr_of_agents: int, firesize: int = 1, wind_dir = WindDir.WEST):
+    ## properties of env
     self.size = length
     self.nr_of_agents = nr_of_agents
+    self.wind_dir = wind_dir
+
+    ## initial properties of this model
+    self.agents = []
+    self.state = State.ONGOING
 
     ## map coords
+    # M TODO is this really used?
     self.north = list()
     self.east = list()
     self.south = list()
@@ -42,7 +56,7 @@ class Model:
 ## Episode Initialization
   def start_episode(self):
     self.reset_agents()
-    self.waypoints = set() # Reset selection
+    self.waypoints = set() # Reset selection # M TODO are those the same as in Agent - are they updated?
     self.time = 0                 # Reset time
     self.state = State.ONGOING
 
@@ -61,7 +75,6 @@ class Model:
   
   # Start agents at random positions
   def reset_agents(self):
-    self.agents = []
     for _ in range(self.nr_of_agents):
       agent_pos = self.get_random_position()
       while not self.position_in_bounds(agent_pos) or agent_pos in self.initial_fire:
@@ -84,21 +97,25 @@ class Model:
   # TODO: possibly reset selection?
   def time_step(self):
     """Order of events happening during time step:
-    0. save old agent waypoints (if existent)
+    0. save old agent waypoints every 5-10 time steps (not at start ofc)
     1. set agent waypoints (at start + every 5-10 waypoints)
     2. agent time step (move towards waypoint)
     3. expand fire
     4. check whether fire out of control (restart episode if necessary)
     5. check if fire contained (save episode + restart)
     """
-    # 0 self.DataSaver.append_datapoint()
-    # 1 for agent in self.agents:
+    # 0
+    # if self.time % 5 == 0 and self.time != 0: # self.time != 0 meaning self.agents[0].waypoint_old is not None
+    #       self.DataSaver.append_datapoint()
+
+    # 1
+    # for agent in self.agents:
     #      agent.assign_new_waypoint() # waypoint to
 
     self.time += 1                # fire and agents need this info
     # 2
-    for agent in self.agents:
-      agent.timestep()            # walks 1 step towards current waypoint & digs on the way
+    #for agent in self.agents:
+      #agent.timestep()            # walks 1 step towards current waypoint & digs on the way
 
     # 3
     self.expand_fire()            # Determine fire propagation
@@ -114,6 +131,8 @@ class Model:
     # 5
     # IF fire contained
       # self.DataSaver.append_episode()
+      # self.start_episode()
+      # return  # I guess it has to return to start new
 
 
 
@@ -122,19 +141,27 @@ class Model:
   ## currently stops when the fire reaches the edge of the map for simplicity but
   ## also as it makes it impossible for the agent to contain the fire
   def expand_fire(self):
+    """Expands every x time steps by simply igniting its neighbours.
+       Takes self.wind_dir into account.
+    """
     ## fire expands 3 times more slowly than agents can move
     if self.time % 3 != 0:
       return
+
+
     fire_list = list(self.firepos)
     for pos in fire_list:
       neighbours = self.get_neighbours(pos)
-      for neighbour in neighbours:
+      for neighbour, direction in zip(neighbours, range(len(neighbours))):
         if not self.position_in_bounds(neighbour):
           self.state = State.FIRE_OUT_OF_CONTROL
         if not self.is_firebreak(neighbour):
           self.firepos.add(neighbour)
-          if neighbour in self.waypoints:
+
+          if neighbour in self.waypoints: # M maybe not useful in simulation, since agents lose orientation then
             self.waypoints.remove(neighbour)
+
+        # TODO add option that agent is burned -> discard episode & restart?
         else:
           print("can't expand through firebreak @", neighbour)
 
@@ -142,7 +169,8 @@ class Model:
 ## Position management
   def get_neighbours(self, position):
     x, y = position
-    return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+            #   NORTH         SOUTH     EAST         WEST
+    return [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
 
 
   def agent_positions(self):
@@ -150,7 +178,7 @@ class Model:
 
 
   def get_random_position(self):
-    return (random.randint(0, self.size - 1), random.randint(0, self.size - 1))
+    return random.randint(0, self.size - 1), random.randint(0, self.size - 1)
 
   def is_firebreak(self, position):
     return position in self.firebreaks
@@ -186,6 +214,6 @@ class Model:
 ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
-    # M self.DataSaver.save_data()  # data points of all successful episodes until here saved
+    self.DataSaver.save_data()  # M data points of all successful episodes until here saved
     self.start_episode()
 

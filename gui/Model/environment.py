@@ -34,34 +34,58 @@ class Model:
     ## initial properties of this model
     self.agents = []
     self.state = State.ONGOING
+    self.nodes = list()
+    self.init_nodes()
 
     ## Fire initialization
+    self.firesize = firesize
     self.firepos = set()
-    self.set_initial_fire(firesize)
     self.start_episode()           # Initialize episode
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
 
 
+  def init_nodes(self):
+    ## arbitrary values for initialisation
+    fuel = 10
+    temp = 0
+    thresh = 2.5
+    for x in range(self.size):
+      for y in range(self.size):
+                        ## position, fuel, temperature, ignition_threshold, neighbours, wind
+        newNode = Node((x, y), fuel, temp, thresh, self.get_neighbours((x, y)), self.wind_dir)
+        print("pos: ", newNode.position, "temp: ", newNode.temperature, "thresh: ", newNode.ignition_threshold)
+        self.nodes.append(newNode)
 
 ## Episode Initialization
   def start_episode(self):
-    self.reset_agents()
+    # self.reset_agents()
     self.waypoints = set() # Reset selection # M TODO are those the same as in Agent - are they updated?
     self.time = 0                 # Reset time
     self.state = State.ONGOING
 
     # Start fire in the middle of the map
+    self.set_initial_fire(self.firesize)
     self.firepos.clear()
-    self.firepos = set(self.initial_fire)
     self.firebreaks = set()
+
 
   def set_initial_fire(self, firesize):
     ##TODO if using firesize to start with a larger fire, ignite some neighbours
-    x, y = int(self.size / 2)
-    firepos = next((x, y for a, b in Node.position if x == a and y == b), None)
-    Node.ignite(firepos)
+    x = y = int(self.size / 2)
+    centre_node = self.find_node((x, y))
+    centre_node.ignite()
+    self.firepos.add(centre_node)
+
+
+  def find_node(self, pos):
+    x, y = pos
+    for node in self.nodes:
+      if node.position == (x, y):
+        return node
+    return -1
+
 
   def quadrants(self):
     n = self.size

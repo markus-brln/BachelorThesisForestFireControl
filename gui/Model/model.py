@@ -35,14 +35,6 @@ class Model:
     self.agents = []
     self.state = State.ONGOING
 
-    ## map coords
-    # M TODO is this really used?
-    self.north = list()
-    self.east = list()
-    self.south = list()
-    self.west = list()
-    self.quadrants()
-
     ## Fire initialization
     self.firepos = set()
     self.set_initial_fire(firesize)

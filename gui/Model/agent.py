@@ -41,6 +41,10 @@ class Agent:
     self.model.dig_firebreak(self)
 
 
+  def set_on_fire(self):
+    self.dead = True
+    
+
   def move(self):
     waypoint = self.get_waypoint() # M should be changed to "I got a waypoint assigned by a human, I will move in this direction"
     if waypoint is None:

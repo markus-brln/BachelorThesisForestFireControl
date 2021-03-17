@@ -55,7 +55,9 @@ class Model:
       for y in range(self.size):
                         ## position, fuel, temperature, ignition_threshold, neighbours, wind
         newNode = Node((x, y), fuel, temp, thresh, self.get_neighbours((x, y)), self.wind_dir)
-        print("pos: ", newNode.position, "temp: ", newNode.temperature, "thresh: ", newNode.ignition_threshold)
+        # print("pos: ", newNode.position, "temp: ", newNode.temperature, "thresh: ", newNode.ignition_threshold)
+        # if(newNode.position == ((int(self.size / 2), int(self.size / 2)))):
+        #   newNode.ignite()
         self.nodes.append(newNode)
 
 ## Episode Initialization
@@ -66,8 +68,8 @@ class Model:
     self.state = State.ONGOING
 
     # Start fire in the middle of the map
-    self.set_initial_fire(self.firesize)
     self.firepos.clear()
+    self.set_initial_fire(self.firesize)
     self.firebreaks = set()
 
 
@@ -76,7 +78,7 @@ class Model:
     x = y = int(self.size / 2)
     centre_node = self.find_node((x, y))
     centre_node.ignite()
-    self.firepos.add(centre_node)
+    self.firepos.add(centre_node.position)
 
 
   def find_node(self, pos):
@@ -84,7 +86,7 @@ class Model:
     for node in self.nodes:
       if node.position == (x, y):
         return node
-    return -1
+    return
 
 
   def quadrants(self):
@@ -178,7 +180,7 @@ class Model:
         else:
           print("can't expand through firebreak @", neighbour)
 
-
+## TODO updated for the new nodes with boundary conditions
 ## Position management
   def get_neighbours(self, position):
     x, y = position

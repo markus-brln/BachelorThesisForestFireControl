@@ -38,7 +38,6 @@ class Controller:
   def select(self, position):
     # Determine the block the mouse is covering
     position = self.view.pixel_belongs_to_block(position)
-    
     # Select or deselect that block 
     if self.mouse_button_pressed == 1: ## Left click
       self.model.select_square(position)

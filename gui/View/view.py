@@ -3,6 +3,12 @@ import pygame
 ## Needs access to model
 from Model.environment import Model
 
+
+pygame.font.init() # add text
+myfont = pygame.font.SysFont('arial', 22)
+
+
+
 ## Separate these classes, figure out how to import code from other file
 class View:
   # Model: The model to display
@@ -33,7 +39,10 @@ class View:
     self.draw_firebreaks()
     self.draw_waypoints()
     self.draw_agents()
-
+    ## keep track of mouse position
+    position = pygame.mouse.get_pos()
+    pos = self.pixel_belongs_to_block(position)
+    self.draw_mouse_coords(pos)
     # Update pygame display
     pygame.display.update()
 
@@ -63,7 +72,8 @@ class View:
 
   # Draw the fire positions red
   def draw_fire(self):
-    self.fill_blocks(self.model.firepos, pygame.Color("Red"))
+    fire = list(self.model.firepos)
+    self.fill_blocks(fire, pygame.Color("Red"))
 
 
   def draw_firebreaks(self):
@@ -78,3 +88,7 @@ class View:
     x = int(pos[0] / self.grid_block_size)
     y = int(pos[1] / self.grid_block_size)
     return (x, y)
+
+  def draw_mouse_coords(self, pos):
+    textsurface = myfont.render(str(pos), False, (0, 0, 200))
+    self.window.blit(textsurface, (0, 0))

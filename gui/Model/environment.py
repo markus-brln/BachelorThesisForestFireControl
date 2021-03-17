@@ -62,7 +62,7 @@ class Model:
 
 ## Episode Initialization
   def start_episode(self):
-    # self.reset_agents()
+    self.reset_agents()
     self.waypoints = set() # Reset selection # M TODO are those the same as in Agent - are they updated?
     self.time = 0                 # Reset time
     self.state = State.ONGOING
@@ -101,7 +101,7 @@ class Model:
   def reset_agents(self):
     for _ in range(self.nr_of_agents):
       agent_pos = self.get_random_position()
-      while not self.position_in_bounds(agent_pos) or agent_pos in self.initial_fire:
+      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
         agent_pos = self.get_random_position()
       self.agents += [Agent(agent_pos, self)]
 

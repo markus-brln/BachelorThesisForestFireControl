@@ -57,6 +57,12 @@ class Model:
     self.firepos = set(self.initial_fire)
     self.firebreaks = set()
 
+  def set_initial_fire(self, firesize):
+    ##TODO if using firesize to start with a larger fire, ignite some neighbours
+    x, y = int(self.size / 2)
+    firepos = next((x, y for a, b in Node.position if x == a and y == b), None)
+    Node.ignite(firepos)
+
   def quadrants(self):
     n = self.size
     m = 0
@@ -74,15 +80,6 @@ class Model:
       self.agents += [Agent(agent_pos, self)]
 
 
-  def set_initial_fire(self, firesize):
-    self.centre = [(int(self.size / 2), int(self.size / 2))]
-    self.initial_fire = set(self.centre)
-    for _ in range(firesize - 1):
-      fire = list(self.initial_fire)
-      for pos in fire:
-        neighbours = self.get_neighbours(pos)
-        for neighbour in neighbours:
-          self.initial_fire.add(neighbour)
 
 
 ## Time propagation

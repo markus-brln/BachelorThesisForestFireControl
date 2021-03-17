@@ -1,6 +1,6 @@
 import pygame
 
-from Model.model import Model
+from Model.environment import Model
 from View.view import View
 
 class Controller:

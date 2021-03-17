@@ -3,7 +3,7 @@
 
 import pygame
 
-from Model.model import Model, WindDir
+from Model.environment import Model, WindDir
 from Model.agent import Agent
 from View.view import View
 from Controller.controller import Controller
@@ -22,7 +22,7 @@ def main():
 
   # Initialization
   wind_dir = WindDir.WEST
-  environment = Model(size, nr_of_agents, firesize, wind_dir)               ## Initialize Environment
+  environment = Model(size, nr_of_agents, firesize, wind_dir)   ## Initialize Environment
   view = View(environment, block_size_in_pixels)  ## Start View
   controller = Controller(environment, view)      ## Initialize Controller with model and view
 

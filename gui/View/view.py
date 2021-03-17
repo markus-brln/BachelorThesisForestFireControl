@@ -1,7 +1,7 @@
 import pygame
 
 ## Needs access to model
-from Model.model import Model
+from Model.environment import Model
 
 ## Separate these classes, figure out how to import code from other file
 class View:

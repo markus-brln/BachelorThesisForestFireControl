@@ -1,6 +1,7 @@
 from Model.agent import Agent
 from Model.direction import Direction
 from Model.data_saver import DataSaver
+from Model.node import Node
 from enum import Enum
 import random
 
@@ -49,7 +50,6 @@ class Model:
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
-
 
 
 

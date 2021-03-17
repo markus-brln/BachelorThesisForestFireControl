@@ -33,16 +33,12 @@ class View:
     # Draw Background and grid
     self.window.fill(pygame.Color("ForestGreen"))
     self.draw_grid()
-
     # State Dependent drawing
     self.draw_fire()
     self.draw_firebreaks()
     self.draw_waypoints()
     self.draw_agents()
-    ## keep track of mouse position
-    position = pygame.mouse.get_pos()
-    pos = self.pixel_belongs_to_block(position)
-    self.draw_mouse_coords(pos)
+    self.draw_mouse_coords()
     # Update pygame display
     pygame.display.update()
 
@@ -89,6 +85,9 @@ class View:
     y = int(pos[1] / self.grid_block_size)
     return (x, y)
 
-  def draw_mouse_coords(self, pos):
+  def draw_mouse_coords(self):
+    ## keep track of mouse position
+    position = pygame.mouse.get_pos()
+    pos = self.pixel_belongs_to_block(position)
     textsurface = myfont.render(str(pos), False, (0, 0, 200))
     self.window.blit(textsurface, (0, 0))

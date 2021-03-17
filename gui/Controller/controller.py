@@ -27,6 +27,8 @@ class Controller:
       elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
         # Mouse button pressed and dragged
         self.select(event.pos)
+      elif event.type == pygame.MOUSEMOTION: ## now will constantly display mouse coords
+        self.view.update()
       elif event.type == pygame.KEYDOWN:
         # Keyboard button pressed
         self.key_press(event)

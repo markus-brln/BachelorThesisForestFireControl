@@ -14,6 +14,11 @@ class Controller:
     self.view.update()
 
   def update(self, event):
+
+    if self.model.reset_necessary:        # M update view when resetting env (hacky way)
+      self.view.update()
+      self.model.reset_necessary = False
+
     #for event in pygame_events:
     if event.type == pygame.QUIT:
       # Exit the program
@@ -21,14 +26,15 @@ class Controller:
     elif event.type == pygame.MOUSEBUTTONDOWN:
       # Mouse stationary and mouse button pressed
       self.mouse_button_pressed = event.button
-      self.select(event.pos)
+      self.select(event)
     elif event.type == pygame.MOUSEBUTTONUP:
       # Mouse button released
       self.mouse_button_pressed = False
       self.last_clicked = (-1, 0)           ## Reset to allow clicking a square twice in a row
-    elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
+    # M dragging not useful for now
+    #elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
       # Mouse button pressed and dragged
-      self.select(event.pos)
+      #self.select(event)
     # M having this in here makes it extremely laggy, at least for me
     #elif event.type == pygame.MOUSEMOTION: ## now will constantly display mouse coords
       #self.view.update()
@@ -40,9 +46,9 @@ class Controller:
     self.model.shut_down()              ## Ensure proper shutdown of the model
     exit(0)                             ## Exit program
   
-  def select(self, position):
+  def select(self, event):
     # Determine the block the mouse is covering
-    position = self.view.pixel_belongs_to_block(position)
+    position = self.view.pixel_belongs_to_block(event.pos)
     # Select or deselect that block 
     if self.mouse_button_pressed == 1: ## Left click
       self.model.select_square(position)
@@ -50,7 +56,7 @@ class Controller:
       self.model.deselect_square(position)
 
     # Update the view
-    self.view.update()
+    self.view.update([UpdateType.WAYPOINT])
 
 
 
@@ -58,11 +64,12 @@ class Controller:
     start = time.time()
     if event.key == pygame.K_SPACE:
       self.model.time_step()          ## Space to go to next timestep
-      self.view.update([UpdateType.FIRE, UpdateType.AGENTS])
+      self.view.update([UpdateType.FIRE, UpdateType.AGENTS, UpdateType.FIREBREAKS])
       return
     ##TODO possibly add a revert time step option to go back one
     if event.key == pygame.K_RETURN:
       self.model.start_episode()       ## Return / ENTER to go to next episode
+
     if event.key == pygame.K_c:
       self.model.waypoints.clear()
 

@@ -4,8 +4,7 @@ from Model.data_saver import DataSaver
 from Model.node import Node
 from enum import Enum
 import random
-import time as timelib
-
+#from numba import jit      ## speeding things up is possible -> pip install numba
 
 # For data generation maybe lose the seed
 random.seed(1)
@@ -37,6 +36,7 @@ class Model:
     self.state = State.ONGOING
     self.nodes = list()
     self.init_nodes()
+    self.reset_necessary = False
 
     ## Fire initialization
     self.firesize = firesize
@@ -74,6 +74,7 @@ class Model:
     self.firebreaks = set()
 
 
+
   def set_initial_fire(self, firesize):
     ##TODO if using firesize to start with a larger fire, ignite some neighbours
     x = y = int(self.size / 2)
@@ -100,6 +101,7 @@ class Model:
   
   # Start agents at random positions
   def reset_agents(self):
+    self.agents.clear()
     for _ in range(self.nr_of_agents):
       agent_pos = self.get_random_position()
       while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
@@ -136,7 +138,6 @@ class Model:
       #agent.timestep()            # walks 1 step towards current waypoint & digs on the way
 
     # 3
-    start = timelib.time()
     self.expand_fire()            # Determine fire propagation
 
     #print("expanding fire took: ", timelib.time() - start)
@@ -147,6 +148,7 @@ class Model:
     if self.state == State.FIRE_OUT_OF_CONTROL:
       # M do not safe the gathered data points of the episode
       self.start_episode()
+      self.reset_necessary = True     # M view needs to be updated by controller... not a nice way but works
       return
 
     # 5
@@ -168,7 +170,6 @@ class Model:
     ## fire expands 3 times more slowly than agents can move
     if self.time % 3 != 0:
       return
-
 
     fire_list = list(self.firepos)
     for pos in fire_list:

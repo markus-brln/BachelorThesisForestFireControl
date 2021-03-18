@@ -3,12 +3,15 @@ import pygame
 ## Needs access to model
 from Model.environment import Model
 from enum import Enum
+from numba import jit
+
 
 class UpdateType(Enum):
   ALL = 0
   AGENTS = 1
   FIRE = 2
   FIREBREAKS = 3
+  WAYPOINT = 4
 
 
 pygame.font.init() # add text
@@ -38,21 +41,30 @@ class View:
   def update(self, updateType = []):
     print("updating")
 
-    if UpdateType.FIRE in updateType:
+    if not updateType:        # no type specified -> update everything
+      # Draw Background and grid
+      self.window.fill(pygame.Color("ForestGreen"))
+      self.draw_grid()
+      # State Dependent drawing
       self.draw_fire()
+      self.draw_firebreaks()
+      self.draw_waypoints()
+      self.draw_agents()
+      self.draw_mouse_coords()
+      # Update pygame display
       pygame.display.update()
       return
 
-    # Draw Background and grid
-    self.window.fill(pygame.Color("ForestGreen"))
-    self.draw_grid()
-    # State Dependent drawing
-    self.draw_fire()
-    self.draw_firebreaks()
-    self.draw_waypoints()
-    self.draw_agents()
-    self.draw_mouse_coords()
-    # Update pygame display
+    if UpdateType.FIRE in updateType:
+      self.draw_fire()
+
+    if UpdateType.WAYPOINT in updateType:
+      self.draw_waypoints()
+
+
+    if UpdateType.AGENTS in updateType:
+      self.draw_agents()
+
     pygame.display.update()
 
 

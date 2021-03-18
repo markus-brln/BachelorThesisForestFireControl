@@ -2,6 +2,13 @@ import pygame
 
 ## Needs access to model
 from Model.environment import Model
+from enum import Enum
+
+class UpdateType(Enum):
+  ALL = 0
+  AGENTS = 1
+  FIRE = 2
+  FIREBREAKS = 3
 
 
 pygame.font.init() # add text
@@ -26,10 +33,16 @@ class View:
     self.translation = (0, 0)
     self.scale = 1
 
-    self.update()
-  
 
-  def update(self):
+
+  def update(self, updateType = []):
+    print("updating")
+
+    if UpdateType.FIRE in updateType:
+      self.draw_fire()
+      pygame.display.update()
+      return
+
     # Draw Background and grid
     self.window.fill(pygame.Color("ForestGreen"))
     self.draw_grid()
@@ -43,6 +56,7 @@ class View:
     pygame.display.update()
 
 
+
   # Draw the lines separating the blocks in the grid
   def draw_grid(self):
     block_size = self.grid_block_size
@@ -54,11 +68,12 @@ class View:
 
   # Fill the blocks at the provided positions with the provided color
   def fill_blocks(self, positions, color):
+    print("filling blocks")
     block_size = self.grid_block_size
-    for waypoints in positions:
+    for pixels in positions:
       ## I really do not want to do it like this TODO possibly change
-      for x in range(waypoints[0] * block_size, (waypoints[0] + 1) * block_size):
-        for y in range(waypoints[1] * block_size, (waypoints[1] + 1) * block_size):
+      for x in range(pixels[0] * block_size, (pixels[0] + 1) * block_size):
+        for y in range(pixels[1] * block_size, (pixels[1] + 1) * block_size):
           rect = (x, y, 1, 1)
           pygame.draw.rect(self.window, color, rect, 1)
 

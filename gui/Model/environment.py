@@ -4,6 +4,7 @@ from Model.data_saver import DataSaver
 from Model.node import Node
 from enum import Enum
 import random
+import time as timelib
 
 
 # For data generation maybe lose the seed
@@ -124,8 +125,10 @@ class Model:
     #       self.DataSaver.append_datapoint()
 
     # 1
-    # for agent in self.agents:
-    #      agent.assign_new_waypoint() # waypoint to
+    if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
+      #print("agents require new waypoints")
+      for agent in self.agents:
+        agent.assign_new_waypoint() # waypoint to
 
     self.time += 1                # fire and agents need this info
     # 2
@@ -133,7 +136,10 @@ class Model:
       #agent.timestep()            # walks 1 step towards current waypoint & digs on the way
 
     # 3
+    start = timelib.time()
     self.expand_fire()            # Determine fire propagation
+
+    #print("expanding fire took: ", timelib.time() - start)
     # print(len(self.firepos))
 
     # 4

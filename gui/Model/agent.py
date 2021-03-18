@@ -25,13 +25,12 @@ class Agent:
     # M walk towards waypoint (dumb / A-Star) + dig on every step
     self.move()
     if self.save_move:
-      self.agent_hist.append((self.position))
+      self.agent_hist.append(self.position)
 
   def assign_new_waypoint(self):
     # TODO M agent new waypoints
     self.waypoint_old = self.waypoint     # waypoint_old == None for first assignment, so it won't be saved
-
-
+    #print("agent at pos: ", self.position)
     # 1. change color of active agent, maybe draw "circle of reach" around it
     # 2. wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
     # 3. set new private waypoint

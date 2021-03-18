@@ -27,8 +27,9 @@ def main():
   controller = Controller(environment, view)      ## Initialize Controller with model and view
 
   # Run 
-  while(True):
-    controller.update(pygame.event.get())         ## Let the controller take over
+  while True:
+    controller.update(pygame.event.wait())        ## Let the controller take over
+    #controller.update(pygame.event.get())
 
 
 if __name__=="__main__":

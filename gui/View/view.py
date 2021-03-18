@@ -3,7 +3,6 @@ import pygame
 ## Needs access to model
 from Model.environment import Model
 from enum import Enum
-from numba import jit
 
 
 class UpdateType(Enum):
@@ -39,7 +38,7 @@ class View:
 
 
   def update(self, updateType = []):
-    print("updating")
+    #print("updating")
 
     if not updateType:        # no type specified -> update everything
       # Draw Background and grid
@@ -80,7 +79,7 @@ class View:
 
   # Fill the blocks at the provided positions with the provided color
   def fill_blocks(self, positions, color):
-    print("filling blocks")
+    #print("filling blocks")
     block_size = self.grid_block_size
     for pixels in positions:
       ## I really do not want to do it like this TODO possibly change

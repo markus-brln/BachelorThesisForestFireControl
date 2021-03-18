@@ -4,7 +4,6 @@ from Model.data_saver import DataSaver
 from Model.node import Node
 from enum import Enum
 import random
-#from numba import jit      ## speeding things up is possible -> pip install numba
 
 # For data generation maybe lose the seed
 random.seed(1)

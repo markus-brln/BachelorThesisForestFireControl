@@ -25,7 +25,7 @@ class Model:
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
-  def __init__(self, length: int, nr_of_agents: int, firesize: int = 1, wind_dir = WindDir.WEST):
+  def __init__(self, length: int, nr_of_agents: int, firesize: int = 1, wind_dir = None):
     ## properties of env
     self.size = length
     self.nr_of_agents = nr_of_agents

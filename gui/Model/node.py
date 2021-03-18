@@ -39,6 +39,6 @@ class Node:
 
 
   def ignite(self):
-    if self.fuel is not 0:
+    if self.fuel != 0:
       self.on_fire = True
 

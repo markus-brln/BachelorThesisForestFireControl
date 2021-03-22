@@ -1,18 +1,11 @@
 import pygame
 
+from View.updatetype import UpdateType
+
 ## Needs access to model
 from Model.environment import Model
 from Model.node import NodeState
 from enum import Enum
-
-
-class UpdateType(Enum):
-  ALL = 0
-  AGENTS = 1
-  FIRE = 2
-  FIREBREAKS = 3
-  WAYPOINT = 4
-
 
 pygame.font.init() # add text
 myfont = pygame.font.SysFont('arial', 22)
@@ -23,6 +16,7 @@ class View:
   # Model: The model to display
   # grid_block_size: The size of a block in the gridworld in pixels
   def __init__(self, model: Model, grid_block_size: int):
+    ## Store Parameters
     self.model = model
     self.grid_block_size = grid_block_size           ## Width and height of block in grid
     window_size = model.size * grid_block_size
@@ -30,10 +24,15 @@ class View:
     programIcon = pygame.image.load('View/fire.png')
     pygame.display.set_icon(programIcon)
     self.clock = pygame.time.Clock() ## Don't know if necessary yet, or what it actually does
+    
+    self.draw_initial_model()     ## Draw initial model
+    self.model.subscribe(self)    ## Subscribe to changes
 
-    # Does nothing yet, for zooming functionality
-    self.translation = (0, 0)
-    self.scale = 1
+
+  def draw_initial_model(self):
+      self.window.fill(pygame.Color("ForestGreen"))
+      self.draw_grid()
+      self.draw()
 
 
   ## Determine in which block a pixel lies
@@ -42,22 +41,30 @@ class View:
     y = int(pos[1] / self.grid_block_size)
     return (x, y)
 
+  
+  def update(self, update_type: UpdateType, node = None, agent = None):
+    if update_type == UpdateType.RESET:
+      self.draw_initial_model()
+    if update_type == UpdateType.NODE:
+      self.node_change(node)
+    if update_type == UpdateType.AGENT:
+      self.draw_block(agent.position, pygame.Color("DarkBlue"))
 
-  def callback(self, position, state):
-    if state == NodeState.NORMAL:
+    if update_type == UpdateType.TIMESTEP_COMPLETE:
+      self.draw()
+
+
+  def node_change(self, node):
+    if node.state == NodeState.NORMAL:
       colour = pygame.Color("ForestGreen")
-    if state == NodeState.FIREBREAK:
+    if node.state == NodeState.FIREBREAK:
       colour = pygame.Color("SaddleBrown")
-    if state == NodeState.ON_FIRE:
+    if node.state == NodeState.ON_FIRE:
       colour = pygame.Color("Red")
-    if state == NodeState.BURNED_OUT:
-      colour = pygame.Color("Grey")
-    if state == NodeState.AGENT:
-      colour = pygame.Color("YELLOW")
-    if state == NodeState.ACTIVE_AGENT:
-      colour = pygame.Color("Blue")
+    if node.state == NodeState.BURNED_OUT:
+      colour = pygame.Color("DarkGrey")
 
-    self.draw_block(position, colour)
+    self.draw_block(node.position, colour)
 
 
   def draw_block(self, position, colour):
@@ -66,37 +73,6 @@ class View:
       for y in range(position[1] * block_size, (position[1] + 1) * block_size):
         rect = (x, y, 1, 1)
         pygame.draw.rect(self.window, colour, rect, 1)
-
-
-  def update(self, updateType = []):
-    #print("updating")
-
-    if not updateType:        # no type specified -> update everything
-      # Draw Background and grid
-      self.window.fill(pygame.Color("ForestGreen"))
-      self.draw_grid()
-      # State Dependent drawing
-      self.draw_fire()
-      self.draw_firebreaks()
-      self.draw_waypoints()
-      self.draw_agents()
-      self.draw_mouse_coords()
-      # Update pygame display
-      pygame.display.update()
-      return
-
-    if UpdateType.FIRE in updateType:
-      self.draw_fire()
-
-    if UpdateType.WAYPOINT in updateType:
-      self.draw_waypoints()
-
-
-    if UpdateType.AGENTS in updateType:
-      self.draw_agents()
-
-    pygame.display.update()
-
 
 
   # Draw the lines separating the blocks in the grid
@@ -108,40 +84,13 @@ class View:
         pygame.draw.rect(self.window, pygame.Color("White"), rect, 1)
 
 
-  # Fill the blocks at the provided positions with the provided color
-  def fill_blocks(self, positions, color):
-    #print("filling blocks")
-    block_size = self.grid_block_size
-    for pixels in positions:
-      ## I really do not want to do it like this TODO possibly change
-      for x in range(pixels[0] * block_size, (pixels[0] + 1) * block_size):
-        for y in range(pixels[1] * block_size, (pixels[1] + 1) * block_size):
-          rect = (x, y, 1, 1)
-          pygame.draw.rect(self.window, color, rect, 1)
-
-  # Draw the agent positions blue
-  def draw_agents(self):
-    self.fill_blocks(self.model.agent_positions(), pygame.Color("DarkBlue"))
-    ## pygame.draw.circle(window, colour, position, radius, pixel width)
-
-
-  # Draw the fire positions red
-  def draw_fire(self):
-    fire = list(self.model.firepos)
-    self.fill_blocks(fire, pygame.Color("Red"))
-
-
-  def draw_firebreaks(self):
-    self.fill_blocks(self.model.firebreaks, pygame.Color("SaddleBrown"))
-
-  # Draw the waypoints positions black
-  def draw_waypoints(self):
-    self.fill_blocks(self.model.waypoints, pygame.Color("Black"))
-  
-
   def draw_mouse_coords(self):
     ## keep track of mouse position
     position = pygame.mouse.get_pos()
     pos = self.pixel_belongs_to_block(position)
     textsurface = myfont.render(str(pos), False, (0, 0, 200))
     self.window.blit(textsurface, (0, 0))
+
+  
+  def draw(self):
+    pygame.display.update()

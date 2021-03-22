@@ -28,6 +28,7 @@ class Agent:
 
   def assign_new_waypoint(self):
     # TODO M agent new waypoints
+    ## really confused for the need for this function at the moment
     self.waypoint_old = self.waypoint     # waypoint_old == None for first assignment, so it won't be saved
     print("agent at pos: ", self.position, "needs waypoint")
     self.active = True
@@ -73,6 +74,9 @@ class Agent:
           waypoint = possible_waypoint
           distance = new_distance
     return waypoint
+
+  def get_node(self):
+    return self.model.find_node(self.position)
 
 
   def distance_to(self, position):

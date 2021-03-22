@@ -6,7 +6,6 @@ import random
 
 random.seed(0)
 
-
 class Agent:
   # TODO: Original code gave W as parameter. Find out purpose
   def __init__(self, position, model, active = False):

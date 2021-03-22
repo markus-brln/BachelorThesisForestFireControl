@@ -1,7 +1,7 @@
 from Model.agent import Agent
 from Model.direction import Direction
 from Model.data_saver import DataSaver
-from Model.node import Node
+from Model.node import Node, NodeType
 from enum import Enum
 import random
 
@@ -12,12 +12,6 @@ class State(Enum):
   ONGOING = 0
   FIRE_CONTAINED = 1
   FIRE_OUT_OF_CONTROL = 2
-
-class WindDir(Enum):
-  NORTH = 0
-  SOUTH = 1
-  EAST = 2
-  WEST = 3
 
 
 class Model:
@@ -33,7 +27,6 @@ class Model:
     ## initial properties of this model
     self.agents = []
     self.state = State.ONGOING
-    self.nodes = list()
     self.init_nodes()
     self.reset_necessary = False
 
@@ -47,18 +40,26 @@ class Model:
 
 
   def init_nodes(self):
-    ## arbitrary values for initialisation
-    fuel = 10
-    temp = 0
-    thresh = 2.5
+    self.nodes = []
     for x in range(self.size):
+      node_row = []
       for y in range(self.size):
-                        ## position, fuel, temperature, ignition_threshold, neighbours, wind
-        newNode = Node((x, y), fuel, temp, thresh, self.get_neighbours((x, y)), self.wind_dir)
-        # print("pos: ", newNode.position, "temp: ", newNode.temperature, "thresh: ", newNode.ignition_threshold)
-        # if(newNode.position == ((int(self.size / 2), int(self.size / 2)))):
-        #   newNode.ignite()
-        self.nodes.append(newNode)
+        newNode = Node(self, (x, y), NodeType.GRASS, self.wind_dir)
+        node_row.append(newNode)
+      self.nodes.append(node_row)
+    
+    ## Set the neighbours
+    for node_row in self.nodes:
+      for node in node_row:
+        pos = node.position
+        neighbour = {"N": Direction.GO_NORTH(pos), "E": Direction.GO_EAST(pos),       ## Neighbours
+                     "S": Direction.GO_SOUTH(pos), "W": Direction.GO_WEST(pos)}
+
+        node.set_neighbours(north= self.find_node(neighbour["N"]),
+                            east = self.find_node(neighbour["E"]),
+                            south= self.find_node(neighbour["S"]),
+                            west = self.find_node(neighbour["W"]))
+
 
 ## Episode Initialization
   def start_episode(self):
@@ -66,6 +67,10 @@ class Model:
     self.waypoints = set() # Reset selection # M TODO are those the same as in Agent - are they updated?
     self.time = 0                 # Reset time
     self.state = State.ONGOING
+
+    for node_row in self.nodes:
+      for node in node_row:
+        node.reset()
 
     # Start fire in the middle of the map
     self.firepos.clear()
@@ -79,25 +84,8 @@ class Model:
     x = y = int(self.size / 2)
     centre_node = self.find_node((x, y))
     centre_node.ignite()
-    self.firepos.add(centre_node.position)
 
 
-  def find_node(self, pos):
-    x, y = pos
-    for node in self.nodes:
-      if node.position == (x, y):
-        return node
-    return
-
-
-  def quadrants(self):
-    n = self.size
-    m = 0
-    for x in range(0, int(self.size / 2)):
-      for y in range(n, m):
-        self.west.append(x, y)
-
-  
   # Start agents at random positions
   def reset_agents(self):
     self.agents.clear()
@@ -106,8 +94,6 @@ class Model:
       while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
         agent_pos = self.get_random_position()
       self.agents += [Agent(agent_pos, self)]
-
-
 
 
 ## Time propagation
@@ -135,9 +121,11 @@ class Model:
     # 2
     #for agent in self.agents:
       #agent.timestep()            # walks 1 step towards current waypoint & digs on the way
+    for node_row in self.nodes:
+      for node in node_row:
+        node.time_step()
 
     # 3
-    self.expand_fire()            # Determine fire propagation
 
     #print("expanding fire took: ", timelib.time() - start)
     # print(len(self.firepos))
@@ -157,41 +145,19 @@ class Model:
       # return  # I guess it has to return to start new
 
 
+  def find_node(self, pos):
+    if not self.position_in_bounds(pos):
+      return None
+    return self.nodes[pos[0]][pos[1]]
 
-
-
-  ## currently stops when the fire reaches the edge of the map for simplicity but
-  ## also as it makes it impossible for the agent to contain the fire
-  def expand_fire(self):
-    """Expands every x time steps by simply igniting its neighbours.
-       Takes self.wind_dir into account.
-    """
-    ## fire expands 3 times more slowly than agents can move
-    if self.time % 3 != 0:
-      return
-
-    fire_list = list(self.firepos)
-    for pos in fire_list:
-      neighbours = self.get_neighbours(pos)
-      for neighbour, direction in zip(neighbours, range(len(neighbours))):
-        if not self.position_in_bounds(neighbour):
-          self.state = State.FIRE_OUT_OF_CONTROL
-        if not self.is_firebreak(neighbour):
-          self.firepos.add(neighbour)
-
-          if neighbour in self.waypoints: # M maybe not useful in simulation, since agents lose orientation then
-            self.waypoints.remove(neighbour)
-
-        # TODO add option that agent is burned -> discard episode & restart?
-        else:
-          print("can't expand through firebreak @", neighbour)
 
 ## TODO updated for the new nodes with boundary conditions
 ## Position management
   def get_neighbours(self, position):
-    x, y = position
-            #   NORTH         SOUTH     EAST         WEST
-    return [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
+    return {"N": self.find_node(Direction.GO_NORTH),
+            "E": self.find_node(Direction.GO_EAST),
+            "S": self.find_node(Direction.GO_SOUTH),
+            "W": self.find_node(Direction.GO_WEST)}
 
 
   def agent_positions(self):
@@ -201,14 +167,14 @@ class Model:
   def get_random_position(self):
     return random.randint(0, self.size - 1), random.randint(0, self.size - 1)
 
+
   def is_firebreak(self, position):
     return position in self.firebreaks
+
 
   def position_in_bounds(self, position):
     x, y = position
     return 0 <= x < self.size and 0 <= y < self.size
-    # M maybe like this, since fire not containable anymore when it already touches borders
-    #return 1 <= x < self.size - 1 and 1 <= y < self.size - 1
 
   
 ## Model manipulation
@@ -219,7 +185,7 @@ class Model:
         return
 
     if position not in self.firepos:       ## Cannot set waypoint in the fire
-      self.waypoints.add(position)  # Add to list of waypoints
+      self.waypoints.add(position)         # Add to list of waypoints
 
 
   def deselect_square(self, position):
@@ -230,7 +196,7 @@ class Model:
     self.firebreaks.add(agent.position)
     if agent.position in self.waypoints:
       self.waypoints.remove(agent.position)
-
+      
 
 ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program

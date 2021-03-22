@@ -16,7 +16,7 @@ class Direction(Enum):
   @staticmethod
   def find(coming_from, going_to):
     if coming_from == going_to:
-      return Direction.NONE
+      return Direction.GO_NONE
 
     delta_x = going_to[0] - coming_from[0]
     delta_y = going_to[1] - coming_from[1]

@@ -209,7 +209,6 @@ class Model:
 
   
   ## State changes
-  ## TODO: determine waypoint changes
   ## Call from Node
   def node_state_change(self, node: Node):
     if node.state == NodeState.ON_FIRE:

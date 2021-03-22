@@ -53,6 +53,8 @@ class View:
     if state == NodeState.BURNED_OUT:
       colour = pygame.Color("Grey")
     if state == NodeState.AGENT:
+      colour = pygame.Color("YELLOW")
+    if state == NodeState.ACTIVE_AGENT:
       colour = pygame.Color("Blue")
 
     self.draw_block(position, colour)
@@ -120,6 +122,8 @@ class View:
   # Draw the agent positions blue
   def draw_agents(self):
     self.fill_blocks(self.model.agent_positions(), pygame.Color("DarkBlue"))
+    ## pygame.draw.circle(window, colour, position, radius, pixel width)
+
 
   # Draw the fire positions red
   def draw_fire(self):

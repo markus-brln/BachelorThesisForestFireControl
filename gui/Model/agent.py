@@ -18,7 +18,7 @@ class Agent:
     self.save_move = False
     self.waypoint = None
     self.waypoint_old = None
-    self.model = model 
+    self.model = model
 
   def timestep(self):
     # M walk towards waypoint (dumb / A-Star) + dig on every step
@@ -29,11 +29,18 @@ class Agent:
   def assign_new_waypoint(self):
     # TODO M agent new waypoints
     self.waypoint_old = self.waypoint     # waypoint_old == None for first assignment, so it won't be saved
-    #print("agent at pos: ", self.position)
+    print("agent at pos: ", self.position, "needs waypoint")
+    self.active = True
     # 1. change color of active agent, maybe draw "circle of reach" around it
     # 2. wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
-    # 3. set new private waypoint
-    pass
+    if self.model.waypoints:
+      # 3. set new private waypoint
+      self.move()
+    else:
+      print("no waypoints")
+
+
+
 
   def dig(self):
     self.model.dig_firebreak(self)
@@ -56,7 +63,6 @@ class Agent:
   def get_waypoint(self):
     if len(self.model.waypoints) == 0:
       return None
-
     waypoints = list(self.model.waypoints)
     waypoint = waypoints[0]
     distance = self.distance_to(waypoint)
@@ -66,7 +72,6 @@ class Agent:
         if new_distance < distance:
           waypoint = possible_waypoint
           distance = new_distance
-
     return waypoint
 
 

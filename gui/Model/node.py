@@ -18,6 +18,7 @@ class NodeState (Enum):
   ON_FIRE = 2
   BURNED_OUT = 3
   AGENT = 4
+  ACTIVE_AGENT = 5 ## not sure if necessary
 
 
 class Node:
@@ -45,6 +46,8 @@ class Node:
     self.temperature = self.default_props["temp"]
     self.ignition_threshold = self.default_props["ign_thres"]
 
+  def set_state(self, State):
+    self.state = State
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
@@ -86,7 +89,7 @@ class Node:
         elif direction == self.wind_dir:
           heat_spread *= 2
 
-        print(f"{heat_spread} towards {direction}")
+        # print(f"{heat_spread} towards {direction}")
         neighbour.heat_up(heat_spread)
 
 

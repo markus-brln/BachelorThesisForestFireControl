@@ -80,7 +80,7 @@ class Node:
   def heat_up_neighbours(self):
     for direction, neighbour in self.neighbours.items():
       if neighbour is not None:
-        heat_spread = 1 # random.uniform(0.5, 1.5)
+        heat_spread = random.uniform(0.5, 1.5)
         if Direction.is_opposite(direction, self.wind_dir):
           heat_spread /= 2
         elif direction == self.wind_dir:

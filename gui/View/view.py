@@ -37,15 +37,15 @@ class View:
 
 
 
-  def update(self, updateType = []):
+  def update(self, updateType = None):
     #print("updating")
 
     if not updateType:        # no type specified -> update everything
       # Draw Background and grid
       self.window.fill(pygame.Color("ForestGreen"))
       self.draw_grid()
-      # State Dependent drawing
-      self.draw_fire()
+      self.draw_fire()        # draw both new and old fire
+      self.draw_edge_fire()
       self.draw_firebreaks()
       self.draw_waypoints()
       self.draw_agents()
@@ -55,11 +55,10 @@ class View:
       return
 
     if UpdateType.FIRE in updateType:
-      self.draw_fire()
+      self.draw_edge_fire()
 
     if UpdateType.WAYPOINT in updateType:
       self.draw_waypoints()
-
 
     if UpdateType.AGENTS in updateType:
       self.draw_agents()
@@ -92,10 +91,15 @@ class View:
   def draw_agents(self):
     self.fill_blocks(self.model.agent_positions(), pygame.Color("DarkBlue"))
 
-  # Draw the fire positions red
+
   def draw_fire(self):
-    fire = list(self.model.firepos)
-    self.fill_blocks(fire, pygame.Color("Red"))
+    """Fill all fire blocks."""
+    self.fill_blocks(self.model.firepos, pygame.Color("Red"))
+
+
+  def draw_edge_fire(self):
+    """Only fill the newly ignited blocks."""
+    self.fill_blocks(self.model.firepos_edge, pygame.Color("Red"))
 
 
   def draw_firebreaks(self):

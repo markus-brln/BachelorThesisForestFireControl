@@ -33,14 +33,15 @@ class Model:
     ## initial properties of this model
     self.agents = []
     self.state = State.ONGOING
-    self.nodes = list()
+    self.nodes = list()           # all nodes of the NxN grid
     self.init_nodes()
     self.reset_necessary = False
 
     ## Fire initialization
     self.firesize = firesize
-    self.firepos = set()
-    self.start_episode()           # Initialize episode
+    self.firepos_edge = list()    # view will only fires new on the edge (not surrounded by fire)
+    self.firepos = set()          # unique fire cells
+    self.start_episode()          # Initialize episode
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
@@ -69,6 +70,7 @@ class Model:
 
     # Start fire in the middle of the map
     self.firepos.clear()
+    self.firepos_edge.clear()
     self.set_initial_fire(self.firesize)
     self.firebreaks = set()
 
@@ -80,6 +82,7 @@ class Model:
     centre_node = self.find_node((x, y))
     centre_node.ignite()
     self.firepos.add(centre_node.position)
+    self.firepos_edge.append(centre_node.position)
 
 
   def find_node(self, pos):
@@ -129,7 +132,7 @@ class Model:
     if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
       #print("agents require new waypoints")
       for agent in self.agents:
-        agent.assign_new_waypoint() # waypoint to
+        agent.assign_new_waypoint()
 
     self.time += 1                # fire and agents need this info
     # 2
@@ -137,6 +140,8 @@ class Model:
       #agent.timestep()            # walks 1 step towards current waypoint & digs on the way
 
     # 3
+    ## fire expands every 3 timesteps
+    #if self.time % 3 == 0:
     self.expand_fire()            # Determine fire propagation
 
     #print("expanding fire took: ", timelib.time() - start)
@@ -158,33 +163,57 @@ class Model:
 
 
 
-
-
   ## currently stops when the fire reaches the edge of the map for simplicity but
   ## also as it makes it impossible for the agent to contain the fire
   def expand_fire(self):
     """Expands every x time steps by simply igniting its neighbours.
-       Takes self.wind_dir into account.
+       1. Look for non-fire neighbour cells not in self.firepos
+       2. add new fires to self.firepos
+       3. update self.firepos_edge
     """
-    ## fire expands 3 times more slowly than agents can move
-    if self.time % 3 != 0:
-      return
 
-    fire_list = list(self.firepos)
-    for pos in fire_list:
-      neighbours = self.get_neighbours(pos)
+    #firepos_new_tmp = set()                     # unique new neighbours
+    agent_positions = self.agent_positions()    # call function here (only once)
+
+    # 1. Look for non-fire neighbour cells not in self.firepos
+    for pos in self.firepos_edge:
+      neighbours = self.get_neighbours_not_on_fire(pos)
       for neighbour, direction in zip(neighbours, range(len(neighbours))):
+        #if neighbour in agent_positions:
+        #  print("Fire took out agent. Restarting episode.")
+        #  self.state = State.FIRE_OUT_OF_CONTROL
+        #  return
         if not self.position_in_bounds(neighbour):
+          print("Fire exceeded boundaries. Restarting episode.")
           self.state = State.FIRE_OUT_OF_CONTROL
+          return
         if not self.is_firebreak(neighbour):
+          # 2. add new fires to self.firepos
           self.firepos.add(neighbour)
-
-          if neighbour in self.waypoints: # M maybe not useful in simulation, since agents lose orientation then
-            self.waypoints.remove(neighbour)
-
-        # TODO add option that agent is burned -> discard episode & restart?
         else:
           print("can't expand through firebreak @", neighbour)
+
+    # 3. update self.firepos_edge
+    self.firepos_edge.clear()
+    self.firepos_edge = self.find_edge_fires(list(self.firepos))
+
+
+
+  def find_edge_fires(self, firepos):
+    edge_fires = set()
+
+    for pos in firepos:
+      neighbours = self.get_neighbours(pos)
+      surrounded = True
+      for neighbour in neighbours:
+        if neighbour not in firepos:
+          surrounded = False
+
+      if not surrounded:
+        edge_fires.add(pos)
+
+    return list(edge_fires)
+
 
 ## TODO updated for the new nodes with boundary conditions
 ## Position management
@@ -192,6 +221,41 @@ class Model:
     x, y = position
             #   NORTH         SOUTH     EAST         WEST
     return [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
+
+  def get_neighbours_not_on_fire(self, position):
+    """Looks whether the N, S, E, W neighbours are already on fire.
+    @:return list of (x,y) neighbours to set on fire
+    """
+    x, y = position
+    new_neighbours = []
+
+    if (x, y - 1) not in self.firepos:
+      if self.wind_dir == WindDir.SOUTH:
+        new_neighbours.append((x, y - 1))   # NORTH
+      else:
+        if random.randint(0,1) != 0:
+          new_neighbours.append((x, y - 1))
+
+    if (x, y + 1) not in self.firepos:
+      if self.wind_dir == WindDir.NORTH:
+        new_neighbours.append((x, y + 1))   # SOUTH
+      else:
+        if random.randint(0,1) != 0:
+          new_neighbours.append((x, y + 1))
+    if (x + 1, y) not in self.firepos:
+      if self.wind_dir == WindDir.WEST:
+        new_neighbours.append((x + 1, y))   # EAST
+      else:
+        if random.randint(0,1) != 0:
+          new_neighbours.append((x + 1, y))
+    if (x - 1, y) not in self.firepos:
+      if self.wind_dir == WindDir.EAST:
+        new_neighbours.append((x - 1, y))   # WEST
+      else:
+        if random.randint(0,1) != 0:
+          new_neighbours.append((x - 1, y))
+
+    return new_neighbours
 
 
   def agent_positions(self):

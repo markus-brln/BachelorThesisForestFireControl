@@ -11,7 +11,13 @@ class Controller:
     # Initialization
     self.mouse_button_pressed = False   ## Mouse button assumed not to be pressed initially
 
+    self.collecting_waypoints = False
+    self.agent_no = 0
+
   def update(self, event):
+    if self.collecting_waypoints:
+      self.collect_waypoints(event)
+      return
 
     if self.model.reset_necessary:        # M update view when resetting env (hacky way)
       self.view.update()
@@ -40,10 +46,12 @@ class Controller:
       # Keyboard button pressed
       self.key_press(event)
       
+
   def shut_down(self, event):
     self.model.shut_down()              ## Ensure proper shutdown of the model
     exit(0)                             ## Exit program
   
+
   def select(self, event):
     # Determine the block the mouse is covering
     position = self.view.pixel_belongs_to_block(event.pos)
@@ -52,6 +60,31 @@ class Controller:
       self.model.select_square(position)
     else:                              ## Right click
       self.model.deselect_square(position)
+    
+  def start_collecting_waypoints(self):
+    print("Assigning waypoints")
+    self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
+    self.collecting_waypoints = True
+    self.agent_no = 0
+    self.model.highlight_agent(0)
+
+
+  def collect_waypoints(self, event):
+    if event.type != pygame.MOUSEBUTTONDOWN:
+      return
+
+    position = self.view.pixel_belongs_to_block(event.pos)
+    self.model.select_square(position)
+    
+    self.agent_no += 1
+    if self.agent_no >= len(self.model.agents):
+      self.collecting_waypoints = False
+      self.model.highlight_agent(None)
+      return
+
+    self.model.highlight_agent(self.agent_no)
+
+
 
   def key_press(self, event):
     start = time.time()
@@ -64,3 +97,7 @@ class Controller:
 
     if event.key == pygame.K_c:
       self.model.waypoints.clear()
+
+    if event.key == pygame.K_w:
+      self.start_collecting_waypoints()
+

@@ -48,7 +48,7 @@ class Node:
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
-      self.default_props = {"fuel": 10, "temp": 0, "ign_thres": 2.5}
+      self.default_props = {"fuel": 15, "temp": 0, "ign_thres": 3.5}
     if self.type == NodeType.WATER:
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   

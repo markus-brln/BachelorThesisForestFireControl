@@ -2,6 +2,7 @@ import pygame
 
 ## Needs access to model
 from Model.environment import Model
+from Model.node import NodeState
 from enum import Enum
 
 
@@ -15,7 +16,6 @@ class UpdateType(Enum):
 
 pygame.font.init() # add text
 myfont = pygame.font.SysFont('arial', 22)
-
 
 
 ## Separate these classes, figure out how to import code from other file
@@ -35,6 +35,35 @@ class View:
     self.translation = (0, 0)
     self.scale = 1
 
+
+  ## Determine in which block a pixel lies
+  def pixel_belongs_to_block(self, pos):
+    x = int(pos[0] / self.grid_block_size)
+    y = int(pos[1] / self.grid_block_size)
+    return (x, y)
+
+
+  def callback(self, position, state):
+    if state == NodeState.NORMAL:
+      colour = pygame.Color("ForestGreen")
+    if state == NodeState.FIREBREAK:
+      colour = pygame.Color("SaddleBrown")
+    if state == NodeState.ON_FIRE:
+      colour = pygame.Color("Red")
+    if state == NodeState.BURNED_OUT:
+      colour = pygame.Color("Grey")
+    if state == NodeState.AGENT:
+      colour = pygame.Color("Blue")
+
+    self.draw_block(position, colour)
+
+
+  def draw_block(self, position, colour):
+    block_size = self.grid_block_size
+    for x in range(position[0] * block_size, (position[0] + 1) * block_size):
+      for y in range(position[1] * block_size, (position[1] + 1) * block_size):
+        rect = (x, y, 1, 1)
+        pygame.draw.rect(self.window, colour, rect, 1)
 
 
   def update(self, updateType = []):
@@ -105,11 +134,6 @@ class View:
   def draw_waypoints(self):
     self.fill_blocks(self.model.waypoints, pygame.Color("Black"))
   
-  ## Determine in which block a pixel lies
-  def pixel_belongs_to_block(self, pos):
-    x = int(pos[0] / self.grid_block_size)
-    y = int(pos[1] / self.grid_block_size)
-    return (x, y)
 
   def draw_mouse_coords(self):
     ## keep track of mouse position

@@ -24,14 +24,13 @@ def main():
 
 
   # Initialization
-  environment = Model(size, nr_of_agents, firesize, wind_dir=Direction.NORTH)   ## Initialize Environment
+  environment = Model(size, nr_of_agents, firesize, wind_dir=Direction.WEST)   ## Initialize Environment
   view = View(environment, block_size_in_pixels)  ## Start View
   controller = Controller(environment, view)      ## Initialize Controller with model and view
 
   # Run 
   while True:
     controller.update(pygame.event.wait())        ## Let the controller take over
-    #controller.update(pygame.event.get())
 
 
 if __name__=="__main__":

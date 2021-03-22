@@ -124,6 +124,10 @@ class Model:
     for node_row in self.nodes:
       for node in node_row:
         node.time_step()
+    
+    for node_row in self.nodes:
+      for node in node_row:
+        node.update_state()
 
     # 3
 

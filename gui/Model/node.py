@@ -17,6 +17,7 @@ class NodeState (Enum):
   FIREBREAK = 1
   ON_FIRE = 2
   BURNED_OUT = 3
+  AGENT = 4
 
 
 class Node:
@@ -60,9 +61,6 @@ class Node:
 
   
   def time_step(self):
-    self.state = self.next_state
-    self.next_state = self.state
-
     if self.state == NodeState.ON_FIRE:
       if self.present_agent != None:
         self.present_agent.set_on_fire()
@@ -72,21 +70,23 @@ class Node:
         self.burn_out()
       
       self.heat_up_neighbours()
+  
 
-    # else:
-      # self.temperature -= 0.25 
+  def update_state(self):
+    self.state = self.next_state
 
 
   ## TODO: Implement wind direction
   def heat_up_neighbours(self):
     for direction, neighbour in self.neighbours.items():
       if neighbour is not None:
-        heat_spread = random.uniform(0.5, 1.5)
+        heat_spread = 1 # random.uniform(0.5, 1.5)
         if Direction.is_opposite(direction, self.wind_dir):
           heat_spread /= 2
         elif direction == self.wind_dir:
           heat_spread *= 2
 
+        print(f"{heat_spread} towards {direction}")
         neighbour.heat_up(heat_spread)
 
 

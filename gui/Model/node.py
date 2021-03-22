@@ -39,16 +39,16 @@ class Node:
 
   def reset(self):
     self.present_agent = None
-    self.state = NodeState.NORMAL
-    self.next_state = NodeState.NORMAL
     self.fuel = self.default_props["fuel"]
     self.temperature = self.default_props["temp"]
     self.ignition_threshold = self.default_props["ign_thres"]
+    self.next_state = NodeState.NORMAL
+    self.update_state()
 
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
-      self.default_props = {"fuel": 100, "temp": 0, "ign_thres": 2.5}
+      self.default_props = {"fuel": 10, "temp": 0, "ign_thres": 2.5}
     if self.type == NodeType.WATER:
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   
@@ -60,6 +60,7 @@ class Node:
                        Direction.WEST: west}
 
   
+  ## Time iteration 
   def time_step(self):
     if self.state == NodeState.ON_FIRE:
       if self.present_agent != None:
@@ -71,22 +72,15 @@ class Node:
       
       self.heat_up_neighbours()
   
-
-  def update_state(self):
-    self.state = self.next_state
-
-
-  ## TODO: Implement wind direction
   def heat_up_neighbours(self):
     for direction, neighbour in self.neighbours.items():
       if neighbour is not None:
-        heat_spread = random.uniform(0.5, 1.5)
+        heat_spread = 1 #TODO Stochastic?
         if Direction.is_opposite(direction, self.wind_dir):
           heat_spread /= 2
         elif direction == self.wind_dir:
           heat_spread *= 2
 
-        print(f"{heat_spread} towards {direction}")
         neighbour.heat_up(heat_spread)
 
 
@@ -96,24 +90,26 @@ class Node:
       self.ignite()
 
 
+  ## State changes
+  def update_state(self):
+    if self.state is not self.next_state:
+      self.state = self.next_state
+      self.environment.node_state_change(self)
+
+
   def dig_firebreak(self):
-    if self.state == NodeState.NORMAL:
+    if self.state != NodeState.ON_FIRE:
       self.ignition_threshold = float("inf")
       self.next_state = NodeState.FIREBREAK
 
-    self.environment.firebreak.add(self.position)
-
 
   def ignite(self):
-    if self.fuel != 0 and not self.state == NodeState.ON_FIRE:
+    if self.fuel != 0 and self.state == NodeState.NORMAL:
       self.next_state = NodeState.ON_FIRE
-    
-    self.environment.firepos.add(self.position) ## Let environment know you're on fire
 
 
   def burn_out(self):
     if self.state == NodeState.ON_FIRE:
       self.next_state = NodeState.BURNED_OUT
-      self.environment.firepos.remove(self.position)
 
-    
+  

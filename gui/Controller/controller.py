@@ -11,8 +11,6 @@ class Controller:
     # Initialization
     self.mouse_button_pressed = False   ## Mouse button assumed not to be pressed initially
 
-    self.view.update()
-
   def update(self, event):
 
     if self.model.reset_necessary:        # M update view when resetting env (hacky way)
@@ -55,25 +53,14 @@ class Controller:
     else:                              ## Right click
       self.model.deselect_square(position)
 
-    # Update the view
-    self.view.update([UpdateType.WAYPOINT])
-
-
-
   def key_press(self, event):
     start = time.time()
     if event.key == pygame.K_SPACE:
       self.model.time_step()          ## Space to go to next timestep
-      self.view.update([UpdateType.FIRE, UpdateType.AGENTS, UpdateType.FIREBREAKS])
       return
-    ##TODO possibly add a revert time step option to go back one
+
     if event.key == pygame.K_RETURN:
       self.model.start_episode()       ## Return / ENTER to go to next episode
 
     if event.key == pygame.K_c:
       self.model.waypoints.clear()
-
-    # Update the view
-    self.view.update()
-
-    print("entire time step took: ", time.time()-start)

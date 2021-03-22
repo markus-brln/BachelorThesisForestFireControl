@@ -1,9 +1,14 @@
+
 from Model.agent import Agent
 from Model.direction import Direction
 from Model.data_saver import DataSaver
-from Model.node import Node, NodeType
+from Model.node import Node, NodeType, NodeState
+
+from View.updatetype import UpdateType
+
 from enum import Enum
 import random
+
 
 # For data generation maybe lose the seed
 random.seed(1)
@@ -19,6 +24,7 @@ class Model:
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
   def __init__(self, length: int, nr_of_agents: int, firesize: int = 1, wind_dir = None):
+    self.subscribers = []
     ## properties of env
     self.size = length
     self.nr_of_agents = nr_of_agents
@@ -76,6 +82,9 @@ class Model:
     self.firepos.clear()
     self.set_initial_fire(self.firesize)
     self.firebreaks = set()
+
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.RESET)
 
 
 
@@ -147,6 +156,9 @@ class Model:
       # self.DataSaver.append_episode()
       # self.start_episode()
       # return  # I guess it has to return to start new
+    
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.TIMESTEP_COMPLETE)
 
 
   def find_node(self, pos):
@@ -196,11 +208,29 @@ class Model:
     self.waypoints.discard(position) # Remove from list of waypoints
 
   
-  def dig_firebreak(self, agent):
-    self.firebreaks.add(agent.position)
-    if agent.position in self.waypoints:
-      self.waypoints.remove(agent.position)
+  ## State changes
+  ## TODO: determine waypoint changes
+  ## Call from Node
+  def node_state_change(self, node: Node):
+    if node.state == NodeState.ON_FIRE:
+      self.firepos.add(node.position)
+    if node.state == NodeState.BURNED_OUT:
+      self.firepos.remove(node.position)
+    if node.state == NodeState.FIREBREAK:
+      self.firebreaks.add(node.position)
+
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.NODE, node)
+  
+
+  def agent_moves(self, node_from, node_to):
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.NODE, node_from) ## Redraw old node
+      subscriber.update(UpdateType.AGENT, node_to)
       
+
+  def subscribe(self, subscriber):
+    self.subscribers.append(subscriber)
 
 ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program

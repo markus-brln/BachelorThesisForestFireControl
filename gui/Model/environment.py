@@ -219,6 +219,8 @@ class Model:
     self.waypoints.add(position)
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.WAYPOINT, position = position)
+
+    # self.waypoint_history.add((self.time, position, self.highlighted_agent.position))
     
 
   

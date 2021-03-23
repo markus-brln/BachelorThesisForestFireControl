@@ -33,7 +33,7 @@ class View:
 
   def draw_initial_model(self):
       self.window.fill(pygame.Color("ForestGreen"))
-      self.draw_grid()
+      # self.draw_grid()
       for agent in self.model.agents:
         self.draw_block(agent.position, pygame.Color("DarkBlue"))
       self.draw()
@@ -49,14 +49,15 @@ class View:
   def update(self, update_type: UpdateType, position = None, node = None, agent = None):
     if update_type == UpdateType.RESET:
       self.draw_initial_model()
+
     if update_type == UpdateType.NODE:
       self.node_change(node)
+      
     if update_type == UpdateType.AGENT:
       self.node_change(agent.prev_node)
       self.draw_block(agent.position, pygame.Color("DarkBlue"))
 
     if update_type == UpdateType.WAYPOINT:
-      print(position)
       self.draw_block(position, pygame.Color("Black"))
       self.draw()
     

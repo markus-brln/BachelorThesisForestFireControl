@@ -47,6 +47,7 @@ class Agent:
     self.prev_node = self.node
     self.position = Direction.find(self.position, self.waypoint)(self.position)
     self.node = self.model.find_node(self.position)
+    self.node.dig_firebreak()
 
     self.model.agent_moves(self)
 

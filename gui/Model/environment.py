@@ -121,7 +121,7 @@ class Model:
     #       self.DataSaver.append_datapoint()
 
     # 1
-    if self.time % 2 == 0:        # every 5 time steps new waypoints should be set
+    if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
       #print("agents require new waypoints")
       for agent in self.agents:
         agent.assign_new_waypoint() # waypoint to

@@ -41,8 +41,6 @@ class Agent:
       print("no waypoints")
 
 
-
-
   def dig(self):
     self.model.dig_firebreak(self)
 
@@ -77,7 +75,6 @@ class Agent:
 
   def get_node(self):
     return self.model.find_node(self.position)
-
 
   def distance_to(self, position):
     x, y = position

@@ -24,6 +24,7 @@ class Node:
   def __init__(self, environment, position, node_type, wind_dir):
     ## For callbacks
     self.environment = environment
+    (Direction.NORTH, 5)
 
     ## Initialization
     self.type = node_type
@@ -48,7 +49,7 @@ class Node:
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
-      self.default_props = {"fuel": 15, "temp": 0, "ign_thres": 3.5}
+      self.default_props = {"fuel": 15, "temp": 0, "ign_thres": 2.5}
     if self.type == NodeType.WATER:
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   
@@ -71,13 +72,16 @@ class Node:
         self.burn_out()
       
       self.heat_up_neighbours()
+
+
+
   
   def heat_up_neighbours(self):
     for direction, neighbour in self.neighbours.items():
       if neighbour is not None:
         heat_spread = 1 #TODO Stochastic?
         if Direction.is_opposite(direction, self.wind_dir):
-          heat_spread /= 2
+          heat_spread /= 1.5
         elif direction == self.wind_dir:
           heat_spread *= 2
 

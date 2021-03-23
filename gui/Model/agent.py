@@ -10,6 +10,8 @@ class Agent:
   # TODO: Original code gave W as parameter. Find out purpose
   def __init__(self, position, model, active = False):
     self.position = position
+    self.node = model.find_node(position)
+    self.prev_node = model.find_node(position)
     self.dead = False
     self.digging = True
     self.active = active
@@ -22,23 +24,12 @@ class Agent:
 
   def timestep(self):
     # M walk towards waypoint (dumb / A-Star) + dig on every step
-    self.move()
+    self.move() 
     if self.save_move:
       self.agent_hist.append(self.position)
 
-  def assign_new_waypoint(self):
-    # TODO M agent new waypoints
-    ## really confused for the need for this function at the moment
-    self.waypoint_old = self.waypoint     # waypoint_old == None for first assignment, so it won't be saved
-    print("agent at pos: ", self.position, "needs waypoint")
-    self.active = True
-    # 1. change color of active agent, maybe draw "circle of reach" around it
-    # 2. wait for human to give waypoint (probably good to print agent pos + "waiting for input" to cmd)
-    if self.model.waypoints:
-      # 3. set new private waypoint
-      self.move()
-    else:
-      print("no waypoints")
+  def assign_new_waypoint(self, position):
+    self.waypoint = position
 
 
   def dig(self):
@@ -50,13 +41,14 @@ class Agent:
     
 
   def move(self):
-    waypoint = self.get_waypoint() # M should be changed to "I got a waypoint assigned by a human, I will move in this direction"
-    if waypoint is None:
-      self.dig()
+    if self.waypoint is None:
       return
 
-    self.position = Direction.find(self.position, waypoint)(self.position)
-    # self.position = Direction.DOWN(self.position)
+    self.prev_node = self.node
+    self.position = Direction.find(self.position, self.waypoint)(self.position)
+    self.node = self.model.find_node(self.position)
+
+    self.model.agent_moves(self)
 
 
   def get_waypoint(self):
@@ -75,6 +67,7 @@ class Agent:
 
   def get_node(self):
     return self.model.find_node(self.position)
+
 
   def distance_to(self, position):
     x, y = position

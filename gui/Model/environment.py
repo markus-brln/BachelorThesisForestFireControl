@@ -43,6 +43,7 @@ class Model:
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
+    self.highlighted_agent = None
 
 
   def init_nodes(self):
@@ -121,15 +122,16 @@ class Model:
     #       self.DataSaver.append_datapoint()
 
     # 1
-    if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
-      #print("agents require new waypoints")
-      for agent in self.agents:
-        agent.assign_new_waypoint() # waypoint to
+    # if self.time % 2 == 0:        # every 5 time steps new waypoints should be set
+    #   #print("agents require new waypoints")
+    #   for agent in self.agents:
+    #     agent.assign_new_waypoint() # waypoint to
 
     self.time += 1                # fire and agents need this info
     # 2
-    #for agent in self.agents:
-      #agent.timestep()            # walks 1 step towards current waypoint & digs on the way
+    for agent in self.agents:
+      agent.timestep()            # walks 1 step towards current waypoint & digs on the way
+
     for node_row in self.nodes:
       for node in node_row:
         node.time_step()
@@ -194,18 +196,30 @@ class Model:
 
   
 ## Model manipulation
+  def start_collecting_waypoints(self):
+    self.waypoints.clear()
+
+  def highlight_agent(self, agent_no):
+    if agent_no is None:
+      self.highlighted_agent = None
+      for subscriber in self.subscribers:
+        subscriber.update(UpdateType.HIGHLIGHT_AGENT)
+      return
+    
+    self.highlighted_agent = self.agents[agent_no]
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.HIGHLIGHT_AGENT, agent = self.highlighted_agent)
+
+    
   def select_square(self, position):
-    for agent in self.agents:
-      if position == agent.position:
-        agent.dig()
-        return
+    if self.highlighted_agent == None:
+      return
 
-    if position not in self.firepos:       ## Cannot set waypoint in the fire
-      self.waypoints.add(position)         # Add to list of waypoints
-
-
-  def deselect_square(self, position):
-    self.waypoints.discard(position) # Remove from list of waypoints
+    self.highlighted_agent.assign_new_waypoint(position)
+    self.waypoints.add(position)
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.WAYPOINT, position = position)
+    
 
   
   ## State changes
@@ -219,13 +233,12 @@ class Model:
       self.firebreaks.add(node.position)
 
     for subscriber in self.subscribers:
-      subscriber.update(UpdateType.NODE, node)
+      subscriber.update(UpdateType.NODE, node = node)
   
 
-  def agent_moves(self, node_from, node_to):
+  def agent_moves(self, agent):
     for subscriber in self.subscribers:
-      subscriber.update(UpdateType.NODE, node_from) ## Redraw old node
-      subscriber.update(UpdateType.AGENT, node_to)
+      subscriber.update(UpdateType.AGENT, agent = agent)
       
 
   def subscribe(self, subscriber):

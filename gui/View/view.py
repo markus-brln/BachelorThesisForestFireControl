@@ -28,10 +28,14 @@ class View:
     self.draw_initial_model()     ## Draw initial model
     self.model.subscribe(self)    ## Subscribe to changes
 
+    self.highlighted_agent = None
+
 
   def draw_initial_model(self):
       self.window.fill(pygame.Color("ForestGreen"))
       self.draw_grid()
+      for agent in self.model.agents:
+        self.draw_block(agent.position, pygame.Color("DarkBlue"))
       self.draw()
 
 
@@ -42,13 +46,27 @@ class View:
     return (x, y)
 
   
-  def update(self, update_type: UpdateType, node = None, agent = None):
+  def update(self, update_type: UpdateType, position = None, node = None, agent = None):
     if update_type == UpdateType.RESET:
       self.draw_initial_model()
     if update_type == UpdateType.NODE:
       self.node_change(node)
     if update_type == UpdateType.AGENT:
+      self.node_change(agent.prev_node)
       self.draw_block(agent.position, pygame.Color("DarkBlue"))
+
+    if update_type == UpdateType.WAYPOINT:
+      print(position)
+      self.draw_block(position, pygame.Color("Black"))
+      self.draw()
+    
+    if update_type == UpdateType.HIGHLIGHT_AGENT:
+      if self.highlighted_agent is not None:
+        self.draw_block(self.highlighted_agent.position,  pygame.Color("DarkBlue"))
+      if agent is not None:
+        self.draw_block(agent.position, pygame.Color("Yellow"))
+      self.highlighted_agent = agent
+      self.draw()
 
     if update_type == UpdateType.TIMESTEP_COMPLETE:
       self.draw()
@@ -90,6 +108,11 @@ class View:
     pos = self.pixel_belongs_to_block(position)
     textsurface = myfont.render(str(pos), False, (0, 0, 200))
     self.window.blit(textsurface, (0, 0))
+
+  
+  def clear_waypoints(self, old_waypoints):
+    for node in old_waypoints:
+      self.node_change(node)
 
   
   def draw(self):

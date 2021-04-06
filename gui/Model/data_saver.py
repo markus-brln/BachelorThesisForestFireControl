@@ -51,6 +51,7 @@ class DataSaver:
 
   def save_training_run(self):
     """Save all data to numpy files / extend existing .npy files"""
+    print("saving the run")
     pass
 
   # should have an option to open npy files and append data points to them while playing

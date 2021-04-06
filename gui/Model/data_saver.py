@@ -60,14 +60,18 @@ class DataSaver:
     print(np.shape(all_data))
 
     filenames = []
-    for file in glob.glob("..\\data\\*.npy"):
+    for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "/../data/*.npy"):
       filenames.append(file)
 
-    print(filenames)
-    print(__file__)
+    if not filenames:
+      next_file_number = 0
+    else:
+      next_file_number = int(filenames[-1][-5]) + 1     # gets the X from 'runX.npy'
 
-    run_nr = 1
-    np.save("data\\run" + str(run_nr), all_data, allow_pickle=True)
+
+    datafolder = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
+    filename = datafolder + "test" + str(next_file_number) + ".npy"
+    np.save(filename, all_data, allow_pickle=True)
 
 
   # should have an option to open npy files and append data points to them while playing

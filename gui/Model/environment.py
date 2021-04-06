@@ -78,8 +78,11 @@ class Model:
     self.start_episode()
 
 
-  def save_episode(self):
-    self.DataSaver.save_episode()
+  def append_episode(self):
+    self.DataSaver.append_episode()
+
+  def save_training_run(self):
+    self.DataSaver.save_training_run()
 
 
 ## Episode Initialization
@@ -158,8 +161,8 @@ class Model:
     #       self.DataSaver.append_datapoint()
 
     # 1
-    if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
-      print("agents require new waypoints")
+    #if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
+    #  print("agents require new waypoints")
 
     self.time += 1                # fire and agents need this info
     # 2

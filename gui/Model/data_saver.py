@@ -20,11 +20,18 @@ class DataSaver:
     #  BURNED_OUT = 3
     #  AGENT = 4
 
-    for y, node_row in enumerate(self.model.nodes):
+    for y, node_row in enumerate(self.model.nodes): # make a picture of the node state
       for x, node in enumerate(node_row):
         datapoint[y][x] = node.state
 
-    print(datapoint)
+    # wind direction?
+    #picture_and_wind = [datapoint, model.wind_dir]
+
+    self.episode_data.append(datapoint)
+
+    print(len(self.episode_data))
+
+
     # TO BE SAVED
     # agent pos + waypoints
     # fire pos
@@ -32,21 +39,19 @@ class DataSaver:
     # maybe wind dir
 
 
-    print("appending data point")
-    data_point = []
-    firepos = self.model.firepos
-
 
   def append_episode(self):
     self.all_data.extend(self.episode_data) # simply add
-
-  def save_episode(self):
-    """Save all data to numpy files / extend existing .npy files"""
-    pass
-
+    print(len(self.all_data))
+    print("append episode")
+    exit()
 
   def discard_episode(self):
-    pass
+    self.episode_data.clear()               # ignore unsuccessful episode
 
+
+  def save_training_run(self):
+    """Save all data to numpy files / extend existing .npy files"""
+    pass
 
   # should have an option to open npy files and append data points to them while playing

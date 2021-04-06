@@ -64,7 +64,6 @@ class DataSaver:
       filenames.append(file)
 
     if not filenames:
-
       next_file_number = 0
     else:
       next_file_number = int(filenames[-1][-5]) + 1     # gets the X from 'runX.npy'

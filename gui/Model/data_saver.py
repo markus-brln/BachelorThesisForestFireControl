@@ -1,4 +1,7 @@
+import glob
+
 import numpy as np
+import os
 
 class DataSaver:
   def __init__(self, model):
@@ -52,6 +55,19 @@ class DataSaver:
   def save_training_run(self):
     """Save all data to numpy files / extend existing .npy files"""
     print("saving the run")
-    pass
+    print(len(self.all_data))
+    all_data = np.asarray(self.all_data, dtype=np.uint8)
+    print(np.shape(all_data))
+
+    filenames = []
+    for file in glob.glob("..\\data\\*.npy"):
+      filenames.append(file)
+
+    print(filenames)
+    print(__file__)
+
+    run_nr = 1
+    np.save("data\\run" + str(run_nr), all_data, allow_pickle=True)
+
 
   # should have an option to open npy files and append data points to them while playing

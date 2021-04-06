@@ -220,14 +220,37 @@ class Model:
 
   def get_random_position(self, id):
     if id == 1: ## top left
-      return random.randint(0, int((self.size - self.radius) / 2)), random.randint(int((self.size / 2) + self.radius), (self.size - 1))
+      x = random.randint(0, int(self.size / 2))
+      y = random.randint(int(self.size / 2), (self.size - 1))
+      while(x > (int(self.size / 2) - self.radius) and y < int(self.size / 2) + self.radius): ##within radius
+        x = random.randint(0, int(self.size / 2))
+        y = random.randint(int(self.size / 2), (self.size - 1))
+      return (x, y)
+
     elif id == 2: ##top right
-      return random.randint(int((self.size / 2) + self.radius), (self.size - 1)), random.randint(int((self.size / 2) + self.radius), (self.size - 1))
+      x = random.randint(int(self.size / 2), (self.size - 1))
+      y = random.randint(int(self.size / 2), (self.size - 1))
+      while(x < (int(self.size / 2) + self.radius) and y < (int(self.size / 2) + self.radius)): ##within centre radius
+        x = random.randint(int(self.size / 2), (self.size - 1))
+        y = random.randint(int(self.size / 2), (self.size - 1))
+      return (x, y)
+
     elif id == 3: ##bottom left
-      return random.randint(0, int((self.size - self.radius) / 2)), random.randint(0, int((self.size - self.radius) / 2))
+      x = random.randint(0, int(self.size / 2))
+      y = random.randint(0, int(self.size / 2))
+      while (x > (int(self.size / 2) - self.radius) and y > (int(self.size / 2)  - self.radius)):  ##within centre radius
+        x = random.randint(0, int(self.size / 2))
+        y = random.randint(0, int(self.size / 2))
+      return (x, y)
+
     elif id == 4: ##bottom right
-      return random.randint(int((self.size / 2) + self.radius), (self.size - 1)), random.randint(0,int((self.size - self.radius) / 2))
-    print("agentID out of bounds!")
+      x = random.randint(int(self.size / 2), self.size - 1)
+      y = random.randint(0, int(self.size / 2))
+      while (x < int(self.size / 2) + self.radius and y > int(self.size / 2) - self.radius):  ##within centre radius
+        x = random.randint(int(self.size / 2), self.size - 1)
+        y = random.randint(0, int(self.size / 2))
+      return (x, y)
+    print("error placing agent!")
     return
 
   def is_firebreak(self, position):

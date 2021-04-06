@@ -19,7 +19,7 @@ def main():
   # Environment parameters
   size = 251
   nr_of_agents = 10
-  agentRadius = 40
+  agentRadius = 50
   block_size_in_pixels = int(880 / size)
 
 

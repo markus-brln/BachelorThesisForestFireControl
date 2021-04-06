@@ -64,10 +64,12 @@ class DataSaver:
       filenames.append(file)
 
     print(filenames)
-    print(__file__)
+    datafolder = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
+    filename = datafolder + "test.npy"
+
 
     run_nr = 1
-    np.save("data\\run" + str(run_nr), all_data, allow_pickle=True)
+    np.save(filename, all_data, allow_pickle=True)
 
 
   # should have an option to open npy files and append data points to them while playing

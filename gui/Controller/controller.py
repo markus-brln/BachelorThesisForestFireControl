@@ -88,17 +88,15 @@ class Controller:
 
 
   def key_press(self, event):
-    start = time.time()
     if event.key == pygame.K_SPACE:
-      if self.model.time % 10 == 0 and self.last_timestep_waypoint_collection != self.model.time:
-        self.start_collecting_waypoints()
-        self.last_timestep_waypoint_collection = self.model.time
-
-      if self.model.time % 10 == 0 and self.last_timestep_waypoint_collection == self.model.time and self.model.time != 0:
-        self.model.append_datapoint()   # only start after first 10 timesteps
-    else:
-      for _ in range(10):
-        self.model.time_step()          ## Space to go to next timestep
+      if self.model.time % 10 == 0:
+        if self.last_timestep_waypoint_collection != self.model.time:
+          self.start_collecting_waypoints()
+          self.last_timestep_waypoint_collection = self.model.time
+        else:
+          self.model.append_datapoint()   # only start after first 10 timesteps
+          for _ in range(10):
+            self.model.time_step()          ## Space to go to next timestep
 
     if event.key == pygame.K_RETURN:
       self.model.append_episode()

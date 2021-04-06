@@ -17,9 +17,9 @@ pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 def main():
   # Environment parameters
-  size = 99
-  nr_of_agents = 7
-  agentRadius = 25
+  size = 251
+  nr_of_agents = 10
+  agentRadius = 40
   block_size_in_pixels = int(880 / size)
 
 

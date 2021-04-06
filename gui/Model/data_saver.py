@@ -26,8 +26,12 @@ class DataSaver:
   def append_episode(self):
     self.all_data.extend(self.episode_data) # simply add
 
-  def save_data(self):
+  def save_episode(self):
     """Save all data to numpy files / extend existing .npy files"""
+    pass
+
+
+  def discard_episode(self):
     pass
 
 

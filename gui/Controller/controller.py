@@ -13,8 +13,13 @@ class Controller:
 
     self.collecting_waypoints = False
     self.agent_no = 0
+    self.last_timestep_waypoint_collection = -1
 
   def update(self, event):
+    if event.type == pygame.QUIT:
+      # Exit the program
+      self.shut_down(event)
+      
     if self.collecting_waypoints:
       self.collect_waypoints(event)
       return
@@ -24,9 +29,6 @@ class Controller:
       self.model.reset_necessary = False
 
     #for event in pygame_events:
-    if event.type == pygame.QUIT:
-      # Exit the program
-      self.shut_down(event)
     elif event.type == pygame.MOUSEBUTTONDOWN:
       # Mouse stationary and mouse button pressed
       self.mouse_button_pressed = event.button
@@ -85,12 +87,15 @@ class Controller:
     self.model.highlight_agent(self.agent_no)
 
 
-
   def key_press(self, event):
     start = time.time()
     if event.key == pygame.K_SPACE:
-      self.model.time_step()          ## Space to go to next timestep
-      return
+      if self.model.time % 10 == 0 and self.last_timestep_waypoint_collection != self.model.time:
+        self.model.save_data()
+        self.start_collecting_waypoints()
+        self.last_timestep_waypoint_collection = self.model.time
+      else:
+        self.model.time_step()          ## Space to go to next timestep
 
     if event.key == pygame.K_RETURN:
       self.model.start_episode()       ## Return / ENTER to go to next episode

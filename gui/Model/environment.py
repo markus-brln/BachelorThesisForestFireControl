@@ -68,6 +68,19 @@ class Model:
                             west = self.find_node(neighbour["W"]))
 
 
+  def append_datapoint(self):
+    self.DataSaver.append_datapoint()
+
+
+  def discard_episode(self):
+    self.DataSaver.discard_episode()
+    self.start_episode()
+
+
+  def save_episode(self):
+    self.DataSaver.save_episode()
+
+
 ## Episode Initialization
   def start_episode(self):
     self.reset_agents()

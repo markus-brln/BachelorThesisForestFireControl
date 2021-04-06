@@ -102,9 +102,13 @@ class Controller:
       self.model.append_episode()
       self.model.start_episode()       ## Return / ENTER to go to next episode
 
-    if event.key == pygame.K_c:
-      self.model.waypoints.clear()
+    if event.key == pygame.K_BACKSPACE:
+      self.model.discard_episode()
+      self.model.start_episode()  ## Return / ENTER to go to next episode
 
-    if event.key == pygame.K_w:
-      self.start_collecting_waypoints()
+    #if event.key == pygame.K_c:
+    #  self.model.waypoints.clear()
+
+    #if event.key == pygame.K_w:
+    #  self.start_collecting_waypoints()
 

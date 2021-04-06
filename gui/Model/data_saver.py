@@ -29,8 +29,6 @@ class DataSaver:
 
     self.episode_data.append(datapoint)
 
-    print(len(self.episode_data))
-
 
     # TO BE SAVED
     # agent pos + waypoints
@@ -42,11 +40,12 @@ class DataSaver:
 
   def append_episode(self):
     self.all_data.extend(self.episode_data) # simply add
+    self.episode_data.clear()
     print(len(self.all_data))
-    print("append episode")
-    exit()
+    print("appending episode")
 
   def discard_episode(self):
+    print("discarding episode")
     self.episode_data.clear()               # ignore unsuccessful episode
 
 

@@ -32,6 +32,7 @@ class Model:
 
     ## initial properties of this model
     self.agents = []
+    self.nodes = []
     self.state = State.ONGOING
     self.init_nodes()
     self.reset_necessary = False
@@ -47,7 +48,6 @@ class Model:
 
 
   def init_nodes(self):
-    self.nodes = []
     for x in range(self.size):
       node_row = []
       for y in range(self.size):

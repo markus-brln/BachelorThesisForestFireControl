@@ -91,7 +91,8 @@ class Controller:
     start = time.time()
     if event.key == pygame.K_SPACE:
       if self.model.time % 10 == 0 and self.last_timestep_waypoint_collection != self.model.time:
-        self.model.save_data()
+        if self.model.time > 0:
+          self.model.append_datapoint()   # only start after first 10 timesteps
         self.start_collecting_waypoints()
         self.last_timestep_waypoint_collection = self.model.time
       else:

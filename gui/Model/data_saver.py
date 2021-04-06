@@ -11,12 +11,27 @@ class DataSaver:
     """Should get called when new agent waypoints were set and model is about to
        fast-forward 5-10 timesteps to see how it played out."""
 
+    datapoint = np.zeros((self.model.size, self.model.size), dtype=np.uint8)
 
+    #  set NodeState to be pixel value:
+    #  NORMAL = 0
+    #  FIREBREAK = 1
+    #  ON_FIRE = 2
+    #  BURNED_OUT = 3
+    #  AGENT = 4
+
+    for y, node_row in enumerate(self.model.nodes):
+      for x, node in enumerate(node_row):
+        datapoint[y][x] = int(node.state)
+
+    print(datapoint)
+    exit()
     # TO BE SAVED
     # agent pos + waypoints
     # fire pos
     # maybe tree pos
     # maybe wind dir
+
 
     print("appending data point")
     data_point = []

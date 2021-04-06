@@ -75,7 +75,6 @@ class Model:
 
   def discard_episode(self):
     self.DataSaver.discard_episode()
-    self.start_episode()
 
 
   def append_episode(self):
@@ -294,6 +293,6 @@ class Model:
 ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program
   def shut_down(self):
-    self.DataSaver.save_data()  # M data points of all successful episodes until here saved
+    self.DataSaver.save_training_run()  # M data points of all successful episodes until here saved
     self.start_episode()
 

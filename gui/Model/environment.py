@@ -99,11 +99,33 @@ class Model:
   # Start agents at random positions
   def reset_agents(self):
     self.agents.clear()
-    for _ in range(self.nr_of_agents):
-      agent_pos = self.get_random_position()
-      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-        agent_pos = self.get_random_position()
-      self.agents += [Agent(agent_pos, self)]
+    agentID = 0
+    for agentID in range(self.nr_of_agents):
+      if agentID % 4 == 0:
+        # for _ in range(self.nr_of_agents):
+        agent_pos = self.get_random_position(4)
+        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+          agent_pos = self.get_random_position(4)
+        self.agents += [Agent(agent_pos, self)]
+        agentID += 1
+      elif agentID % 3 == 0:
+        agent_pos = self.get_random_position(3)
+        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+          agent_pos = self.get_random_position(3)
+        self.agents += [Agent(agent_pos, self)]
+        agentID += 1
+      elif agentID % 2 == 0:
+        agent_pos = self.get_random_position(2)
+        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+          agent_pos = self.get_random_position(2)
+        self.agents += [Agent(agent_pos, self)]
+        agentID += 1
+      else:
+        agent_pos = self.get_random_position(1)
+        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+          agent_pos = self.get_random_position(1)
+        self.agents += [Agent(agent_pos, self)]
+        agentID += 1
 
 
 ## Time propagation
@@ -122,10 +144,8 @@ class Model:
     #       self.DataSaver.append_datapoint()
 
     # 1
-    # if self.time % 2 == 0:        # every 5 time steps new waypoints should be set
-    #   #print("agents require new waypoints")
-    #   for agent in self.agents:
-    #     agent.assign_new_waypoint() # waypoint to
+    if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
+      print("agents require new waypoints")
 
     self.time += 1                # fire and agents need this info
     # 2
@@ -182,9 +202,17 @@ class Model:
     return [agent.position for agent in self.agents]
 
 
-  def get_random_position(self):
-    return random.randint(0, self.size - 1), random.randint(0, self.size - 1)
-
+  def get_random_position(self, id):
+    if id == 1:
+      return random.randint(0, int((self.size - 50) / 2)), random.randint(int((self.size / 2) + 50), (self.size - 1))
+    elif id == 2:
+      return random.randint(int((self.size / 2) + 50), (self.size - 1)), random.randint(int((self.size / 2) + 50), (self.size - 1))
+    elif id == 3:
+      return random.randint(0, int((self.size - 50) / 2)), random.randint(0, int((self.size - 50) / 2))
+    elif id == 4:
+      return random.randint(int((self.size / 2) + 50), (self.size - 1)), random.randint(0,int((self.size - 50) / 2))
+    print("agentID out of bounds!")
+    return
 
   def is_firebreak(self, position):
     return position in self.firebreaks

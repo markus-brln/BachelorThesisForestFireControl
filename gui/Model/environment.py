@@ -23,7 +23,7 @@ class Model:
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
-  def __init__(self, length: int, nr_of_agents: int, firesize: int = 1, wind_dir = None):
+  def __init__(self, length: int, nr_of_agents: int, radius: int, wind_dir = None):
     self.subscribers = []
     ## properties of env
     self.size = length
@@ -38,7 +38,7 @@ class Model:
     self.reset_necessary = False
 
     ## Fire initialization
-    self.firesize = firesize
+    self.radius = radius
     self.firepos = set()
     self.start_episode()           # Initialize episode
 
@@ -97,7 +97,7 @@ class Model:
 
     # Start fire in the middle of the map
     self.firepos.clear()
-    self.set_initial_fire(self.firesize)
+    self.set_initial_fire(1)
     self.firebreaks = set()
 
     for subscriber in self.subscribers:
@@ -219,14 +219,14 @@ class Model:
 
 
   def get_random_position(self, id):
-    if id == 1:
-      return random.randint(0, int((self.size - 50) / 2)), random.randint(int((self.size / 2) + 50), (self.size - 1))
-    elif id == 2:
-      return random.randint(int((self.size / 2) + 50), (self.size - 1)), random.randint(int((self.size / 2) + 50), (self.size - 1))
-    elif id == 3:
-      return random.randint(0, int((self.size - 50) / 2)), random.randint(0, int((self.size - 50) / 2))
-    elif id == 4:
-      return random.randint(int((self.size / 2) + 50), (self.size - 1)), random.randint(0,int((self.size - 50) / 2))
+    if id == 1: ## top left
+      return random.randint(0, int((self.size - self.radius) / 2)), random.randint(int((self.size / 2) + self.radius), (self.size - 1))
+    elif id == 2: ##top right
+      return random.randint(int((self.size / 2) + self.radius), (self.size - 1)), random.randint(int((self.size / 2) + self.radius), (self.size - 1))
+    elif id == 3: ##bottom left
+      return random.randint(0, int((self.size - self.radius) / 2)), random.randint(0, int((self.size - self.radius) / 2))
+    elif id == 4: ##bottom right
+      return random.randint(int((self.size / 2) + self.radius), (self.size - 1)), random.randint(0,int((self.size - self.radius) / 2))
     print("agentID out of bounds!")
     return
 

@@ -22,7 +22,7 @@ class DataSaver:
 
     for y, node_row in enumerate(self.model.nodes):
       for x, node in enumerate(node_row):
-        datapoint[y][x] = int(node.state)
+        datapoint[y][x] = node.state
 
     print(datapoint)
     exit()

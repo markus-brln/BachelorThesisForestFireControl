@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, IntEnum
 from Model.direction import Direction
 
 import random
@@ -12,7 +12,7 @@ class NodeType (Enum):
   WATER = 1
 
 
-class NodeState (Enum):
+class NodeState (IntEnum):
   NORMAL = 0
   FIREBREAK = 1
   ON_FIRE = 2

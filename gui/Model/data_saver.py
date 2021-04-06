@@ -60,15 +60,17 @@ class DataSaver:
     print(np.shape(all_data))
 
     filenames = []
-    for file in glob.glob("..\\data\\*.npy"):
+    for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "/../data/*.npy"):
       filenames.append(file)
 
-    print(filenames)
+    if not filenames:
+      next_file_number = 0
+    else:
+      next_file_number = int(filenames[-1][-5]) + 1     # gets the X from 'runX.npy'
+
+
     datafolder = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
-    filename = datafolder + "test.npy"
-
-
-    run_nr = 1
+    filename = datafolder + "test" + str(next_file_number) + ".npy"
     np.save(filename, all_data, allow_pickle=True)
 
 

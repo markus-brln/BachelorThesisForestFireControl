@@ -88,6 +88,9 @@ class Controller:
 
 
   def key_press(self, event):
+    if event.key == pygame.K_ESCAPE:
+      self.model.DataSaver.save_training_run()
+
     if event.key == pygame.K_SPACE:
       if self.model.time % 10 == 0:
         if self.last_timestep_waypoint_collection != self.model.time:

@@ -25,7 +25,6 @@ class DataSaver:
         datapoint[y][x] = node.state
 
     print(datapoint)
-    exit()
     # TO BE SAVED
     # agent pos + waypoints
     # fire pos

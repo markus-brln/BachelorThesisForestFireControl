@@ -69,6 +69,7 @@ class Model:
 
 
   def append_datapoint(self):
+    print("Saving waypoints")
     self.DataSaver.append_datapoint()
 
 

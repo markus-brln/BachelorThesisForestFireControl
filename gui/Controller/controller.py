@@ -58,10 +58,10 @@ class Controller:
     # Determine the block the mouse is covering
     position = self.view.pixel_belongs_to_block(event.pos)
     # Select or deselect that block 
-    if self.mouse_button_pressed == 1: ## Left click
-      self.model.select_square(position)
-    else:                              ## Right click
-      self.model.deselect_square(position)
+    # if self.mouse_button_pressed == 1: ## Left click
+    self.model.select_square(position)
+    # else:                              ## Right click
+      # self.model.deselect_square(position)
     
   def start_collecting_waypoints(self):
     print("Assigning waypoints")
@@ -91,11 +91,13 @@ class Controller:
     start = time.time()
     if event.key == pygame.K_SPACE:
       if self.model.time % 10 == 0 and self.last_timestep_waypoint_collection != self.model.time:
-        if self.model.time > 0:
-          self.model.append_datapoint()   # only start after first 10 timesteps
         self.start_collecting_waypoints()
         self.last_timestep_waypoint_collection = self.model.time
       else:
+        if self.model.time % 10 == 0 and self.last_timestep_waypoint_collection == self.model.time and self.model.time != 0:
+          self.model.append_datapoint()   # only start after first 10 timesteps
+
+      for _ in range(10):
         self.model.time_step()          ## Space to go to next timestep
 
     if event.key == pygame.K_RETURN:

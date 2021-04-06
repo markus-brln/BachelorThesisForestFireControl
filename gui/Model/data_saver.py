@@ -63,6 +63,7 @@ class DataSaver:
     for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "/../data/*.npy"):
       filenames.append(file)
 
+    filenames.sort()
     if not filenames:
       next_file_number = 0
     else:

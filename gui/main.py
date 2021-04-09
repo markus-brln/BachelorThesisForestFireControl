@@ -21,7 +21,7 @@ def main():
   nr_of_agents = 10
   agentRadius = 50
   block_size_in_pixels = int(880 / size)
-  windspeed = 2.5
+  windspeed = 0
 
 
   # Initialization

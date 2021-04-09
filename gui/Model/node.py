@@ -1,6 +1,6 @@
 from enum import Enum, IntEnum
 from Model.direction import Direction
-
+import numpy as np
 import random
 
 random.seed(0)
@@ -52,7 +52,7 @@ class Node:
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
-      self.default_props = {"fuel": 15 - self.windspeed, "temp": 0, "ign_thres": self.windspeed}
+      self.default_props = {"fuel": 15, "temp": 0, "ign_thres":3.5}
     if self.type == NodeType.WATER:
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   
@@ -84,10 +84,12 @@ class Node:
       if neighbour is not None:
         heat_spread = 1 #TODO Stochastic?
         if Direction.is_opposite(direction, self.wind_dir):
-          heat_spread /= 1.5
+          heat_spread /= (1 + (self.windspeed / 5))
         elif direction == self.wind_dir:
-          heat_spread *= 2
-
+          if(self.windspeed > 0):
+            heat_spread *= 1 + np.log(self.windspeed)
+          else:
+            heat_spread = 1
         neighbour.heat_up(heat_spread)
 
 

@@ -21,18 +21,21 @@ class NodeState (IntEnum):
 
 
 class Node:
-  def __init__(self, environment, position, node_type, wind_dir):
+  def __init__(self, environment, position, node_type, wind_dir, windspeed):
     ## For callbacks
     self.environment = environment
     (Direction.NORTH, 5)
 
     ## Initialization
     self.type = node_type
+    self.position = position
+    self.wind_dir = wind_dir
+    self.windspeed = windspeed
     self.set_default_properties()         ## Set fuel, temp and ignition threshold to default based on type
     self.state = NodeState.NORMAL
     self.next_state = NodeState.NORMAL
-    self.position = position
-    self.wind_dir = wind_dir
+
+
 
     ## Prepare for first episode
     self.reset()
@@ -49,7 +52,7 @@ class Node:
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
-      self.default_props = {"fuel": 15, "temp": 0, "ign_thres": 2.5}
+      self.default_props = {"fuel": 15 - self.windspeed, "temp": 0, "ign_thres": self.windspeed}
     if self.type == NodeType.WATER:
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   

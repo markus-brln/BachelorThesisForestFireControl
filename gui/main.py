@@ -21,10 +21,11 @@ def main():
   nr_of_agents = 10
   agentRadius = 50
   block_size_in_pixels = int(880 / size)
+  windspeed = 2.5
 
 
   # Initialization
-  environment = Model(size, nr_of_agents, agentRadius, wind_dir=Direction.EAST)   ## Initialize Environment
+  environment = Model(size, nr_of_agents, agentRadius, windspeed, wind_dir=Direction.EAST)   ## Initialize Environment
   view = View(environment, block_size_in_pixels)  ## Start View
   controller = Controller(environment, view)      ## Initialize Controller with model and view
 

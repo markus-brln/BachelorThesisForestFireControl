@@ -107,27 +107,26 @@ class Model:
   # Start agents at random positions
   def reset_agents(self):
     self.agents.clear()
-    for agentID in range(self.nr_of_agents):
-      if agentID % 4 == 0:
-        agent_pos = self.get_random_position(4)
-        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-          agent_pos = self.get_random_position(4)
-        self.agents += [Agent(agent_pos, self)]
-      elif agentID % 3 == 0:
-        agent_pos = self.get_random_position(3)
-        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-          agent_pos = self.get_random_position(3)
-        self.agents += [Agent(agent_pos, self)]
-      elif agentID % 2 == 0:
-        agent_pos = self.get_random_position(2)
-        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-          agent_pos = self.get_random_position(2)
-        self.agents += [Agent(agent_pos, self)]
-      else:
+    for agent in range(0, self.nr_of_agents, 4):
+      agent_pos = self.get_random_position(1)
+      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
         agent_pos = self.get_random_position(1)
-        while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-          agent_pos = self.get_random_position(1)
-        self.agents += [Agent(agent_pos, self)]
+      self.agents += [Agent(agent_pos, self)]
+    for agent in range(1, self.nr_of_agents, 4):
+      agent_pos = self.get_random_position(2)
+      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+        agent_pos = self.get_random_position(2)
+      self.agents += [Agent(agent_pos, self)]
+    for agent in range(2, self.nr_of_agents, 4):
+      agent_pos = self.get_random_position(3)
+      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+        agent_pos = self.get_random_position(3)
+      self.agents += [Agent(agent_pos, self)]
+    for agent in range(3, self.nr_of_agents, 4):
+      agent_pos = self.get_random_position(4)
+      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+        agent_pos = self.get_random_position(4)
+      self.agents += [Agent(agent_pos, self)]
 
   ## Time propagation
   # TODO: possibly reset selection?

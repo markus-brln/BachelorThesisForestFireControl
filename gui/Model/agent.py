@@ -24,7 +24,7 @@ class Agent:
 
   def timestep(self):
     # M walk towards waypoint (dumb / A-Star) + dig on every step
-    self.move() 
+    self.move()
     if self.save_move:
       self.agent_hist.append(self.position)
 
@@ -38,17 +38,15 @@ class Agent:
 
   def set_on_fire(self):
     self.dead = True
-    
+
 
   def move(self):
     if self.waypoint is None:
       return
-
     self.prev_node = self.node
     self.position = Direction.find(self.position, self.waypoint)(self.position)
     self.node = self.model.find_node(self.position)
     self.node.dig_firebreak()
-
     self.model.agent_moves(self)
 
 

@@ -128,6 +128,7 @@ class Model:
         agent_pos = self.get_random_position(4)
       self.agents += [Agent(agent_pos, self)]
 
+
   ## Time propagation
   # TODO: possibly reset selection?
   def time_step(self):
@@ -149,7 +150,15 @@ class Model:
 
     self.time += 1  # fire and agents need this info
     # 2
+    if not self.agents:
+      print("all agents dead")
+      self.shut_down()
     for agent in self.agents:
+      if self.find_node(agent.position).state == NodeState.ON_FIRE:
+        agent.dead = True
+        print("agent dies")
+        self.agents.remove(agent)
+
       agent.timestep()  # walks 1 step towards current waypoint & digs on the way
 
     for node_row in self.nodes:

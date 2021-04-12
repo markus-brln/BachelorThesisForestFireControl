@@ -23,6 +23,9 @@ class Model:
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
   def __init__(self, length: int, nr_of_agents: int, radius: int, windspeed, wind_dir=None):
+    self.firebreaks = set()
+    self.waypoints = set()
+    self.time = 0
     self.subscribers = []
     ## properties of env
     self.size = length
@@ -71,6 +74,7 @@ class Model:
     self.DataSaver.append_datapoint()
 
   def discard_episode(self):
+
     self.DataSaver.discard_episode()
 
   def append_episode(self):
@@ -82,8 +86,8 @@ class Model:
   ## Episode Initialization
   def start_episode(self):
     self.reset_agents()
-    self.waypoints = set()  # Reset selection # M TODO are those the same as in Agent - are they updated?
-    self.time = 0  # Reset time
+    self.waypoints = set()
+    self.time = 0
     self.state = State.ONGOING
 
     for node_row in self.nodes:
@@ -147,12 +151,14 @@ class Model:
     # 1
     # if self.time % 5 == 0:        # every 5 time steps new waypoints should be set
     #  print("agents require new waypoints")
-
     self.time += 1  # fire and agents need this info
     # 2
     if not self.agents:
       print("all agents dead")
-      self.shut_down()
+      self.discard_episode()
+      self.start_episode()
+      return
+
     for agent in self.agents:
       if self.find_node(agent.position).state == NodeState.ON_FIRE:
         agent.dead = True
@@ -169,10 +175,7 @@ class Model:
       for node in node_row:
         node.update_state()
 
-    # 3
 
-    # print("expanding fire took: ", timelib.time() - start)
-    # print(len(self.firepos))
 
     # 4
     # self.waypoints.clear() # Reset selection

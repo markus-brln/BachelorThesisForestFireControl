@@ -3,7 +3,7 @@ import pygame
 from View.updatetype import UpdateType
 
 ## Needs access to model
-from Model.environment import Model
+from Model.model import Model
 from Model.node import NodeState
 from enum import Enum
 

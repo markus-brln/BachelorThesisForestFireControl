@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Direction(Enum):
   NONE = None
   NORTH = "N"
@@ -15,7 +16,7 @@ class Direction(Enum):
 
   @staticmethod
   def dist2D(pos1, pos2):
-    return pow(pow(pos1[0]-pos2[0], 2) + pow(pos1[1]-pos2[1], 2), 0.5)
+    return pow(pow(pos1[0]-pos2[0], 2) + pow(pos1[1]-pos2[1], 2), 0.5) # pow(,0.5) == sqrt()
 
   @staticmethod
   def find(agent):
@@ -23,7 +24,7 @@ class Direction(Enum):
        Basically evaluates a linear equation for a suitable x or y
        (depending on incline) and then finds the best step direction
        to approximate that line."""
-    if agent.position == agent.waypoint:
+    if agent.position == agent.waypoint:    # agent will stay at its position when waypoint too close
       return Direction.GO_NONE
 
     delta_x = agent.waypoint[0] - agent.start_pos[0] # get a linear function of agent's start -> waypoint

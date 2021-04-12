@@ -1,7 +1,8 @@
 import pygame
 import time
-from Model.environment import Model
-from View.view import View, UpdateType
+from gui.Model.model import Model
+from gui.View.view import View
+from gui.Model.utils import *
 
 class Controller:
   def __init__(self, model: Model, view: View):
@@ -10,7 +11,6 @@ class Controller:
 
     # Initialization
     self.mouse_button_pressed = False   ## Mouse button assumed not to be pressed initially
-
     self.collecting_waypoints = False
     self.agent_no = 0
     self.last_timestep_waypoint_collection = -1
@@ -92,22 +92,27 @@ class Controller:
       self.model.DataSaver.save_training_run()
 
     if event.key == pygame.K_SPACE:
-      if self.model.time % 10 == 0:
+      if self.model.time % timeframe == 0:
         if self.last_timestep_waypoint_collection != self.model.time:
           self.start_collecting_waypoints()
           self.last_timestep_waypoint_collection = self.model.time
         else:
-          self.model.append_datapoint()   # only start after first 10 timesteps
-          for _ in range(10):
+          self.model.append_datapoint()   # only start after first 'timeframe' timesteps
+          #start = time.time()
+          for _ in range(timeframe):
             self.model.time_step()          ## Space to go to next timestep
+
+          #print("time: ", time.time()-start)
 
     if event.key == pygame.K_RETURN:
       self.model.append_episode()
       self.model.start_episode()       ## Return / ENTER to go to next episode
+      self.last_timestep_waypoint_collection = -1 # first get new waypoints when restarting episode
 
     if event.key == pygame.K_BACKSPACE:
       self.model.discard_episode()
       self.model.start_episode()  ## Return / ENTER to go to next episode
+      self.last_timestep_waypoint_collection = -1
 
     #if event.key == pygame.K_c:
     #  self.model.waypoints.clear()

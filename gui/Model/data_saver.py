@@ -13,7 +13,7 @@ class DataSaver:
 
   def append_datapoint(self):
     """Should get called when new agent waypoints were set and model is about to
-       fast-forward 5-10 timesteps to see how it played out."""
+       fast-forward 5-10 timesteps (see utils.py, 'timeframe') to see how it played out."""
 
     datapoint = np.zeros((self.model.size, self.model.size), dtype=np.uint8)
 
@@ -55,7 +55,12 @@ class DataSaver:
 
   def save_training_run(self):
     """Save all data to numpy files / extend existing .npy files"""
+    # TODO maybe make another file with the same number, saving all globals
     print("saving the run")
+    if not len(self.all_data) > 0:
+      print("no data gathered, not saving the run")
+      return
+
     print(len(self.all_data))
     all_data = np.asarray(self.all_data, dtype=np.uint8)
     print(np.shape(all_data))
@@ -88,6 +93,7 @@ class DataSaver:
       datafolder = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
       filename = datafolder + "test" + str(next_file_number) + ".npy"
     np.save(filename, all_data, allow_pickle=True)
+
 
 
   # should have an option to open npy files and append data points to them while playing

@@ -30,6 +30,20 @@ class Agent:
       self.agent_hist.append(self.position)
 
   def assign_new_waypoint(self, position):
+    """Takes a position selected by a mouse click and projects it onto
+       a square (rotated diamond-like) around the agent, where it can
+       actually reach it within X timesteps. This is done to have uniform
+       waypoint distances from the agents."""
+    delta_x = position[0] - self.position[0]
+    delta_y = position[1] - self.position[1]
+
+    total_steps = abs(delta_x) + abs(delta_y)     # total steps cannot be bigger than timeframe for agents to move (10)
+    timeframe = 10
+    move_x = (delta_x / total_steps ) * (timeframe - 1) # make use of the fact that we deal with 'similar triangles'
+    move_y = (delta_y / total_steps) * (timeframe - 1)
+
+    self.waypoint = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
+
     self.start_pos = self.position
     self.waypoint = position
 

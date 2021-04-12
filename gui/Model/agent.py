@@ -1,10 +1,13 @@
 from collections import deque
 from math import sqrt
 
-from Model.direction import Direction
+from gui.Model.direction import Direction
+from gui.Model.utils import *
 import random
 
-random.seed(0)
+#from gui.Model.utils import timeframe
+
+random.seed(randseed)
 
 class Agent:
   # TODO: Original code gave W as parameter. Find out purpose
@@ -37,8 +40,7 @@ class Agent:
     delta_x = position[0] - self.position[0]
     delta_y = position[1] - self.position[1]
 
-    total_steps = abs(delta_x) + abs(delta_y)     # total steps cannot be bigger than timeframe for agents to move (10)
-    timeframe = 10
+    total_steps = abs(delta_x) + abs(delta_y)     # total steps cannot be bigger than timeframe for agents to move
     move_x = (delta_x / total_steps ) * (timeframe - 1) # make use of the fact that we deal with 'similar triangles'
     move_y = (delta_y / total_steps) * (timeframe - 1)
 

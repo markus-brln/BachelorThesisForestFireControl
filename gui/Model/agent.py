@@ -10,6 +10,7 @@ class Agent:
   # TODO: Original code gave W as parameter. Find out purpose
   def __init__(self, position, model, active = False):
     self.position = position
+    self.start_pos = position                 # to move in a straight line
     self.node = model.find_node(position)
     self.prev_node = model.find_node(position)
     self.dead = False
@@ -29,6 +30,7 @@ class Agent:
       self.agent_hist.append(self.position)
 
   def assign_new_waypoint(self, position):
+    self.start_pos = self.position
     self.waypoint = position
 
 
@@ -44,7 +46,7 @@ class Agent:
     if self.waypoint is None:
       return
     self.prev_node = self.node
-    self.position = Direction.find(self.position, self.waypoint)(self.position)
+    self.position = Direction.find(self)(self.position)
     self.node = self.model.find_node(self.position)
     self.node.dig_firebreak()
     self.model.agent_moves(self)

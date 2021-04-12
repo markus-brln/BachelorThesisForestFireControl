@@ -1,5 +1,6 @@
 import glob
-
+import platform
+from pathlib import Path, PureWindowsPath
 import numpy as np
 import os
 
@@ -58,20 +59,35 @@ class DataSaver:
     print(len(self.all_data))
     all_data = np.asarray(self.all_data, dtype=np.uint8)
     print(np.shape(all_data))
+    if platform.system() == 'Windows':
+      print("using win")
+      filenames = []
+      for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "\\..\\data\\*.npy"):
+        filenames.append(file)
 
-    filenames = []
-    for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "/../data/*.npy"):
-      filenames.append(file)
+      filenames.sort()
+      if not filenames:
+        next_file_number = 0
+      else:
+        next_file_number = int(filenames[-1][-5]) + 1  # gets the X from 'runX.npy'
 
-    filenames.sort()
-    if not filenames:
-      next_file_number = 0
+      datafolder = os.path.dirname(os.path.realpath(__file__)) + "\\data\\"
+      filename = datafolder + "test" + str(next_file_number) + ".npy"
+      print(filename)
     else:
-      next_file_number = int(filenames[-1][-5]) + 1     # gets the X from 'runX.npy'
+      filenames = []
+      for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "/../data/*.npy"):
+        filenames.append(file)
+
+      filenames.sort()
+      if not filenames:
+        next_file_number = 0
+      else:
+        next_file_number = int(filenames[-1][-5]) + 1     # gets the X from 'runX.npy'
 
 
-    datafolder = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
-    filename = datafolder + "test" + str(next_file_number) + ".npy"
+      datafolder = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
+      filename = datafolder + "test" + str(next_file_number) + ".npy"
     np.save(filename, all_data, allow_pickle=True)
 
 

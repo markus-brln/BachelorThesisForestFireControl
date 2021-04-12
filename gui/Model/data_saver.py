@@ -62,7 +62,7 @@ class DataSaver:
     if platform.system() == 'Windows':
       print("using win")
       filenames = []
-      for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "\\..\\data\\*.npy"):
+      for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "\\data\\*.npy"):
         filenames.append(file)
 
       filenames.sort()
@@ -73,7 +73,6 @@ class DataSaver:
 
       datafolder = os.path.dirname(os.path.realpath(__file__)) + "\\data\\"
       filename = datafolder + "test" + str(next_file_number) + ".npy"
-      print(filename)
     else:
       filenames = []
       for file in glob.glob(os.path.dirname(os.path.realpath(__file__)) + "/../data/*.npy"):

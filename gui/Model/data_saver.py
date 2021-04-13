@@ -30,18 +30,13 @@ class DataSaver:
     for y, node_row in enumerate(self.model.nodes): # make a picture of the node state
       for x, node in enumerate(node_row):
         picture[y][x] = node.state
-        #if node.state == NodeState.AGENT:
-        #  agents[y][x] = 1
-        #if node.state == NodeState.ON_FIRE:
-        #  fire[y][x] = 1
-        #if node.state == NodeState.FIREBREAK:
-        #  firebreaks[y][x] = 1
-        #if (y, x) in self.model.waypoints:
-        #  waypoints[y][x] = 1
 
-    # TODO create winddir and windspeed vectors (put exactly one 1 in them)
+    # set the right category in the wind_dir vector
+    wind_dir_vec[self.get_wind_dir_idx()] = 1
 
-    picture_and_wind = [picture, wind_dir_vec, windspeed_vec]
+    # TODO create windspeed vector (put exactly one 1 in it)
+
+    picture_and_wind = [picture, wind_dir_vec, windspeed_vec] # this is one raw datapoint
     self.episode_data.append(picture_and_wind)
 
 
@@ -101,3 +96,24 @@ class DataSaver:
   # should have an option to open npy files and append data points to them while playing
   # M: not really necessary with a script that combines all files to a proper I/O file, otherwise we might risk
   #    screwing up a very big file
+
+  @staticmethod
+  def get_wind_dir_idx():
+    """Order of wind directions:
+       N, S, E, W, NE, NW, SE, SW"""
+    if wind_dir == (Direction.NORTH, Direction.NORTH):
+      return 0
+    if wind_dir == (Direction.SOUTH, Direction.SOUTH):
+      return 1
+    if wind_dir == (Direction.EAST, Direction.EAST):
+      return 2
+    if wind_dir == (Direction.WEST, Direction.WEST):
+      return 3
+    if wind_dir == (Direction.NORTH, Direction.EAST):
+      return 4
+    if wind_dir == (Direction.NORTH, Direction.WEST):
+      return 5
+    if wind_dir == (Direction.SOUTH, Direction.EAST):
+      return 6
+    if wind_dir == (Direction.SOUTH, Direction.WEST):
+      return 7

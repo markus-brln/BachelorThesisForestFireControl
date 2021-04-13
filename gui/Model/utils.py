@@ -1,12 +1,16 @@
-from Model.direction import Direction
+from gui.Model.direction import Direction
 import time
 
-# GLOBALS
+# GLOBALS (documented when saving)
 size = 251                              # environment size
-nr_of_agents = 10
-agentRadius = 50                        # agents spawn in this radius around the fire (it's a box, not a circle, for now, see model.get_random_position())
-block_size_in_pixels = int(880 / size)
+nr_of_agents = 5
 windspeed = 1
-wind_dir = (Direction.EAST, Direction.NORTH)
+wind_dir = (Direction.NORTH, Direction.WEST)
+timeframe = 20                          # timeframe in between setting new waypoints
+agentRadius = 50                        # agents spawn in this radius around the fire (it's a box, not a circle, for now, see model.get_random_position())
 randseed = time.time()
-timeframe = 50                          # timeframe in between setting new waypoints
+
+# OTHER GLOBALS
+n_wind_dirs = 8
+n_wind_speed_levels = 5
+block_size_in_pixels = int(880 / size)

@@ -41,8 +41,13 @@ class Agent:
     delta_y = position[1] - self.position[1]
 
     total_steps = abs(delta_x) + abs(delta_y)     # total steps cannot be bigger than timeframe for agents to move
-    move_x = (delta_x / total_steps ) * (timeframe - 1) # make use of the fact that we deal with 'similar triangles'
-    move_y = (delta_y / total_steps) * (timeframe - 1)
+    if total_steps == 0:
+      move_x = 0
+      move_y = 0
+
+    else:
+      move_x = (delta_x / total_steps ) * (timeframe - 1) # make use of the fact that we deal with 'similar triangles'
+      move_y = (delta_y / total_steps) * (timeframe - 1)
 
     self.waypoint = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
 

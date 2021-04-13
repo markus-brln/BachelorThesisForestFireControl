@@ -14,11 +14,13 @@ class DataSaver:
     self.episode_agents = list()  
     self.episode_fire = list()  
     self.episode_waypoints = list() 
+    self.episode_firebreaks = list() 
 
     self.all_data = list()      
     self.all_agents = list()
     self.all_fire = list()
     self.all_waypoints = list()
+    self.all_firebreaks = list()
 
   def append_datapoint(self):
     """Should get called when new agent waypoints were set and model is about to
@@ -28,6 +30,7 @@ class DataSaver:
     agents = np.zeros((self.model.size, self.model.size), dtype=np.uint8)
     fire = np.zeros((self.model.size, self.model.size), dtype=np.uint8)
     waypoints = np.zeros((self.model.size, self.model.size), dtype=np.uint8)
+    firebreaks = np.zeros((self.model.size, self.model.size), dtype=np.uint8)
 
     #  set NodeState to be pixel value:
     #  NORMAL = 0
@@ -43,6 +46,8 @@ class DataSaver:
           agents[y][x] = 1
         if node.state == NodeState.ON_FIRE:
           fire[y][x] = 1
+        if node.state == NodeState.FIREBREAK:
+          firebreaks[y][x] = 1
         if (y, x) in self.model.waypoints:
           waypoints[y][x] = 1
 
@@ -67,6 +72,7 @@ class DataSaver:
     self.all_agents.extend(self.episode_agents) # simply add
     self.all_fire.extend(self.episode_fire) # simply add
     self.all_waypoints.extend(self.episode_waypoints) # simply add
+    self.all_firebreaks.extend(self.episode_firebreaks) # simply add
 
     self.episode_data.clear()
     print(len(self.all_data))
@@ -90,6 +96,7 @@ class DataSaver:
     all_agents = np.asarray(self.all_agents, dtype=np.uint8)
     all_fire = np.asarray(self.all_fire, dtype=np.uint8)
     all_waypoints = np.asarray(self.all_waypoints, dtype=np.uint8)
+    all_firebreaks = np.asarray(self.all_firebreaks, dtype=np.uint8)
 
     print(np.shape(all_data))
     if platform.system() == 'Windows':
@@ -126,6 +133,7 @@ class DataSaver:
     np.save(filename + "agents.npy", all_agents, allow_pickle=True)
     np.save(filename + "fire.npy", all_fire, allow_pickle=True)
     np.save(filename + "waypoints.npy", all_waypoints, allow_pickle=True)
+    np.save(filename + "firebreaks.npy", all_firebreaks, allow_pickle=True)
 
 
 

@@ -67,6 +67,7 @@ class Controller:
     print("Assigning waypoints")
     self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
     self.collecting_waypoints = True
+    self.model.sort_agents_by_angle()
     self.agent_no = 0
     self.model.highlight_agent(0)
 

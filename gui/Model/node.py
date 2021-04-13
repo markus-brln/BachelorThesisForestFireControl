@@ -75,9 +75,7 @@ class Node:
         self.burn_out()
       
       self.heat_up_neighbours()
-
-
-
+  
   
   def heat_up_neighbours(self):
     for direction, neighbour in self.neighbours.items():

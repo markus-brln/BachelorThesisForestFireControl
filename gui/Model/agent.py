@@ -5,6 +5,9 @@ from Model.direction import Direction
 from Model.utils import *
 import random
 
+from numpy import arctan2
+
+
 #from gui.Model.utils import timeframe
 
 random.seed(randseed)
@@ -94,4 +97,16 @@ class Agent:
   def distance_to(self, position):
     x, y = position
     return sqrt((x - self.position[0])**2 + (y - self.position[1])**2)
+  
+
+  def pos_rel_to_centre(self):
+    return (self.position[0]- self.model.centre[0], self.position[1] - self.model.centre[1])
+
+
+  def angle(self):
+    position_rel_to_centre =  self.pos_rel_to_centre()
+    
+    return arctan2(position_rel_to_centre[1], position_rel_to_centre[0])
+
+
 

@@ -10,4 +10,3 @@ windspeed = 1
 wind_dir = (Direction.EAST, Direction.NORTH)
 randseed = time.time()
 timeframe = 50                          # timeframe in between setting new waypoints
-

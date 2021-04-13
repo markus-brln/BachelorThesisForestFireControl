@@ -31,6 +31,10 @@ class DataSaver:
       for x, node in enumerate(node_row):
         picture[y][x] = node.state
 
+    for agent in self.model.agents:
+      x, y = agent.position
+      picture[x][y] = int(NodeState.AGENT)
+
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
 

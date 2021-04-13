@@ -1,8 +1,8 @@
 from collections import deque
 from math import sqrt
 
-from gui.Model.direction import Direction
-from gui.Model.utils import *
+from Model.direction import Direction
+from Model.utils import *
 import random
 
 #from gui.Model.utils import timeframe

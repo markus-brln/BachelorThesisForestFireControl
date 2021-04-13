@@ -1,8 +1,8 @@
 import pygame
 import time
-from gui.Model.model import Model
-from gui.View.view import View
-from gui.Model.utils import *
+from Model.model import Model
+from View.view import View
+from Model.utils import *
 
 class Controller:
   def __init__(self, model: Model, view: View):

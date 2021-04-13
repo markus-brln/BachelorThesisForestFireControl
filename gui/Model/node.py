@@ -83,9 +83,9 @@ class Node:
     for direction, neighbour in self.neighbours.items():
       if neighbour is not None:
         heat_spread = 1 #TODO Stochastic?
-        if Direction.is_opposite(direction, self.wind_dir):
+        if any(Direction.is_opposite(direction, wind_dir) for wind_dir in self.wind_dir):
           heat_spread /= (1 + (self.windspeed / 5))
-        elif direction == self.wind_dir:
+        elif direction in self.wind_dir:
           if(self.windspeed > 0):
             heat_spread *= 1 + np.log(self.windspeed)
           else:

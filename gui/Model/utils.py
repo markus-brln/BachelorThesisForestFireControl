@@ -1,4 +1,4 @@
-from gui.Model.direction import Direction
+from Model.direction import Direction
 import time
 
 # GLOBALS

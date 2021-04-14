@@ -24,7 +24,7 @@ class Node:
   def __init__(self, environment, position, node_type, wind_dir, windspeed):
     ## For callbacks
     self.environment = environment
-    (Direction.NORTH, 5)
+    (Direction.NORTH, 5) # TODO what is this?
 
     ## Initialization
     self.type = node_type

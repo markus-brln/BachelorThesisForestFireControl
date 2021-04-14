@@ -1,8 +1,8 @@
 import pygame
 import time
-from Model.model import Model
-from View.view import View
-from Model.utils import *
+from gui.Model.model import Model
+from gui.View.view import View
+from gui.Model.utils import *
 
 class Controller:
   def __init__(self, model: Model, view: View):
@@ -66,6 +66,8 @@ class Controller:
   def start_collecting_waypoints(self):
     print("Assigning waypoints")
     self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
+    self.model.waypoints.clear()    # clear the actual waypoint positions after deleting them on the view!
+
     self.collecting_waypoints = True
     self.model.sort_agents_by_angle()
     self.agent_no = 0

@@ -55,7 +55,7 @@ class Agent:
     self.waypoint = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
 
     self.start_pos = self.position
-    self.waypoint = position
+    #self.waypoint = position # waypoints won't be on the position where we clicked
 
 
   def dig(self):

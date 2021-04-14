@@ -3,6 +3,7 @@ import platform
 from pathlib import Path, PureWindowsPath
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 from gui.Model.node import NodeState
 from gui.Model.utils import *
@@ -27,13 +28,24 @@ class DataSaver:
     #  ON_FIRE = 2
     #  BURNED_OUT = 3
     #  AGENT = 4
-    for y, node_row in enumerate(self.model.nodes): # make a picture of the node state
-      for x, node in enumerate(node_row):
-        picture[y][x] = node.state
+    #  waypoint = 5 (based on agent.waypoint)
+    for x, node_row in enumerate(self.model.nodes): # make a picture of the node state
+      for y, node in enumerate(node_row):
+        picture[y][x] = node.state                  # NOTE: x,y flipped because array is accessed via y,x == row, col
+
 
     for agent in self.model.agents:
       x, y = agent.position
-      picture[x][y] = int(NodeState.AGENT)
+      picture[y][x] = int(NodeState.AGENT)
+      x,y = agent.waypoint
+      picture[y][x] = 5
+
+    #for waypoint in self.model.waypoints:
+    #  x, y = waypoint
+    #  picture[x][y] = 5
+
+    plt.imshow(picture)
+    plt.show()
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
@@ -76,13 +88,17 @@ class DataSaver:
       filenames.append(file)
 
     filenames.sort()
+    print(filenames[-1])
     if not filenames:
       next_file_number = 0
     else:
       number = str()
-      for maybe_number in filenames[-1]:
+      for maybe_number in filenames[-1][::-1]:
         if maybe_number.isdigit():
-          number = number + maybe_number
+          number =  maybe_number + number
+        if maybe_number == sep:
+          break
+
       next_file_number = int(number) + 1
       print(number)
 

@@ -9,10 +9,10 @@ def play():
   filepath = dirname + "runs" + sep + "run0.npy"
 
   array = np.load(filepath, allow_pickle=True)
-  img_shape = np.shape(array[0][0])
 
-  plt.imshow(array[4][0])
-  plt.show()
+  for i in range(len(array)):
+    plt.imshow(array[i][0])
+    plt.show()
 
   #for file in glob.glob(dirname + "runs" + sep + "*.npy"):
     #filenames.append(file)

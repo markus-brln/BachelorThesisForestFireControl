@@ -2,6 +2,8 @@ import os
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
+from NNutils import unison_shuffled_copies
+
 sep = os.path.sep
 
 def load_all_data():
@@ -55,24 +57,25 @@ def raw_to_IO_arrays(data):
     wind_dir_speed[i] = np.concatenate([data[i][1], data[i][2]])
 
   # BUILD INPUT AND OUTPUT ARRAYS
-  input = list()                            # standard input img + wind info to be concatenated
-  output = waypoint_imgs                    # just to be specific about what is output
+  inputs = list()                            # standard input img + wind info to be concatenated
+  outputs = waypoint_imgs                    # just to be specific about what is output
   for i in range(len(data)):
-    input.append([images[i], wind_dir_speed[i]])
+    inputs.append([images[i], wind_dir_speed[i]])
 
-  input = np.asarray(input)
+  inputs = np.asarray(inputs)
 
-  print("input len: ", len(input))
-  print("output len: ", len(output))
-  print("image shape: ", np.shape(input[0][0]))
-  print("wind info vector shape: ", np.shape(input[0][1]))
+  print("input examples len: ", len(inputs))
+  print("output examples len: ", len(outputs))
+  print("image shape: ", np.shape(inputs[0][0]))
+  print("wind info vector shape: ", np.shape(inputs[0][1]))
 
-  return input, output
+  return inputs, outputs
 
 
 
 if __name__ == "__main__":
   data = load_all_data()
   inputs, outputs = raw_to_IO_arrays(data)
+  inputs, outputs = unison_shuffled_copies(inputs, outputs) # shuffle IO in same way
 
-  inputs, outputs = np.un
+  print(type(inputs), type(outputs))

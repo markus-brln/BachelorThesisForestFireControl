@@ -43,7 +43,7 @@ class View:
   def pixel_belongs_to_block(self, pos):
     x = int(pos[0] / self.grid_block_size)
     y = int(pos[1] / self.grid_block_size)
-    return (x, y)
+    return x, y
 
   
   def update(self, update_type: UpdateType, position = None, node = None, agent = None):

@@ -29,6 +29,7 @@ class Model:
     self.subscribers = []
     ## properties of env
     self.size = length
+    self.centre = (int(length / 2), int(length / 2))
     self.nr_of_agents = nr_of_agents
     self.wind_dir = wind_dir
     self.windspeed = windspeed
@@ -257,7 +258,9 @@ class Model:
 
   ## Model manipulation
   def start_collecting_waypoints(self):
+    print("wp: ", len(self.waypoints))
     self.waypoints.clear()
+    print("wp: ", len(self.waypoints))
 
   def highlight_agent(self, agent_no):
     if agent_no is None:
@@ -269,6 +272,8 @@ class Model:
     self.highlighted_agent = self.agents[agent_no]
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.HIGHLIGHT_AGENT, agent=self.highlighted_agent)
+    
+    #print(f"{self.highlighted_agent.angle()} for pos {self.highlighted_agent.position} - {self.highlighted_agent.pos_rel_to_centre()}")
 
   def select_square(self, position):
     if self.highlighted_agent == None:
@@ -300,6 +305,11 @@ class Model:
 
   def subscribe(self, subscriber):
     self.subscribers.append(subscriber)
+
+
+  def sort_agents_by_angle(self):
+    self.agents.sort(key=lambda x:x.angle())
+
 
   ## Proper shutdown
   ## TODO: e.g. save data and ensure proper exiting of program

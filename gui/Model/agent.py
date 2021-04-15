@@ -5,6 +5,9 @@ from Model.direction import Direction
 from Model.utils import *
 import random
 
+from numpy import arctan2
+
+
 #from gui.Model.utils import timeframe
 
 random.seed(randseed)
@@ -41,13 +44,18 @@ class Agent:
     delta_y = position[1] - self.position[1]
 
     total_steps = abs(delta_x) + abs(delta_y)     # total steps cannot be bigger than timeframe for agents to move
-    move_x = (delta_x / total_steps ) * (timeframe - 1) # make use of the fact that we deal with 'similar triangles'
-    move_y = (delta_y / total_steps) * (timeframe - 1)
+    if total_steps == 0:
+      move_x = 0
+      move_y = 0
+
+    else:
+      move_x = (delta_x / total_steps ) * (timeframe - 1) # make use of the fact that we deal with 'similar triangles'
+      move_y = (delta_y / total_steps) * (timeframe - 1)
 
     self.waypoint = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
 
     self.start_pos = self.position
-    self.waypoint = position
+    #self.waypoint = position # waypoints won't be on the position where we clicked
 
 
   def dig(self):
@@ -89,4 +97,16 @@ class Agent:
   def distance_to(self, position):
     x, y = position
     return sqrt((x - self.position[0])**2 + (y - self.position[1])**2)
+  
+
+  def pos_rel_to_centre(self):
+    return (self.position[0]- self.model.centre[0], self.position[1] - self.model.centre[1])
+
+
+  def angle(self):
+    position_rel_to_centre =  self.pos_rel_to_centre()
+    
+    return arctan2(position_rel_to_centre[1], position_rel_to_centre[0])
+
+
 

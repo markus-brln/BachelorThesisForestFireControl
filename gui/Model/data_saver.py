@@ -18,7 +18,7 @@ class DataSaver:
     """Should get called when new agent waypoints were set and model is about to
        fast-forward 5-10 timesteps (see utils.py, 'timeframe') to see how it played out."""
 
-    picture = np.zeros((self.model.size, self.model.size), dtype=np.uint8) # save memory with uint8
+    image = np.zeros((self.model.size, self.model.size), dtype=np.uint8) # save memory with uint8
     wind_dir_vec = np.zeros(n_wind_dirs, dtype=np.uint8)              # 8 wind directions
     windspeed_vec = np.zeros(n_wind_speed_levels, dtype=np.uint8)     # 5 'wind speed levels'
 
@@ -31,20 +31,20 @@ class DataSaver:
     #  waypoint = 5 (based on agent.waypoint)
     for x, node_row in enumerate(self.model.nodes): # make a picture of the node state
       for y, node in enumerate(node_row):
-        picture[y][x] = node.state                  # NOTE: x,y flipped because array is accessed via y,x == row, col
+        image[y][x] = node.state                  # NOTE: x,y flipped because array is accessed via y,x == row, col
 
 
     for agent in self.model.agents:
       x, y = agent.position
-      picture[y][x] = int(NodeState.AGENT)
+      image[y][x] = int(NodeState.AGENT)
       x,y = agent.waypoint
-      picture[y][x] = 5
+      image[y][x] = 5
 
     #for waypoint in self.model.waypoints:
     #  x, y = waypoint
     #  picture[x][y] = 5
 
-    plt.imshow(picture)
+    plt.imshow(image)
     plt.show()
 
     # set the right category in the wind_dir vector
@@ -52,8 +52,8 @@ class DataSaver:
 
     # TODO create windspeed vector (put exactly one 1 in it)
 
-    picture_and_wind = [picture, wind_dir_vec, windspeed_vec] # this is one raw datapoint
-    self.episode_data.append(picture_and_wind)
+    image_and_wind = [image, wind_dir_vec, windspeed_vec] # this is one raw datapoint
+    self.episode_data.append(image_and_wind)
 
 
   def append_episode(self):
@@ -88,7 +88,6 @@ class DataSaver:
       filenames.append(file)
 
     filenames.sort()
-    print(filenames[-1])
     if not filenames:
       next_file_number = 0
     else:

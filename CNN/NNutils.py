@@ -1,7 +1,7 @@
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
 import matplotlib.pyplot as plt
-from tensorflow.keras import layers, models
+#from tensorflow.keras import layers, models
 
 def unison_shuffled_copies(a, b):
     # from https://stackoverflow.com/questions/4601373/better-way-to-shuffle-two-numpy-arrays-in-unison

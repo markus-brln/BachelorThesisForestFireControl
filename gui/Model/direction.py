@@ -18,6 +18,7 @@ class Direction(Enum):
   def dist2D(pos1, pos2):
     return pow(pow(pos1[0]-pos2[0], 2) + pow(pos1[1]-pos2[1], 2), 0.5) # pow(,0.5) == sqrt()
 
+
   @staticmethod
   def find(agent):
     """Line drawing algorithm to move an agent closer to its goal.
@@ -35,14 +36,16 @@ class Direction(Enum):
       evaluate_at_x = True                  # less than 45 degree incline
 
     line_point = list()
-    if evaluate_at_x:
+    if evaluate_at_x and delta_x != 0:
       x = agent.position[0] + delta_x / abs(delta_x) # move left or right
       y = agent.start_pos[1] + (x - agent.start_pos[0]) * (delta_y / delta_x)
       line_point = [x, y]
-    else:
+    elif delta_y != 0:
       y = agent.position[1] + delta_y / abs(delta_y)  # move up or down
       x = agent.start_pos[0] + (y - agent.start_pos[1]) * (delta_x / delta_y)
       line_point = [x, y]
+    if delta_x == 0 and delta_y == 0:
+      line_point = [agent.position[0], agent.position[1]]
 
     # try to find the direction that leads to the closest approximation of the line
     distances = list()

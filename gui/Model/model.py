@@ -165,8 +165,8 @@ class Model:
         agent.dead = True
         print("agent dies")
         self.agents.remove(agent)
-
-      agent.timestep()  # walks 1 step towards current waypoint & digs on the way
+      if self.time % 3 ==0:
+        agent.timestep()  # walks 1 step towards current waypoint & digs on the way
 
     for node_row in self.nodes:
       for node in node_row:

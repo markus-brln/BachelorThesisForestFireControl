@@ -52,7 +52,7 @@ class Node:
 
   def set_default_properties(self):
     if self.type == NodeType.GRASS:
-      self.default_props = {"fuel": 20, "temp": 0, "ign_thres": 2}
+      self.default_props = {"fuel": 20, "temp": 0, "ign_thres": 3}
     if self.type == NodeType.WATER:
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   
@@ -85,7 +85,7 @@ class Node:
           heat_spread /= (1 + (self.windspeed / 5))
         elif direction in self.wind_dir:
           if(self.windspeed > 0):
-            heat_spread *= 1 + np.log(self.windspeed)
+            heat_spread *= 1 + (self.windspeed / 5)
           else:
             heat_spread = 1
         neighbour.heat_up(heat_spread)

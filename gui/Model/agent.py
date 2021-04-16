@@ -31,9 +31,8 @@ class Agent:
 
   def timestep(self, time):
     # M walk towards waypoint (dumb / A-Star) + dig on every step
-    if time % 2 == 0:
-      self.dig()
-    else:
+    self.dig()
+    if time % 3 == 0:
       self.move()
       if self.save_move:
         self.agent_hist.append(self.position)

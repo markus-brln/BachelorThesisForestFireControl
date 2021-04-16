@@ -36,6 +36,7 @@ class Model:
     self.wind_dir = self.set_wind_dir()
     print(self.wind_dir)
     self.windspeed = self.set_windspeed()
+    # self.windspeed = 5
     print("speed: ", self.windspeed)
 
     ## initial properties of this model
@@ -193,7 +194,6 @@ class Model:
         agent.dead = True
         print("agent dies")
         self.agents.remove(agent)
-      # if self.time % 3 == 0:
       agent.timestep(self.time)  # walks 1 step towards current waypoint & digs on the way
 
     for node_row in self.nodes:

@@ -35,7 +35,7 @@ class Model:
     self.nr_of_agents = nr_of_agents
     self.wind_dir = self.set_wind_dir()
     print(self.wind_dir)
-    self.windspeed = 1
+    self.windspeed = self.set_windspeed()
     print("speed: ", self.windspeed)
 
     ## initial properties of this model

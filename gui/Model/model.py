@@ -1,17 +1,18 @@
+import math
+
 from Model.agent import Agent
 from Model.direction import Direction
 from Model.data_saver import DataSaver
 from Model.node import Node, NodeType, NodeState
-
 from View.updatetype import UpdateType
-
+from Model.utils import *
 from enum import Enum
 import random
 
 # For data generation maybe lose the seed
 from gui.Model.utils import n_wind_speed_levels
 
-random.seed(1)
+#random.seed(1)
 
 
 class State(Enum):
@@ -99,7 +100,6 @@ class Model:
     self.DataSaver.append_datapoint()
 
   def discard_episode(self):
-
     self.DataSaver.discard_episode()
 
   def append_episode(self):
@@ -114,7 +114,9 @@ class Model:
     centre_node = self.find_node((x, y))
     centre_node.ignite()
 
-  def set_windspeed(self):
+  @staticmethod
+  def set_windspeed():
+    """values from 0 to including 4 is there are 5 wind speed levels"""
     return random.randint(0, n_wind_speed_levels)
 
   def set_wind_dir(self):
@@ -141,26 +143,33 @@ class Model:
   # Start agents at random positions
   def reset_agents(self):
     self.agents.clear()
-    for agent in range(0, self.nr_of_agents, 4):
-      agent_pos = self.get_random_position(1)
-      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-        agent_pos = self.get_random_position(1)
-      self.agents += [Agent(agent_pos, self)]
-    for agent in range(1, self.nr_of_agents, 4):
-      agent_pos = self.get_random_position(2)
-      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-        agent_pos = self.get_random_position(2)
-      self.agents += [Agent(agent_pos, self)]
-    for agent in range(2, self.nr_of_agents, 4):
-      agent_pos = self.get_random_position(3)
-      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-        agent_pos = self.get_random_position(3)
-      self.agents += [Agent(agent_pos, self)]
-    for agent in range(3, self.nr_of_agents, 4):
-      agent_pos = self.get_random_position(4)
-      while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
-        agent_pos = self.get_random_position(4)
-      self.agents += [Agent(agent_pos, self)]
+    for agent in range(0, self.nr_of_agents):
+      x, y = 0, 0
+      while not (agentRadius < math.sqrt((x - self.size / 2)**2 + (y - self.size / 2)**2) < self.size / 2  and 0 < x < self.size and 0 < y < self.size):
+        x, y = (random.randint(0, self.size), random.randint(0, self.size))
+      self.agents += [Agent((x, y), self)]
+
+    # if we have 30 agents the distribution should not matter that much
+    #for agent in range(0, self.nr_of_agents, 4):
+    #  agent_pos = self.get_random_position(1)
+    #  while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+    #    agent_pos = self.get_random_position(1)
+    #  self.agents += [Agent(agent_pos, self)]
+    #for agent in range(1, self.nr_of_agents, 4):
+    #  agent_pos = self.get_random_position(2)
+    #  while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+    #    agent_pos = self.get_random_position(2)
+    #  self.agents += [Agent(agent_pos, self)]
+    #for agent in range(2, self.nr_of_agents, 4):
+    #  agent_pos = self.get_random_position(3)
+    #  while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+    #    agent_pos = self.get_random_position(3)
+    #  self.agents += [Agent(agent_pos, self)]
+    #for agent in range(3, self.nr_of_agents, 4):
+    #  agent_pos = self.get_random_position(4)
+    #  while not self.position_in_bounds(agent_pos) or agent_pos in list(self.firepos):
+    #    agent_pos = self.get_random_position(4)
+    #  self.agents += [Agent(agent_pos, self)]
 
 
   ## Time propagation
@@ -196,13 +205,13 @@ class Model:
         self.agents.remove(agent)
       agent.timestep(self.time)  # walks 1 step towards current waypoint & digs on the way
 
-    for node_row in self.nodes:
-      for node in node_row:
-        node.time_step()
-
-    for node_row in self.nodes:
-      for node in node_row:
-        node.update_state()
+    for _ in range(fire_step_multiplicator):           # multiplicator of fire speed basically
+      for node_row in self.nodes:
+        for node in node_row:
+          node.time_step()
+      for node_row in self.nodes:
+        for node in node_row:
+          node.update_state()
 
 
 

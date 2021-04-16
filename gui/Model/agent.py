@@ -3,14 +3,9 @@ from math import sqrt
 
 from Model.direction import Direction
 from Model.utils import *
-import random
 
 from numpy import arctan2
 
-
-#from gui.Model.utils import timeframe
-
-random.seed(randseed)
 
 class Agent:
   # TODO: Original code gave W as parameter. Find out purpose
@@ -32,10 +27,10 @@ class Agent:
   def timestep(self, time):
     # M walk towards waypoint (dumb / A-Star) + dig on every step
     self.dig()
-    if time % 3 == 0:
-      self.move()
-      if self.save_move:
-        self.agent_hist.append(self.position)
+    #if time % 3 == 0:      # makes the simulation too slow unfortunately
+    self.move()
+    if self.save_move:
+      self.agent_hist.append(self.position)
 
   def assign_new_waypoint(self, position):
     """Takes a position selected by a mouse click and projects it onto

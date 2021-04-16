@@ -110,6 +110,7 @@ class Controller:
     if event.key == pygame.K_RETURN:
       self.model.append_episode()
       self.model.start_episode()       ## Return / ENTER to go to next episode
+      self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1 # first get new waypoints when restarting episode
 
     if event.key == pygame.K_BACKSPACE:

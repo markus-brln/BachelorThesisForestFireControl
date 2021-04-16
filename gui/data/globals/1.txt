@@ -1,1 +1,0 @@
-size: 251 #agents: 5 windspeed: 1 wind_dir: (<Direction.NORTH: 'N'>, <Direction.WEST: 'W'>) timeframe: 20 agentRadius: 50 randseed: 1618516224.3637884

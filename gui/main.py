@@ -11,8 +11,6 @@ from Model.utils import *
 pygame.init()  ## Initialize Pygame
 pygame.display.set_caption('Only you can prevent Forest Fires!')
 
-random.seed(0)
-
 # def set_wind():
 #   wind_dirs = {0: (Direction.NORTH, Direction.NORTH),
 #                1: (Direction.NORTH, Direction.EAST),
@@ -29,9 +27,9 @@ random.seed(0)
 
 def main():
   # Initialization
-  environment = Model(size, nr_of_agents, agentRadius)   ## Initialize Environment
-  view = View(environment, block_size_in_pixels)  ## Start View
-  controller = Controller(environment, view)      ## Initialize Controller with model and view
+  model = Model(size, nr_of_agents, agentRadius)   ## Initialize Environment
+  view = View(model, block_size_in_pixels)  ## Start View
+  controller = Controller(model, view)      ## Initialize Controller with model and view
 
   # Run 
   while True:

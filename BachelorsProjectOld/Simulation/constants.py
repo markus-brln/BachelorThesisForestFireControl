@@ -23,11 +23,11 @@ AMOUNT_OF_HOUSES = 3 * ((SIZE * SIZE) / 100)
 # determines from command line what the environment should look like
 MAKE_HOUSES = False
 MAKE_RIVER = False
-if args.environment == "forest_houses":
+if args.model == "forest_houses":
     MAKE_HOUSES = True
-if args.environment == "forest_river":
+if args.model == "forest_river":
     MAKE_RIVER = True
-if args.environment == "forest_houses_river":
+if args.model == "forest_houses_river":
     MAKE_HOUSES = True
     MAKE_RIVER = True
 

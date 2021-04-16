@@ -29,11 +29,14 @@ class Agent:
     self.waypoint_old = None
     self.model = model
 
-  def timestep(self):
+  def timestep(self, time):
     # M walk towards waypoint (dumb / A-Star) + dig on every step
-    self.move()
-    if self.save_move:
-      self.agent_hist.append(self.position)
+    if time % 2 == 0:
+      self.dig()
+    else:
+      self.move()
+      if self.save_move:
+        self.agent_hist.append(self.position)
 
   def assign_new_waypoint(self, position):
     """Takes a position selected by a mouse click and projects it onto
@@ -59,8 +62,8 @@ class Agent:
 
 
   def dig(self):
-    self.model.dig_firebreak(self)
-
+    # self.model.dig_firebreak(self)
+    self.node.dig_firebreak()
 
   def set_on_fire(self):
     self.dead = True
@@ -72,7 +75,7 @@ class Agent:
     self.prev_node = self.node
     self.position = Direction.find(self)(self.position)
     self.node = self.model.find_node(self.position)
-    self.node.dig_firebreak()
+    # self.node.dig_firebreak()
     self.model.agent_moves(self)
 
 

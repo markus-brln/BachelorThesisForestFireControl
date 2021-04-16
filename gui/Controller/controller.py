@@ -115,6 +115,7 @@ class Controller:
     if event.key == pygame.K_BACKSPACE:
       self.model.discard_episode()
       self.model.start_episode()  ## Return / ENTER to go to next episode
+      self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1
 
     #if event.key == pygame.K_c:

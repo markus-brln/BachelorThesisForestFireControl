@@ -9,6 +9,8 @@ from enum import Enum
 import random
 
 # For data generation maybe lose the seed
+from gui.Model.utils import n_wind_speed_levels
+
 random.seed(1)
 
 
@@ -22,7 +24,7 @@ class Model:
   # Other parameters can be added later
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
-  def __init__(self, length: int, nr_of_agents: int, radius: int, windspeed, wind_dir=None):
+  def __init__(self, length: int, nr_of_agents: int, radius: int):
     self.firebreaks = set()
     self.waypoints = set()
     self.time = 0
@@ -31,8 +33,10 @@ class Model:
     self.size = length
     self.centre = (int(length / 2), int(length / 2))
     self.nr_of_agents = nr_of_agents
-    self.wind_dir = wind_dir
-    self.windspeed = windspeed
+    self.wind_dir = self.set_wind_dir()
+    print(self.wind_dir)
+    self.windspeed = 1
+    print("speed: ", self.windspeed)
 
     ## initial properties of this model
     self.agents = []
@@ -49,6 +53,25 @@ class Model:
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
     self.highlighted_agent = None
+
+  ## Episode Initialization
+  def start_episode(self):
+    self.reset_agents()
+    self.waypoints = set()
+    self.time = 0
+    self.state = State.ONGOING
+
+    for node_row in self.nodes:
+      for node in node_row:
+        node.reset()
+
+    # Start fire in the middle of the map
+    self.firepos.clear()
+    self.set_initial_fire(0)
+    self.firebreaks = set()
+
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.RESET)
 
   def init_nodes(self):
     for x in range(self.size):
@@ -84,30 +107,35 @@ class Model:
   def save_training_run(self):
     self.DataSaver.save_training_run()
 
-  ## Episode Initialization
-  def start_episode(self):
-    self.reset_agents()
-    self.waypoints = set()
-    self.time = 0
-    self.state = State.ONGOING
-
-    for node_row in self.nodes:
-      for node in node_row:
-        node.reset()
-
-    # Start fire in the middle of the map
-    self.firepos.clear()
-    self.set_initial_fire(0)
-    self.firebreaks = set()
-
-    for subscriber in self.subscribers:
-      subscriber.update(UpdateType.RESET)
-
   def set_initial_fire(self, firesize):
     ##TODO if using firesize to start with a larger fire, ignite some neighbours
     x = y = int(self.size / 2)
     centre_node = self.find_node((x, y))
     centre_node.ignite()
+
+  def set_windspeed(self):
+    return random.randint(0, n_wind_speed_levels)
+
+  def set_wind_dir(self):
+    wind_dirs = {0: (Direction.NORTH, Direction.NORTH),
+                 1: (Direction.NORTH, Direction.EAST),
+                 2: (Direction.EAST, Direction.EAST),
+                 3: (Direction.SOUTH, Direction.EAST),
+                 4: (Direction.SOUTH, Direction.SOUTH),
+                 5: (Direction.SOUTH, Direction.WEST),
+                 6: (Direction.WEST, Direction.WEST),
+                 7: (Direction.NORTH, Direction.WEST)}
+    return random.choice(list(wind_dirs.values()))
+
+  def reset_wind(self):
+    self.windspeed = self.set_windspeed()
+    self.wind_dir = self.set_wind_dir()
+    print("windspeed: ", self.windspeed)
+    print(self.wind_dir)
+    for node_row in self.nodes:
+      for node in node_row:
+        node.windspeed = self.windspeed
+        node.wind_dir = self.wind_dir
 
   # Start agents at random positions
   def reset_agents(self):
@@ -165,8 +193,8 @@ class Model:
         agent.dead = True
         print("agent dies")
         self.agents.remove(agent)
-      if self.time % 3 ==0:
-        agent.timestep()  # walks 1 step towards current waypoint & digs on the way
+      # if self.time % 3 == 0:
+      agent.timestep(self.time)  # walks 1 step towards current waypoint & digs on the way
 
     for node_row in self.nodes:
       for node in node_row:

@@ -1,0 +1,1 @@
+# training examples: 92size: 255 #agents: 10 windspeed: 0 wind_dir: [] timeframe: 20 agentRadius: 100 randseed: 1618680798.3331351

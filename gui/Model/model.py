@@ -199,7 +199,7 @@ class Model:
       return
 
     for agent in self.agents:
-      if self.find_node(agent.position).state == NodeState.ON_FIRE:
+      if not self.find_node(agent.position).state == None and self.find_node(agent.position).state == NodeState.ON_FIRE:
         agent.dead = True
         print("agent dies")
         self.agents.remove(agent)

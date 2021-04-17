@@ -49,7 +49,7 @@ class DataSaver:
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
-
+    windspeed_vec[self.model.windspeed] = 1
     # TODO create windspeed vector (put exactly one 1 in it)
 
     image_and_wind = [image, wind_dir_vec, windspeed_vec] # this is one raw datapoint

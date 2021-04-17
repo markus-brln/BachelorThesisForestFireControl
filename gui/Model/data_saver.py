@@ -108,7 +108,7 @@ class DataSaver:
     # another file with the same number, saving all relevant globals
     globals_file = open(dirname + "globals" + sep + str(next_file_number) + ".txt", "w+")
     globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(size) + " #agents: " + str(nr_of_agents) + " windspeed: "
-                       + str(windspeed) + " wind_dir: " + str(wind_dir) + " timeframe: " + str(timeframe)
+                       + str(self.model.windspeed) + " wind_dir: " + str(self.model.wind_dir) + " timeframe: " + str(timeframe)
                        + " agentRadius: " + str(agentRadius) + " randseed: " + str(randseed))
 
 

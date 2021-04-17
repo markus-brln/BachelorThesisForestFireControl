@@ -8,7 +8,7 @@ import random
 windspeed = 0
 wind_dir = []
 n_wind_dirs = 8
-n_wind_speed_levels = 4
+n_wind_speed_levels = 5
 
 # GLOBALS (documented when saving)
 size = 255  # environment size

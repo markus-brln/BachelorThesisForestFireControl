@@ -117,7 +117,7 @@ class Model:
   @staticmethod
   def set_windspeed():
     """values from 0 to including 4 is there are 5 wind speed levels"""
-    return random.randint(0, n_wind_speed_levels)
+    return random.randint(0, n_wind_speed_levels-1)
 
   def set_wind_dir(self):
     wind_dirs = {0: (Direction.NORTH, Direction.NORTH),

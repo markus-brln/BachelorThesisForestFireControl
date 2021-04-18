@@ -1,7 +1,8 @@
+import keras.backend
 import numpy as np
 from keras import Input, Model, Sequential
-from keras.layers import concatenate, Dense, Embedding, GlobalAveragePooling1D, Conv2D, Flatten, MaxPooling2D
-
+from keras.layers import concatenate, Dense, Embedding, GlobalAveragePooling1D, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Deconvolution2D
+from NNutils import *
 
 def load_data():
     images = np.load("images.npy", allow_pickle=True)
@@ -14,19 +15,21 @@ def build_model(input1_shape, input2_shape):
     # idea/"tutorial" from:
     # https://stackoverflow.com/questions/46397258/how-to-merge-sequential-models-in-keras-2-0
     model1 = Sequential()
-    model1.add(Conv2D(input_shape=input1_shape, filters=32, kernel_size=(3, 3), activation="relu", padding="same"))
-    model1.add(MaxPooling2D(pool_size=(2, 2)))
+    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
+    model1.add(MaxPooling2D(pool_size=(3, 3)))
     model1.add(Flatten())
-    model1.add(Dense(16, activation='sigmoid'))
+    model1.add(Dense(24, activation='sigmoid'))
 
     model2 = Sequential()
-    model2.add(Embedding(20, 10, trainable=True))
-    model2.add(GlobalAveragePooling1D())
-    model2.add(Dense(8, activation='sigmoid'))
+    model2.add(Dense(8, input_shape=input2_shape))          # just encode the vector of 13 in a shorter one
 
-    model_concat = concatenate([model1.output, model2.output], axis=-1)
-    model_concat = Dense(1, activation='softmax')(model_concat)
-    model = Model(inputs=[model1.input, model2.input], outputs=model_concat)
+    model_concat = concatenate([model1.output, model2.output], axis=1)
+    deconv = Dense(64, activation='relu')(model_concat)     # TODO verify that this is how it should be done
+    deconv = keras.layers.Reshape((8, 8, 1))(deconv)
+    deconv = Conv2DTranspose(64, (2, 2), padding='same')(deconv)
+    deconv = keras.layers.Reshape((64, 64, 1))(deconv)      # 64x64 output, has to be translated to 255x255 again?
+
+    model = Model(inputs=[model1.input, model2.input], outputs=deconv)
 
     model.compile(loss='binary_crossentropy',               # because output pixels can have 0s or 1s
                   optimizer='adam')                         # standard
@@ -34,35 +37,35 @@ def build_model(input1_shape, input2_shape):
     return model
 
 
+def load_model_and_predict():
+    images, windinfo, outputs = load_data()
+    model = keras.models.load_model("safetySafe")
+    #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
+    X1 = images[0:1]                                        # more clever way to write it down
+    X2 = windinfo[0:1]
+    result = model.predict([X1, X2])                        # outputs 61x61x1 for now
+
+    plt.imshow(np.reshape(result, (64, 64)))
+    plt.show()
 
 
 if __name__ == "__main__":
+    #load_model_and_predict()
+    #exit()
     images, windinfo, outputs = load_data()
 
-
+    print(outputs[0].shape)
     model = build_model(images[0].shape, windinfo[0].shape)
     print(model.summary())
 
-    #X_train_1 = np.random.randint(0, 20, (200, input1_shape[0],input1_shape[1],input1_shape[2]))
     X_train_1 = images
     X_train_2 = windinfo
-    #X_train_2 = np.random.randint(0, 20, (129, 256))
-    Y_train = np.random.randint(0, 2, 129)
+    Y_train = np.random.randint(0, 2, (129, 64, 64, 1)) # TODO how to use the 255x255 image?
 
-    model.fit([X_train_1, X_train_2],
+    model.fit([images, windinfo],                   # list of 2 inputs to model
               Y_train,
               batch_size=16,
               epochs=20,
-              verbose=True,
-              shuffle=True)
+              shuffle=True)                         # mix data randomly
 
-
-
-
-    #checkpoint = ModelCheckpoint('weights.h5', monitor='val_acc',
-    #                             save_best_only=True, verbose=2)
-    #early_stopping = EarlyStopping(monitor="val_loss", patience=5)
-
-    #merged_model.fit([x1, x2], y=y, batch_size=384, epochs=200,
-    #                 verbose=1, validation_split=0.1, shuffle=True)#,
-    #callbacks=[early_stopping, checkpoint])
+    save(model, "safetySafe")                       # utils

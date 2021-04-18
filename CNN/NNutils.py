@@ -1,7 +1,7 @@
 import numpy as np
-#import tensorflow as tf
+import tensorflow as tf
 import matplotlib.pyplot as plt
-#from tensorflow.keras import layers, models
+from tensorflow.keras import layers, models
 
 def unison_shuffled_copies(a, b):
     # from https://stackoverflow.com/questions/4601373/better-way-to-shuffle-two-numpy-arrays-in-unison
@@ -76,20 +76,18 @@ def predict(model, X, y):
     :param y (int): Target
     """
 
-    # add dimensions to input data for sample - model.predict() expects a 3d array in this case
+    # add dimensions to input data for sample - model.predict() expects a 4d array in this case
     X = X[np.newaxis, ..., np.newaxis]
 
     # perform prediction
     prediction = model.predict(X)
 
     # get index with max value
-    predicted_index = np.argmax(prediction, axis=1)
+    #predicted_index = np.argmax(prediction, axis=1)
+    plt.imshow(X)
+    plt.show()
 
-    print("prediction values: ", prediction)
-    print("Target: {}, Predicted label: {}".format(y, predicted_index))
-
-    #X = np.reshape(X, (828))
-    #plt.plot(X)
+    plt.imshow(prediction)
     plt.show()
 
 

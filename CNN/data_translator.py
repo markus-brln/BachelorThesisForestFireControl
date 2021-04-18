@@ -1,9 +1,6 @@
 import os
 import numpy as np
 import glob
-import matplotlib.pyplot as plt
-from NNutils import unison_shuffled_copies
-
 sep = os.path.sep
 
 def load_all_data():
@@ -42,36 +39,38 @@ def raw_to_IO_arrays(data):
 
 
   for i in range(len(data)):
+    print("picture " + str(i) + "/" + str(len(data)))
     picture_raw = data[i][0]
     for y, row in enumerate(picture_raw):
       for x, cell in enumerate(row):
         if cell == waypoint_channel:         # make 2D image of waypoints
           waypoint_imgs[i][y][x] = 1
-          images[i][y][x][0] = 1             # leave waypoints like forest
+          images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
         else:
           images[i][y][x][cell] = 1
 
 
   # INPUT WIND SPEED AND WIND DIRECTION VECTORS
   shape = (len(data), len(data[0][1]) + len(data[0][2]))
-  print(shape)
   wind_dir_speed = np.zeros(shape, dtype=np.uint8)
 
   for i in range(len(data)):                 # make one array 13x1 for concatenation
     wind_dir_speed[i] = np.concatenate([data[i][1], data[i][2]])
 
+  wind_dir_speed = np.asarray(wind_dir_speed)
+
   # BUILD INPUT AND OUTPUT ARRAYS
-  inputs = list()                            # standard input img + wind info to be concatenated
+  #inputs = list()                            # standard input img + wind info to be concatenated
   outputs = waypoint_imgs                    # just to be specific about what is output
-  for i in range(len(data)):
-    inputs.append([images[i], wind_dir_speed[i]])
+  #for i in range(len(data)):
+  #  inputs.append([images[i], wind_dir_speed[i]])
+  #inputs = [images, wind_dir_speed]
+  #inputs = np.asarray(inputs)
 
-  inputs = np.asarray(inputs)
-
-  print("input examples len: ", len(inputs))
+  print("input examples len: ", len(images))
   print("output examples len: ", len(outputs))
-  print("image shape: ", np.shape(inputs[0][0]))
-  print("wind info vector shape: ", np.shape(inputs[0][1]))
+  print("image shape: ", np.shape(images[0]))
+  print("wind info vector shape: ", np.shape(wind_dir_speed[0]))
 
   # PLOT TO CHECK RESULTS (difficult for 3D input images)
   #for outp in outputs:                       # output 2D images
@@ -81,19 +80,17 @@ def raw_to_IO_arrays(data):
   #  plt.plot(inp[1])
   #  plt.show()
 
-  return inputs, outputs
+  return images, wind_dir_speed, outputs
 
 
 
 if __name__ == "__main__":
-  # TODO wind speed to array
-  # TODO set new random dirs+speeds in each episode (best to notify player)
   # TODO set up CNN, ask how training can be done with 2 inputs and concatenation
 
   print(os.path.realpath(__file__))
   data = load_all_data()
-  inputs, outputs = raw_to_IO_arrays(data)
-  inputs, outputs = unison_shuffled_copies(inputs, outputs) # shuffle IO in same way, TODO here already or after loading?
+  images, wind_dir_speed, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="inputs.npy", arr=inputs, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="images.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="windinfo.npy", arr=wind_dir_speed, allow_pickle=True)
   np.save(file="outputs.npy", arr=outputs, allow_pickle=True)

@@ -18,14 +18,15 @@ def build_model(input1_shape, input2_shape):
     model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
     model1.add(MaxPooling2D(pool_size=(3, 3)))
     model1.add(Flatten())
-    model1.add(Dense(24, activation='sigmoid'))
+    model1.add(Dense(24, activation='sigmoid'))             # 1D feature vector
 
-    model2 = Sequential()
+    # TODO can we insert the vector in a more raw form? (well, with length 13 it's maybe not that nice)
+    model2 = Sequential()                                   # TODO verify that this is how it should be done
     model2.add(Dense(8, input_shape=input2_shape))          # just encode the vector of 13 in a shorter one
 
     model_concat = concatenate([model1.output, model2.output], axis=1)
-    deconv = Dense(64, activation='relu')(model_concat)     # TODO verify that this is how it should be done
-    deconv = keras.layers.Reshape((8, 8, 1))(deconv)
+    deconv = Dense(64, activation='relu')(model_concat)
+    deconv = keras.layers.Reshape((8, 8, 1))(deconv)        # TODO smoother way to upscale?
     deconv = Conv2DTranspose(64, (2, 2), padding='same')(deconv)
     deconv = keras.layers.Reshape((64, 64, 1))(deconv)      # 64x64 output, has to be translated to 255x255 again?
 

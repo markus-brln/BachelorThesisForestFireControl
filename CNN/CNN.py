@@ -20,8 +20,8 @@ def build_model(input1_shape, input2_shape):
     model1.add(MaxPooling2D(pool_size=(2, 2)))
     model1.add(Dropout(0.25))
 
-    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
-    model1.add(Conv2D(filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
+    model1.add(Conv2D(filters=32, kernel_size=(3, 3), activation="relu", padding="same"))
+    model1.add(Conv2D(filters=32, kernel_size=(3, 3), activation="relu", padding="same"))
     model1.add(MaxPooling2D(pool_size=(2, 2)))
     model1.add(Dropout(0.25))
 
@@ -72,8 +72,8 @@ def load_model_and_predict():
 
 
 if __name__ == "__main__":
-    load_model_and_predict()
-    exit()
+    #load_model_and_predict()
+    #exit()
     images, windinfo, outputs = load_data()
 
     print(outputs[0].shape)

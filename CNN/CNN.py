@@ -40,7 +40,7 @@ def build_model(input1_shape, input2_shape):
 
 def load_model_and_predict():
     images, windinfo, outputs = load_data()
-    model = keras.models.load_model("safetySafe")
+    model = keras.models.load_model("saved_models\\safetySafe")
     #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
     X1 = images[0:1]                                        # more clever way to write it down
     X2 = windinfo[0:1]
@@ -59,12 +59,10 @@ if __name__ == "__main__":
     model = build_model(images[0].shape, windinfo[0].shape)
     print(model.summary())
 
-    X_train_1 = images
-    X_train_2 = windinfo
-    Y_train = np.random.randint(0, 2, (129, 64, 64, 1)) # TODO how to use the 255x255 image?
+    #Y_train = np.random.randint(0, 2, (129, 64, 64, 1)) # TODO how to use the 255x255 image?
 
     model.fit([images, windinfo],                   # list of 2 inputs to model
-              Y_train,
+              outputs,
               batch_size=16,
               epochs=20,
               shuffle=True)                         # mix data randomly

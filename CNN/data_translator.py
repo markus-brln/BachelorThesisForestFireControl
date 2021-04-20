@@ -1,6 +1,8 @@
 import os
 import numpy as np
+import math
 import glob
+import matplotlib.pyplot as plt
 sep = os.path.sep
 
 def load_all_data():
@@ -59,22 +61,29 @@ def raw_to_IO_arrays(data):
 
   wind_dir_speed = np.asarray(wind_dir_speed)
 
-  # BUILD INPUT AND OUTPUT ARRAYS
-  #inputs = list()                            # standard input img + wind info to be concatenated
-  outputs = waypoint_imgs                    # just to be specific about what is output
-  #for i in range(len(data)):
-  #  inputs.append([images[i], wind_dir_speed[i]])
-  #inputs = [images, wind_dir_speed]
-  #inputs = np.asarray(inputs)
+  # BUILD OUTPUT IMAGES, 255x255 to 64x64x1
+  outputs = np.zeros((len(data), 64, 64, 1), dtype=np.uint8)
+
+  for i in range(len(data)):
+    for y, row in enumerate(waypoint_imgs[i]):
+      for x, cell in enumerate(row):
+        outx = math.floor(x / 4)
+        outy = math.floor(y / 4)
+        if cell > outputs[i][outy][outx]:
+          outputs[i][outy][outx] = 1
+
 
   print("input examples len: ", len(images))
   print("output examples len: ", len(outputs))
   print("image shape: ", np.shape(images[0]))
   print("wind info vector shape: ", np.shape(wind_dir_speed[0]))
+  print("output image shape: ", np.shape(outputs[0]))
 
   # PLOT TO CHECK RESULTS (difficult for 3D input images)
-  #for outp in outputs:                       # output 2D images
-  #  plt.imshow(outp)
+  #for outp, full in zip(outputs, waypoint_imgs):                       # output 2D images
+  #  plt.imshow(full)
+  #  plt.show()
+  #  plt.imshow(np.reshape(outp, newshape=(64,64)))
   #  plt.show()
   #for inp in inputs:                         # wind info vectors (need two 1 values)
   #  plt.plot(inp[1])

@@ -16,7 +16,15 @@ def build_model(input1_shape, input2_shape):
     # https://stackoverflow.com/questions/46397258/how-to-merge-sequential-models-in-keras-2-0
     model1 = Sequential()
     model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
-    model1.add(MaxPooling2D(pool_size=(3, 3)))
+    model1.add(Conv2D(filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
+    model1.add(MaxPooling2D(pool_size=(2, 2)))
+    model1.add(Dropout(0.25))
+
+    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
+    model1.add(Conv2D(filters=16, kernel_size=(3, 3), activation="relu", padding="same"))
+    model1.add(MaxPooling2D(pool_size=(2, 2)))
+    model1.add(Dropout(0.25))
+
     model1.add(Flatten())
     model1.add(Dense(24, activation='sigmoid'))             # 1D feature vector
 
@@ -42,17 +50,30 @@ def load_model_and_predict():
     images, windinfo, outputs = load_data()
     model = keras.models.load_model("saved_models\\safetySafe")
     #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
-    X1 = images[0:1]                                        # more clever way to write it down
-    X2 = windinfo[0:1]
-    result = model.predict([X1, X2])                        # outputs 61x61x1 for now
+    X1 = images[0:4]                                        # more clever way to write it down
+    X2 = windinfo[0:4]
+    results = model.predict([X1, X2])                        # outputs 61x61x1 for now
 
-    plt.imshow(np.reshape(result, (64, 64)))
-    plt.show()
+    orig_img = np.zeros((len(X1), 255, 255))
+    for i, image in enumerate(X1):
+        for y, row in enumerate(image):
+            for x, cell in enumerate(row):
+                for idx, item in enumerate(cell):
+                    if item == 1:
+                        orig_img[i][y][x] = idx
+
+
+
+    for i in range(len(results)):
+        plt.imshow(orig_img[i])
+        plt.show()
+        plt.imshow(np.reshape(results[i], (64, 64)))
+        plt.show()
 
 
 if __name__ == "__main__":
-    #load_model_and_predict()
-    #exit()
+    load_model_and_predict()
+    exit()
     images, windinfo, outputs = load_data()
 
     print(outputs[0].shape)

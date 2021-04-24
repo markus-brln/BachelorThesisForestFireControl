@@ -31,6 +31,16 @@ class View:
     self.highlighted_agent = None
 
 
+  def draw_agents(self):
+    for agent in self.model.agents:
+      if not agent.dead:
+        self.draw_block(agent.position, pygame.Color("DarkBlue"))
+      
+    if self.highlighted_agent is not None:
+      self.draw_block(self.highlighted_agent.position, pygame.Color("Yellow"))
+    
+
+
   def draw_initial_model(self):
       self.window.fill(pygame.Color("ForestGreen"))
       # self.draw_grid()
@@ -114,7 +124,9 @@ class View:
   def clear_waypoints(self, old_waypoints):
     for node in old_waypoints:
       self.node_change(node)
+    self.draw_agents()
 
   
   def draw(self):
+    self.draw_block(self.model.centre, (255,255,255))
     pygame.display.update()

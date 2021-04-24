@@ -65,7 +65,7 @@ class Controller:
     
   def start_collecting_waypoints(self):
     print("Assigning waypoints")
-    self.view.clear_waypoints()
+    self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
     self.model.waypoints.clear()    # clear the actual waypoint positions after deleting them on the view!
 
     self.collecting_waypoints = True

@@ -324,7 +324,7 @@ class Model:
 
   def undo_selection(self, agent_no):
     for subscriber in self.subscribers:
-      subscriber.update(UpdateType.CLEAR_WAYPOINTS, agent=self.highlighted_agent)
+      subscriber.update(UpdateType.CLEAR_WAYPOINTS, position=[self.find_node(pos) for pos in self.waypoints])
     
     self.waypoints.clear()
     self.waypoints_digging.clear()
@@ -332,13 +332,16 @@ class Model:
     
     for agent in self.agents[0:agent_no]:
       if agent.waypoint is not None:
-        self.waypoints.add(agent.position)              # keep old waypoints for now
+        self.waypoints.add(agent.original_waypoint)              # keep old waypoints for now
         if agent.is_digging:
-          self.waypoints_digging.add(agent.position)
+          self.waypoints_digging.add(agent.original_waypoint)
         else:
-          self.waypoints_walking.add(agent.position)
+          self.waypoints_walking.add(agent.original_waypoint)
         for subscriber in self.subscribers:
           subscriber.update(UpdateType.WAYPOINT, position=agent.original_waypoint)
+    
+
+    print(self.waypoints)
 
     self.highlight_agent(agent_no)
 

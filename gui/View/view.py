@@ -83,7 +83,7 @@ class View:
       self.draw()
     
     if update_type == UpdateType.CLEAR_WAYPOINTS:
-      self.clear_waypoints()
+      self.clear_waypoints(position)
 
 
   def node_change(self, node):
@@ -124,8 +124,8 @@ class View:
     self.window.blit(textsurface, (0, 0))
 
   
-  def clear_waypoints(self):
-    for node in [self.model.find_node(pos) for pos in self.model.waypoints]:
+  def clear_waypoints(self, nodes):
+    for node in nodes:
       self.node_change(node)
     self.draw_agents()
 

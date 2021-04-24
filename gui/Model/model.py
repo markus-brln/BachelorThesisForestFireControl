@@ -10,7 +10,7 @@ from enum import Enum
 import random
 
 # For data generation maybe lose the seed
-from gui.Model.utils import n_wind_speed_levels
+from Model.utils import n_wind_speed_levels
 
 #random.seed(1)
 
@@ -26,6 +26,7 @@ class Model:
   ## Length: Grid size
   ## Agents: TODO determine: Number of agents or tuples of agent positions
   def __init__(self, length: int, nr_of_agents: int, radius: int):
+    self.counter = 0
     self.firebreaks = set()
     self.waypoints = set()
     self.waypoints_walking = set()
@@ -60,6 +61,8 @@ class Model:
 
   ## Episode Initialization
   def start_episode(self):
+    self.counter += 1
+    print(f"{self.counter}th run")
     self.reset_agents()
     self.waypoints = set()
     self.waypoints_walking = set()

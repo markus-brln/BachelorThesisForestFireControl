@@ -1,4 +1,4 @@
-from gui.Model.direction import Direction
+from Model.direction import Direction
 from enum import IntEnum
 import time
 import random

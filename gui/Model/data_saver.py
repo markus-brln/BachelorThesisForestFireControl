@@ -4,14 +4,15 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-from gui.Model.node import NodeState
-from gui.Model.utils import *
+from Model.node import NodeState
+from Model.utils import *
 
 class DataSaver:
   def __init__(self, model):
     self.model = model
     self.episode_data = list()  # gathered during episode, not sure yet whether it will succeed
     self.all_data = list()      # working with lists, later converted to np array
+    self.name = None
 
   def append_datapoint(self):
     """Should get called when new agent waypoints were set and model is about to
@@ -74,6 +75,9 @@ class DataSaver:
     """Save all data to numpy files existing .npy
        files and the globals to .txt files"""
     print("saving the run")
+    if self.name is None:
+      self.name = input("filename?")
+
     if not len(self.all_data) > 0:
       print("no data gathered, not saving the run")
       return
@@ -104,12 +108,12 @@ class DataSaver:
       next_file_number = int(number) + 1
       print(number)
 
-    filename = dirname + "runs" + sep + "run" + str(next_file_number) + ".npy"
+    filename = dirname + "runs" + sep + self.name + "run" + str(next_file_number) + ".npy"
 
     np.save(filename, all_data, allow_pickle=True)
 
     # another file with the same number, saving all relevant globals
-    globals_file = open(dirname + "globals" + sep + str(next_file_number) + ".txt", "w+")
+    globals_file = open(dirname + "globals" + sep + self.name + str(next_file_number) + ".txt", "w+")
     globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(size) + " #agents: " + str(nr_of_agents) + " timeframe: " + str(timeframe)
                        + " agentRadius: " + str(agentRadius) + " randseed: " + str(randseed))
 

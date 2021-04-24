@@ -1,1 +1,0 @@
-# training examples: 1size: 255 #agents: 10 windspeed: 2 wind_dir: (<Direction.SOUTH: 'S'>, <Direction.SOUTH: 'S'>) timeframe: 20 agentRadius: 50 randseed: 1619252121.9149528

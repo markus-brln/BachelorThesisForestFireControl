@@ -46,12 +46,29 @@ class Agent:
        actually reach it within X timesteps. This is done to have uniform
        waypoint distances from the agents."""
     self.is_digging = digging
-    print(digging)
+    self.start_pos = self.position            # save where the agent came from
 
     delta_x = position[0] - self.position[0]
     delta_y = position[1] - self.position[1]
 
+
     total_steps = abs(delta_x) + abs(delta_y)     # total steps cannot be bigger than timeframe for agents to move
+
+    if self.is_digging:                       # selected node closer to agent, then only walk/dig that far
+      if total_steps < timeframe:
+        self.waypoint_digging = position
+        self.waypoint = position              # TODO get rid of just the waypoint (many things may depend on it still being here!)
+        self.waypoint_walking = None
+        return
+    else:
+      if total_steps < timeframe * 2:
+        self.waypoint_digging = None
+        self.waypoint = position
+        self.waypoint_walking = position
+        return
+
+
+
     if total_steps == 0:
       move_x = 0
       move_y = 0
@@ -69,7 +86,7 @@ class Agent:
       self.waypoint_digging = None
       self.waypoint_walking = [round(self.position[0] + 2 * move_x), round(self.position[1] + 2 * move_y)] # walking twice as fast
 
-    self.start_pos = self.position
+
     #self.waypoint = position # waypoints won't be on the position where we clicked
 
 

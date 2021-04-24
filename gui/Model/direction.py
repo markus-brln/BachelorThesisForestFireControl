@@ -27,8 +27,12 @@ class Direction(Enum):
     if agent.position == agent.waypoint:    # agent will stay at its position when waypoint too close
       return Direction.GO_NONE
 
-    delta_x = agent.waypoint[0] - agent.start_pos[0] # get a linear function of agent's start -> waypoint
-    delta_y = agent.waypoint[1] - agent.start_pos[1]
+    if agent.is_digging:
+      delta_x = agent.waypoint_digging[0] - agent.start_pos[0] # get a linear function of agent's start -> waypoint
+      delta_y = agent.waypoint_digging[1] - agent.start_pos[1]
+    else:
+      delta_x = agent.waypoint_walking[0] - agent.start_pos[0] # get a linear function of agent's start -> waypoint
+      delta_y = agent.waypoint_walking[1] - agent.start_pos[1]
 
     evaluate_at_x = False
     if abs(delta_x) >= abs(delta_y):        # move along straight line by adding 1 to x

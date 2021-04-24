@@ -1,6 +1,5 @@
 import glob
 import platform
-from pathlib import Path, PureWindowsPath
 import numpy as np
 import os
 import matplotlib.pyplot as plt
@@ -55,7 +54,6 @@ class DataSaver:
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
     windspeed_vec[self.model.windspeed] = 1
-    # TODO create windspeed vector (put exactly one 1 in it)
 
     image_and_wind = [image, wind_dir_vec, windspeed_vec] # this is one raw datapoint
     self.episode_data.append(image_and_wind)
@@ -112,8 +110,7 @@ class DataSaver:
 
     # another file with the same number, saving all relevant globals
     globals_file = open(dirname + "globals" + sep + str(next_file_number) + ".txt", "w+")
-    globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(size) + " #agents: " + str(nr_of_agents) + " windspeed: "
-                       + str(self.model.windspeed) + " wind_dir: " + str(self.model.wind_dir) + " timeframe: " + str(timeframe)
+    globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(size) + " #agents: " + str(nr_of_agents) + " timeframe: " + str(timeframe)
                        + " agentRadius: " + str(agentRadius) + " randseed: " + str(randseed))
 
 

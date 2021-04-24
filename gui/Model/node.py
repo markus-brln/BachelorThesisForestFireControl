@@ -2,7 +2,6 @@ from enum import Enum, IntEnum
 from Model.direction import Direction
 import numpy as np
 import random
-from numba import jit
 
 #random.seed(0)
 

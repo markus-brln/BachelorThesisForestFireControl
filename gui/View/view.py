@@ -81,6 +81,9 @@ class View:
 
     if update_type == UpdateType.TIMESTEP_COMPLETE:
       self.draw()
+    
+    if update_type == UpdateType.CLEAR_WAYPOINTS:
+      self.clear_waypoints(position)
 
 
   def node_change(self, node):
@@ -121,8 +124,8 @@ class View:
     self.window.blit(textsurface, (0, 0))
 
   
-  def clear_waypoints(self, old_waypoints):
-    for node in old_waypoints:
+  def clear_waypoints(self, nodes):
+    for node in nodes:
       self.node_change(node)
     self.draw_agents()
 

@@ -7,3 +7,4 @@ class UpdateType(Enum):
   WAYPOINT = 3
   TIMESTEP_COMPLETE = 4
   HIGHLIGHT_AGENT = 5
+  CLEAR_WAYPOINTS = 6

@@ -57,6 +57,7 @@ class Model:
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
+    self.highlighted_agent_nr = None
     self.highlighted_agent = None
 
   ## Episode Initialization
@@ -320,6 +321,29 @@ class Model:
       subscriber.update(UpdateType.HIGHLIGHT_AGENT, agent=self.highlighted_agent)
     
     #print(f"{self.highlighted_agent.angle()} for pos {self.highlighted_agent.position} - {self.highlighted_agent.pos_rel_to_centre()}")
+
+  def undo_selection(self, agent_no):
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.CLEAR_WAYPOINTS, position=[self.find_node(pos) for pos in self.waypoints])
+    
+    self.waypoints.clear()
+    self.waypoints_digging.clear()
+    self.waypoints_walking.clear()
+    
+    for agent in self.agents[0:agent_no]:
+      if agent.waypoint is not None:
+        self.waypoints.add(agent.original_waypoint)              # keep old waypoints for now
+        if agent.is_digging:
+          self.waypoints_digging.add(agent.original_waypoint)
+        else:
+          self.waypoints_walking.add(agent.original_waypoint)
+        for subscriber in self.subscribers:
+          subscriber.update(UpdateType.WAYPOINT, position=agent.original_waypoint)
+    
+
+    print(self.waypoints)
+
+    self.highlight_agent(agent_no)
 
   def select_square(self, position, digging):
     if self.highlighted_agent == None:

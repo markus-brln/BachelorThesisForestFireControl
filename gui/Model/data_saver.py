@@ -28,7 +28,8 @@ class DataSaver:
     #  ON_FIRE = 2
     #  BURNED_OUT = 3
     #  AGENT = 4
-    #  waypoint = 5 (based on agent.waypoint)
+    #  waypoint_digging = 5 (based on agent.waypoint)
+    #  waypoint_walking = 6
     for x, node_row in enumerate(self.model.nodes): # make a picture of the node state
       for y, node in enumerate(node_row):
         image[y][x] = node.state                  # NOTE: x,y flipped because array is accessed via y,x == row, col
@@ -37,15 +38,19 @@ class DataSaver:
     for agent in self.model.agents:
       x, y = agent.position
       image[y][x] = int(NodeState.AGENT)
-      x,y = agent.waypoint
-      image[y][x] = 5
+      if agent.waypoint_digging:                  # one of the waypoints is None
+        x, y = agent.waypoint_digging
+        image[y][x] = 5
+      if agent.waypoint_walking:
+        x, y = agent.waypoint_walking
+        image[y][x] = 6
 
     #for waypoint in self.model.waypoints:
     #  x, y = waypoint
     #  picture[x][y] = 5
 
-    #plt.imshow(image)
-    #plt.show()
+    plt.imshow(image)
+    plt.show()
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1

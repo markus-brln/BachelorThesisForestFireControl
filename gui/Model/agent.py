@@ -15,28 +15,39 @@ class Agent:
     self.node = model.find_node(position)
     self.prev_node = model.find_node(position)
     self.dead = False
-    self.digging = True
     self.active = active
     self.agent_hist = deque()
     self.agent_hist.append(self.position)
     self.save_move = False
     self.waypoint = None
-    self.waypoint_old = None
+    self.waypoint_digging = None
+    self.waypoint_walking = None
     self.model = model
+    self.is_digging = True
 
   def timestep(self, time):
-    # M walk towards waypoint (dumb / A-Star) + dig on every step
-    self.dig()
-    #if time % 3 == 0:      # makes the simulation too slow unfortunately
-    self.move()
-    if self.save_move:
-      self.agent_hist.append(self.position)
 
-  def assign_new_waypoint(self, position):
+    if self.is_digging:
+      # M walk towards waypoint (dumb / A-Star) + dig on every step
+      self.dig()
+      #if time % 3 == 0:      # makes the simulation too slow unfortunately
+      self.move()
+      if self.save_move:
+        self.agent_hist.append(self.position)
+    else:
+      self.move()               # move at double the speed compared to digging
+      self.move()
+      if self.save_move:
+        self.agent_hist.append(self.position)
+
+  def assign_new_waypoint(self, position, digging):
     """Takes a position selected by a mouse click and projects it onto
        a square (rotated diamond-like) around the agent, where it can
        actually reach it within X timesteps. This is done to have uniform
        waypoint distances from the agents."""
+    self.is_digging = digging
+    print(digging)
+
     delta_x = position[0] - self.position[0]
     delta_y = position[1] - self.position[1]
 
@@ -51,6 +62,13 @@ class Agent:
 
     self.waypoint = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
 
+    if self.is_digging:
+      self.waypoint_digging = self.waypoint
+      self.waypoint_walking = None
+    else:
+      self.waypoint_digging = None
+      self.waypoint_walking = [round(self.position[0] + 2 * move_x), round(self.position[1] + 2 * move_y)] # walking twice as fast
+
     self.start_pos = self.position
     #self.waypoint = position # waypoints won't be on the position where we clicked
 
@@ -64,7 +82,7 @@ class Agent:
 
 
   def move(self):
-    if self.waypoint is None:
+    if self.waypoint_digging is None and self.waypoint_walking is None:
       return
     self.prev_node = self.node
     self.position = Direction.find(self)(self.position)
@@ -74,6 +92,7 @@ class Agent:
 
 
   def get_waypoint(self):
+    print("wp")
     if len(self.model.waypoints) == 0:
       return None
     waypoints = list(self.model.waypoints)

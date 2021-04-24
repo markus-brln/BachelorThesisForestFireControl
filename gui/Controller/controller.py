@@ -32,7 +32,7 @@ class Controller:
     elif event.type == pygame.MOUSEBUTTONDOWN:
       # Mouse stationary and mouse button pressed
       self.mouse_button_pressed = event.button
-      self.select(event)
+      #self.select(event)
     elif event.type == pygame.MOUSEBUTTONUP:
       # Mouse button released
       self.mouse_button_pressed = False
@@ -79,7 +79,15 @@ class Controller:
       return
 
     position = self.view.pixel_belongs_to_block(event.pos)
-    self.model.select_square(position)
+
+    #print(event.button)
+    if event.button == 1:       # left mouse button, digging waypoint
+      self.model.select_square(position, digging=True)
+    elif event.button == 3:     # right mouse button, walking waypoint
+      self.model.select_square(position, digging=False)
+    else:
+      print("use left(digging) or right (walking) mouse button")
+      return
     
     self.agent_no += 1
     if self.agent_no >= len(self.model.agents):

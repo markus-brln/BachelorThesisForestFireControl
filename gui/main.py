@@ -38,3 +38,6 @@ def main():
 
 if __name__=="__main__":
   main()
+  # new kind of waypoint
+  # in gui other color
+  # data saving different

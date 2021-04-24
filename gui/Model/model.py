@@ -28,6 +28,8 @@ class Model:
   def __init__(self, length: int, nr_of_agents: int, radius: int):
     self.firebreaks = set()
     self.waypoints = set()
+    self.waypoints_walking = set()
+    self.waypoints_digging = set()
     self.time = 0
     self.subscribers = []
     ## properties of env
@@ -60,6 +62,8 @@ class Model:
   def start_episode(self):
     self.reset_agents()
     self.waypoints = set()
+    self.waypoints_walking = set()
+    self.waypoints_digging = set()
     self.time = 0
     self.state = State.ONGOING
 
@@ -297,6 +301,8 @@ class Model:
   def start_collecting_waypoints(self):
     print("wp: ", len(self.waypoints))
     self.waypoints.clear()
+    self.waypoints_walking.clear()
+    self.waypoints_digging.clear()
     print("wp: ", len(self.waypoints))
 
   def highlight_agent(self, agent_no):
@@ -312,12 +318,17 @@ class Model:
     
     #print(f"{self.highlighted_agent.angle()} for pos {self.highlighted_agent.position} - {self.highlighted_agent.pos_rel_to_centre()}")
 
-  def select_square(self, position):
+  def select_square(self, position, digging):
     if self.highlighted_agent == None:
       return
 
-    self.highlighted_agent.assign_new_waypoint(position)
-    self.waypoints.add(position)
+    self.highlighted_agent.assign_new_waypoint(position, digging)
+
+    self.waypoints.add(position)              # keep old waypoints for now
+    if digging:
+      self.waypoints_digging.add(position)
+    else:
+      self.waypoints_walking.add(position)
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.WAYPOINT, position=position)
 

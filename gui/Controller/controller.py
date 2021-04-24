@@ -65,7 +65,7 @@ class Controller:
     
   def start_collecting_waypoints(self):
     print("Assigning waypoints")
-    self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
+    self.view.clear_waypoints()
     self.model.waypoints.clear()    # clear the actual waypoint positions after deleting them on the view!
 
     self.collecting_waypoints = True
@@ -75,6 +75,13 @@ class Controller:
 
 
   def collect_waypoints(self, event):
+    if event.type == pygame.KEYDOWN:
+      if event.key == pygame.K_LEFT:
+        if self.agent_no != 0:
+          self.model.undo_selection(self.agent_no - 1)
+          self.agent_no -= 1
+
+
     if event.type != pygame.MOUSEBUTTONDOWN:
       return
 
@@ -126,7 +133,7 @@ class Controller:
       self.model.start_episode()  ## Return / ENTER to go to next episode
       self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1
-
+    
     #if event.key == pygame.K_c:
     #  self.model.waypoints.clear()
 

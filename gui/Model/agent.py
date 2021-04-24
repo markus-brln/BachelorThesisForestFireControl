@@ -19,6 +19,7 @@ class Agent:
     self.agent_hist = deque()
     self.agent_hist.append(self.position)
     self.save_move = False
+    self.original_waypoint = None
     self.waypoint = None
     self.waypoint_digging = None
     self.waypoint_walking = None
@@ -45,6 +46,8 @@ class Agent:
        a square (rotated diamond-like) around the agent, where it can
        actually reach it within X timesteps. This is done to have uniform
        waypoint distances from the agents."""
+    self.original_waypoint = position
+
     self.is_digging = digging
     self.start_pos = self.position            # save where the agent came from
 

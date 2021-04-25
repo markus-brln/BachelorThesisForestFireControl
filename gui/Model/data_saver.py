@@ -76,7 +76,7 @@ class DataSaver:
        files and the globals to .txt files"""
     print("saving the run")
     if self.name is None:
-      self.name = input("filename?")
+      self.name = input("full filename without .npy:")
 
     if not len(self.all_data) > 0:
       print("no data gathered, not saving the run")
@@ -106,14 +106,15 @@ class DataSaver:
           break
 
       next_file_number = int(number) + 1
-      print(number)
 
-    filename = dirname + "runs" + sep + self.name + "run" + str(next_file_number) + ".npy"
+    #filename = dirname + "runs" + sep + self.name + "run" + str(next_file_number) + ".npy"
+    filename = dirname + "runs" + sep + self.name + ".npy"
 
     np.save(filename, all_data, allow_pickle=True)
 
     # another file with the same number, saving all relevant globals
-    globals_file = open(dirname + "globals" + sep + self.name + str(next_file_number) + ".txt", "w+")
+    #globals_file = open(dirname + "globals" + sep + self.name + str(next_file_number) + ".txt", "w+")
+    globals_file = open(dirname + "globals" + sep + self.name + ".txt", "w+")
     globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(size) + " #agents: " + str(nr_of_agents) + " timeframe: " + str(timeframe)
                        + " agentRadius: " + str(agentRadius) + " randseed: " + str(randseed))
 

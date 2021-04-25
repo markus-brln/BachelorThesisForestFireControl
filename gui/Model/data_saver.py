@@ -49,8 +49,8 @@ class DataSaver:
     #  x, y = waypoint
     #  picture[x][y] = 5
 
-    #plt.imshow(image)
-    #plt.show()
+    plt.imshow(image)
+    plt.show()
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1

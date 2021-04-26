@@ -49,8 +49,8 @@ class DataSaver:
     #  x, y = waypoint
     #  picture[x][y] = 5
 
-    plt.imshow(image)
-    plt.show()
+    #plt.imshow(image)
+    #plt.show()
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
@@ -75,12 +75,14 @@ class DataSaver:
     """Save all data to numpy files existing .npy
        files and the globals to .txt files"""
     print("saving the run")
-    if self.name is None:
-      self.name = input("full filename without .npy:")
+
 
     if not len(self.all_data) > 0:
       print("no data gathered, not saving the run")
       return
+    if self.name is None:
+      self.name = input("full filename without .npy:")
+
 
     print("amount of datapoints saved: ", len(self.all_data))
     all_data = np.asarray(self.all_data, # object type because dimensions of picture

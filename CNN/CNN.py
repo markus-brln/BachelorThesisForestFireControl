@@ -87,8 +87,8 @@ def load_model_and_predict():
 
 if __name__ == "__main__":
     # TODO what should happen if we clicked on the same spot twice, i.e. only one waypoint recorded?
-    load_model_and_predict()
-    exit()
+    #load_model_and_predict()
+    #exit()
 
     images, windinfo, outputs = load_data()
 
@@ -102,4 +102,4 @@ if __name__ == "__main__":
               epochs=500,
               shuffle=True)                         # mix data randomly
 
-    save(model, "safetySafe")                       # utils
+    #save(model, "safetySafe")                       # utils

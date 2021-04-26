@@ -13,7 +13,7 @@ n_wind_speed_levels = 5
 # GLOBALS (documented when saving)
 size = 255  # environment size
 nr_of_agents = 5
-timeframe = 40  # timeframe in between setting new waypoints
+timeframe = 20  # timeframe in between setting new waypoints
 agentRadius = 70  # agents spawn in this radius around the fire (it's a box, not a circle, for now, see model.get_random_position())
 randseed = time.time()
 fire_step_multiplicator = 1

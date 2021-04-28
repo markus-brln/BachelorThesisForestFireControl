@@ -91,6 +91,8 @@ if __name__ == "__main__":
     #exit()
 
     images, windinfo, outputs = load_data()
+    print(images.shape, windinfo.shape, outputs.shape)
+    exit()
 
     model = build_model(images[0].shape, windinfo[0].shape)
     print(model.summary())

@@ -99,7 +99,7 @@ if __name__ == "__main__":
     model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
               batch_size=1,
-              epochs=500,
+              epochs=20,
               shuffle=True)                         # mix data randomly
 
     #save(model, "safetySafe")                       # utils

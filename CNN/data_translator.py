@@ -5,7 +5,7 @@ import glob
 import matplotlib.pyplot as plt
 sep = os.path.sep
 
-def load_all_data():
+def load_all_data(file_filter):
   """Loads and concatenates all data from files in data/runs/"""
   dirname = os.path.dirname(os.path.realpath(__file__)) + sep + ".." + sep + "gui" + sep + "data" + sep
 
@@ -14,10 +14,13 @@ def load_all_data():
     print("no files found at: ", dirname + "runs" + sep)
     exit()
 
+  print(len(filepaths))
+
   data = np.load(filepaths[0], allow_pickle=True)
   for filepath in filepaths[1:]:                      # optionally load more data
-    file_data = np.load(filepath, allow_pickle=True)
-    data = np.concatenate([data, file_data])
+    if filepath.find(file_filter):
+      file_data = np.load(filepath, allow_pickle=True)
+      data = np.concatenate([data, file_data])
 
   return data
 
@@ -31,12 +34,12 @@ def raw_to_IO_arrays(data):
      For details see /Documentation/dataTranslation.png"""
 
   # INPUT AND OUTPUT PICTURES
-  n_channels = np.max(data[0][0])            # the highest number gives the amount of different pixels
-                                             # minus waypoint pixels -> channels
-  waypoint_channel = 5
+  n_channels = 5
+  waypoint_dig_channel = 5
+  waypoint_drive_channel = 6
   shape = (len(data), np.shape(data[0][0])[0], np.shape(data[0][0])[1], n_channels)
   images = np.zeros(shape, dtype=np.uint8)
-  shape = (len(data), np.shape(data[0][0])[0], np.shape(data[0][0])[1])
+  shape = (len(data), np.shape(data[0][0])[0], np.shape(data[0][0])[1], 2)
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
 
@@ -45,8 +48,11 @@ def raw_to_IO_arrays(data):
     picture_raw = data[i][0]
     for y, row in enumerate(picture_raw):
       for x, cell in enumerate(row):
-        if cell == waypoint_channel:         # make 2D image of waypoints
-          waypoint_imgs[i][y][x] = 1
+        if cell == waypoint_dig_channel:         # make 2D image of waypoints
+          waypoint_imgs[i][y][x][0] = 1
+          images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
+        if cell == waypoint_drive_channel:         # make 2D image of waypoints
+          waypoint_imgs[i][y][x][1] = 1
           images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
         else:
           images[i][y][x][cell] = 1
@@ -62,15 +68,17 @@ def raw_to_IO_arrays(data):
   wind_dir_speed = np.asarray(wind_dir_speed)
 
   # BUILD OUTPUT IMAGES, 255x255 to 64x64x1
-  outputs = np.zeros((len(data), 64, 64, 1), dtype=np.uint8)
+  outputs = np.zeros((len(data), 64, 64, 2), dtype=np.uint8)
 
   for i in range(len(data)):
     for y, row in enumerate(waypoint_imgs[i]):
       for x, cell in enumerate(row):
         outx = math.floor(x / 4)
         outy = math.floor(y / 4)
-        if cell > outputs[i][outy][outx]:
-          outputs[i][outy][outx] = 1
+        if cell[0] > outputs[i][outy][outx][0]:
+          outputs[i][outy][outx][0] = 1
+        if cell[1] > outputs[i][outy][outx][1]:
+          outputs[i][outy][outx][1] = 1
 
 
   print("input examples len: ", len(images))
@@ -94,10 +102,9 @@ def raw_to_IO_arrays(data):
 
 
 if __name__ == "__main__":
-  # TODO set up CNN, ask how training can be done with 2 inputs and concatenation
-
+  # TODO 3 dimensional (normal, gid, drive), softmax activation, pixelwise softmax
   print(os.path.realpath(__file__))
-  data = load_all_data()
+  data = load_all_data(file_filter="Five")
   images, wind_dir_speed, outputs = raw_to_IO_arrays(data)
 
   np.save(file="images.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

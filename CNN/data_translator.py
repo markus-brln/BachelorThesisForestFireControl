@@ -18,7 +18,8 @@ def load_all_data(file_filter):
 
   data = np.load(filepaths[0], allow_pickle=True)
   for filepath in filepaths[1:]:                      # optionally load more data
-    if filepath.find(file_filter):
+    if file_filter in filepath:
+      print(filepath)                                 # TODO jFive0.npy not there??
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
 
@@ -37,13 +38,13 @@ def raw_to_IO_arrays(data):
   n_channels = 5
   waypoint_dig_channel = 5
   waypoint_drive_channel = 6
-  shape = (len(data), np.shape(data[0][0])[0], np.shape(data[0][0])[1], n_channels)
+  shape = (len(data), 256, 256, n_channels)
   images = np.zeros(shape, dtype=np.uint8)
-  shape = (len(data), np.shape(data[0][0])[0], np.shape(data[0][0])[1], 2)
+  shape = (len(data), 256, 256, 2)
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
 
-  for i in range(len(data)):
+  for i in range(10):
     print("picture " + str(i) + "/" + str(len(data)))
     picture_raw = data[i][0]
     for y, row in enumerate(picture_raw):
@@ -51,7 +52,7 @@ def raw_to_IO_arrays(data):
         if cell == waypoint_dig_channel:         # make 2D image of waypoints
           waypoint_imgs[i][y][x][0] = 1
           images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
-        if cell == waypoint_drive_channel:         # make 2D image of waypoints
+        elif cell == waypoint_drive_channel:         # make 2D image of waypoints
           waypoint_imgs[i][y][x][1] = 1
           images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
         else:
@@ -67,18 +68,21 @@ def raw_to_IO_arrays(data):
 
   wind_dir_speed = np.asarray(wind_dir_speed)
 
-  # BUILD OUTPUT IMAGES, 255x255 to 64x64x1
-  outputs = np.zeros((len(data), 64, 64, 2), dtype=np.uint8)
+  # BUILD OUTPUT IMAGES, 255x255 to 64x64x3 (normal, dig waypoint, drive waypoint) -> pixel wise softmax
+  outputs = np.zeros((len(data), 64, 64, 3), dtype=np.uint8)
 
-  for i in range(len(data)):
+  for i in range(10):#len(data)):
+    print("downscale picture " + str(i) + "/" + str(len(data)))
     for y, row in enumerate(waypoint_imgs[i]):
       for x, cell in enumerate(row):
         outx = math.floor(x / 4)
         outy = math.floor(y / 4)
         if cell[0] > outputs[i][outy][outx][0]:
-          outputs[i][outy][outx][0] = 1
-        if cell[1] > outputs[i][outy][outx][1]:
           outputs[i][outy][outx][1] = 1
+        elif cell[1] > outputs[i][outy][outx][1]:
+          outputs[i][outy][outx][2] = 1
+        else:
+          outputs[i][outy][outx][0] = 1
 
 
   print("input examples len: ", len(images))
@@ -102,7 +106,7 @@ def raw_to_IO_arrays(data):
 
 
 if __name__ == "__main__":
-  # TODO 3 dimensional (normal, gid, drive), softmax activation, pixelwise softmax
+  # TODO 3 dimensional (normal, dig, drive), softmax activation, pixelwise softmax
   print(os.path.realpath(__file__))
   data = load_all_data(file_filter="Five")
   images, wind_dir_speed, outputs = raw_to_IO_arrays(data)

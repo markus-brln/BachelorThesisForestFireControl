@@ -37,7 +37,7 @@ def build_model(input1_shape, input2_shape):
     # https://machinelearningmastery.com/upsampling-and-transpose-convolution-layers-for-generative-adversarial-networks/
     deconv = Conv2DTranspose(32, kernel_size=(2, 2), strides=(1, 1), padding='same')(deconv)
     deconv = Conv2DTranspose(64, kernel_size=(2, 2), strides=(1, 1), padding='same')(deconv)
-    deconv = Conv2DTranspose(128, kernel_size=(2, 2), strides=(1, 1), padding='same')(deconv)
+    deconv = Conv2DTranspose(128, kernel_size=(2, 2), strides=(1, 1), padding='same', activation='pix')(deconv)
 
     deconv = keras.layers.Reshape((64, 64, 2))(deconv)
     model = Model(inputs=[model1.input, inp2], outputs=deconv)

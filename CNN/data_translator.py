@@ -35,7 +35,7 @@ def raw_to_IO_arrays(data):
      For details see /Documentation/dataTranslation.png"""
 
   # INPUT AND OUTPUT PICTURES
-  data = data[:50]
+  data = data[:]          # TODO convert everything
   n_channels = 5
   waypoint_dig_channel = 5
   waypoint_drive_channel = 6
@@ -120,7 +120,6 @@ def raw_to_IO_arrays(data):
   #for inp in inputs:                         # wind info vectors (need two 1 values)
   #  plt.plot(inp[1])
   #  plt.show()
-  exit()
   return images, wind_dir_speed, outputs
 
 

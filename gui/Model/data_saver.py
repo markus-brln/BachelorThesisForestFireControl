@@ -57,6 +57,9 @@ class DataSaver:
     wind_dir_vec[self.get_wind_dir_idx()] = 1
     windspeed_vec[self.model.windspeed] = 1
 
+    """NEW"""
+
+
     image_and_wind = [image, wind_dir_vec, windspeed_vec] # this is one raw datapoint
     self.episode_data.append(image_and_wind)
 

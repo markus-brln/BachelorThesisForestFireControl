@@ -14,6 +14,7 @@ class DataSaver:
     self.all_data = list()      # working with lists, later converted to np array
     self.name = None
 
+
   def append_datapoint(self):
     """Should get called when new agent waypoints were set and model is about to
        fast-forward 5-10 timesteps (see utils.py, 'timeframe') to see how it played out."""

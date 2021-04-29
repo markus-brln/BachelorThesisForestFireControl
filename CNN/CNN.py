@@ -208,14 +208,14 @@ if __name__ == "__main__":
 
     images, windinfo, outputs = load_data()
 
-    model = build_model(images[0].shape, windinfo[0].shape)
+    model = build_model2(images[0].shape, windinfo[0].shape)
     print(model.summary())
     #exit()
 
     model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
               batch_size=16,
-              epochs=20,
+              epochs=2,
               shuffle=True,
               validation_split=0.2)                         # mix data randomly
 

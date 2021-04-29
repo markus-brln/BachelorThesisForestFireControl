@@ -1,5 +1,8 @@
 /CNN/saved_models/
 
+# not the large concatenated data files
+/CNN/*.npy
+
 .idea/
 *.xml
 *.iml

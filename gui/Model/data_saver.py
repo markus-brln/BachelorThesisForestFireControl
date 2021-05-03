@@ -61,6 +61,8 @@ class DataSaver:
     wind_dir_vec[self.get_wind_dir_idx()] = 1
     windspeed_vec[self.model.windspeed] = 1
 
+    print("wind: ", wind_dir_vec, windspeed_vec)
+
     print("agent, wp len: ", len(agent_pos_with_waypoints))
     print(agent_pos_with_waypoints)
 
@@ -133,8 +135,10 @@ class DataSaver:
   # M: not really necessary with a script that combines all files to a proper I/O file, otherwise we might risk
   #    screwing up a very big file
 
-  @staticmethod
-  def get_wind_dir_idx():
+
+  def get_wind_dir_idx(self):
+    wind_dir = self.model.wind_dir
+    print(wind_dir)
     """Order of wind directions:
        N, S, E, W, NE, NW, SE, SW"""
     if wind_dir == (Direction.NORTH, Direction.NORTH):

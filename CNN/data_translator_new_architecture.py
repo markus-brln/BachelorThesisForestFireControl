@@ -33,9 +33,9 @@ def load_all_data(file_filter):
 
 
 def raw_to_IO_arrays(data):
-  """"""
+  """See Documentation/dataTranslationNewArchitecture.png"""
   # DEFINITIONS
-  data = data[:2]          # TODO convert everything
+  data = data[:]
   n_channels = 5
   n_agents = 5
   env_dim = 256
@@ -92,7 +92,7 @@ def raw_to_IO_arrays(data):
   for i in range(len(data)):
     print("output " + str(i) + "/" + str(len(data)))
     agent_specific = data[i][3]
-    print(agent_specific)
+    #print(agent_specific)
     for j in range(n_agents):
       agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
       outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
@@ -100,34 +100,44 @@ def raw_to_IO_arrays(data):
 
   agent_positions = np.asarray(agent_positions, dtype=np.float)
   outputs = np.asarray(outputs, dtype=np.float)
-  print(agent_positions)
-  print(outputs)
 
+  # CONCAT WIND + AGENT POS
+  concat_vector = list()
+  for wind, agentpos in zip(wind_dir_speed, agent_positions):
+    concat_vector.append(list(wind) + list(agentpos))
+  concat_vector = np.asarray(concat_vector)
 
 
   print("input image shape: ", np.shape(images))
   print("wind info vector shape: ", np.shape(wind_dir_speed))
   print("agent input positions: ", np.shape(agent_positions))
+  print("wind+agent concat: ", concat_vector.shape)
   print("outputs shape: ", np.shape(outputs))
 
 
+
+
+
   # PLOT TO CHECK RESULTS
-  for dat in data:
-    img = dat[0]
-    plt.imshow(np.reshape(img, (255, 255)))
-    plt.show()
+  #for i, dat in enumerate(data):
+  #  print("wind info: ", wind_dir_speed[5 * i : 5 * i + 4])
+  #  print("agent pos: ", agent_positions[5 * i : 5 * i + 4])
+  #  print("output waypoints: ", outputs[5 * i : 5 * i + 4])
+  #  img = dat[0]
+  #  plt.imshow(np.reshape(img, (255, 255)))
+  #  plt.show()
 
-
-  return images_single, wind_dir_speed, outputs
+        # input, input,         output
+  return images, concat_vector, outputs
 
 
 
 if __name__ == "__main__":
-  # TODO 3 dimensional (normal, dig, drive), softmax activation, pixelwise softmax
   print(os.path.realpath(__file__))
-  data = load_all_data(file_filter="NEWFive")
-  images, wind_dir_speed, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="images_old.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="windinfo_old.npy", arr=wind_dir_speed, allow_pickle=True)
-  np.save(file="outputs_old.npy", arr=outputs, allow_pickle=True)
+  data = load_all_data(file_filter="NEWFive")
+  images, concat, outputs = raw_to_IO_arrays(data)
+
+  np.save(file="images.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="concat.npy", arr=concat, allow_pickle=True)
+  np.save(file="outputs.npy", arr=outputs, allow_pickle=True)

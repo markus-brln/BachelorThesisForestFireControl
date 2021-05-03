@@ -1,3 +1,5 @@
+import random
+
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -46,7 +48,7 @@ def build_model(input1_shape, input2_shape):
 
     model = Model(inputs=[downscaleInput, inp2], outputs=out)
 
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss='mse',
                   optimizer='adam')
 
 
@@ -59,51 +61,41 @@ def predict(model=None, data=None, n_examples=5):
        either provided as param or loaded from file"""
 
     if not data:
-        images, windinfo, desired_outputs = load_data()
+        images, concat, desired_outputs = load_data()
     else:
-        images, windinfo, desired_outputs = data
+        images, concat, desired_outputs = data
 
     if not model:
         model = tf.keras.models.load_model("saved_models\\safetySafe")
     #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
-    X1 = images[:n_examples]                                        # more clever way to write it down
-    X2 = windinfo[:n_examples]
+    indeces = random.sample(range(len(images)), n_examples)
+    X1 = images[indeces]                                        # more clever way to write it down
+    X2 = concat[indeces]
+    desired = desired_outputs[indeces]
+
     NN_output = model.predict([X1, X2])                        # outputs 61x61x2
 
     # translate the 5 channel input back to displayable images
     orig_img = np.zeros((len(X1), 256, 256))
     for i, image in enumerate(X1):
+        print("reconstructing image ", i+1, "/", n_examples)
         for y, row in enumerate(image):
             for x, cell in enumerate(row):
                 for idx, item in enumerate(cell):
                     if item == 1:
                         orig_img[i][y][x] = idx
 
+    #outputs = np.zeros((len(X1), 256, 256))
+    #for img, point in outputs, NN_output:
+
 
     # display input images and the 2 waypoint output images (from 2 channels)
     for i in range(len(NN_output)):
+        print("agent pos: ", X2[i][-2], X2[i][-1])
+        print("desired: ", desired[i])
+        print("NN output: ", NN_output[i])
         plt.imshow(orig_img[i])
         plt.title("input image")
-        plt.show()
-
-        non_wp_NN, dig_img_NN, drive_img_NN = np.dsplit(NN_output[i], 3)
-        non_wp_des, dig_img_des, drive_img_des = np.dsplit(desired_outputs[i], 3)
-        f, axarr = plt.subplots(2,3)
-
-        #
-        axarr[0,0].imshow(np.reshape(dig_img_NN, newshape=(64, 64)))
-        axarr[0,0].set_title("dig waypoints image NN output")
-        axarr[0,1].imshow(np.reshape(drive_img_NN, newshape=(64, 64)))
-        axarr[0,1].set_title("drive image NN output")
-        axarr[0,2].imshow(np.reshape(non_wp_NN, newshape=(64, 64)))
-        axarr[0,2].set_title("non-wp NN output")
-
-        axarr[1,0].imshow(np.reshape(dig_img_des, newshape=(64, 64)))
-        axarr[1,0].set_title("dig image desired")
-        axarr[1,1].imshow(np.reshape(drive_img_des, newshape=(64, 64)))
-        axarr[1,1].set_title("drive image desired")
-        axarr[1,2].imshow(np.reshape(non_wp_des, newshape=(64, 64)))
-        axarr[1,2].set_title("non-wp desired")
         plt.show()
 
 
@@ -119,10 +111,10 @@ if __name__ == "__main__":
 
     model.fit([images, concat],  # list of 2 inputs to model
               outputs,
-              batch_size=1,
-              epochs=2,
+              batch_size=8,
+              epochs=20,
               shuffle=True)                         # mix data randomly
 
-    #predict(model=model)
+    predict(model=model)
 
     #save(model, "safetySafe")                       # utils

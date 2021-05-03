@@ -35,6 +35,8 @@ class DataSaver:
       for y, node in enumerate(node_row):
         image[y][x] = node.state                  # NOTE: x,y flipped because array is accessed via y,x == row, col
 
+    """NEW"""
+    agent_pos_with_waypoints = list()
 
     for agent in self.model.agents:
       x, y = agent.position
@@ -42,9 +44,11 @@ class DataSaver:
       if agent.waypoint_digging:                  # one of the waypoints is None
         x, y = agent.waypoint_digging
         image[y][x] = 5
+        agent_pos_with_waypoints.append([agent.position, agent.waypoint_digging, 1]) # 1 == digging
       if agent.waypoint_walking:
         x, y = agent.waypoint_walking
         image[y][x] = 6
+        agent_pos_with_waypoints.append([agent.position, agent.waypoint_walking, 0]) # 0 == driving
 
     #for waypoint in self.model.waypoints:
     #  x, y = waypoint
@@ -57,10 +61,10 @@ class DataSaver:
     wind_dir_vec[self.get_wind_dir_idx()] = 1
     windspeed_vec[self.model.windspeed] = 1
 
-    """NEW"""
+    print("agent, wp len: ", len(agent_pos_with_waypoints))
+    print(agent_pos_with_waypoints)
 
-
-    image_and_wind = [image, wind_dir_vec, windspeed_vec] # this is one raw datapoint
+    image_and_wind = [image, wind_dir_vec, windspeed_vec, agent_pos_with_waypoints] # this is one raw datapoint
     self.episode_data.append(image_and_wind)
 
 

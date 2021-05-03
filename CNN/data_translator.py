@@ -14,12 +14,18 @@ def load_all_data(file_filter):
     print("no files found at: ", dirname + "runs" + sep)
     exit()
 
-  print(len(filepaths))
+  fp_tmp = list()
+  for filepath in filepaths:
+    if file_filter in filepath:
+      fp_tmp.append(filepath)
+
+  filepaths = fp_tmp
 
   data = np.load(filepaths[0], allow_pickle=True)
+
   for filepath in filepaths[1:]:                      # optionally load more data
     if file_filter in filepath:
-      print(filepath)                                 # TODO jFive0.npy not there??
+      print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
 
@@ -99,27 +105,28 @@ def raw_to_IO_arrays(data):
   print("output image shape: ", np.shape(outputs[0]))
 
   # PLOT TO CHECK RESULTS
-  #for outp, full in zip(outputs, waypoint_imgs):
-  #  not_wp_255, wp_dig_255, wp_drive_255 = np.dsplit(full, 3)
-  #  not_wp, wp_dig_64, wp_drive_64 = np.dsplit(outp, 3)  # depth split of image -> channels (normal, dig waypoint, drive waypoint)
+  for outp, full in zip(outputs, waypoint_imgs):
+    not_wp_255, wp_dig_255, wp_drive_255 = np.dsplit(full, 3)
+    not_wp, wp_dig_64, wp_drive_64 = np.dsplit(outp, 3)  # depth split of image -> channels (normal, dig waypoint, drive waypoint)
 
-  #  plt.imshow(np.reshape(not_wp, (64, 64)))
-  #  plt.show()
-  #  f, axarr = plt.subplots(2,2)
-  #  f.set_size_inches(15.5, 7.5)
-  #  axarr[0,0].imshow(np.reshape(wp_dig_255, newshape=(256, 256)))
-  #  axarr[0,0].set_title("256x256 digging waypoints")
-  #  axarr[0,1].imshow(np.reshape(wp_drive_255, newshape=(256, 256)))
-  #  axarr[0,1].set_title("256x256 driving")
-  #  axarr[1,0].imshow(np.reshape(wp_dig_64, (64, 64)))
-  #  axarr[1,0].set_title("64x64 digging")
-  #  axarr[1,1].imshow(np.reshape(wp_drive_64, (64, 64)))
-  #  axarr[1,1].set_title("64x64 driving")
-  #  plt.show()
+    plt.imshow(np.reshape(not_wp, (64, 64)))
+    plt.show()
+    f, axarr = plt.subplots(2,2)
+    f.set_size_inches(15.5, 7.5)
+    axarr[0,0].imshow(np.reshape(wp_dig_255, newshape=(256, 256)))
+    axarr[0,0].set_title("256x256 digging waypoints")
+    axarr[0,1].imshow(np.reshape(wp_drive_255, newshape=(256, 256)))
+    axarr[0,1].set_title("256x256 driving")
+    axarr[1,0].imshow(np.reshape(wp_dig_64, (64, 64)))
+    axarr[1,0].set_title("64x64 digging")
+    axarr[1,1].imshow(np.reshape(wp_drive_64, (64, 64)))
+    axarr[1,1].set_title("64x64 driving")
+    plt.show()
 
   #for inp in inputs:                         # wind info vectors (need two 1 values)
   #  plt.plot(inp[1])
   #  plt.show()
+
   return images, wind_dir_speed, outputs
 
 
@@ -127,9 +134,9 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   # TODO 3 dimensional (normal, dig, drive), softmax activation, pixelwise softmax
   print(os.path.realpath(__file__))
-  data = load_all_data(file_filter="Five")
+  data = load_all_data(file_filter="NEW")
   images, wind_dir_speed, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="images.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="windinfo.npy", arr=wind_dir_speed, allow_pickle=True)
-  np.save(file="outputs.npy", arr=outputs, allow_pickle=True)
+  np.save(file="images_old.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="windinfo_old.npy", arr=wind_dir_speed, allow_pickle=True)
+  np.save(file="outputs_old.npy", arr=outputs, allow_pickle=True)

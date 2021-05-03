@@ -20,14 +20,22 @@ def load_all_data(file_filter):
       fp_tmp.append(filepath)
 
   filepaths = fp_tmp
+  data = []
 
-  data = np.load(filepaths[0], allow_pickle=True)
-
-  for filepath in filepaths[1:]:                      # optionally load more data
-    if file_filter in filepath:
+  for filepath in filepaths:                      # optionally load more data
+    if file_filter in filepath and data != []:
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
+      if len(file_data[0]) != 3:
+        print("hello", filepath)
+        new_file_data = list()
+        for data_point in file_data:
+          new_file_data.append(data_point[:3])
+        file_data = new_file_data
+
       data = np.concatenate([data, file_data])
+    else:
+      data = np.load(filepath, allow_pickle=True)     # in case it's the first file
 
   return data
 
@@ -134,7 +142,7 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   # TODO 3 dimensional (normal, dig, drive), softmax activation, pixelwise softmax
   print(os.path.realpath(__file__))
-  data = load_all_data(file_filter="NEW")
+  data = load_all_data(file_filter="Five")
   images, wind_dir_speed, outputs = raw_to_IO_arrays(data)
 
   np.save(file="images_old.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

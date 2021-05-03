@@ -138,6 +138,6 @@ if __name__ == "__main__":
   data = load_all_data(file_filter="NEWFive")
   images, concat, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="images.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="concat.npy", arr=concat, allow_pickle=True)
-  np.save(file="outputs.npy", arr=outputs, allow_pickle=True)
+  np.save(file="imagesNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="concatNEW.npy", arr=concat, allow_pickle=True)
+  np.save(file="outputsNEW.npy", arr=outputs, allow_pickle=True)

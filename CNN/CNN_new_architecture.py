@@ -10,9 +10,9 @@ from NNutils import *
 
 def load_data():
     print("loading data")
-    images = np.load("images.npy", allow_pickle=True)
-    windinfo = np.load("concat.npy", allow_pickle=True)
-    outputs = np.load("outputs.npy", allow_pickle=True)
+    images = np.load("imagesNEW.npy", allow_pickle=True)
+    windinfo = np.load("concatNEW.npy", allow_pickle=True)
+    outputs = np.load("outputsNEW.npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("wind info + agents: ", windinfo.shape)

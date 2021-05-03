@@ -33,108 +33,99 @@ def load_all_data(file_filter):
 
 
 def raw_to_IO_arrays(data):
-  """The raw data consists of data points which each consist of the 2D environment image,
-     the wind direction and the wind speed. It is transformed to input and output arrays,
-     where:
-     inputs = len(data) * [3D_image_without_waypoints, wind dir + speed vector]
-     outputs = len(data) * 2D_image_of_waypoints
-     For details see /Documentation/dataTranslation.png"""
-
-  # INPUT AND OUTPUT PICTURES
-  data = data[:]          # TODO convert everything
+  """"""
+  # DEFINITIONS
+  data = data[:2]          # TODO convert everything
   n_channels = 5
+  n_agents = 5
+  env_dim = 256
   waypoint_dig_channel = 5
   waypoint_drive_channel = 6
-  shape = (len(data), 256, 256, n_channels)
-  images = np.zeros(shape, dtype=np.uint8)
+  shape = (len(data), 256, 256, n_channels)      # new pass per agent
+  images_single = np.zeros(shape, dtype=np.uint8)           # single images not for each agent
   shape = (len(data), 256, 256, 3)
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
-
+  # INPUT IMAGES
   for i in range(len(data)):
     print("picture " + str(i) + "/" + str(len(data)))
     picture_raw = data[i][0]
     for y, row in enumerate(picture_raw):
       for x, cell in enumerate(row):
         if cell == waypoint_dig_channel:         # make 2D image of waypoints
-          waypoint_imgs[i][y][x][1] = 1
-          images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
+          images_single[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
         elif cell == waypoint_drive_channel:         # make 2D image of waypoints
-          waypoint_imgs[i][y][x][2] = 1
-          images[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
+          images_single[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
         else:
-          waypoint_imgs[i][y][x][0] = 1
-          images[i][y][x][cell] = 1
+          images_single[i][y][x][cell] = 1
+
+  shape = (len(data) * n_agents, 256, 256, n_channels)      # new pass per agent
+  images = np.zeros(shape, dtype=np.uint8)           # images for each agent
+
+  for i, img in enumerate(images_single):           # multiply data by n_agents
+    for j in range(n_agents):
+      images[i * n_agents + j] = img
 
 
   # INPUT WIND SPEED AND WIND DIRECTION VECTORS
   shape = (len(data), len(data[0][1]) + len(data[0][2]))
+  wind_dir_speed_single = np.zeros(shape, dtype=np.uint8)
+  for i in range(len(data)):                 # make one array 13x1 for concatenation
+    wind_dir_speed_single[i] = np.concatenate([data[i][1], data[i][2]])
+
+  shape = (len(data) * n_agents, len(data[0][1]) + len(data[0][2]))
   wind_dir_speed = np.zeros(shape, dtype=np.uint8)
 
-  for i in range(len(data)):                 # make one array 13x1 for concatenation
-    wind_dir_speed[i] = np.concatenate([data[i][1], data[i][2]])
+  for i, wind in enumerate(wind_dir_speed_single):           # multiply data by n_agents
+    for j in range(n_agents):
+      wind_dir_speed[i * n_agents + j] = wind
 
   wind_dir_speed = np.asarray(wind_dir_speed)
 
-  # BUILD OUTPUT IMAGES, 255x255 to 64x64x3 (normal, dig waypoint, drive waypoint) -> pixel wise softmax
-  outputs = np.zeros((len(data), 64, 64, 3), dtype=np.uint8)
+
+
+  # BUILD OUTPUT COORDINATES + dig/drive ID 1/0
+  agent_positions = list()                   # x, y to be concatenated
+  outputs = list()                           # x, y, 0/1 drive/dig
+
 
   for i in range(len(data)):
-    print("downscale picture " + str(i) + "/" + str(len(data)))
-    for y, row in enumerate(waypoint_imgs[i]):
-      for x, cell in enumerate(row):
-        outx = math.floor(x / 4)
-        outy = math.floor(y / 4)
-        if cell[1] > outputs[i][outy][outx][1]:
-          outputs[i][outy][outx][1] = 1
-        elif cell[2] > outputs[i][outy][outx][2]:
-          outputs[i][outy][outx][2] = 1
-
-  # set outputs' first channel to 1 where no waypoint is
-  for i in range(len(data)):
-    for y, row in enumerate(outputs[i]):
-      for x, cell in enumerate(row):
-        if  outputs[i][y][x][1] == 0 and outputs[i][y][x][2] == 0:
-          outputs[i][y][x][0] = 1
+    print("output " + str(i) + "/" + str(len(data)))
+    agent_specific = data[i][3]
+    print(agent_specific)
+    for j in range(n_agents):
+      agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
+      outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
 
 
-  print("input examples len: ", len(images))
-  print("output examples len: ", len(outputs))
-  print("image shape: ", np.shape(images[0]))
-  print("wind info vector shape: ", np.shape(wind_dir_speed[0]))
-  print("output image shape: ", np.shape(outputs[0]))
+  agent_positions = np.asarray(agent_positions, dtype=np.float)
+  outputs = np.asarray(outputs, dtype=np.float)
+  print(agent_positions)
+  print(outputs)
+
+
+
+  print("input image shape: ", np.shape(images))
+  print("wind info vector shape: ", np.shape(wind_dir_speed))
+  print("agent input positions: ", np.shape(agent_positions))
+  print("outputs shape: ", np.shape(outputs))
+
 
   # PLOT TO CHECK RESULTS
-  for outp, full in zip(outputs, waypoint_imgs):
-    not_wp_255, wp_dig_255, wp_drive_255 = np.dsplit(full, 3)
-    not_wp, wp_dig_64, wp_drive_64 = np.dsplit(outp, 3)  # depth split of image -> channels (normal, dig waypoint, drive waypoint)
-
-    plt.imshow(np.reshape(not_wp, (64, 64)))
-    plt.show()
-    f, axarr = plt.subplots(2,2)
-    f.set_size_inches(15.5, 7.5)
-    axarr[0,0].imshow(np.reshape(wp_dig_255, newshape=(256, 256)))
-    axarr[0,0].set_title("256x256 digging waypoints")
-    axarr[0,1].imshow(np.reshape(wp_drive_255, newshape=(256, 256)))
-    axarr[0,1].set_title("256x256 driving")
-    axarr[1,0].imshow(np.reshape(wp_dig_64, (64, 64)))
-    axarr[1,0].set_title("64x64 digging")
-    axarr[1,1].imshow(np.reshape(wp_drive_64, (64, 64)))
-    axarr[1,1].set_title("64x64 driving")
+  for dat in data:
+    img = dat[0]
+    plt.imshow(np.reshape(img, (255, 255)))
     plt.show()
 
-  #for inp in inputs:                         # wind info vectors (need two 1 values)
-  #  plt.plot(inp[1])
-  #  plt.show()
 
-  return images, wind_dir_speed, outputs
+  return images_single, wind_dir_speed, outputs
 
 
 
 if __name__ == "__main__":
   # TODO 3 dimensional (normal, dig, drive), softmax activation, pixelwise softmax
   print(os.path.realpath(__file__))
-  data = load_all_data(file_filter="NEW")
+  data = load_all_data(file_filter="NEWFive")
   images, wind_dir_speed, outputs = raw_to_IO_arrays(data)
 
   np.save(file="images_old.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

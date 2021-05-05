@@ -31,9 +31,9 @@ def load_data():
     total = np.sum(counts)
 
 
-    images = tf.cast(images, tf.float16)
-    windinfo = tf.cast(windinfo, tf.float16)
-    outputs = tf.cast(outputs, tf.float16)
+    #images = tf.cast(images, tf.float16)
+    #windinfo = tf.cast(windinfo, tf.float16)
+    #outputs = tf.cast(outputs, tf.float16)
 
     #return images[:20], windinfo[:20], outputs[:20], weights, total
     return images, windinfo, outputs, weights, total
@@ -43,26 +43,26 @@ def build_model(input1_shape, input2_shape):
     feature_vector_len = 4*4*3
     model1 = Sequential()
 
-    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same", kernel_regularizer='l2'))
-    model1.add(Conv2D(filters=8, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same", kernel_regularizer='l2')) # 16x16x8
-    model1.add(Conv2D(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same", kernel_regularizer='l2'))  # trying to go symmetric from here
-    model1.add(Conv2D(filters=3, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same", kernel_regularizer='l2'))
+    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same"))
+    model1.add(Conv2D(filters=16, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same")) # 16x16x8
+    model1.add(Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))  # trying to go symmetric from here
+    model1.add(Conv2D(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))
     model1.add(Flatten())
-    model1.add(Dense(feature_vector_len, activation='relu', kernel_regularizer='l2'))                # 1D feature vector
+    model1.add(Dense(feature_vector_len, activation='relu'))                # 1D feature vector
 
     # CONCATENATE WITH WIND INFO
     inp2 = Input(input2_shape)
     model_concat = concatenate([model1.output, inp2], axis=1)
-    deconv = Dense(16*16*3, activation='relu', kernel_regularizer='l2')(model_concat)
-    deconv = Dense(feature_vector_len, activation='relu', kernel_regularizer='l2')(model_concat)
+    #deconv = Dense(16*16*3, activation='relu')(model_concat)
+    deconv = Dense(feature_vector_len, activation='relu')(model_concat)
 
     # DECONVOLUTIONS TO OUTPUT IMAGE
     deconv = Reshape((4, 4, 3))(deconv)
-    deconv = Conv2DTranspose(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same", kernel_regularizer='l2')(deconv)
+    deconv = Conv2DTranspose(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
     # kind of copied from here: https://medium.com/analytics-vidhya/building-a-convolutional-autoencoder-using-keras-using-conv2dtranspose-ca403c8d144e
-    deconv = BatchNormalization()(deconv)
-    deconv = Conv2DTranspose(filters=3, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same", kernel_regularizer='l2')(deconv)
-    deconv = BatchNormalization()(deconv)
+    #deconv = BatchNormalization()(deconv)
+    deconv = Conv2DTranspose(filters=3, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
+    #deconv = BatchNormalization()(deconv)
     deconv = Reshape((16 * 16, 3))(deconv)
     deconv = Activation('softmax')(deconv)
 
@@ -147,13 +147,13 @@ if __name__ == "__main__":
 
     class_weights = np.zeros((outputs.shape[1], 3))
     class_weights[:, 0] += (1 / weights[0]) * (total) / 2.0
-    class_weights[:, 1] += (1 / weights[1]) * (total) / 2.0
-    class_weights[:, 2] += (1 / weights[2]) * (total) / 2.0
+    class_weights[:, 1] += (5 / weights[1]) * (total) / 2.0
+    class_weights[:, 2] += (5 / weights[2]) * (total) / 2.0
 
     model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
-              batch_size=32,
-              epochs=5,
+              batch_size=64,
+              epochs=100,
               shuffle=True,
               validation_split=0.2,
               class_weight = class_weights)                         # mix data randomly

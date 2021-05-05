@@ -44,9 +44,9 @@ def build_model(input1_shape, input2_shape):
     model1 = Sequential()
 
     model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same"))
-    model1.add(Conv2D(filters=16, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same")) # 16x16x8
-    model1.add(Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))  # trying to go symmetric from here
-    model1.add(Conv2D(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))
+    model1.add(Conv2D(filters=8, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same")) # 16x16x8
+    model1.add(Conv2D(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))  # trying to go symmetric from here
+    model1.add(Conv2D(filters=3, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))
     model1.add(Flatten())
     model1.add(Dense(feature_vector_len, activation='relu'))                # 1D feature vector
 
@@ -69,7 +69,8 @@ def build_model(input1_shape, input2_shape):
     model = Model(inputs=[model1.input, inp2], outputs=deconv)
 
     model.compile(loss='categorical_crossentropy',
-                  optimizer='adam')
+                  optimizer='adam',
+                  metrics=['categorical_crossentropy'])
 
     return model
 
@@ -145,18 +146,29 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
+
+
     class_weights = np.zeros((outputs.shape[1], 3))
     class_weights[:, 0] += (1 / weights[0]) * (total) / 2.0
-    class_weights[:, 1] += (5 / weights[1]) * (total) / 2.0
-    class_weights[:, 2] += (5 / weights[2]) * (total) / 2.0
+    class_weights[:, 1] += (1 / weights[1]) * (total) / 2.0
+    class_weights[:, 2] += (1 / weights[2]) * (total) / 2.0
 
-    model.fit([images, windinfo],                   # list of 2 inputs to model
+    callback = tf.keras.callbacks.EarlyStopping(monitor='categorical_crossentropy', patience=3)
+
+    history = model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
-              batch_size=64,
+              batch_size=32,
               epochs=100,
               shuffle=True,
               validation_split=0.2,
-              class_weight = class_weights)                         # mix data randomly
+              class_weight = class_weights,
+              callbacks=[callback])
+
+    print(history)
+
+    print(len(history.history['loss']))
+
+    plot_history(history)
 
     predict(model=model)
 

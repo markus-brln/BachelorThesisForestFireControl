@@ -116,7 +116,31 @@ def predict(model=None, data=None, n_examples=10):
         result = np.reshape(results[i], (16,16,3))
         desired_output = np.reshape(outputs[i], (16,16,3))
 
+        # Give 0/1 pixel values base on where values are the highest
+        non_wp_res = np.zeros((16, 16))
+        dig_img_res = np.zeros((16, 16))
+        drive_img_res = np.zeros((16, 16))
+
+        for j, col in enumerate(result):
+            for k, cell in enumerate(col):
+                highest_value_idx = np.argmax(cell)
+                if cell[1] > 0.1:
+                    print("hi")
+                #print(highest_value_idx)
+                if highest_value_idx == 0:
+                    non_wp_res[j][k] = 1
+                elif highest_value_idx == 1:
+                    dig_img_res[j][k] = 1
+                elif highest_value_idx == 2:
+                    drive_img_res[j][k] = 1
+                print(cell)
+
+        #exit()
+
+
+
         non_wp_res, dig_img_res, drive_img_res = np.dsplit(result, 3)                  # depth split of 2 channel image
+        print(np.amax(non_wp_res), np.amax(dig_img_res), np.amax(drive_img_res))
         non_wp_out, dig_img_out, drive_img_out = np.dsplit(desired_output, 3)                  # depth split of 2 channel image
         f, axarr = plt.subplots(2,3)
         axarr[0,0].imshow(np.reshape(dig_img_res, newshape=(16, 16)))
@@ -149,15 +173,15 @@ if __name__ == "__main__":
 
 
     class_weights = np.zeros((outputs.shape[1], 3))
-    class_weights[:, 0] += (1 / weights[0]) * (total) / 2.0
-    class_weights[:, 1] += (1 / weights[1]) * (total) / 2.0
-    class_weights[:, 2] += (1 / weights[2]) * (total) / 2.0
+    class_weights[:, 0] += (1 / weights[0]) * total / 2.0
+    class_weights[:, 1] += (100 / weights[1]) * total / 2.0
+    class_weights[:, 2] += (100 / weights[2]) * total / 2.0
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='categorical_crossentropy', patience=3)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='categorical_crossentropy', patience=2)
 
     history = model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
-              batch_size=32,
+              batch_size=64,
               epochs=100,
               shuffle=True,
               validation_split=0.2,
@@ -170,6 +194,6 @@ if __name__ == "__main__":
 
     plot_history(history)
 
-    predict(model=model)
+    #predict(model=model)
 
     save(model, "safetySafe")                       # utils

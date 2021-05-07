@@ -138,8 +138,6 @@ def predict(model=None, data=None, n_examples=10):
         for j, col in enumerate(result):
             for k, cell in enumerate(col):
                 highest_value_idx = np.argmax(cell)
-                if cell[1] > 0.1:
-                    print("hi")
                 #print(highest_value_idx)
                 if highest_value_idx == 0:
                     non_wp_res[j][k] = 1

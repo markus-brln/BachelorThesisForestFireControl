@@ -38,6 +38,13 @@ def load_data():
     #return images[:20], windinfo[:20], outputs[:20], weights, total
     return images, windinfo, outputs, weights, total
 
+def jaccard(y_true, y_pred, smooth=100):
+    """http://www.bmva.org/bmvc/2013/Papers/paper0032/paper0032.pdf"""
+    intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
+    sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
+    jac = (intersection + smooth) / (sum_ - intersection + smooth)
+    return (1 - jac) * smooth
+
 
 def build_model(input1_shape, input2_shape):
     feature_vector_len = 4*4*3
@@ -68,7 +75,7 @@ def build_model(input1_shape, input2_shape):
 
     model = Model(inputs=[model1.input, inp2], outputs=deconv)
 
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss=jaccard,
                   optimizer='adam',
                   metrics=['categorical_crossentropy'])
 
@@ -187,8 +194,6 @@ if __name__ == "__main__":
               validation_split=0.2,
               class_weight = class_weights,
               callbacks=[callback])
-
-    print(history)
 
     print(len(history.history['loss']))
 

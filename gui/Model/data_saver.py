@@ -59,6 +59,7 @@ class DataSaver:
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
+    print(self.model.windspeed)
     windspeed_vec[self.model.windspeed] = 1
 
     print("wind: ", wind_dir_vec, windspeed_vec)
@@ -138,7 +139,6 @@ class DataSaver:
 
   def get_wind_dir_idx(self):
     wind_dir = self.model.wind_dir
-    print(wind_dir)
     """Order of wind directions:
        N, S, E, W, NE, NW, SE, SW"""
     if wind_dir == (Direction.NORTH, Direction.NORTH):

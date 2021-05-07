@@ -14,14 +14,28 @@ def load_all_data(file_filter):
     print("no files found at: ", dirname + "runs" + sep)
     exit()
 
-  print(len(filepaths))
-
-  data = np.load(filepaths[0], allow_pickle=True)
-  for filepath in filepaths[1:]:                      # optionally load more data
+  fp_tmp = list()
+  for filepath in filepaths:
     if file_filter in filepath:
-      print(filepath)                                 # TODO jFive0.npy not there??
+      fp_tmp.append(filepath)
+
+  filepaths = fp_tmp
+  data = []
+
+  for filepath in filepaths:                      # optionally load more data
+    if file_filter in filepath and data != []:
+      print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
+      if len(file_data[0]) != 3:                  # take care of new kind of data
+        print("hello", filepath)
+        new_file_data = list()
+        for data_point in file_data:
+          new_file_data.append(data_point[:3])
+        file_data = new_file_data
+
       data = np.concatenate([data, file_data])
+    else:
+      data = np.load(filepath, allow_pickle=True)     # in case it's the first file
 
   return data
 
@@ -70,15 +84,15 @@ def raw_to_IO_arrays(data):
 
   wind_dir_speed = np.asarray(wind_dir_speed)
 
-  # BUILD OUTPUT IMAGES, 255x255 to 64x64x3 (normal, dig waypoint, drive waypoint) -> pixel wise softmax
-  outputs = np.zeros((len(data), 64, 64, 3), dtype=np.uint8)
+  # BUILD OUTPUT IMAGES, 255x255 to 16x16x3 (normal, dig waypoint, drive waypoint) -> pixel wise softmax
+  outputs = np.zeros((len(data), 16, 16, 3), dtype=np.uint8)
 
   for i in range(len(data)):
     print("downscale picture " + str(i) + "/" + str(len(data)))
     for y, row in enumerate(waypoint_imgs[i]):
       for x, cell in enumerate(row):
-        outx = math.floor(x / 4)
-        outy = math.floor(y / 4)
+        outx = math.floor(x / 16)
+        outy = math.floor(y / 16)
         if cell[1] > outputs[i][outy][outx][1]:
           outputs[i][outy][outx][1] = 1
         elif cell[2] > outputs[i][outy][outx][2]:
@@ -102,8 +116,7 @@ def raw_to_IO_arrays(data):
   #for outp, full in zip(outputs, waypoint_imgs):
   #  not_wp_255, wp_dig_255, wp_drive_255 = np.dsplit(full, 3)
   #  not_wp, wp_dig_64, wp_drive_64 = np.dsplit(outp, 3)  # depth split of image -> channels (normal, dig waypoint, drive waypoint)
-
-  #  plt.imshow(np.reshape(not_wp, (64, 64)))
+  #  plt.imshow(np.reshape(not_wp, (16, 16)))
   #  plt.show()
   #  f, axarr = plt.subplots(2,2)
   #  f.set_size_inches(15.5, 7.5)
@@ -111,15 +124,16 @@ def raw_to_IO_arrays(data):
   #  axarr[0,0].set_title("256x256 digging waypoints")
   #  axarr[0,1].imshow(np.reshape(wp_drive_255, newshape=(256, 256)))
   #  axarr[0,1].set_title("256x256 driving")
-  #  axarr[1,0].imshow(np.reshape(wp_dig_64, (64, 64)))
-  #  axarr[1,0].set_title("64x64 digging")
-  #  axarr[1,1].imshow(np.reshape(wp_drive_64, (64, 64)))
-  #  axarr[1,1].set_title("64x64 driving")
+  #  axarr[1,0].imshow(np.reshape(wp_dig_64, (16, 16)))
+  #  axarr[1,0].set_title("16x16 digging")
+  #  axarr[1,1].imshow(np.reshape(wp_drive_64, (16, 16)))
+  #  axarr[1,1].set_title("16x16 driving")
   #  plt.show()
 
   #for inp in inputs:                         # wind info vectors (need two 1 values)
   #  plt.plot(inp[1])
   #  plt.show()
+
   return images, wind_dir_speed, outputs
 
 

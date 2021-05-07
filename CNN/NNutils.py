@@ -49,11 +49,11 @@ def plot_history(history):
     fig, axs = plt.subplots(2)
 
     # create accuracy sublpot
-    axs[0].plot(history.history["accuracy"], label="train accuracy")
-    axs[0].plot(history.history["val_accuracy"], label="validation accuracy")
-    axs[0].set_ylabel("Accuracy")
-    axs[0].legend(loc="lower right")
-    axs[0].set_title("Accuracy eval")
+    #axs[0].plot(history.history["accuracy"], label="train accuracy")
+    #axs[0].plot(history.history["val_accuracy"], label="validation accuracy")
+    #axs[0].set_ylabel("Accuracy")
+    #axs[0].legend(loc="lower right")
+    #axs[0].set_title("Accuracy eval")
 
     # create error sublpot
     axs[1].plot(history.history["loss"], label="train error")

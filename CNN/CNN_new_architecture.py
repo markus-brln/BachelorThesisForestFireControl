@@ -111,9 +111,10 @@ if __name__ == "__main__":
 
     model.fit([images, concat],  # list of 2 inputs to model
               outputs,
-              batch_size=8,
-              epochs=20,
-              shuffle=True)                         # mix data randomly
+              batch_size=32,
+              epochs=5,
+              shuffle=True,
+              validation_split=0.2)                         # mix data randomly
 
     predict(model=model)
 

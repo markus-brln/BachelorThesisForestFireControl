@@ -3,6 +3,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+import tensorflow.keras.backend as K
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation, BatchNormalization
 from NNutils import *
@@ -31,9 +32,9 @@ def load_data():
     total = np.sum(counts)
 
 
-    #images = tf.cast(images, tf.float16)
-    #windinfo = tf.cast(windinfo, tf.float16)
-    #outputs = tf.cast(outputs, tf.float16)
+    images = tf.cast(images, tf.float16)
+    windinfo = tf.cast(windinfo, tf.float16)
+    outputs = tf.cast(outputs, tf.float16)
 
     #return images[:20], windinfo[:20], outputs[:20], weights, total
     return images, windinfo, outputs, weights, total
@@ -77,7 +78,7 @@ def build_model(input1_shape, input2_shape):
 
     model.compile(loss=jaccard,
                   optimizer='adam',
-                  metrics=['categorical_crossentropy'])
+                  metrics=[jaccard])
 
     return model
 
@@ -86,10 +87,16 @@ def predict(model=None, data=None, n_examples=10):
     """show inputs together with predictions of CNN,
        either provided as param or loaded from file"""
 
-    if not data:
-        images, windinfo, outputs, weights, total = load_data()
-    else:
-        images, windinfo, outputs = data
+    images = np.load("images.npy", allow_pickle=True)
+    windinfo = np.load("windinfo.npy", allow_pickle=True)
+    outputs = np.load("outputs.npy", allow_pickle=True)
+
+    outputs = outputs.reshape(outputs.shape[:-3] + (-1, 3))  # reshape from 16x16x3 to 256x3 (convention)
+
+    #if not data:
+    #    images, windinfo, outputs, weights, total = load_data()
+    #else:
+    #    images, windinfo, outputs = data
 
     if not model:
         model = tf.keras.models.load_model("saved_models\\safetySafe")
@@ -181,10 +188,12 @@ if __name__ == "__main__":
 
     class_weights = np.zeros((outputs.shape[1], 3))
     class_weights[:, 0] += (1 / weights[0]) * total / 2.0
-    class_weights[:, 1] += (100 / weights[1]) * total / 2.0
-    class_weights[:, 2] += (100 / weights[2]) * total / 2.0
+    class_weights[:, 1] += (1 / weights[1]) * total / 2.0
+    class_weights[:, 2] += (1 / weights[2]) * total / 2.0
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='categorical_crossentropy', patience=2)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='jaccard', patience=3, mode='min')
+
+    #tf.cast(images, tf.float32)
 
     history = model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
@@ -199,6 +208,6 @@ if __name__ == "__main__":
 
     plot_history(history)
 
-    #predict(model=model)
+    predict(model=model)
 
     save(model, "safetySafe")                       # utils

@@ -49,7 +49,8 @@ def build_model(input1_shape, input2_shape):
     model = Model(inputs=[downscaleInput, inp2], outputs=out)
 
     model.compile(loss='mse',
-                  optimizer='adam')
+                  optimizer='adam',
+                  metrics=['mse'])
 
 
     return model
@@ -59,7 +60,8 @@ def build_model(input1_shape, input2_shape):
 def predict(model=None, data=None, n_examples=5):
     """show inputs together with predictions of CNN,
        either provided as param or loaded from file"""
-
+    if data:
+        n_examples = len(data[0])
     if not data:
         images, concat, desired_outputs = load_data()
     else:
@@ -104,18 +106,25 @@ if __name__ == "__main__":
     #exit()
 
     images, concat, outputs = load_data()
+    test_data = [images[:20], concat[:20], outputs[:20]]
+    images, concat, outputs = images[20:], concat[20:], outputs[20:]
+
 
     model = build_model(images[0].shape, concat[0].shape)
     print(model.summary())
     #exit()
 
-    model.fit([images, concat],  # list of 2 inputs to model
-              outputs,
-              batch_size=32,
-              epochs=5,
-              shuffle=True,
-              validation_split=0.2)                         # mix data randomly
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
 
-    predict(model=model)
+    history = model.fit([images, concat],  # list of 2 inputs to model
+              outputs,
+              batch_size=64,
+              epochs=100,
+              shuffle=True,
+              validation_split=0.2,
+              callbacks=[callback])
+
+    plot_history(history=history)
+    predict(model=model, data=test_data)
 
     #save(model, "safetySafe")                       # utils

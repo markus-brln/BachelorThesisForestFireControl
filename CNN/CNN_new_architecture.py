@@ -93,7 +93,7 @@ def predict(model=None, data=None, n_examples=5):
 
     # display input images and the 2 waypoint output images (from 2 channels)
     for i in range(len(NN_output)):
-        print("agent pos: ", 250 * X2[i][-2], 250 * X2[i][-1])
+        print("agent pos: ", X2[i][-2], X2[i][-1])
         print("desired: ", desired[i])
         print("NN output: ", NN_output[i])
         plt.imshow(orig_img[i])

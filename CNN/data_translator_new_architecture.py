@@ -33,10 +33,6 @@ def load_all_data(file_filter):
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
 
-  #datatmp = []
-#
-  #for i in range(100):
-  #  datatmp.append(random.choice(data))
 
   return data
 
@@ -44,16 +40,28 @@ def load_all_data(file_filter):
 def raw_to_IO_arrays(data):
   """See Documentation/dataTranslationNewArchitecture.png"""
   # DEFINITIONS
-  data = data[:]
   n_channels = 5
   n_agents = 5
   env_dim = 256
   waypoint_dig_channel = 5
   waypoint_drive_channel = 6
+
+  # FIX N_AGENTS NOT SAME
+  datatmp = []
+  for data_point in data:
+    agent_specific = data_point[3]
+    if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
+      datatmp.append(data_point)
+  data = datatmp
+  print(len(data))
+
   shape = (len(data), 256, 256, n_channels)      # new pass per agent
   images_single = np.zeros(shape, dtype=np.uint8)           # single images not for each agent
   shape = (len(data), 256, 256, 3)
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
+
+  print(len(data))
+
 
   # INPUT IMAGES
   for i in range(len(data)):
@@ -101,14 +109,14 @@ def raw_to_IO_arrays(data):
   for i in range(len(data)):
     print("output " + str(i) + "/" + str(len(data)))
     agent_specific = data[i][3]
-    if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
-      for j in range(n_agents):
-        agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
-        #print(j, [agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])
-        outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
-    else:
-      images = np.delete(images, range(i, i+5), 0)
-      wind_dir_speed = np.delete(wind_dir_speed, range(i, i+5), 0)
+    #if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
+    for j in range(n_agents):
+      agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
+      #print(j, [agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])
+      outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
+    #else:
+    #  images = np.delete(images, range(i, i+5), 0)
+    #  wind_dir_speed = np.delete(wind_dir_speed, range(i, i+5), 0)
 
 
   agent_positions = np.asarray(agent_positions, dtype=np.float)

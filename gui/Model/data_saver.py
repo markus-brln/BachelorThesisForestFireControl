@@ -20,7 +20,7 @@ class DataSaver:
        fast-forward 5-10 timesteps (see utils.py, 'timeframe') to see how it played out."""
 
     for agent in self.model.agents:
-      if not agent.alive:
+      if agent.dead:
         return
 
     image = np.zeros((self.model.size, self.model.size), dtype=np.uint8) # save memory with uint8

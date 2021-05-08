@@ -44,7 +44,7 @@ def build_model(input1_shape, input2_shape):
     model_concat = concatenate([encoder, inp2], axis=1)
     out = Dense(feature_vector_len, activation='relu')(model_concat)
     out = Dense(32, activation='relu')(out)
-    out = Dense(3, activation='relu')(out)
+    out = Dense(3, activation='sigmoid')(out)
 
     model = Model(inputs=[downscaleInput, inp2], outputs=out)
 
@@ -127,4 +127,4 @@ if __name__ == "__main__":
     plot_history(history=history)
     predict(model=model, data=test_data)
 
-    #save(model, "safetySafe")                       # utils
+    save(model, "safetySafe")                       # utils

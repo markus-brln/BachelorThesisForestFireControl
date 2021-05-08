@@ -1,4 +1,6 @@
 import os
+import random
+
 import numpy as np
 import math
 import glob
@@ -10,6 +12,7 @@ def load_all_data(file_filter):
   dirname = os.path.dirname(os.path.realpath(__file__)) + sep + ".." + sep + "gui" + sep + "data" + sep
 
   filepaths = glob.glob(dirname + "runs" + sep +  "*.npy")
+
   if not filepaths:
     print("no files found at: ", dirname + "runs" + sep)
     exit()
@@ -22,12 +25,18 @@ def load_all_data(file_filter):
   filepaths = fp_tmp
 
   data = np.load(filepaths[0], allow_pickle=True)
+  print(filepaths[0])
 
   for filepath in filepaths[1:]:                      # optionally load more data
     if file_filter in filepath:
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
+
+  #datatmp = []
+#
+  #for i in range(100):
+  #  datatmp.append(random.choice(data))
 
   return data
 
@@ -92,10 +101,14 @@ def raw_to_IO_arrays(data):
   for i in range(len(data)):
     print("output " + str(i) + "/" + str(len(data)))
     agent_specific = data[i][3]
-    #print(agent_specific)
-    for j in range(n_agents):
-      agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
-      outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
+    if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
+      for j in range(n_agents):
+        agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
+        #print(j, [agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])
+        outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
+    else:
+      images = np.delete(images, range(i, i+5), 0)
+      wind_dir_speed = np.delete(wind_dir_speed, range(i, i+5), 0)
 
 
   agent_positions = np.asarray(agent_positions, dtype=np.float)

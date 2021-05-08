@@ -100,7 +100,7 @@ def save(model, filename):
 #### Loading a Network
 def load(filename):
     print("loading model " + filename)
-    model = tf.keras.models.load_model('saved_models\\' + filename)
+    model = tf.keras.models.load_model('saved_models/' + filename)
     return model
 
 

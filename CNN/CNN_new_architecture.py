@@ -68,7 +68,7 @@ def predict(model=None, data=None, n_examples=5):
         images, concat, desired_outputs = data
 
     if not model:
-        model = tf.keras.models.load_model("saved_models\\safetySafe")
+        model = tf.keras.models.load_model("saved_models/safetySafe")
     #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
     indeces = random.sample(range(len(images)), n_examples)
     X1 = images[indeces]                                        # more clever way to write it down
@@ -93,7 +93,7 @@ def predict(model=None, data=None, n_examples=5):
 
     # display input images and the 2 waypoint output images (from 2 channels)
     for i in range(len(NN_output)):
-        print("agent pos: ", X2[i][-2], X2[i][-1])
+        print("agent pos: ", 250 * X2[i][-2], 250 * X2[i][-1])
         print("desired: ", desired[i])
         print("NN output: ", NN_output[i])
         plt.imshow(orig_img[i])
@@ -102,8 +102,8 @@ def predict(model=None, data=None, n_examples=5):
 
 
 if __name__ == "__main__":
-    #predict()                          # predict with model loaded from file
-    #exit()
+    # predict()                          # predict with model loaded from file
+    # exit()
 
     images, concat, outputs = load_data()
     test_data = [images[:20], concat[:20], outputs[:20]]

@@ -19,6 +19,10 @@ class DataSaver:
     """Should get called when new agent waypoints were set and model is about to
        fast-forward 5-10 timesteps (see utils.py, 'timeframe') to see how it played out."""
 
+    for agent in self.model.agents:
+      if not agent.alive:
+        return
+
     image = np.zeros((self.model.size, self.model.size), dtype=np.uint8) # save memory with uint8
     wind_dir_vec = np.zeros(n_wind_dirs, dtype=np.uint8)              # 8 wind directions
     windspeed_vec = np.zeros(n_wind_speed_levels, dtype=np.uint8)     # 5 'wind speed levels'

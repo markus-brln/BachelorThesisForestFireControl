@@ -24,24 +24,22 @@ def build_model(input1_shape, input2_shape):
     # https://stackoverflow.com/questions/46397258/how-to-merge-sequential-models-in-keras-2-0
     feature_vector_len = 128
 
-    # GOING TO 64x64x3
     downscaleInput = Input(shape=input1_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-
-    # GOING TO FEATURE VECTOR
-    encoder = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    encoder = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(encoder)
-    encoder = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(encoder)
-    encoder = Flatten()(encoder)
-    encoder = Dense(feature_vector_len, activation='relu')(encoder)
+    #downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Flatten()(downscaled)
+    #downscaled = Dense(feature_vector_len, activation='relu')(downscaled)
 
 
 
     # CONCATENATE WITH WIND INFO
     inp2 = Input(input2_shape)
-    model_concat = concatenate([encoder, inp2], axis=1)
+    model_concat = concatenate([downscaled, inp2], axis=1)
     out = Dense(feature_vector_len, activation='relu')(model_concat)
     out = Dense(32, activation='relu')(out)
     out = Dense(3, activation='sigmoid')(out)
@@ -49,8 +47,8 @@ def build_model(input1_shape, input2_shape):
     model = Model(inputs=[downscaleInput, inp2], outputs=out)
 
     model.compile(loss='mse',
-                  optimizer='adam',
-                  metrics=['mse'])
+                  optimizer='adam')#,
+                  #metrics=['mse'])
 
 
     return model
@@ -114,15 +112,15 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+    #callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
 
     history = model.fit([images, concat],  # list of 2 inputs to model
               outputs,
               batch_size=64,
               epochs=100,
               shuffle=True,
-              validation_split=0.2,
-              callbacks=[callback])
+              validation_split=0.2)#,
+              #callbacks=[callback])
 
     plot_history(history=history)
     predict(model=model, data=test_data)

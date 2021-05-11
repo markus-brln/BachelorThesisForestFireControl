@@ -48,13 +48,16 @@ def jaccard(y_true, y_pred, smooth=100):
 
 
 def build_model(input1_shape, input2_shape):
-    feature_vector_len = 4*4*3
+    feature_vector_len = 4*4*32
     model1 = Sequential()
 
-    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same"))
-    model1.add(Conv2D(filters=8, kernel_size=(4, 4), strides=(4, 4), activation="relu", padding="same")) # 16x16x8
-    model1.add(Conv2D(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))  # trying to go symmetric from here
-    model1.add(Conv2D(filters=3, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))
+    model1.add(Conv2D(input_shape=input1_shape, filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same"))
+    model1.add(MaxPooling2D(pool_size=(2, 2)))
+    model1.add(Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")) # 16x16x8
+    model1.add(MaxPooling2D(pool_size=(2, 2)))
+    model1.add(Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))  # trying to go symmetric from here
+    #model1.add(Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same"))
+    model1.add(MaxPooling2D(pool_size=(2, 2)))
     model1.add(Flatten())
     model1.add(Dense(feature_vector_len, activation='relu'))                # 1D feature vector
 
@@ -63,10 +66,11 @@ def build_model(input1_shape, input2_shape):
     model_concat = concatenate([model1.output, inp2], axis=1)
     #deconv = Dense(16*16*3, activation='relu')(model_concat)
     deconv = Dense(feature_vector_len, activation='relu')(model_concat)
+    #deconv = Dense(16*16*3, activation='relu')(model_concat)
 
     # DECONVOLUTIONS TO OUTPUT IMAGE
-    deconv = Reshape((4, 4, 3))(deconv)
-    deconv = Conv2DTranspose(filters=8, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
+    deconv = Reshape((4, 4, 32))(deconv)
+    deconv = Conv2DTranspose(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
     # kind of copied from here: https://medium.com/analytics-vidhya/building-a-convolutional-autoencoder-using-keras-using-conv2dtranspose-ca403c8d144e
     #deconv = BatchNormalization()(deconv)
     deconv = Conv2DTranspose(filters=3, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
@@ -78,7 +82,7 @@ def build_model(input1_shape, input2_shape):
 
     model.compile(loss=jaccard,
                   optimizer='adam',
-                  metrics=[jaccard])
+                  metrics=[jaccard, 'accuracy'])
 
     return model
 
@@ -201,8 +205,6 @@ if __name__ == "__main__":
               validation_split=0.2,
               class_weight = class_weights,
               callbacks=[callback])
-
-    print(len(history.history['loss']))
 
     plot_history(history)
 

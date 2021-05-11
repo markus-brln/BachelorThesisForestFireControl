@@ -186,12 +186,10 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-
-
     class_weights = np.zeros((outputs.shape[1], 3))
     class_weights[:, 0] += (1 / weights[0]) * total / 2.0
-    class_weights[:, 1] += (1 / weights[1]) * total / 2.0
-    class_weights[:, 2] += (1 / weights[2]) * total / 2.0
+    class_weights[:, 1] += (5 / weights[1]) * total / 2.0
+    class_weights[:, 2] += (5 / weights[2]) * total / 2.0
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='jaccard', patience=3, mode='min')
 

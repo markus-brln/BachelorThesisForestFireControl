@@ -208,4 +208,4 @@ if __name__ == "__main__":
 
     predict(model=model)
 
-    save(model, "safetySafe")                       # utils
+    save(model, "saved_models/safetySafe")                       # utils

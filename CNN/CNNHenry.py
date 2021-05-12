@@ -3,11 +3,18 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
+tf.random.set_seed(123)
+np.random.seed(123)
 import tensorflow.keras.backend as K
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation, BatchNormalization
 from NNutils import *
 import sys
+
+
+
 
 np.set_printoptions(threshold=sys.maxsize)
 
@@ -31,10 +38,16 @@ def load_data():
     weights = dict(zip(unique, counts))
     total = np.sum(counts)
 
+    #print(images[0].dtype, windinfo[0].dtype, outputs[0].dtype)
+    #exit()
 
-    images = tf.cast(images, tf.float16)
-    windinfo = tf.cast(windinfo, tf.float16)
-    outputs = tf.cast(outputs, tf.float16)
+    images = np.cast['float16'](images)
+    windinfo = np.cast['float16'](windinfo)
+    outputs = np.cast['float16'](outputs)
+
+    #images = tf.cast(images[:1500], tf.float16)
+    #windinfo = tf.cast(windinfo[:1500], tf.float16)
+    #outputs = tf.cast(outputs[:1500], tf.float16)
 
     #return images[:20], windinfo[:20], outputs[:20], weights, total
     return images, windinfo, outputs, weights, total
@@ -197,8 +210,8 @@ if __name__ == "__main__":
 
     history = model.fit([images, windinfo],                   # list of 2 inputs to model
               outputs,
-              batch_size=64,
-              epochs=100,
+              batch_size=16,
+              epochs=10,
               shuffle=True,
               validation_split=0.2,
               class_weight = class_weights,

@@ -47,8 +47,8 @@ def build_model(input1_shape, input2_shape):
     model = Model(inputs=[downscaleInput, inp2], outputs=out)
 
     model.compile(loss='mse',
-                  optimizer='adam')#,
-                  #metrics=['mse'])
+                  optimizer='adam',
+                  metrics=['accuracy'])
 
 
     return model
@@ -112,15 +112,15 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    #callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
 
     history = model.fit([images, concat],  # list of 2 inputs to model
               outputs,
               batch_size=64,
               epochs=100,
               shuffle=True,
-              validation_split=0.2)#,
-              #callbacks=[callback])
+              validation_split=0.2,
+              callbacks=[callback])
 
     plot_history(history=history)
     predict(model=model, data=test_data)

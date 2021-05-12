@@ -1,6 +1,9 @@
+import os
+
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from keras.engine.saving import model_from_json
 from tensorflow.keras import layers, models
 
 def unison_shuffled_copies(a, b):
@@ -93,14 +96,32 @@ def predict(model, X, y):
 
 #### Saving a Network
 def save(model, filename):
+    model_json = model.to_json()
+    with open('saved_models\\' + filename + ".json", "w") as json_file:
+        json_file.write(model_json)
+    # serialize weights to HDF5
+    model.save_weights('saved_models\\' + filename + ".h5")
     print("saving model " + filename)
-    model.save('saved_models\\' + filename)
+    #model.save('saved_models\\' + filename)
 
 
 #### Loading a Network
 def load(filename):
     print("loading model " + filename)
-    model = tf.keras.models.load_model('saved_models/' + filename)
+    # load json and create model
+    json_file = open('saved_models\\' + filename + '.json', 'r')
+    model_json = json_file.read()
+    json_file.close()
+    model = tf.keras.models.model_from_json(model_json)
+    # load weights into new model
+    model.load_weights('saved_models\\' + filename + ".h5")
+    print("Loaded model from disk")
+
+    #json_model_file = open(os.path.join(self.model_path, name + '.json'), "r").read()
+    #model = model_from_json(open('saved_models/' + filename).read())
+    #model.load_weights(os.path.join(os.path.dirname('saved_models/' + filename), 'model_weights.h5'))
+
+    #model = tf.keras.models.load_model('saved_models/' + filename)
     return model
 
 

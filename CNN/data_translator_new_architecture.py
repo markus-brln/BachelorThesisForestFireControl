@@ -50,6 +50,8 @@ def raw_to_IO_arrays(data):
   datatmp = []
   for data_point in data:
     agent_specific = data_point[3]
+    print(agent_specific)
+
     if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
       datatmp.append(data_point)
   data = datatmp
@@ -61,7 +63,6 @@ def raw_to_IO_arrays(data):
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
   print(len(data))
-
 
   # INPUT IMAGES
   for i in range(len(data)):
@@ -85,7 +86,7 @@ def raw_to_IO_arrays(data):
 
 
   # INPUT WIND SPEED AND WIND DIRECTION VECTORS
-  shape = (len(data), len(data[0][1]) + len(data[0][2]))
+  shape = (len(data), len(data[0][1]) + len(data[0][2])) # [num datapoints, 13] for wind + agents
   wind_dir_speed_single = np.zeros(shape, dtype=np.uint8)
   for i in range(len(data)):                 # make one array 13x1 for concatenation
     wind_dir_speed_single[i] = np.concatenate([data[i][1], data[i][2]])
@@ -156,9 +157,9 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
-  data = load_all_data(file_filter="NEWFive")
+  data = load_all_data(file_filter="test")
   images, concat, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="imagesNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="concatNEW.npy", arr=concat, allow_pickle=True)
-  np.save(file="outputsNEW.npy", arr=outputs, allow_pickle=True)
+  np.save(file="imagestest.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="concattest.npy", arr=concat, allow_pickle=True)
+  np.save(file="outputstest.npy", arr=outputs, allow_pickle=True)

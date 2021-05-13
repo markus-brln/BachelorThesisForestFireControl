@@ -96,6 +96,7 @@ def predict(model, X, y):
 
 #### Saving a Network
 def save(model, filename):
+    # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     model_json = model.to_json()
     with open('saved_models\\' + filename + ".json", "w") as json_file:
         json_file.write(model_json)
@@ -107,6 +108,7 @@ def save(model, filename):
 
 #### Loading a Network
 def load(filename):
+    # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     print("loading model " + filename)
     # load json and create model
     json_file = open('saved_models\\' + filename + '.json', 'r')

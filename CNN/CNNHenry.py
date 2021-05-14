@@ -70,7 +70,6 @@ def weightedLoss(originalLossFunc, weightsList):
         axis = -1 #if channels last
         #axis=  1 #if channels first
 
-
         #argmax returns the index of the element with the greatest value
         #done in the class axis, it returns the class index
         classSelectors = K.argmax(true, axis=axis)
@@ -95,18 +94,19 @@ def weightedLoss(originalLossFunc, weightsList):
             weightMultiplier = weightMultiplier + weights[i]
 
 
+
         #make sure your originalLossFunc only collapses the class axis
         #you need the other axes intact to multiply the weights tensor
         loss = originalLossFunc(true,pred)
-        #loss = loss * weightMultiplier
-        print(loss.shape)
+        loss = loss * weightMultiplier
+
         return loss
 
     return lossFunc
 
 
 def build_model(input1_shape, input2_shape):
-    feature_vector_len = 4*4*32
+    feature_vector_len = 4*4*128
     model1 = Sequential()
 
     model1.add(Conv2D(input_shape=input1_shape, filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same"))
@@ -122,17 +122,17 @@ def build_model(input1_shape, input2_shape):
     # CONCATENATE WITH WIND INFO
     inp2 = Input(input2_shape)
     model_concat = concatenate([model1.output, inp2], axis=1)
-    deconv = Dense(16*16*3, activation='relu')(model_concat)
-    #deconv = Dense(feature_vector_len, activation='relu')(model_concat)
-    ##deconv = Dense(16*16*3, activation='relu')(model_concat)
-    ## DECONVOLUTIONS TO OUTPUT IMAGE
-    #deconv = Reshape((4, 4, 32))(deconv)
-    #deconv = Conv2DTranspose(filters=128, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
-    ## kind of copied from here: https://medium.com/analytics-vidhya/building-a-convolutional-autoencoder-using-keras-using-conv2dtranspose-ca403c8d144e
-    ##deconv = BatchNormalization()(deconv)
-    #deconv = Conv2DTranspose(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
-    #deconv = Conv2DTranspose(filters=3, kernel_size=(1,1), activation="relu", padding="same")(deconv)
-    ##deconv = BatchNormalization()(deconv)
+    #deconv = Dense(16*16*3, activation='relu')(model_concat)
+    deconv = Dense(feature_vector_len, activation='relu')(model_concat)
+    #deconv = Dense(16*16*3, activation='relu')(model_concat)
+    # DECONVOLUTIONS TO OUTPUT IMAGE
+    deconv = Reshape((4, 4, 128))(deconv)
+    deconv = Conv2DTranspose(filters=128, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
+    # kind of copied from here: https://medium.com/analytics-vidhya/building-a-convolutional-autoencoder-using-keras-using-conv2dtranspose-ca403c8d144e
+    #deconv = BatchNormalization()(deconv)
+    deconv = Conv2DTranspose(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(deconv)
+    deconv = Conv2DTranspose(filters=3, kernel_size=(1,1), activation="relu", padding="same")(deconv)
+    #deconv = BatchNormalization()(deconv)
     deconv = Reshape((16 * 16, 3))(deconv)
     deconv = Activation('softmax')(deconv)
 
@@ -212,8 +212,18 @@ def predict(model=None, data=None, n_examples=10):
         #exit()
 
 
+        #five_highest_wp = np.zeros((16, 16))
+        #for five, dig, drive in zip(five_highest_wp, result[])
+
+
 
         non_wp_res, dig_img_res, drive_img_res = np.dsplit(result, 3)                  # depth split of 2 channel image
+        print((-dig_img_res).argsort()[:5])
+        print(np.argmax(dig_img_res))
+        exit()
+        # TODO make image with 5 highest values of any waypoints
+
+
         print(np.amax(non_wp_res), np.amax(dig_img_res), np.amax(drive_img_res))
         non_wp_out, dig_img_out, drive_img_out = np.dsplit(desired_output, 3)                  # depth split of 2 channel image
         f, axarr = plt.subplots(2,4)
@@ -237,45 +247,35 @@ def predict(model=None, data=None, n_examples=10):
         plt.show()
 
 
-
 if __name__ == "__main__":
-    #predict()                          # predict with model loaded from file
-    #exit()
+    predict()                          # predict with model loaded from file
+    exit()
 
     images, windinfo, outputs, weights, total = load_data()
 
-    class_weights = np.zeros(3)
-    class_weights[0] += (1 / weights[0]) * total / 2.0
-    class_weights[1] += (1 / weights[1]) * total / 2.0
-    class_weights[2] += (1 / weights[2]) * total / 2.0 # 5 waypoints but 250 non-wp, also, slightly more driving wp than digging, 61:41 ratio
-    print("class weights: ", class_weights)
+    #class_weights = np.zeros(3)
+    #class_weights[0] += (1 / weights[0]) * total / 2.0
+    #class_weights[1] += (1 / weights[1]) * total / 2.0
+    #class_weights[2] += (1 / weights[2]) * total / 2.0 # 5 waypoints but 250 non-wp, also, slightly more driving wp than digging, 61:41 ratio
+    class_weights = np.array([0.50971916, 45.64080695 / 10, 61.63277962 / 10])
 
-    #class_weights = { 0: 0.5,
-    #                  1: 50.0,
-    #                  2: 50.0}
-
-    sample_weights = np.zeros((256, 3))
-    sample_weights[:, 0] += 0.5
-    sample_weights[:, 1] += 50.0
-    sample_weights[:, 2] += 50.0
 
     model = build_model(images[0].shape, windinfo[0].shape)
 
-    model.compile(loss=jaccard,
-                  optimizer='adam',
-                  metrics=[jaccard, 'accuracy'])
+    #model.compile(loss=jaccard,
+    #              optimizer='adam',
+    #              metrics=[jaccard, 'accuracy'])
 
-    #model.compile(loss=weightedLoss(tensorflow.keras.losses.categorical_crossentropy, class_weights),
-    #              optimizer='adam', metrics=['accuracy'])
+    model.compile(loss=weightedLoss(tensorflow.keras.losses.categorical_crossentropy, class_weights),
+                  optimizer='adam', metrics=['accuracy'])
     print(model.summary())
 
-
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, mode='min')
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=1, mode='min')
 
     history = model.fit([images, windinfo],                   # list of 2 inputs to model
                         outputs,
                         batch_size=32,
-                        epochs=100,
+                        epochs=5,
                         shuffle=True,
                         validation_split=0.2,
                         class_weight=class_weights,
@@ -286,4 +286,4 @@ if __name__ == "__main__":
 
     save(model, "safetySafe")                       # utils
     plot_history(history)
-    #predict(model=model)
+    predict(model=model)

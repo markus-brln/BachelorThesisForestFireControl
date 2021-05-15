@@ -4,6 +4,14 @@ from Model.model import Model
 from View.view import View
 from Model.utils import *
 
+## Enum holding the different ways the model can be controlled
+class Mode(Enum):
+  DATA_GENERATION = 0,
+  CNN = 1,
+  OLD_CNN = 2,
+  ETCETERA = 3,
+
+
 class Controller:
   def __init__(self, model: Model, view: View):
     self.model = model
@@ -37,13 +45,6 @@ class Controller:
       # Mouse button released
       self.mouse_button_pressed = False
       self.last_clicked = (-1, 0)           ## Reset to allow clicking a square twice in a row
-    # M dragging not useful for now
-    #elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
-      # Mouse button pressed and dragged
-      #self.select(event)
-    # M having this in here makes it extremely laggy, at least for me
-    #elif event.type == pygame.MOUSEMOTION: ## now will constantly display mouse coords
-      #self.view.update()
     elif event.type == pygame.KEYDOWN:
       # Keyboard button pressed
       self.key_press(event)
@@ -133,10 +134,32 @@ class Controller:
       self.model.start_episode()  ## Return / ENTER to go to next episode
       self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1
-    
-    #if event.key == pygame.K_c:
-    #  self.model.waypoints.clear()
 
-    #if event.key == pygame.K_w:
-    #  self.start_collecting_waypoints()
+
+class NN_Controller:
+  def __init__(self, filename, model: Model):
+    self.load_NN(filename)
+    self.model = model
+  
+
+  def run(self, iterations, timesteps = 20):
+    for _ in range(iterations):
+      self.model.start_episode()
+      while self.model.firepos != set(): # While firepos not empty
+        NN_output = self.predict()       # Get NN output
+        self.steer_model(NN_output)      # use output to assign waypoints
+        for _ in range(timesteps):
+          self.model.timestep()
+        time.sleep(1) # So we can see what's going on. Disable when running.
+
+
+  def steer_model(self, nn_output):
+    pass ## Assign waypoints here
+
+  def load_NN(self, filename):
+    pass ## will be quicker with a bit of help
+
+
+  def predict(self):
+    pass
 

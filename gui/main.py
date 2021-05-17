@@ -3,11 +3,13 @@
 ### Required packages
 # Pygame: pip install pygame
 
+from Controller.controller import NN_Controller
 import pygame
 from Model.model import Model
 from View.view import View
 from Controller.controller import Controller
 from Model.utils import *
+
 pygame.init()  ## Initialize Pygame
 pygame.display.set_caption('Only you can prevent Forest Fires!')
 
@@ -29,11 +31,21 @@ def main():
   # Initialization
   model = Model(size, nr_of_agents, agentRadius)   ## Initialize Environment
   view = View(model, block_size_in_pixels)  ## Start View
-  controller = Controller(model, view)      ## Initialize Controller with model and view
 
-  # Run 
-  while True:
-    controller.update(pygame.event.wait())        ## Let the controller take over
+# TODO Cleanup
+  ## Data generation
+  if False:
+    controller = Controller(model, view)      ## Initialize Controller with model and view
+
+    # Run 
+    while True:
+      controller.update(pygame.event.wait())        ## Let the controller take over
+    
+  # NN
+  if True:
+    controller = NN_Controller("saved_models/CNN", model)
+    controller.run(10)
+
 
 
 if __name__=="__main__":

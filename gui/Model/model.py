@@ -9,11 +9,12 @@ from Model.utils import *
 from enum import Enum
 import random
 
+import numpy as np
+
 # For data generation maybe lose the seed
 from Model.utils import n_wind_speed_levels
 
 #random.seed(1)
-
 
 class State(Enum):
   ONGOING = 0
@@ -53,15 +54,24 @@ class Model:
     ## Fire initialization
     self.radius = radius
     self.firepos = set()
-    self.start_episode()  # Initialize episode
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
     self.highlighted_agent_nr = None
     self.highlighted_agent = None
 
+    ## NN integration
+    shape = (256, 256, 5)
+    self.array_np = np.zeros(shape, dtype=np.double)
+    self.wind_info_vector = np.zeros(13, dtype=np.double)              # 8 wind directions # TODO check dtype
+
+    self.start_episode()  # Initialize episode
+
+
+
   ## Episode Initialization
   def start_episode(self):
+
     self.counter += 1
     print(f"{self.counter}th run")
     self.reset_agents()
@@ -79,6 +89,21 @@ class Model:
     self.firepos.clear()
     self.set_initial_fire(0)
     self.firebreaks = set()
+
+    ## NN integration
+    for rowIdx, row in enumerate(self.array_np):
+      for colIdx, _ in enumerate(row):
+        self.array_np[rowIdx][colIdx][0] = 1
+    
+    for agent in self.agents:
+      x, y = agent.position
+      self.array_np[x][y][0] = 0
+      self.array_np[x][y][4] = 1
+    
+    self.wind_info_vector = np.zeros(13, dtype = np.uint8)
+    self.wind_info_vector[self.get_wind_dir_idx()] = 1
+    self.wind_info_vector[self.windspeed + 8] = 1  # +8 wind directions
+
 
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.RESET)
@@ -125,6 +150,7 @@ class Model:
     x = y = int(self.size / 2)
     centre_node = self.find_node((x, y))
     centre_node.ignite()
+    self.firepos.add((x, y))
 
   @staticmethod
   def set_windspeed():
@@ -368,19 +394,51 @@ class Model:
   ## State changes
   ## Call from Node
   def node_state_change(self, node: Node):
+    x, y = node.position
+    self.array_np[x][y][0] = 0 ## No longer grass
     if node.state == NodeState.ON_FIRE:
+      self.array_np[x][y][2] = 1
       self.firepos.add(node.position)
     if node.state == NodeState.BURNED_OUT:
+      self.array_np[x][y][3] = 1
       self.firepos.remove(node.position)
     if node.state == NodeState.FIREBREAK:
+      self.array_np[x][y][1] = 1
       self.firebreaks.add(node.position)
 
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.NODE, node=node)
 
   def agent_moves(self, agent):
+    old_x, old_y = agent.prev_node.position
+    new_x, new_y = agent.position
+
+    if agent.prev_node.state == NodeState.NORMAL:
+      cell = 0
+    elif agent.prev_node.state == NodeState.FIREBREAK:
+      cell = 1
+    elif agent.prev_node.state == NodeState.ON_FIRE:
+      cell = 2
+    elif agent.prev_node.state == NodeState.BURNED_OUT:
+      cell = 3
+
+    self.array_np[old_x][old_y][cell] = 1
+    self.array_np[old_x][old_y][4] = 0
+
+    if agent.node.state == NodeState.NORMAL:
+      cell = 0
+    elif agent.node.state == NodeState.FIREBREAK:
+      cell = 1
+    elif agent.node.state == NodeState.ON_FIRE:
+      cell = 2
+    elif agent.node.state == NodeState.BURNED_OUT:
+      cell = 3
+    self.array_np[new_x][new_y][cell] = 0
+    self.array_np[new_x][new_y][4] = 1
+
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.AGENT, agent=agent)
+
 
   def subscribe(self, subscriber):
     self.subscribers.append(subscriber)
@@ -395,3 +453,25 @@ class Model:
   def shut_down(self):
     self.DataSaver.save_training_run()  # M data points of all successful episodes until here saved
     self.start_episode()
+
+
+  def get_wind_dir_idx(self):
+    wind_dir = self.wind_dir
+    """Order of wind directions:
+       N, S, E, W, NE, NW, SE, SW"""
+    if wind_dir == (Direction.NORTH, Direction.NORTH):
+      return 0
+    if wind_dir == (Direction.SOUTH, Direction.SOUTH):
+      return 1
+    if wind_dir == (Direction.EAST, Direction.EAST):
+      return 2
+    if wind_dir == (Direction.WEST, Direction.WEST):
+      return 3
+    if wind_dir == (Direction.NORTH, Direction.EAST):
+      return 4
+    if wind_dir == (Direction.NORTH, Direction.WEST):
+      return 5
+    if wind_dir == (Direction.SOUTH, Direction.EAST):
+      return 6
+    if wind_dir == (Direction.SOUTH, Direction.WEST):
+      return 7

@@ -122,7 +122,8 @@ if __name__ == "__main__":
               validation_split=0.2,
               callbacks=[callback])
 
+    save(model, "CNN_new_architecture")                       # utils
     plot_history(history=history)
     predict(model=model, data=test_data)
 
-    save(model, "safetySafe")                       # utils
+

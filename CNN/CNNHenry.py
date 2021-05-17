@@ -1,4 +1,5 @@
 import math
+import random
 
 import tensorflow.keras
 import matplotlib.pyplot as plt
@@ -51,7 +52,7 @@ def load_data():
     #windinfo = tf.cast(windinfo[:1500], tf.float16)
     #outputs = tf.cast(outputs[:1500], tf.float16)
 
-    #return images[:200], windinfo[:200], outputs[:200], weights, total
+    #return images[:64], windinfo[:64], outputs[:64], weights, total
     return images, windinfo, outputs, weights, total
 
 
@@ -141,21 +142,19 @@ def build_model(input1_shape, input2_shape):
     return model
 
 
-
-def predict(model=None, data=None, n_examples=10):
+def predict(model=None, n_examples=200):
     """show inputs together with predictions of CNN,
        either provided as param or loaded from file"""
 
     images = np.load("images.npy", allow_pickle=True)
     windinfo = np.load("windinfo.npy", allow_pickle=True)
     outputs = np.load("outputs.npy", allow_pickle=True)
-
     outputs = outputs.reshape(outputs.shape[:-3] + (-1, 3))  # reshape from 16x16x3 to 256x3 (convention)
 
-    #if not data:
-    #    images, windinfo, outputs, weights, total = load_data()
-    #else:
-    #    images, windinfo, outputs = data
+    indeces = random.sample(range(len(images)), n_examples)
+    X1 = images[indeces]
+    X2 = windinfo[indeces]
+    outputs = outputs[indeces]
 
     if not model:
         model = load("safetySafe")
@@ -165,6 +164,7 @@ def predict(model=None, data=None, n_examples=10):
     print("predicting")
     results = model.predict([X1, X2])                        # outputs 16x16x3
 
+    # TODO: use for debugging the model.array_nn
     # translate the 5 channel input back to displayable images
     #orig_img = np.zeros((len(X1), 255, 255))
     #
@@ -179,86 +179,161 @@ def predict(model=None, data=None, n_examples=10):
     #                #print(i, y, x, idx)
     #                if item == 1:
     #                    orig_img[i][y][x] = idx
+    category_cnt = [0, 0, 0]
+    true_category_cnt = [0, 0, 0]
+    for r in range(n_examples):
+        result = np.reshape(results[r], newshape=(16, 16, 3))
+        true_result = np.reshape(outputs[r], newshape=(16, 16, 3))
+
+        for col, col2 in zip(result, true_result):
+            for cell, cell2 in zip(col, col2):
+                category_cnt[np.argmax(cell)] += 1
+                true_category_cnt[np.argmax(cell2)] += 1
+
+
+
+    category_cnt = [num / n_examples for num in category_cnt]           # average
+    true_category_cnt = [num / n_examples for num in true_category_cnt]           # average
+    print("CNN: ", category_cnt)
+    print("true: ", true_category_cnt)
+
+    #exit()
 
 
     # display input images and the 2 waypoint output images (from 2 channels)
     for i in range(len(results)):
-        #plt.imshow(orig_img[i])
-        #plt.title("input image")
-        #plt.show()
         result = np.reshape(results[i], (16,16,3))
         desired_output = np.reshape(outputs[i], (16,16,3))
 
-        # Give 0/1 pixel values base on where values are the highest
-        non_wp_res = np.zeros((16, 16))
-        dig_img_res = np.zeros((16, 16))
-        drive_img_res = np.zeros((16, 16))
-        all_max_img = np.zeros((16, 16))
+        highest_wp_val_idc = [[0, 0, 0, 0]]* 5   # value, x, y, (0==drive / 1==dig)
 
+        all_max_img = np.zeros((16, 16))
         for j, col in enumerate(result):
             for k, cell in enumerate(col):
                 highest_value_idx = np.argmax(cell)
-                #print(highest_value_idx)
                 if highest_value_idx == 0:
-                    non_wp_res[j][k] = 1
                     all_max_img[j][k] = 0
                 elif highest_value_idx == 1:
-                    dig_img_res[j][k] = 1
-                    all_max_img[j][k] = 1
+                    all_max_img[j][k] = 1           # digging always == 1 (yellow)
                 elif highest_value_idx == 2:
-                    drive_img_res[j][k] = 1
-                    all_max_img[j][k] = 2
-                #print(cell)
-        #exit()
+                    all_max_img[j][k] = 0.5         # driving always == 0.5
 
+                if cell[1] > highest_wp_val_idc[-1][0]:
+                    highest_wp_val_idc[-1] = [cell[1], k, j, 1]     # found digging waypoint with high value
+                    highest_wp_val_idc.sort(reverse=True, key=lambda x: x[0])
+                if cell[2] > highest_wp_val_idc[-1][0]:
+                    highest_wp_val_idc[-1] = [cell[1], k, j, 0]     # found driving waypoint with high value
+                    highest_wp_val_idc.sort(reverse=True, key=lambda x: x[0])
 
-        #five_highest_wp = np.zeros((16, 16))
-        #for five, dig, drive in zip(five_highest_wp, result[])
-
+        #print("highest waypoint val+idx: ", highest_wp_val_idc)
+        highest_wp = np.zeros((16, 16))
+        for wp in highest_wp_val_idc:
+            if wp[3] == 0:
+                highest_wp[wp[2]][wp[1]] = 0.5
+            else:
+                highest_wp[wp[2]][wp[1]] = 1
 
 
         non_wp_res, dig_img_res, drive_img_res = np.dsplit(result, 3)                  # depth split of 2 channel image
-        print((-dig_img_res).argsort()[:5])
-        print(np.argmax(dig_img_res))
-        exit()
-        # TODO make image with 5 highest values of any waypoints
-
-
-        print(np.amax(non_wp_res), np.amax(dig_img_res), np.amax(drive_img_res))
+        print("maximum values of 3 channels: ", np.amax(non_wp_res), np.amax(dig_img_res), np.amax(drive_img_res))
         non_wp_out, dig_img_out, drive_img_out = np.dsplit(desired_output, 3)                  # depth split of 2 channel image
+        #print(np.sum(non_wp_res), np.sum(dig_img_res), np.sum(drive_img_res))
+        #exit()
+
         f, axarr = plt.subplots(2,4)
-        axarr[0,0].imshow(np.reshape(non_wp_res, newshape=(16, 16)))
+        axarr[0,0].imshow(np.reshape(non_wp_res, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[0,0].set_title("non-wp NN output")
-        axarr[0,1].imshow(np.reshape(dig_img_res, newshape=(16, 16)))
+        axarr[0,1].imshow(np.reshape(dig_img_res, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[0,1].set_title("dig waypoints image NN output")
-        axarr[0,2].imshow(np.reshape(drive_img_res, newshape=(16, 16)))
+        axarr[0,2].imshow(np.reshape(drive_img_res, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[0,2].set_title("drive image NN output")
-        axarr[0,3].imshow(np.reshape(all_max_img, newshape=(16, 16)))
+        axarr[0,3].imshow(np.reshape(all_max_img, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[0,3].set_title("decision (non-wp, dig, drive)")
 
-
-        axarr[1,0].imshow(np.reshape(non_wp_out, newshape=(16, 16)))
+        axarr[1,0].imshow(np.reshape(non_wp_out, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[1,0].set_title("non-wp desired")
-        axarr[1,1].imshow(np.reshape(dig_img_out, newshape=(16, 16)))
+        axarr[1,1].imshow(np.reshape(dig_img_out, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[1,1].set_title("dig image desired")
-        axarr[1,2].imshow(np.reshape(drive_img_out, newshape=(16, 16)))
+        axarr[1,2].imshow(np.reshape(drive_img_out, newshape=(16, 16)), vmin=0, vmax=1)
         axarr[1,2].set_title("drive image desired")
-
+        axarr[1,3].imshow(np.reshape(highest_wp, newshape=(16, 16)), vmin=0, vmax=1)
+        axarr[1,3].set_title("highest wp values")
         plt.show()
+
+def gridsearch():
+    """Go over search space of weights for non-wp, dig, drive. Write to file in format:
+    weights: [non-wp, dig, drive] values: [dig-wp avrg, drive-wp avrg]"""
+    f = open("gridsearch.txt", mode='a')
+
+    n_examples = 100
+    images = np.load("images.npy", allow_pickle=True)
+    windinfo = np.load("windinfo.npy", allow_pickle=True)
+    outputs = np.load("outputs.npy", allow_pickle=True)
+    outputs = outputs.reshape(outputs.shape[:-3] + (-1, 3))  # reshape from 16x16x3 to 256x3 (convention)
+
+
+    X1 = images[:n_examples]
+    X2 = windinfo[:n_examples]
+
+    images, windinfo, outputs = images[n_examples:], windinfo[n_examples:], outputs[n_examples:]
+
+    for non_wp_w in [x / 5.0 for x in range(1, 10, 1)]:
+        for dig_wp_w in [x / 5.0 for x in range(1, 20, 4)]:
+            for drive_wp_w in [x / 5.0 for x in range(1, 20, 4)]:
+                class_weights = np.array([0.50971916, 45.64080695 / 10, 61.63277962 / 10])
+                #class_weights = np.array([non_wp_w, dig_wp_w, drive_wp_w])
+
+                model = build_model(images[0].shape, windinfo[0].shape)
+
+                model.compile(loss=weightedLoss(tensorflow.keras.losses.categorical_crossentropy, class_weights),
+                              optimizer='adam', metrics=['accuracy'])
+
+                model.fit([images, windinfo],
+                           outputs,
+                           batch_size=64,
+                           epochs=3,
+                           shuffle=True,
+                           validation_split=0.2,
+                           verbose=1)
+
+                results = model.predict([X1, X2])                        # outputs 16x16x3
+
+                category_cnt = [0, 0, 0]
+                for i in range(n_examples):
+                    result = np.reshape(results[i], newshape=(16, 16, 3))
+
+                    for j, col in enumerate(result):
+                        for k, cell in enumerate(col):
+                            np.argmax(cell)
+                            category_cnt[np.argmax(cell)] += 1
+
+                category_cnt = [num / n_examples for num in category_cnt]           # average
+
+                #print(category_cnt)
+                print("weights: " + str(non_wp_w) + " " + str(dig_wp_w) + " " +
+                      str(drive_wp_w) + " values: " + str(category_cnt[1]) + " " + str(category_cnt[2]))
+                f.write("weights: " + str(non_wp_w) + " " + str(dig_wp_w) + " " +
+                        str(drive_wp_w) + " values: " + str(category_cnt[1]) + " " + str(category_cnt[2]) + "\n")
+
+                exit()
+
+    f.close()
 
 
 if __name__ == "__main__":
-    predict()                          # predict with model loaded from file
-    exit()
+    #gridsearch()
+    #predict()                          # predict with model loaded from file
+    #exit()
 
     images, windinfo, outputs, weights, total = load_data()
+    images, windinfo, outputs = images[:], windinfo[:], outputs[:]
 
-    #class_weights = np.zeros(3)
+#class_weights = np.zeros(3)
     #class_weights[0] += (1 / weights[0]) * total / 2.0
     #class_weights[1] += (1 / weights[1]) * total / 2.0
     #class_weights[2] += (1 / weights[2]) * total / 2.0 # 5 waypoints but 250 non-wp, also, slightly more driving wp than digging, 61:41 ratio
-    class_weights = np.array([0.50971916, 45.64080695 / 10, 61.63277962 / 10])
-
+    #class_weights = np.array([0.050971916, 0.49, 0.969])        # for 3 episodes
+    class_weights = np.array([0.050971916, 0.41, 0.82])        # for 10 episodes
 
     model = build_model(images[0].shape, windinfo[0].shape)
 
@@ -270,20 +345,19 @@ if __name__ == "__main__":
                   optimizer='adam', metrics=['accuracy'])
     print(model.summary())
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=1, mode='min')
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=2, mode='min')
 
     history = model.fit([images, windinfo],                   # list of 2 inputs to model
                         outputs,
                         batch_size=32,
-                        epochs=5,
+                        epochs=10,
                         shuffle=True,
-                        validation_split=0.2,
-                        class_weight=class_weights,
+                        validation_split=0.2)#,
                         #sample_weight=sample_weights,
-                        callbacks=[callback])
+                        #callbacks=[callback])
 
 
 
-    save(model, "safetySafe")                       # utils
-    plot_history(history)
+    #save(model, "safetySafe")                       # utils
+    #plot_history(history)
     predict(model=model)

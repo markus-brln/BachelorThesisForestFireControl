@@ -1,8 +1,28 @@
+import enum
+from typing import Container
 import pygame
 import time
 from Model.model import Model
-from View.view import View
+from View.view import View  
 from Model.utils import *
+
+from Model.direction import Direction
+
+import os
+
+from enum import Enum
+
+import tensorflow as tf
+import numpy as np
+
+
+## Enum holding the different ways the model can be controlled
+class Mode(Enum):
+  DATA_GENERATION = 0,
+  CNN = 1,
+  OLD_CNN = 2,
+  ETCETERA = 3,
+
 
 class Controller:
   def __init__(self, model: Model, view: View):
@@ -37,13 +57,6 @@ class Controller:
       # Mouse button released
       self.mouse_button_pressed = False
       self.last_clicked = (-1, 0)           ## Reset to allow clicking a square twice in a row
-    # M dragging not useful for now
-    #elif event.type == pygame.MOUSEMOTION and self.mouse_button_pressed:
-      # Mouse button pressed and dragged
-      #self.select(event)
-    # M having this in here makes it extremely laggy, at least for me
-    #elif event.type == pygame.MOUSEMOTION: ## now will constantly display mouse coords
-      #self.view.update()
     elif event.type == pygame.KEYDOWN:
       # Keyboard button pressed
       self.key_press(event)
@@ -133,10 +146,78 @@ class Controller:
       self.model.start_episode()  ## Return / ENTER to go to next episode
       self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1
-    
-    #if event.key == pygame.K_c:
-    #  self.model.waypoints.clear()
 
-    #if event.key == pygame.K_w:
-    #  self.start_collecting_waypoints()
 
+class NN_Controller:
+  def __init__(self, filename, model: Model):
+    self.load_NN(filename)
+    self.model = model
+
+  def run(self, episodes, timesteps = 20):
+    for _ in range(episodes):
+      self.model.start_episode()
+      while self.model.firepos != set() and len(self.model.agents) == 5: # While firepos not empty #TODO
+        NN_output = self.predict()       # Get NN output
+        self.steer_model(NN_output)      # use output to assign waypoints
+
+        for _ in range(timesteps):
+          time.sleep(0.5) # So we can see what's going on. Disable when running.
+          self.model.time_step()
+
+  def steer_model(self, nn_output):
+    digging_threshold = 0.5
+
+    # Assign waypoints to the agents
+    for agent, output in zip(self.model.agents, nn_output):
+      print(output)
+      agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold)
+
+  def load_NN(self, filename):
+      # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
+      print("loading model " + filename)
+      # load json and create model
+      json_file = open('saved_models' + os.sep + filename + '.json', 'r')
+      model_json = json_file.read()
+      json_file.close()
+      self.nn = tf.keras.models.model_from_json(model_json)
+      # load weights into new model
+      self.nn.load_weights('saved_models' + os.sep + filename + ".h5")
+      print("Loaded model from disk")
+
+
+
+  def predict(self):
+    X1 = 5 * [self.model.array_np]
+    wind_info = list(self.model.wind_info_vector)
+    agent_positions = [agent.position for agent in self.model.agents]
+    concat_vector = list()
+    for pos in agent_positions:
+      concat_vector.append(wind_info + [pos[0] / 255, pos[1] / 255])
+
+    print(concat_vector)
+    concat_vector = np.asarray(concat_vector)
+
+    print("predicting")
+    output = self.nn.predict([X1, concat_vector])                        # outputs 16x16x3
+    return output
+
+  def get_wind_dir_idx(self):
+    wind_dir = self.model.wind_dir
+    """Order of wind directions:
+       N, S, E, W, NE, NW, SE, SW"""
+    if wind_dir == (Direction.NORTH, Direction.NORTH):
+      return 0
+    if wind_dir == (Direction.SOUTH, Direction.SOUTH):
+      return 1
+    if wind_dir == (Direction.EAST, Direction.EAST):
+      return 2
+    if wind_dir == (Direction.WEST, Direction.WEST):
+      return 3
+    if wind_dir == (Direction.NORTH, Direction.EAST):
+      return 4
+    if wind_dir == (Direction.NORTH, Direction.WEST):
+      return 5
+    if wind_dir == (Direction.SOUTH, Direction.EAST):
+      return 6
+    if wind_dir == (Direction.SOUTH, Direction.WEST):
+      return 7

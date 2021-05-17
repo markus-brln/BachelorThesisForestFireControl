@@ -157,21 +157,24 @@ class NN_Controller:
   def run(self, episodes, timesteps = 20):
     for _ in range(episodes):
       self.model.start_episode()
-      while self.model.firepos != set(): # While firepos not empty #TODO
+      while self.model.firepos != set() and len(self.model.agents) == 5: # While firepos not empty #TODO
         NN_output = self.predict()       # Get NN output
         self.steer_model(NN_output)      # use output to assign waypoints
+
         for _ in range(timesteps):
-          self.model.timestep()
-        time.sleep(1) # So we can see what's going on. Disable when running.
+          time.sleep(0.5) # So we can see what's going on. Disable when running.
+          self.model.time_step()
+
+
 
 
   def steer_model(self, nn_output):
-    for idx, _ in enumerate(nn_output):
-      nn_output[idx][2] = False if nn_output[idx][2] <= 0.5 else True   # TODO determine cutoff
+    digging_threshold = 0.5
 
     # Assign waypoints to the agents
-    for agent, (x, y, digging) in zip(self.model.agents, nn_output):
-      agent.assign_new_waypoint((255 * x, 255 * y), digging)
+    for agent, output in zip(self.model.agents, nn_output):
+      print(output)
+      agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold)
 
 
   def load_NN(self, filename):
@@ -205,7 +208,7 @@ class NN_Controller:
     concat_vector = np.asarray(concat_vector)
 
     print("predicting")
-    output = [self.nn.predict([X1, concat_vector])]                        # outputs 16x16x3
+    output = self.nn.predict([X1, concat_vector])                        # outputs 16x16x3
     return output
 
   def get_wind_dir_idx(self):

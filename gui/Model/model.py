@@ -107,6 +107,10 @@ class Model:
     print("Saving waypoints")
     self.DataSaver.append_datapoint()
 
+  def output_datapoints(self):
+    print("testing data pass")
+    return self.DataSaver.output_datapoint()
+
   def discard_episode(self):
     self.DataSaver.discard_episode()
 

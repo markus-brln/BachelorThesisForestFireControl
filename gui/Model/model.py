@@ -64,6 +64,7 @@ class Model:
     ## NN integration
     shape = (256, 256, 5)
     self.array_np = np.zeros(shape, dtype=np.uint8)
+    self.wind_info_vector = np.zeros(13, dtype=np.uint8)              # 8 wind directions # TODO check dtype
 
 
 
@@ -88,7 +89,7 @@ class Model:
     self.set_initial_fire(0)
     self.firebreaks = set()
 
-    # Bit ugly but will do
+    ## NN integration
     for rowIdx, row in enumerate(self.array_np):
       for colIdx, _ in enumerate(row):
         self.array_np[rowIdx][colIdx][0] = 1
@@ -97,6 +98,11 @@ class Model:
       x, y = agent.position
       self.array_np[x][y][0] = 0
       self.array_np[x][y][4] = 1
+    
+    self.wind_info_vector = np.zeros(13, dtype = np.uint8)
+    self.wind_info_vector[self.get_wind_dir_idx()] = 1
+    self.wind_info_vector[self.windspeed + 8] = 1  # +8 wind directions
+
 
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.RESET)
@@ -421,13 +427,12 @@ class Model:
       cell = 2
     elif agent.node.state == NodeState.BURNED_OUT:
       cell = 3
-    self.array_np[old_x][old_y][cell] = 0
-    self.array_np[old_x][old_y][4] = 1
-
-
+    self.array_np[new_x][new_y][cell] = 0
+    self.array_np[new_x][new_y][4] = 1
 
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.AGENT, agent=agent)
+
 
   def subscribe(self, subscriber):
     self.subscribers.append(subscriber)
@@ -442,3 +447,25 @@ class Model:
   def shut_down(self):
     self.DataSaver.save_training_run()  # M data points of all successful episodes until here saved
     self.start_episode()
+
+
+  def get_wind_dir_idx(self):
+    wind_dir = self.model.wind_dir
+    """Order of wind directions:
+       N, S, E, W, NE, NW, SE, SW"""
+    if wind_dir == (Direction.NORTH, Direction.NORTH):
+      return 0
+    if wind_dir == (Direction.SOUTH, Direction.SOUTH):
+      return 1
+    if wind_dir == (Direction.EAST, Direction.EAST):
+      return 2
+    if wind_dir == (Direction.WEST, Direction.WEST):
+      return 3
+    if wind_dir == (Direction.NORTH, Direction.EAST):
+      return 4
+    if wind_dir == (Direction.NORTH, Direction.WEST):
+      return 5
+    if wind_dir == (Direction.SOUTH, Direction.EAST):
+      return 6
+    if wind_dir == (Direction.SOUTH, Direction.WEST):
+      return 7

@@ -159,6 +159,7 @@ def predict(model=None, n_examples=10):
     print("predicting")
     results = model.predict([X1, X2])                        # outputs 16x16x3
 
+    # TODO: use for debugging the model.array_nn
     # translate the 5 channel input back to displayable images
     #orig_img = np.zeros((len(X1), 255, 255))
     #

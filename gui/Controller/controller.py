@@ -1,8 +1,15 @@
+import enum
 import pygame
 import time
 from Model.model import Model
-from View.view import View
+from View.view import View  
 from Model.utils import *
+
+from Model.direction import Direction
+
+import tensorflow as tf
+import numpy as np
+
 
 ## Enum holding the different ways the model can be controlled
 class Mode(Enum):
@@ -142,10 +149,10 @@ class NN_Controller:
     self.model = model
   
 
-  def run(self, iterations, timesteps = 20):
-    for _ in range(iterations):
+  def run(self, episodes, timesteps = 20):
+    for _ in range(episodes):
       self.model.start_episode()
-      while self.model.firepos != set(): # While firepos not empty
+      while self.model.firepos != set(): # While firepos not empty #TODO
         NN_output = self.predict()       # Get NN output
         self.steer_model(NN_output)      # use output to assign waypoints
         for _ in range(timesteps):
@@ -154,12 +161,66 @@ class NN_Controller:
 
 
   def steer_model(self, nn_output):
-    pass ## Assign waypoints here
+    for idx, _ in enumerate(nn_output):
+      nn_output[idx][2] = 0 if nn_output[idx][2] <= 0.5 else 1   # TODO determine cutoff
+
+    # Assign waypoints to the agents
+    x = 255 * nn_output[idx][0] 
+    y = 255 * nn_output[idx][1]
+    
+
+
+
 
   def load_NN(self, filename):
-    pass ## will be quicker with a bit of help
+      # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
+      print("loading model " + filename)
+      # load json and create model
+      json_file = open('saved_models\\' + filename + '.json', 'r')
+      model_json = json_file.read()
+      json_file.close()
+      self.nn = tf.keras.models.model_from_json(model_json)
+      # load weights into new model
+      self.nn.load_weights('saved_models\\' + filename + ".h5")
+      print("Loaded model from disk")
+
+      #json_model_file = open(os.path.join(self.model_path, name + '.json'), "r").read()
+      #model = model_from_json(open('saved_models/' + filename).read())
+      #model.load_weights(os.path.join(os.path.dirname('saved_models/' + filename), 'model_weights.h5'))
+
+      #model = tf.keras.models.load_model('saved_models/' + filename)
 
 
   def predict(self):
-    pass
+    X1 = 5 * [self.model.array_np]
+    wind_info = self.model.wind_info_vector
+    agent_positions = [agent.position for agent in self.model.agents]
+    concat_vector = list()
+    for wind, agentpos in zip(wind_info, agent_positions):
+      concat_vector.append(list(wind) + list(agentpos))  ## TODO make efficient.
+    concat_vector = np.asarray(concat_vector)
 
+    print("predicting")
+    output = [self.nn.predict([X1, concat_vector])]                        # outputs 16x16x3
+    return output
+
+  def get_wind_dir_idx(self):
+    wind_dir = self.model.wind_dir
+    """Order of wind directions:
+       N, S, E, W, NE, NW, SE, SW"""
+    if wind_dir == (Direction.NORTH, Direction.NORTH):
+      return 0
+    if wind_dir == (Direction.SOUTH, Direction.SOUTH):
+      return 1
+    if wind_dir == (Direction.EAST, Direction.EAST):
+      return 2
+    if wind_dir == (Direction.WEST, Direction.WEST):
+      return 3
+    if wind_dir == (Direction.NORTH, Direction.EAST):
+      return 4
+    if wind_dir == (Direction.NORTH, Direction.WEST):
+      return 5
+    if wind_dir == (Direction.SOUTH, Direction.EAST):
+      return 6
+    if wind_dir == (Direction.SOUTH, Direction.WEST):
+      return 7

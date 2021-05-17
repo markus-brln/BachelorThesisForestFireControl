@@ -152,7 +152,6 @@ class NN_Controller:
   def __init__(self, filename, model: Model):
     self.load_NN(filename)
     self.model = model
-  
 
   def run(self, episodes, timesteps = 20):
     for _ in range(episodes):
@@ -165,9 +164,6 @@ class NN_Controller:
           time.sleep(0.5) # So we can see what's going on. Disable when running.
           self.model.time_step()
 
-
-
-
   def steer_model(self, nn_output):
     digging_threshold = 0.5
 
@@ -175,7 +171,6 @@ class NN_Controller:
     for agent, output in zip(self.model.agents, nn_output):
       print(output)
       agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold)
-
 
   def load_NN(self, filename):
       # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
@@ -189,11 +184,6 @@ class NN_Controller:
       self.nn.load_weights('saved_models' + os.sep + filename + ".h5")
       print("Loaded model from disk")
 
-      #json_model_file = open(os.path.join(self.model_path, name + '.json'), "r").read()
-      #model = model_from_json(open('saved_models/' + filename).read())
-      #model.load_weights(os.path.join(os.path.dirname('saved_models/' + filename), 'model_weights.h5'))
-
-      #model = tf.keras.models.load_model('saved_models/' + filename)
 
 
   def predict(self):

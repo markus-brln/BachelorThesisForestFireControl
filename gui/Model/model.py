@@ -54,7 +54,6 @@ class Model:
     ## Fire initialization
     self.radius = radius
     self.firepos = set()
-    self.start_episode()  # Initialize episode
 
     ## Data saving initialization
     self.DataSaver = DataSaver(self)
@@ -63,8 +62,10 @@ class Model:
 
     ## NN integration
     shape = (256, 256, 5)
-    self.array_np = np.zeros(shape, dtype=np.uint8)
-    self.wind_info_vector = np.zeros(13, dtype=np.uint8)              # 8 wind directions # TODO check dtype
+    self.array_np = np.zeros(shape, dtype=np.double)
+    self.wind_info_vector = np.zeros(13, dtype=np.double)              # 8 wind directions # TODO check dtype
+
+    self.start_episode()  # Initialize episode
 
 
 
@@ -145,6 +146,7 @@ class Model:
     x = y = int(self.size / 2)
     centre_node = self.find_node((x, y))
     centre_node.ignite()
+    self.firepos.add((x, y))
 
   @staticmethod
   def set_windspeed():
@@ -450,7 +452,7 @@ class Model:
 
 
   def get_wind_dir_idx(self):
-    wind_dir = self.model.wind_dir
+    wind_dir = self.wind_dir
     """Order of wind directions:
        N, S, E, W, NE, NW, SE, SW"""
     if wind_dir == (Direction.NORTH, Direction.NORTH):

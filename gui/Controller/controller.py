@@ -1,4 +1,5 @@
 import enum
+from typing import Container
 import pygame
 import time
 from Model.model import Model
@@ -6,6 +7,10 @@ from View.view import View
 from Model.utils import *
 
 from Model.direction import Direction
+
+import os
+
+from enum import Enum
 
 import tensorflow as tf
 import numpy as np
@@ -162,26 +167,23 @@ class NN_Controller:
 
   def steer_model(self, nn_output):
     for idx, _ in enumerate(nn_output):
-      nn_output[idx][2] = 0 if nn_output[idx][2] <= 0.5 else 1   # TODO determine cutoff
+      nn_output[idx][2] = False if nn_output[idx][2] <= 0.5 else True   # TODO determine cutoff
 
     # Assign waypoints to the agents
-    x = 255 * nn_output[idx][0] 
-    y = 255 * nn_output[idx][1]
-    
-
-
+    for agent, (x, y, digging) in zip(self.model.agents, nn_output):
+      agent.assign_new_waypoint((255 * x, 255 * y), digging)
 
 
   def load_NN(self, filename):
       # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
       print("loading model " + filename)
       # load json and create model
-      json_file = open('saved_models\\' + filename + '.json', 'r')
+      json_file = open('saved_models' + os.sep + filename + '.json', 'r')
       model_json = json_file.read()
       json_file.close()
       self.nn = tf.keras.models.model_from_json(model_json)
       # load weights into new model
-      self.nn.load_weights('saved_models\\' + filename + ".h5")
+      self.nn.load_weights('saved_models' + os.sep + filename + ".h5")
       print("Loaded model from disk")
 
       #json_model_file = open(os.path.join(self.model_path, name + '.json'), "r").read()
@@ -193,11 +195,13 @@ class NN_Controller:
 
   def predict(self):
     X1 = 5 * [self.model.array_np]
-    wind_info = self.model.wind_info_vector
+    wind_info = list(self.model.wind_info_vector)
     agent_positions = [agent.position for agent in self.model.agents]
     concat_vector = list()
-    for wind, agentpos in zip(wind_info, agent_positions):
-      concat_vector.append(list(wind) + list(agentpos))  ## TODO make efficient.
+    for pos in agent_positions:
+      concat_vector.append(wind_info + [pos[0] / 255, pos[1] / 255])
+
+    print(concat_vector)
     concat_vector = np.asarray(concat_vector)
 
     print("predicting")

@@ -32,19 +32,16 @@ def main():
   model = Model(size, nr_of_agents, agentRadius)   ## Initialize Environment
   view = View(model, block_size_in_pixels)  ## Start View
 
-# TODO Cleanup
-  ## Data generation
-  if False:
-    controller = Controller(model, view)      ## Initialize Controller with model and view
+  NN_control = True
+  controller = Controller(model, view, NN_control)      ## Initialize Controller with model and view
 
-    # Run 
+
+  if NN_control:
+    while True:
+      controller.update_NN(pygame.event.wait())
+  else:
     while True:
       controller.update(pygame.event.wait())        ## Let the controller take over
-    
-  # NN
-  if True:
-    controller = NN_Controller("saved_models/CNN", model)
-    controller.run(10)
 
 
 

@@ -35,7 +35,7 @@ def load_all_data(file_filter):
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
 
-
+  rotate_wind(data)
   return data
 
 def rot_pos(pos):
@@ -46,12 +46,30 @@ def rot_pos(pos):
 
   return (-y + size / 2, x + size / 2)
 
+def rotate_wind(data, mult):
+    mult *= 2
+    wind = data
+    list = wind.tolist()
+    idx = list.index(1)
+    list[idx] = 0
+    idx = (idx + mult) % 8
+    list[idx] = 1
+    wind = np.array(list)
+    return wind
 
 def rotate(datapoint):
   to_return = np.zeros(datapoint.shape)
 
   # Positions
   to_return[0] = np.rot90(datapoint[0])
+
+  #wind_direction
+  # 90
+  to_return[1] = rotate_wind(datapoint[1], 1)
+  # 180
+  to_return[1] = rotate_wind(datapoint[1], 2)
+  #270
+  to_return[1] = rotate_wind(datapoint[1], 3)
 
   # Wind speed
   to_return[2] = datapoint[2]
@@ -89,14 +107,14 @@ def raw_to_IO_arrays(data):
     if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
       datatmp.append(data_point)
   data = datatmp
-  print(len(data))
+  # print(len(data))
 
   shape = (len(data), 256, 256, n_channels)      # new pass per agent
   images_single = np.zeros(shape, dtype=np.uint8)           # single images not for each agent
   shape = (len(data), 256, 256, 3)
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
-  print(len(data))
+  # print(len(data))
 
 
   # INPUT IMAGES
@@ -171,7 +189,7 @@ def raw_to_IO_arrays(data):
   print("wind+agent concat: ", concat_vector.shape)
   print("outputs shape: ", np.shape(outputs))
 
-
+  rotate_wind(data[0][1])
 
 
 
@@ -192,7 +210,7 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
-  data = load_all_data(file_filter="NEWFive")
+  data = load_all_data(file_filter="test")
   print(len(data))
   print(type(data))
   print(data[0])

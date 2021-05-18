@@ -5,10 +5,10 @@ import time
 from Model.model import Model
 from View.view import View  
 from Model.utils import *
-
 from Model.direction import Direction
 
 import os
+from pygame.locals import *
 
 from enum import Enum
 
@@ -94,7 +94,6 @@ class Controller:
           self.model.undo_selection(self.agent_no - 1)
           self.agent_no -= 1
 
-
     if event.type != pygame.MOUSEBUTTONDOWN:
       return
 
@@ -148,21 +147,39 @@ class Controller:
       self.last_timestep_waypoint_collection = -1
 
 
+
+
+
+
+
+
+
+
 class NN_Controller:
   def __init__(self, filename, model: Model):
-    self.load_NN(filename)
+    self.nn = self.load_NN(filename)
+
+    for l in self.nn.layers:
+      l.trainable = False
+
     self.model = model
+
 
   def run(self, episodes, timesteps = 20):
     for _ in range(episodes):
       self.model.start_episode()
       while self.model.firepos != set() and len(self.model.agents) == 5: # While firepos not empty #TODO
         NN_output = self.predict()       # Get NN output
+        print("waiting")
+        time.sleep(5)
         self.steer_model(NN_output)      # use output to assign waypoints
 
+        #print("waiting")
+        #self.wait_keypress()              # prevent
         for _ in range(timesteps):
-          time.sleep(0.5) # So we can see what's going on. Disable when running.
+          #time.sleep(0.5) # So we can see what's going on. Disable when running.
           self.model.time_step()
+
 
   def steer_model(self, nn_output):
     digging_threshold = 0.5
@@ -170,7 +187,9 @@ class NN_Controller:
     # Assign waypoints to the agents
     for agent, output in zip(self.model.agents, nn_output):
       print(output)
-      agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold) ## sends true and starts digging
+      self.model.select_square((255 * output[0], 255 * output[1]), digging=output[2] > digging_threshold)
+      #agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold)
+
 
   def load_NN(self, filename):
       # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
@@ -179,11 +198,12 @@ class NN_Controller:
       json_file = open('saved_models' + os.sep + filename + '.json', 'r')
       model_json = json_file.read()
       json_file.close()
-      self.nn = tf.keras.models.model_from_json(model_json)
+      model = tf.keras.models.model_from_json(model_json)
       # load weights into new model
-      self.nn.load_weights('saved_models' + os.sep + filename + ".h5")
+      model.load_weights('saved_models' + os.sep + filename + ".h5")
       print("Loaded model from disk")
 
+      return model
 
 
   def predict(self):
@@ -221,3 +241,11 @@ class NN_Controller:
       return 6
     if wind_dir == (Direction.SOUTH, Direction.WEST):
       return 7
+
+  def wait_keypress(self):
+    input("hi")
+    return
+    while True:
+      for event in pygame.event.get():
+        if event.type == KEYDOWN and event.key == K_f:
+          return

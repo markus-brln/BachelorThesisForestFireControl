@@ -50,7 +50,6 @@ def raw_to_IO_arrays(data):
   datatmp = []
   for data_point in data:
     agent_specific = data_point[3]
-    print(agent_specific)
 
     if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
       datatmp.append(data_point)
@@ -63,7 +62,6 @@ def raw_to_IO_arrays(data):
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
   print(len(data))
-
   # INPUT IMAGES
   for i in range(len(data)):
     print("picture " + str(i) + "/" + str(len(data)))

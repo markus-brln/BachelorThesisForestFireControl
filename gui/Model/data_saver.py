@@ -41,7 +41,6 @@ class DataSaver:
 
     """NEW"""
     agent_pos_with_waypoints = list()
-
     for agent in self.model.agents:
       x, y = agent.position
       image[y][x] = int(NodeState.AGENT)
@@ -58,8 +57,6 @@ class DataSaver:
     #  x, y = waypoint
     #  picture[x][y] = 5
 
-    #plt.imshow(image)
-    #plt.show()
 
     # set the right category in the wind_dir vector
     wind_dir_vec[self.get_wind_dir_idx()] = 1
@@ -69,8 +66,6 @@ class DataSaver:
     print("wind: ", wind_dir_vec, windspeed_vec)
 
     print("agent, wp len: ", len(agent_pos_with_waypoints))
-    print(agent_pos_with_waypoints)
-
     image_and_wind = [image, wind_dir_vec, windspeed_vec, agent_pos_with_waypoints] # this is one raw datapoint
     self.episode_data.append(image_and_wind)
 

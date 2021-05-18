@@ -142,9 +142,9 @@ class Controller:
 
   # ALL NN STUFF STARTS HERE
   def update_NN(self, event):
-
+    """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
     if event.type == pygame.QUIT:
-      # save data about how often fire was contained
+      # TODO save data about how often fire was contained
       exit()
 
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:

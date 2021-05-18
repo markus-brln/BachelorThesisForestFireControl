@@ -5,6 +5,8 @@ import numpy as np
 import math
 import glob
 import matplotlib.pyplot as plt
+from numpy.core import multiarray
+from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 sep = os.path.sep
 
 def load_all_data(file_filter):
@@ -36,6 +38,40 @@ def load_all_data(file_filter):
 
   return data
 
+def rot_pos(pos):
+  size = 255
+  x, y = pos
+  x -= size / 2
+  y -= size / 2
+
+  return (-y + size / 2, x + size / 2)
+
+
+def rotate(datapoint):
+  to_return = np.zeros(datapoint.shape)
+
+  # Positions
+  to_return[0] = np.rot90(datapoint[0])
+
+  # Wind speed
+  to_return[2] = datapoint[2]
+
+  new_waypoints = []
+  for waypoint in datapoint[4]:
+    new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
+  to_return[3] = new_waypoints
+  return to_return
+
+
+def augment_datapoint(datapoint):
+  augmented_data = [datapoint]
+  augmented_data.append(rotate(augmented_data[-1]))
+  augmented_data.append(rotate(augmented_data[-1]))
+  augmented_data.append(rotate(augmented_data[-1]))
+
+  return augmented_data
+
+
 
 def raw_to_IO_arrays(data):
   """See Documentation/dataTranslationNewArchitecture.png"""
@@ -50,7 +86,6 @@ def raw_to_IO_arrays(data):
   datatmp = []
   for data_point in data:
     agent_specific = data_point[3]
-
     if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
       datatmp.append(data_point)
   data = datatmp
@@ -62,6 +97,8 @@ def raw_to_IO_arrays(data):
   waypoint_imgs = np.zeros(shape, dtype=np.uint8)
 
   print(len(data))
+
+
   # INPUT IMAGES
   for i in range(len(data)):
     print("picture " + str(i) + "/" + str(len(data)))
@@ -84,7 +121,7 @@ def raw_to_IO_arrays(data):
 
 
   # INPUT WIND SPEED AND WIND DIRECTION VECTORS
-  shape = (len(data), len(data[0][1]) + len(data[0][2])) # [num datapoints, 13] for wind + agents
+  shape = (len(data), len(data[0][1]) + len(data[0][2]))
   wind_dir_speed_single = np.zeros(shape, dtype=np.uint8)
   for i in range(len(data)):                 # make one array 13x1 for concatenation
     wind_dir_speed_single[i] = np.concatenate([data[i][1], data[i][2]])
@@ -155,9 +192,13 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
-  data = load_all_data(file_filter="test")
+  data = load_all_data(file_filter="NEWFive")
+  print(len(data))
+  print(type(data))
+  print(data[0])
+  exit(0)
   images, concat, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="imagestest.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="concattest.npy", arr=concat, allow_pickle=True)
-  np.save(file="outputstest.npy", arr=outputs, allow_pickle=True)
+  np.save(file="imagesNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="concatNEW.npy", arr=concat, allow_pickle=True)
+  np.save(file="outputsNEW.npy", arr=outputs, allow_pickle=True)

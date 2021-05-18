@@ -1,11 +1,8 @@
-import enum
-from typing import Container
 import pygame
 import time
 from Model.model import Model
 from View.view import View
 from Model.utils import *
-from Model.direction import Direction
 import os
 import numpy as np
 
@@ -16,7 +13,7 @@ class Controller:
     self.view = view
 
     # Initialization
-    self.mouse_button_pressed = False   ## Mouse button assumed not to be pressed initially
+    self.mouse_button_pressed = False                       # Mouse button assumed not to be pressed initially
     self.collecting_waypoints = False
     self.agent_no = 0
     self.last_timestep_waypoint_collection = -1
@@ -30,51 +27,43 @@ class Controller:
 
 
   def update(self, event):
-    if event.type == pygame.QUIT:
-      # Exit the program
+    """High-level of distribution of input events. Quit, mouse, keyboard events."""
+    if event.type == pygame.QUIT:                           # Exit the program
       self.shut_down(event)
 
     if self.collecting_waypoints:
       self.collect_waypoints(event)
       return
 
-    if self.model.reset_necessary:        # M update view when resetting env (hacky way)
+    if self.model.reset_necessary:                          # update view when resetting env (hacky way)
       self.view.update()
       self.model.reset_necessary = False
-
-    #for event in pygame_events:
-    elif event.type == pygame.MOUSEBUTTONDOWN:
-      # Mouse stationary and mouse button pressed
+    elif event.type == pygame.MOUSEBUTTONDOWN:              # Mouse stationary and mouse button pressed
       self.mouse_button_pressed = event.button
-      #self.select(event)
-    elif event.type == pygame.MOUSEBUTTONUP:
-      # Mouse button released
+    elif event.type == pygame.MOUSEBUTTONUP:                # Mouse button released
       self.mouse_button_pressed = False
-      self.last_clicked = (-1, 0)           ## Reset to allow clicking a square twice in a row
+      self.last_clicked = (-1, 0)                           # Reset to allow clicking a square twice in a row
     elif event.type == pygame.KEYDOWN:
       # Keyboard button pressed
       self.key_press(event)
 
 
   def shut_down(self, event):
-    self.model.shut_down()              ## Ensure proper shutdown of the model
-    exit(0)                             ## Exit program
+    self.model.shut_down()                                  # Ensure proper shutdown of the model
+    exit(0)                                                 # Exit program
 
 
   def select(self, event):
-    # Determine the block the mouse is covering
-    position = self.view.pixel_belongs_to_block(event.pos)
-    # Select or deselect that block
-    # if self.mouse_button_pressed == 1: ## Left click
-    self.model.select_square(position)
-    # else:                              ## Right click
-    # self.model.deselect_square(position)
+    position = self.view.pixel_belongs_to_block(event.pos)  # Determine the block the mouse is covering
+    self.model.select_square(position)                      # Select or deselect that block
 
-  def start_collecting_waypoints(self):
+
+  def prepare_collecting_waypoints(self):
+    """Clear old waypoints from view, order by angle, highlight first agent."""
     print("Start collecting waypoints")
     self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
-    self.model.waypoints.clear()    # clear the actual waypoint positions after deleting them on the view!
-
+    self.model.waypoints.clear()                            # clear the actual waypoint positions after
+                                                            # deleting them on the view!
     self.collecting_waypoints = True
     self.model.sort_agents_by_angle()
     self.agent_no = 0
@@ -82,6 +71,11 @@ class Controller:
 
 
   def collect_waypoints(self, event):
+    """@:param event, left or right mouse button
+    Selects the square where button was pressed.
+    Left Mouse Button  -> dig
+    Right Mouse Button -> drive waypoint"""
+
     if event.type == pygame.KEYDOWN:
       if event.key == pygame.K_LEFT:
         if self.agent_no != 0:
@@ -93,10 +87,9 @@ class Controller:
 
     position = self.view.pixel_belongs_to_block(event.pos)
 
-    #print(event.button)
-    if event.button == 1:       # left mouse button, digging waypoint
+    if event.button == 1:                                   # left mouse button, digging waypoint
       self.model.select_square(position, digging=True)
-    elif event.button == 3:     # right mouse button, walking waypoint
+    elif event.button == 3:                                 # right mouse button, walking waypoint
       self.model.select_square(position, digging=False)
     else:
       print("use left(digging) or right (walking) mouse button")
@@ -112,75 +105,77 @@ class Controller:
 
 
   def key_press(self, event):
+    """Governs data collection.
+    :param event: keyboard button press
+    SPACE     -> start next waypoint collection
+    RETURN    -> save data collection episode
+    BACKSPACE -> discard data collection episode (e.g. when agent drove into fire)
+    """
     if event.key == pygame.K_ESCAPE:
       self.model.DataSaver.save_training_run()
 
     if event.key == pygame.K_SPACE:
       if self.model.time % timeframe == 0:
         if self.last_timestep_waypoint_collection != self.model.time:
-          self.start_collecting_waypoints()
+          self.prepare_collecting_waypoints()
           self.last_timestep_waypoint_collection = self.model.time
         else:
-          self.model.append_datapoint()   # only start after first 'timeframe' timesteps
-          #start = time.time()
+          self.model.append_datapoint()                     # only start after first 'timeframe' timesteps
+          #start = time.time()                              # measure model progression
           for _ in range(timeframe):
-            self.model.time_step()          ## Space to go to next timestep
+            self.model.time_step()                          # Space to go to next timestep
 
           #print("time: ", time.time()-start)
 
     if event.key == pygame.K_RETURN:
       self.model.append_episode()
-      self.model.start_episode()       ## Return / ENTER to go to next episode
+      self.model.start_episode()                            # Return / ENTER to go to next episode
       self.model.reset_wind()
-      self.last_timestep_waypoint_collection = -1 # first get new waypoints when restarting episode
+      self.last_timestep_waypoint_collection = -1           # first get new waypoints when restarting episode
 
     if event.key == pygame.K_BACKSPACE:
       self.model.discard_episode()
-      self.model.start_episode()  ## Return / ENTER to go to next episode
+      self.model.start_episode()                            # Return / ENTER to go to next episode
       self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1
 
 
-  ## ALL NN STUFF STARTS HERE
+  # ALL NN STUFF STARTS HERE
   def update_NN(self, event):
+    """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
     if event.type == pygame.QUIT:
-      # save data about how often fire was contained
+      # TODO save data about how often fire was contained
       exit()
 
-    #print("event type:", event.type)
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-      print("predicting...")
       outputs = self.predict_NN()
       print("outputs: ", outputs)
-
-      print("Assigning waypoints based on NN outputs")
       self.set_waypoints_NN(outputs)
 
-      print("Model progresses")
       for _ in range(timeframe):
-        self.model.time_step()          ## Space to go to next timestep
+        self.model.time_step()
       return
 
-    if self.model.reset_necessary:        # M update view when resetting env (hacky way)
+    if self.model.reset_necessary:                          # update view when resetting env (hacky way)
       self.view.update()
       self.model.reset_necessary = False
 
     elif not self.collecting_waypoints and event.type == pygame.KEYDOWN:
-      self.start_collecting_waypoints()
+      self.prepare_collecting_waypoints()
 
 
   def set_waypoints_NN(self, outputs):
-    print("len outputs", len(outputs))
+    """Emulates the manual setting of waypoints through mouse clicks
+       by using the NN output."""
+
     for output in outputs:
       new_wp = (int(output[0] * 255), int(output[1] * 255))
       digging = output[2] > self.digging_threshold
-      #new_wp = self.view.pixel_belongs_to_block(event.pos)
       print("pos: ", new_wp, "dig: ", digging)
       self.model.highlight_agent(self.agent_no)
       self.model.select_square(new_wp, digging=digging)
       self.agent_no += 1
       time.sleep(0.5)
-
 
     self.collecting_waypoints = False
     self.model.highlight_agent(None)

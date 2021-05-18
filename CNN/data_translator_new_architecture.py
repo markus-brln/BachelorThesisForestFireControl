@@ -38,8 +38,9 @@ def load_all_data(file_filter):
 
   return data
 
-def rot_pos(x, y):
-  size = 256
+def rot_pos(pos):
+  size = 255
+  x, y = pos
   x -= size / 2
   y -= size / 2
 
@@ -47,22 +48,28 @@ def rot_pos(x, y):
 
 
 def rotate(datapoint):
-  to_return = np.array(datapoint.shape)
+  to_return = np.zeros(datapoint.shape)
+
+  # Positions
+  to_return[0] = np.rot90(datapoint[0])
+
+  # Wind speed
+  to_return[2] = datapoint[2]
+
   new_waypoints = []
   for waypoint in datapoint[4]:
     new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
+  to_return[3] = new_waypoints
+  return to_return
 
 
-def augmentations(data):
-  newData = []
-  for idx in range(data):
-    data_to_add = [data]
-    data_to_add.append(rotate(data_to_add[-1]))
-    data_to_add.append(rotate(data_to_add[-1]))
-    data_to_add.append(rotate(data_to_add[-1]))
-    newData += data_to_add
+def augment_datapoint(datapoint):
+  augmented_data = [datapoint]
+  augmented_data.append(rotate(augmented_data[-1]))
+  augmented_data.append(rotate(augmented_data[-1]))
+  augmented_data.append(rotate(augmented_data[-1]))
 
-  return data
+  return augmented_data
 
 
 

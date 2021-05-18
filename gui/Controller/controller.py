@@ -3,7 +3,7 @@ from typing import Container
 import pygame
 import time
 from Model.model import Model
-from View.view import View  
+from View.view import View
 from Model.utils import *
 from Model.direction import Direction
 
@@ -16,16 +16,8 @@ import tensorflow as tf
 import numpy as np
 
 
-## Enum holding the different ways the model can be controlled
-class Mode(Enum):
-  DATA_GENERATION = 0,
-  CNN = 1,
-  OLD_CNN = 2,
-  ETCETERA = 3,
-
-
 class Controller:
-  def __init__(self, model: Model, view: View):
+  def __init__(self, model: Model, view: View, NN_control = False):
     self.model = model
     self.view = view
 
@@ -35,11 +27,19 @@ class Controller:
     self.agent_no = 0
     self.last_timestep_waypoint_collection = -1
 
+    # NN INTEGRATION
+    self.NN_control = NN_control
+    self.nn = None
+    if self.NN_control:
+      self.nn = self.load_NN()
+    self.digging_threshold = 0.5
+
+
   def update(self, event):
     if event.type == pygame.QUIT:
       # Exit the program
       self.shut_down(event)
-      
+
     if self.collecting_waypoints:
       self.collect_waypoints(event)
       return
@@ -60,24 +60,24 @@ class Controller:
     elif event.type == pygame.KEYDOWN:
       # Keyboard button pressed
       self.key_press(event)
-      
+
 
   def shut_down(self, event):
     self.model.shut_down()              ## Ensure proper shutdown of the model
     exit(0)                             ## Exit program
-  
+
 
   def select(self, event):
     # Determine the block the mouse is covering
     position = self.view.pixel_belongs_to_block(event.pos)
-    # Select or deselect that block 
+    # Select or deselect that block
     # if self.mouse_button_pressed == 1: ## Left click
     self.model.select_square(position)
     # else:                              ## Right click
-      # self.model.deselect_square(position)
-    
+    # self.model.deselect_square(position)
+
   def start_collecting_waypoints(self):
-    print("Assigning waypoints")
+    print("Start collecting waypoints")
     self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
     self.model.waypoints.clear()    # clear the actual waypoint positions after deleting them on the view!
 
@@ -107,7 +107,7 @@ class Controller:
     else:
       print("use left(digging) or right (walking) mouse button")
       return
-    
+
     self.agent_no += 1
     if self.agent_no >= len(self.model.agents):
       self.collecting_waypoints = False
@@ -147,10 +147,114 @@ class Controller:
       self.last_timestep_waypoint_collection = -1
 
 
+  ## ALL NN STUFF STARTS HERE
+  def update_NN(self, event):
+    if event.type == pygame.QUIT:
+      # save data about how often fire was contained
+      exit()
+
+    #print("event type:", event.type)
+    if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+      print("predicting...")
+      outputs = self.predict_NN()
+      print("outputs: ", outputs)
+
+      print("Assigning waypoints based on NN outputs")
+      self.set_waypoints_NN(outputs)
+
+      print("Model progresses")
+      for _ in range(timeframe):
+        self.model.time_step()          ## Space to go to next timestep
+      return
+
+    if self.model.reset_necessary:        # M update view when resetting env (hacky way)
+      self.view.update()
+      self.model.reset_necessary = False
+
+    elif not self.collecting_waypoints and event.type == pygame.KEYDOWN:
+      self.start_collecting_waypoints()
 
 
+  def set_waypoints_NN(self, outputs):
+    print("len outputs", len(outputs))
+    for output in outputs:
+      new_wp = (int(output[0] * 255), int(output[1] * 255))
+      digging = output[2] > self.digging_threshold
+      #new_wp = self.view.pixel_belongs_to_block(event.pos)
+      print("pos: ", new_wp, "dig: ", digging)
+      self.model.highlight_agent(self.agent_no)
+      self.model.select_square(new_wp, digging=digging)
+      self.agent_no += 1
+      time.sleep(0.5)
 
 
+    self.collecting_waypoints = False
+    self.model.highlight_agent(None)
+
+
+  def predict_NN(self):
+    """Use the pre-loaded CNN to generate waypoints for the agents.
+    INPUT:
+    - on-the-fly updated 5-channel image of environment
+    - concat vector (wind dir + wind speed + agent pos)
+
+    OUTPUT:
+    - n_agents * [x, y, 0-1 value for drive/dig]
+    """
+    if len(self.model.agents) != 5:
+      print("Agent(s) must have died")
+      exit()
+
+    self.plot_env_img(self.model.array_np)
+
+    X1 = 5 * [self.model.array_np]
+    wind_info = list(self.model.wind_info_vector)
+    agent_positions = [agent.position for agent in self.model.agents]
+    concat_vector = list()
+    for pos in agent_positions:
+      concat_vector.append(wind_info + [pos[0] / 255, pos[1] / 255])
+
+    print(concat_vector)
+    concat_vector = np.asarray(concat_vector)
+
+    print("predicting")
+    output = self.nn.predict([X1, concat_vector])                        # outputs 16x16x3
+    return output
+
+
+  def plot_env_img(self, img):
+    # translate the 5 channel input back to displayable images
+    orig_img = np.zeros((256, 256))
+
+    for y, row in enumerate(img):
+      for x, cell in enumerate(row):
+        for idx, item in enumerate(cell):
+          #print(y, x, idx)
+          if item == 1:
+            orig_img[y][x] = idx
+
+
+    from matplotlib import pyplot as plt
+    plt.imshow(orig_img)
+    plt.show()
+
+
+  @staticmethod
+  def load_NN(filename="saved_models/CNN"):
+    """Load a Keras model from json file and weights (.h5). Same as in
+    CNN/NNutils.py"""
+    # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
+    print("loading model " + filename)
+    # load json and create model
+    json_file = open('saved_models' + os.sep + filename + '.json', 'r')
+    model_json = json_file.read()
+    json_file.close()
+    model = tf.keras.models.model_from_json(model_json)
+    # load weights into new model
+    model.load_weights('saved_models' + os.sep + filename + ".h5")
+    print("Loaded model from disk")
+
+    return model
 
 
 
@@ -192,18 +296,18 @@ class NN_Controller:
 
 
   def load_NN(self, filename):
-      # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
-      print("loading model " + filename)
-      # load json and create model
-      json_file = open('saved_models' + os.sep + filename + '.json', 'r')
-      model_json = json_file.read()
-      json_file.close()
-      model = tf.keras.models.model_from_json(model_json)
-      # load weights into new model
-      model.load_weights('saved_models' + os.sep + filename + ".h5")
-      print("Loaded model from disk")
+    # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
+    print("loading model " + filename)
+    # load json and create model
+    json_file = open('saved_models' + os.sep + filename + '.json', 'r')
+    model_json = json_file.read()
+    json_file.close()
+    model = tf.keras.models.model_from_json(model_json)
+    # load weights into new model
+    model.load_weights('saved_models' + os.sep + filename + ".h5")
+    print("Loaded model from disk")
 
-      return model
+    return model
 
 
   def predict(self):

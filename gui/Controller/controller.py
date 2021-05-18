@@ -6,13 +6,7 @@ from Model.model import Model
 from View.view import View
 from Model.utils import *
 from Model.direction import Direction
-
 import os
-from pygame.locals import *
-
-from enum import Enum
-
-import tensorflow as tf
 import numpy as np
 
 
@@ -222,17 +216,16 @@ class Controller:
     return output
 
 
-  def plot_env_img(self, img):
-    # translate the 5 channel input back to displayable images
+  @staticmethod
+  def plot_env_img(img):
+    """translate the 5 channel input back to displayable images"""
     orig_img = np.zeros((256, 256))
 
     for y, row in enumerate(img):
       for x, cell in enumerate(row):
         for idx, item in enumerate(cell):
-          #print(y, x, idx)
           if item == 1:
             orig_img[y][x] = idx
-
 
     from matplotlib import pyplot as plt
     plt.imshow(orig_img)
@@ -245,111 +238,15 @@ class Controller:
     CNN/NNutils.py"""
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     print("loading model " + filename)
+    import tensorflow
     # load json and create model
     json_file = open('saved_models' + os.sep + filename + '.json', 'r')
     model_json = json_file.read()
     json_file.close()
-    model = tf.keras.models.model_from_json(model_json)
+
+    model = tensorflow.keras.models.model_from_json(model_json)
     # load weights into new model
     model.load_weights('saved_models' + os.sep + filename + ".h5")
     print("Loaded model from disk")
 
     return model
-
-
-
-
-class NN_Controller:
-  def __init__(self, filename, model: Model):
-    self.nn = self.load_NN(filename)
-
-    for l in self.nn.layers:
-      l.trainable = False
-
-    self.model = model
-
-
-  def run(self, episodes, timesteps = 20):
-    for _ in range(episodes):
-      self.model.start_episode()
-      while self.model.firepos != set() and len(self.model.agents) == 5: # While firepos not empty #TODO
-        NN_output = self.predict()       # Get NN output
-        print("waiting")
-        time.sleep(5)
-        self.steer_model(NN_output)      # use output to assign waypoints
-
-        #print("waiting")
-        #self.wait_keypress()              # prevent
-        for _ in range(timesteps):
-          #time.sleep(0.5) # So we can see what's going on. Disable when running.
-          self.model.time_step()
-
-
-  def steer_model(self, nn_output):
-    digging_threshold = 0.5
-
-    # Assign waypoints to the agents
-    for agent, output in zip(self.model.agents, nn_output):
-      print(output)
-      self.model.select_square((255 * output[0], 255 * output[1]), digging=output[2] > digging_threshold)
-      #agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold)
-
-
-  def load_NN(self, filename):
-    # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
-    print("loading model " + filename)
-    # load json and create model
-    json_file = open('saved_models' + os.sep + filename + '.json', 'r')
-    model_json = json_file.read()
-    json_file.close()
-    model = tf.keras.models.model_from_json(model_json)
-    # load weights into new model
-    model.load_weights('saved_models' + os.sep + filename + ".h5")
-    print("Loaded model from disk")
-
-    return model
-
-
-  def predict(self):
-    X1 = 5 * [self.model.array_np]
-    wind_info = list(self.model.wind_info_vector)
-    agent_positions = [agent.position for agent in self.model.agents]
-    concat_vector = list()
-    for pos in agent_positions:
-      concat_vector.append(wind_info + [pos[0] / 255, pos[1] / 255])
-
-    print(concat_vector)
-    concat_vector = np.asarray(concat_vector)
-
-    print("predicting")
-    output = self.nn.predict([X1, concat_vector])                        # outputs 16x16x3
-    return output
-
-  def get_wind_dir_idx(self):
-    wind_dir = self.model.wind_dir
-    """Order of wind directions:
-       N, S, E, W, NE, NW, SE, SW"""
-    if wind_dir == (Direction.NORTH, Direction.NORTH):
-      return 0
-    if wind_dir == (Direction.SOUTH, Direction.SOUTH):
-      return 1
-    if wind_dir == (Direction.EAST, Direction.EAST):
-      return 2
-    if wind_dir == (Direction.WEST, Direction.WEST):
-      return 3
-    if wind_dir == (Direction.NORTH, Direction.EAST):
-      return 4
-    if wind_dir == (Direction.NORTH, Direction.WEST):
-      return 5
-    if wind_dir == (Direction.SOUTH, Direction.EAST):
-      return 6
-    if wind_dir == (Direction.SOUTH, Direction.WEST):
-      return 7
-
-  def wait_keypress(self):
-    input("hi")
-    return
-    while True:
-      for event in pygame.event.get():
-        if event.type == KEYDOWN and event.key == K_f:
-          return

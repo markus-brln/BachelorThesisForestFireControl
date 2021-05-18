@@ -5,6 +5,8 @@ import numpy as np
 import math
 import glob
 import matplotlib.pyplot as plt
+from numpy.core import multiarray
+from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 sep = os.path.sep
 
 def load_all_data(file_filter):
@@ -35,6 +37,33 @@ def load_all_data(file_filter):
 
 
   return data
+
+def rot_pos(x, y):
+  size = 256
+  x -= size / 2
+  y -= size / 2
+
+  return (-y + size / 2, x + size / 2)
+
+
+def rotate(datapoint):
+  to_return = np.array(datapoint.shape)
+  new_waypoints = []
+  for waypoint in datapoint[4]:
+    new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
+
+
+def augmentations(data):
+  newData = []
+  for idx in range(data):
+    data_to_add = [data]
+    data_to_add.append(rotate(data_to_add[-1]))
+    data_to_add.append(rotate(data_to_add[-1]))
+    data_to_add.append(rotate(data_to_add[-1]))
+    newData += data_to_add
+
+  return data
+
 
 
 def raw_to_IO_arrays(data):
@@ -157,6 +186,10 @@ if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
   data = load_all_data(file_filter="NEWFive")
+  print(len(data))
+  print(type(data))
+  print(data[0])
+  exit(0)
   images, concat, outputs = raw_to_IO_arrays(data)
 
   np.save(file="imagesNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

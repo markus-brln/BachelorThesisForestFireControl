@@ -170,7 +170,7 @@ class NN_Controller:
     # Assign waypoints to the agents
     for agent, output in zip(self.model.agents, nn_output):
       print(output)
-      agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold)
+      agent.assign_new_waypoint((255 * output[0], 255 * output[1]), output[2] > digging_threshold) ## sends true and starts digging
 
   def load_NN(self, filename):
       # https://machinelearningmastery.com/save-load-keras-deep-learning-models/

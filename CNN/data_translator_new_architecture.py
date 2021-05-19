@@ -14,18 +14,17 @@ def load_all_data(file_filter):
   dirname = os.path.dirname(os.path.realpath(__file__)) + sep + ".." + sep + "gui" + sep + "data" + sep
 
   filepaths = glob.glob(dirname + "runs" + sep +  "*.npy")
-  print(filepaths)
 
   if not filepaths:
     print("no files found at: ", dirname + "runs" + sep)
     exit()
 
-  # fp_tmp = list()
-  # for filepath in filepaths:
-  #   if file_filter in filepath:
-  #     fp_tmp.append(filepath)
+  fp_tmp = list()
+  for filepath in filepaths:
+    if file_filter in filepath:
+      fp_tmp.append(filepath)
 
-  # filepaths = fp_tmp
+  filepaths = fp_tmp
 
   data = np.load(filepaths[0], allow_pickle=True)
   print(filepaths[0])
@@ -35,6 +34,7 @@ def load_all_data(file_filter):
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
+  rotate(data)
   return data
 
 def rot_pos(pos):
@@ -213,9 +213,6 @@ if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
   data = load_all_data(file_filter="test")
-  print(data[0])
-  # print(augment_datapoint(data[0]))
-  exit(0)
   print(len(data))
   print(type(data))
   print(data[0])

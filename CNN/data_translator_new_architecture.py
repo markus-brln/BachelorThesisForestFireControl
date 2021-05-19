@@ -63,13 +63,13 @@ def rotate(datapoint):
   # Positions
   to_return[0] = np.rot90(datapoint[0])
 
-  #wind_direction
+  #wind_direction (clockwise)
   # 90
-  to_return[1] = rotate_wind(datapoint[1], 1)
+  to_return[1].extend(rotate_wind(datapoint[1], 1))
   # 180
-  to_return[1] = rotate_wind(datapoint[1], 2)
+  to_return[1].extend(rotate_wind(datapoint[1], 2))
   #270
-  to_return[1] = rotate_wind(datapoint[1], 3)
+  to_return[1].extend(rotate_wind(datapoint[1], 3))
 
   # Wind speed
   to_return[2] = datapoint[2]

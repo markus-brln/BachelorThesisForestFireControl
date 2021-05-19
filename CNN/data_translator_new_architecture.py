@@ -34,8 +34,7 @@ def load_all_data(file_filter):
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
-
-  rotate_wind(data)
+  rotate(data)
   return data
 
 def rot_pos(pos):
@@ -58,27 +57,33 @@ def rotate_wind(data, mult):
     return wind
 
 def rotate(datapoint):
-  to_return = np.zeros(datapoint.shape)
 
-  # Positions
-  #90
-  to_return[0].extend(np.rot90(datapoint[0], 1, (1, 0)))
-  #180
-  to_return[0].extend(np.rot90(datapoint[0], 2, (1, 0)))
-  #270
-  to_return[0].extend(np.rot90(datapoint[0], 3, (1, 0)))
+  images = np.zeros(np.shape(datapoint[0][0]))
+  for idx in range(len(datapoint)):
+    # Positions
+    #90
+    images = (np.rot90(datapoint[idx][0], 1, (1, 0)))
+    #180
+    images = np.vstack((images, np.rot90(datapoint[idx][0], 2, (1, 0))))
+    #270
+    images = np.vstack((images, np.rot90(datapoint[idx][0], 3, (1, 0))))
 
+  print(images)
+  wind = np.zeros(np.shape(datapoint[0][1]))
+  for idx in range(len(datapoint)):
+    #wind_direction (clockwise)
+    # 90
+    wind = rotate_wind(datapoint[idx][1], 1)
+    # 180
+    wind = np.vstack((wind, rotate_wind(datapoint[idx][1], 2)))
+    #270
+    wind = np.vstack((wind, rotate_wind(datapoint[idx][1], 3)))
 
-  #wind_direction (clockwise)
-  # 90
-  to_return[1].extend(rotate_wind(datapoint[1], 1))
-  # 180
-  to_return[1].extend(rotate_wind(datapoint[1], 2))
-  #270
-  to_return[1].extend(rotate_wind(datapoint[1], 3))
+  print(wind)
 
-  # Wind speed
-  to_return[2] = datapoint[2]
+                                    # Wind speed
+  images_and_wind = [images, wind, datapoint[0][2]]
+  print(images_and_wind)
 
   new_waypoints = []
   for waypoint in datapoint[4]:

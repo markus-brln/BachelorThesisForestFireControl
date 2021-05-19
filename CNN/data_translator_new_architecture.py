@@ -61,7 +61,13 @@ def rotate(datapoint):
   to_return = np.zeros(datapoint.shape)
 
   # Positions
-  to_return[0] = np.rot90(datapoint[0])
+  #90
+  to_return[0].extend(np.rot90(datapoint[0], 1, (1, 0)))
+  #180
+  to_return[0].extend(np.rot90(datapoint[0], 2, (1, 0)))
+  #270
+  to_return[0].extend(np.rot90(datapoint[0], 3, (1, 0)))
+
 
   #wind_direction (clockwise)
   # 90

@@ -14,17 +14,18 @@ def load_all_data(file_filter):
   dirname = os.path.dirname(os.path.realpath(__file__)) + sep + ".." + sep + "gui" + sep + "data" + sep
 
   filepaths = glob.glob(dirname + "runs" + sep +  "*.npy")
+  print(filepaths)
 
   if not filepaths:
     print("no files found at: ", dirname + "runs" + sep)
     exit()
 
-  fp_tmp = list()
-  for filepath in filepaths:
-    if file_filter in filepath:
-      fp_tmp.append(filepath)
+  # fp_tmp = list()
+  # for filepath in filepaths:
+  #   if file_filter in filepath:
+  #     fp_tmp.append(filepath)
 
-  filepaths = fp_tmp
+  # filepaths = fp_tmp
 
   data = np.load(filepaths[0], allow_pickle=True)
   print(filepaths[0])
@@ -34,7 +35,6 @@ def load_all_data(file_filter):
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
-  rotate(data)
   return data
 
 def rot_pos(pos):
@@ -45,51 +45,42 @@ def rot_pos(pos):
 
   return (-y + size / 2, x + size / 2)
 
-def rotate_wind(data, mult):
-    mult *= 2
-    wind = data
+def rotate_wind(data):
+  # print(data)
     list = wind.tolist()
     idx = list.index(1)
     list[idx] = 0
-    idx = (idx + mult) % 8
+    if idx == 0: #nn
+      idx = 2 #ee
+    elif idx == 1: #ss
+      idx = 3 #ww
+    if idx == 2: #ee
+      idx = 1 #ss
+    elif idx == 3: #ww
+      idx = 0 #nn
+    if idx == 4: #ne
+      idx = 6 #se
+    elif idx == 5: #nw
+      idx = 4 #ne
+    if idx == 6: #se
+      idx = 7 #sw
+    elif idx == 7: #sw
+      idx = 5 #nw
     list[idx] = 1
     wind = np.array(list)
     return wind
 
 def rotate(datapoint):
-
-  images = np.zeros(np.shape(datapoint[0][0]))
-  for idx in range(len(datapoint)):
-    # Positions
-    #90
-    images = (np.rot90(datapoint[idx][0], 1, (1, 0)))
-    #180
-    images = np.vstack((images, np.rot90(datapoint[idx][0], 2, (1, 0))))
-    #270
-    images = np.vstack((images, np.rot90(datapoint[idx][0], 3, (1, 0))))
-
-  print(images)
-  wind = np.zeros(np.shape(datapoint[0][1]))
-  for idx in range(len(datapoint)):
-    #wind_direction (clockwise)
-    # 90
-    wind = rotate_wind(datapoint[idx][1], 1)
-    # 180
-    wind = np.vstack((wind, rotate_wind(datapoint[idx][1], 2)))
-    #270
-    wind = np.vstack((wind, rotate_wind(datapoint[idx][1], 3)))
-
-  print(wind)
-
+  environment = np.rot90(datapoint[0][0])
+  wind = rotate_wind(datapoint[1])
                                     # Wind speed
-  images_and_wind = [images, wind, datapoint[0][2]]
-  print(images_and_wind)
+  windspeed = datapoint[2]
 
   new_waypoints = []
   for waypoint in datapoint[4]:
     new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
-  to_return[3] = new_waypoints
-  return to_return
+
+  return np.array([environment, wind, windspeed, new_waypoints])
 
 
 def augment_datapoint(datapoint):
@@ -222,6 +213,9 @@ if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
   data = load_all_data(file_filter="test")
+  print(data[0])
+  # print(augment_datapoint(data[0]))
+  exit(0)
   print(len(data))
   print(type(data))
   print(data[0])

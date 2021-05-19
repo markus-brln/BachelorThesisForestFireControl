@@ -34,7 +34,8 @@ def load_all_data(file_filter):
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
-  rotate(data)
+
+  augment_datapoint(data)
   return data
 
 def rot_pos(pos):
@@ -45,13 +46,26 @@ def rot_pos(pos):
 
   return (-y + size / 2, x + size / 2)
 
-def rotate_wind(data, mult):
-    mult *= 2
-    wind = data
+def rotate90_wind(wind):
     list = wind.tolist()
     idx = list.index(1)
     list[idx] = 0
-    idx = (idx + mult) % 8
+    if idx == 0: #nn
+      idx = 2 #ee
+    elif idx == 1: #ss
+      idx = 3 #ww
+    if idx == 2: #ee
+      idx = 1 #ss
+    elif idx == 3: #ww
+      idx = 0 #nn
+    if idx == 4: #ne
+      idx = 6 #se
+    elif idx == 5: #nw
+      idx = 4 #ne
+    if idx == 6: #se
+      idx = 7 #sw
+    elif idx == 7: #sw
+      idx = 5 #nw
     list[idx] = 1
     wind = np.array(list)
     return wind
@@ -73,23 +87,18 @@ def rotate(datapoint):
   for idx in range(len(datapoint)):
     #wind_direction (clockwise)
     # 90
-    wind = rotate_wind(datapoint[idx][1], 1)
-    # 180
-    wind = np.vstack((wind, rotate_wind(datapoint[idx][1], 2)))
-    #270
-    wind = np.vstack((wind, rotate_wind(datapoint[idx][1], 3)))
+    wind = rotate90_wind(datapoint[idx][1])
 
-  print(wind)
 
                                     # Wind speed
   images_and_wind = [images, wind, datapoint[0][2]]
   print(images_and_wind)
 
-  new_waypoints = []
-  for waypoint in datapoint[4]:
-    new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
-  to_return[3] = new_waypoints
-  return to_return
+  # new_waypoints = []
+  # for waypoint in datapoint[4]:
+  #   new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
+  # to_return[3] = new_waypoints
+  # return to_return
 
 
 def augment_datapoint(datapoint):
@@ -200,7 +209,6 @@ def raw_to_IO_arrays(data):
   print("wind+agent concat: ", concat_vector.shape)
   print("outputs shape: ", np.shape(outputs))
 
-  rotate_wind(data[0][1])
 
 
 

@@ -43,7 +43,6 @@ def rot_pos(pos):
   return (-y + size / 2, x + size / 2)
 
 def rotate_wind(wind):
-    print(wind)
     list = wind.tolist()
     idx = list.index(1)
     list[idx] = 0
@@ -68,17 +67,17 @@ def rotate_wind(wind):
     return wind
 
 def rotate(datapoint):
-  print("original data: ", datapoint)
   environment = np.rot90(datapoint[0])
   wind = rotate_wind(datapoint[1])
                                     # Wind speed
   windspeed = datapoint[2]
 
   new_waypoints = []
-  for idx in range(len(datapoint) // 3):
-    print("starting")
-    new_waypoints += [[rot_pos(datapoint[3][3*idx])], rot_pos(datapoint[3][3*idx + 1]), datapoint[3][3*idx + 2]]
-    print("done")
+  for idx in range(len(datapoint[3])):
+    first_entry = rot_pos(datapoint[3][idx][0])
+    second_entry = rot_pos(datapoint[3][idx][1])
+    digging = datapoint[3][idx][2]
+    new_waypoints.append([first_entry, second_entry, digging])
     
   return [environment, wind, windspeed, new_waypoints]
 
@@ -211,7 +210,6 @@ if __name__ == "__main__":
   data = load_all_data(file_filter="test")
   all_data = []
   for idx in range(len(data)):
-    print(data[idx])
     all_data += [augment_datapoint(data[idx])]
     
   exit(0)

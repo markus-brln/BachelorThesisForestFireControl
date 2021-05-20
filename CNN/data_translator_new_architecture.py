@@ -210,7 +210,9 @@ if __name__ == "__main__":
   data = load_all_data(file_filter="test")
   all_data = []
   for idx in range(len(data)):
-    all_data += [augment_datapoint(data[idx])]
+    all_data += augment_datapoint(data[idx])
+  
+  print(len(all_data))
     
   exit(0)
   images, concat, outputs = raw_to_IO_arrays(data)

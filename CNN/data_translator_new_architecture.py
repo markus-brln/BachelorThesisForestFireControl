@@ -19,22 +19,19 @@ def load_all_data(file_filter):
     print("no files found at: ", dirname + "runs" + sep)
     exit()
 
+    ## Filter data by filename
   fp_tmp = list()
   for filepath in filepaths:
     if file_filter in filepath:
       fp_tmp.append(filepath)
-
   filepaths = fp_tmp
 
   data = np.load(filepaths[0], allow_pickle=True)
-  print(filepaths[0])
-
   for filepath in filepaths[1:]:                      # optionally load more data
     if file_filter in filepath:
       print(filepath)
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
-  rotate(data)
   return data
 
 def rot_pos(pos):
@@ -45,8 +42,8 @@ def rot_pos(pos):
 
   return (-y + size / 2, x + size / 2)
 
-def rotate_wind(data):
-  # print(data)
+def rotate_wind(wind):
+    print(wind)
     list = wind.tolist()
     idx = list.index(1)
     list[idx] = 0
@@ -71,16 +68,19 @@ def rotate_wind(data):
     return wind
 
 def rotate(datapoint):
-  environment = np.rot90(datapoint[0][0])
+  print("original data: ", datapoint)
+  environment = np.rot90(datapoint[0])
   wind = rotate_wind(datapoint[1])
                                     # Wind speed
   windspeed = datapoint[2]
 
   new_waypoints = []
-  for waypoint in datapoint[4]:
-    new_waypoints += [[rot_pos(waypoint[0])], rot_pos(waypoint[1]), waypoint[2]]
-
-  return np.array([environment, wind, windspeed, new_waypoints])
+  for idx in datapoint[0::3]:
+    print("starting")
+    new_waypoints += [[rot_pos(datapoint[3][3*idx])], rot_pos(datapoint[3][3*idx + 1]), datapoint[3][3*idx + 2]]
+    print("done")
+    
+  return [environment, wind, windspeed, new_waypoints]
 
 
 def augment_datapoint(datapoint):
@@ -191,10 +191,6 @@ def raw_to_IO_arrays(data):
   print("wind+agent concat: ", concat_vector.shape)
   print("outputs shape: ", np.shape(outputs))
 
-  rotate_wind(data[0][1])
-
-
-
   # PLOT TO CHECK RESULTS
   #for i, dat in enumerate(data):
   #  print("wind info: ", wind_dir_speed[5 * i : 5 * i + 4])
@@ -213,9 +209,11 @@ if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
   data = load_all_data(file_filter="test")
-  print(len(data))
-  print(type(data))
-  print(data[0])
+  all_data = []
+  for idx in range(len(data)):
+    print(data[idx])
+    all_data += [augment_datapoint(data[idx])]
+    
   exit(0)
   images, concat, outputs = raw_to_IO_arrays(data)
 

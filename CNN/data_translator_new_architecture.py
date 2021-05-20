@@ -75,7 +75,7 @@ def rotate(datapoint):
   windspeed = datapoint[2]
 
   new_waypoints = []
-  for idx in datapoint[0::3]:
+  for idx in range(len(datapoint) // 3):
     print("starting")
     new_waypoints += [[rot_pos(datapoint[3][3*idx])], rot_pos(datapoint[3][3*idx + 1]), datapoint[3][3*idx + 2]]
     print("done")

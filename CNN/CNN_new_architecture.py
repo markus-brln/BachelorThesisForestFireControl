@@ -12,9 +12,9 @@ np.random.seed(123)
 
 def load_data():
     print("loading data")
-    images = np.load("imagesNEW.npy", allow_pickle=True)
-    windinfo = np.load("concatNEW.npy", allow_pickle=True)
-    outputs = np.load("outputsNEW.npy", allow_pickle=True)
+    images = np.load("imagesNEWall.npy", allow_pickle=True)
+    windinfo = np.load("concatNEWall.npy", allow_pickle=True)
+    outputs = np.load("outputsNEWall.npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("wind info + agents: ", windinfo.shape)
@@ -28,14 +28,13 @@ def build_model(input1_shape, input2_shape):
 
     downscaleInput = Input(shape=input1_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    #downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=128, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Flatten()(downscaled)
-    #downscaled = Dense(feature_vector_len, activation='relu')(downscaled)
+    downscaled = Dense(feature_vector_len, activation='relu')(downscaled)
 
     # CONCATENATE WITH WIND INFO
     inp2 = Input(input2_shape)
@@ -145,17 +144,17 @@ if __name__ == "__main__":
     test_data = [images[:200], concat[:200], outputs[:200]]
     images, concat, outputs = images[200:], concat[200:], outputs[200:]
 
-    check_performance(test_data)
-    exit()
+    #check_performance(test_data)
+    #exit()
 
     model = build_model(images[0].shape, concat[0].shape)
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
-    class_weight = {0: 1,
-                    1: 1,
-                    2: 1}
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=1)
+    class_weight = {0: 0.7,
+                    1: 1.0,
+                    2: 0.5}
 
     history = model.fit([images, concat],  # list of 2 inputs to model
               outputs,
@@ -168,9 +167,37 @@ if __name__ == "__main__":
 
     check_performance(test_data, model)
     save(model, "CNN")                       # utils
-    #plot_history(history=history)
+    plot_history(history=history)
     #predict(model=model, data=test_data)
 
-    """Delta X:  0.08768619075417519
-Delta Y:  0.08495688036084176
-Delta DD:  0.26090494813397525"""
+    """
+1, 1, 0.5
+average Delta X:  0.033679325729608536
+average Delta Y:  0.03717247754335404
+average Delta DD:  0.27392242016270757
+
+1.5,1.5, 0.5
+average Delta X:  0.03869596555829048
+average Delta Y:  0.05574466273188591
+average Delta DD:  0.28211056704632936
+
+1,1,0.2
+average Delta X:  0.04165280729532242
+average Delta Y:  0.049058937579393384
+average Delta DD:  0.3279600426927209
+
+1,1,1
+average Delta X:  0.038817690014839173
+average Delta Y:  0.040950313434004786
+average Delta DD:  0.2549189481884241
+
+0.7, 1, 0.5
+average Delta X:  0.0401893462240696
+average Delta Y:  0.04023878253996372
+average Delta DD:  0.2874618637561798
+
+2 patience
+average Delta X:  0.039171589463949205
+average Delta Y:  0.04311009913682937
+average Delta DD:  0.28043614050373433
+"""

@@ -194,7 +194,7 @@ class Controller:
       print("Agent(s) must have died")
       exit()
 
-    self.plot_env_img(self.model.array_np)
+    #self.plot_env_img(self.model.array_np)
 
     X1 = 5 * [self.model.array_np]
     wind_info = list(self.model.wind_info_vector)

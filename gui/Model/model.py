@@ -393,18 +393,24 @@ class Model:
 
 
   def sort_agents_by_angle(self):
+    """Makes waypoint assgignment start on the left above the middle in
+    clock-wise fashion to achieve faster data gathering."""
     self.agents.sort(key=lambda x:x.angle())
 
 
   def shut_down(self):
+    """Saves the data gathering of the current run, initializes new run (episode)."""
     self.DataSaver.save_training_run()                      # data points of all successful episodes until here saved
     self.start_episode()
 
 
   def get_wind_dir_idx(self):
+    """Save wind direction index in wind dir vector depending on the combined
+    directions present in the model.
+
+    Order of wind directions:
+           N, S, E, W, NE, NW, SE, SW"""
     wind_dir = self.wind_dir
-    """Order of wind directions:
-       N, S, E, W, NE, NW, SE, SW"""
     if wind_dir == (Direction.NORTH, Direction.NORTH):
       return 0
     if wind_dir == (Direction.SOUTH, Direction.SOUTH):

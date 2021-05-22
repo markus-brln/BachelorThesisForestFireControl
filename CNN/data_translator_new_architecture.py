@@ -26,6 +26,7 @@ def load_all_data(file_filter):
       fp_tmp.append(filepath)
   filepaths = fp_tmp
 
+
   data = np.load(filepaths[0], allow_pickle=True)
   for filepath in filepaths[1:]:                      # optionally load more data
     if file_filter in filepath:
@@ -207,15 +208,20 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
-  data = load_all_data(file_filter="test")
+  data = load_all_data(file_filter="NEWFive")
   all_data = []
   for idx in range(len(data)):
+    print("augmenting ", idx, "/", len(data))
     all_data += augment_datapoint(data[idx])
-  
+
+  indeces = random.sample(range(len(all_data)), 1000)
+
+  all_data = [all_data[x] for x in indeces]
+
   print(len(all_data))
     
-  exit(0)
-  images, concat, outputs = raw_to_IO_arrays(data)
+  #exit(0)
+  images, concat, outputs = raw_to_IO_arrays(all_data)
 
   np.save(file="imagesNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   np.save(file="concatNEW.npy", arr=concat, allow_pickle=True)

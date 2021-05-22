@@ -8,9 +8,9 @@ from NNutils import *
 
 def load_data():
     print("loading data")
-    images = np.load("images.npy", allow_pickle=True)
-    windinfo = np.load("windinfo.npy", allow_pickle=True)
-    outputs = np.load("outputs.npy", allow_pickle=True)
+    images = np.load("../images.npy", allow_pickle=True)
+    windinfo = np.load("../windinfo.npy", allow_pickle=True)
+    outputs = np.load("../outputs.npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("wind info: ", windinfo.shape)

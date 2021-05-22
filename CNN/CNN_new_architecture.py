@@ -6,6 +6,8 @@ import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
 from NNutils import *
+tf.random.set_seed(123)
+np.random.seed(123)
 
 
 def load_data():
@@ -35,8 +37,6 @@ def build_model(input1_shape, input2_shape):
     downscaled = Flatten()(downscaled)
     #downscaled = Dense(feature_vector_len, activation='relu')(downscaled)
 
-
-
     # CONCATENATE WITH WIND INFO
     inp2 = Input(input2_shape)
     model_concat = concatenate([downscaled, inp2], axis=1)
@@ -52,8 +52,6 @@ def build_model(input1_shape, input2_shape):
 
 
     return model
-
-
 
 def predict(model=None, data=None, n_examples=5):
     """show inputs together with predictions of CNN,
@@ -98,21 +96,66 @@ def predict(model=None, data=None, n_examples=5):
         plt.title("input image")
         plt.show()
 
+def check_performance(test_data=None, model=None):
+    if not model:
+        model = load("CNN")
+
+    images, concat, outputs = test_data
+
+
+    results = model.predict([images, concat])
+
+    delta_x, delta_y, delta_digdrive = 0, 0, 0
+    d_x, d_y, d_digdrive = list(), list(), list()
+
+    for result, desired in zip(outputs, results):
+        d_x.append(abs(result[0] - desired[0]))
+        d_y.append(abs(result[1] - desired[1]))
+        d_digdrive.append(abs(result[2] - desired[2]))
+        delta_x += abs(result[0] - desired[0])
+        delta_y += abs(result[1] - desired[1])
+        delta_digdrive += abs(result[2] - desired[2])
+
+    delta_x, delta_y, delta_digdrive = delta_x / len(outputs), delta_y / len(outputs), delta_digdrive / len(outputs)
+
+
+    print("average Delta X: ", delta_x)
+    print("average Delta Y: ", delta_y)
+    print("average Delta DD: ", delta_digdrive)
+
+    from scipy.stats import gaussian_kde
+    xs = np.linspace(0, 0.2, 200)
+    density1 = gaussian_kde(d_x)
+    density2 = gaussian_kde(d_y)
+    density3 = gaussian_kde(d_digdrive)
+
+    plt.plot(xs, density1(xs))
+    plt.plot(xs, density2(xs))
+    plt.plot(xs, density3(xs))
+    plt.legend(['delta x', 'delta y', 'delta dig/drive'])
+
+    plt.show()
+
 
 if __name__ == "__main__":
     # predict()                          # predict with model loaded from file
     # exit()
 
     images, concat, outputs = load_data()
-    test_data = [images[:20], concat[:20], outputs[:20]]
-    images, concat, outputs = images[20:], concat[20:], outputs[20:]
+    test_data = [images[:200], concat[:200], outputs[:200]]
+    images, concat, outputs = images[200:], concat[200:], outputs[200:]
 
+    check_performance(test_data)
+    exit()
 
     model = build_model(images[0].shape, concat[0].shape)
     print(model.summary())
     #exit()
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
+    class_weight = {0: 1,
+                    1: 1,
+                    2: 1}
 
     history = model.fit([images, concat],  # list of 2 inputs to model
               outputs,
@@ -120,10 +163,14 @@ if __name__ == "__main__":
               epochs=100,
               shuffle=True,
               validation_split=0.2,
+              class_weight=class_weight,
               callbacks=[callback])
 
-    save(model, "CNN_new_architecture")                       # utils
-    plot_history(history=history)
-    predict(model=model, data=test_data)
+    check_performance(test_data, model)
+    save(model, "CNN")                       # utils
+    #plot_history(history=history)
+    #predict(model=model, data=test_data)
 
-
+    """Delta X:  0.08768619075417519
+Delta Y:  0.08495688036084176
+Delta DD:  0.26090494813397525"""

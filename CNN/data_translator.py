@@ -49,7 +49,7 @@ def raw_to_IO_arrays(data):
      For details see /Documentation/dataTranslation.png"""
 
   # INPUT AND OUTPUT PICTURES
-  data = data[:]          # TODO convert everything
+  data = data[:20]          # TODO convert everything
   n_channels = 5
   waypoint_dig_channel = 5
   waypoint_drive_channel = 6

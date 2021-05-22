@@ -69,6 +69,9 @@ def predict(model, X, y):
 def save(model, filename):
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     model_json = model.to_json()
+    if not os.path.exists('saved_models'):
+        os.makedirs('saved_models')
+
     with open('saved_models\\' + filename + ".json", "w") as json_file:
         json_file.write(model_json)
     # serialize weights to HDF5

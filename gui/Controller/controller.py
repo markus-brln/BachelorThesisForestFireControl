@@ -228,7 +228,7 @@ class Controller:
 
 
   @staticmethod
-  def load_NN(filename="saved_models/CNN"):
+  def load_NN(filename="CNN"):
     """Load a Keras model from json file and weights (.h5). Same as in
     CNN/NNutils.py"""
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/

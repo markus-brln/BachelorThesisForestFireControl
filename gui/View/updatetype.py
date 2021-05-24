@@ -1,6 +1,8 @@
 from enum import Enum
 
 class UpdateType(Enum):
+  """Determines which kinds of nodes should be updated by the View,
+  reduces computation of the gui."""
   RESET = 0
   NODE = 1
   AGENT = 2

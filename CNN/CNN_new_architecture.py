@@ -6,15 +6,15 @@ import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
 from NNutils import *
-tf.random.set_seed(123)
-np.random.seed(123)
+#tf.random.set_seed(123)
+#np.random.seed(123)
 
 
 def load_data():
     print("loading data")
-    images = np.load("imagesNEWall.npy", allow_pickle=True)
-    windinfo = np.load("concatNEWall.npy", allow_pickle=True)
-    outputs = np.load("outputsNEWall.npy", allow_pickle=True)
+    images = np.load("imagesNEW.npy", allow_pickle=True)
+    windinfo = np.load("concatNEW.npy", allow_pickle=True)
+    outputs = np.load("outputsNEW.npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("wind info + agents: ", windinfo.shape)
@@ -95,13 +95,14 @@ def predict(model=None, data=None, n_examples=5):
         plt.title("input image")
         plt.show()
 
+
 def check_performance(test_data=None, model=None):
+    """Check average deviation of x,y,dig/drive outputs from desired
+    test outputs, make density plot."""
     if not model:
         model = load("CNN")
 
     images, concat, outputs = test_data
-
-
     results = model.predict([images, concat])
 
     delta_x, delta_y, delta_digdrive = 0, 0, 0
@@ -132,7 +133,6 @@ def check_performance(test_data=None, model=None):
     plt.plot(xs, density2(xs))
     plt.plot(xs, density3(xs))
     plt.legend(['delta x', 'delta y', 'delta dig/drive'])
-
     plt.show()
 
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=1)
     class_weight = {0: 0.7,
-                    1: 1.0,
+                    1: 0.9, # why y coords less precise??
                     2: 0.5}
 
     history = model.fit([images, concat],  # list of 2 inputs to model
@@ -171,33 +171,22 @@ if __name__ == "__main__":
     #predict(model=model, data=test_data)
 
     """
-1, 1, 0.5
-average Delta X:  0.033679325729608536
-average Delta Y:  0.03717247754335404
-average Delta DD:  0.27392242016270757
+0.7, 0.9, 0.5, patience 1, seeds for tf and np = 123, 8k images
+average Delta X:  0.03370976559817791
+average Delta Y:  0.03981716945767402
+average Delta DD:  0.2610402735508978
 
-1.5,1.5, 0.5
-average Delta X:  0.03869596555829048
-average Delta Y:  0.05574466273188591
-average Delta DD:  0.28211056704632936
+0.7, 0.9, 0.5, patience 1, seeds for tf and np = 123, all images (18k), tested on 200
+average Delta X:  0.03597772844135761
+average Delta Y:  0.037186374217271806
+average Delta DD:  0.28269700743257997
 
-1,1,0.2
-average Delta X:  0.04165280729532242
-average Delta Y:  0.049058937579393384
-average Delta DD:  0.3279600426927209
+with random seeds:
+average Delta X:  0.033934826850891116
+average Delta Y:  0.049013579189777376
+average Delta DD:  0.2592208239249885
 
-1,1,1
-average Delta X:  0.038817690014839173
-average Delta Y:  0.040950313434004786
-average Delta DD:  0.2549189481884241
-
-0.7, 1, 0.5
-average Delta X:  0.0401893462240696
-average Delta Y:  0.04023878253996372
-average Delta DD:  0.2874618637561798
-
-2 patience
-average Delta X:  0.039171589463949205
-average Delta Y:  0.04311009913682937
-average Delta DD:  0.28043614050373433
+average Delta X:  0.03871146939694881
+average Delta Y:  0.04940677046775818
+average Delta DD:  0.2902473259717226
 """

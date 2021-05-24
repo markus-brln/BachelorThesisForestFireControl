@@ -214,9 +214,8 @@ if __name__ == "__main__":
     print("augmenting ", idx, "/", len(data))
     all_data += augment_datapoint(data[idx])
 
-  indeces = random.sample(range(len(all_data)), 1000)
-
-  all_data = [all_data[x] for x in indeces]
+  #indeces = random.sample(range(len(all_data)), 1000)     # make a smaller set of data
+  #all_data = [all_data[x] for x in indeces]
 
   print(len(all_data))
     

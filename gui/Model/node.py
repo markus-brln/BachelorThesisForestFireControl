@@ -6,8 +6,8 @@ import random
 #random.seed(0)
 
 class NodeType (Enum):
-# List:  [Fuel, Temperature, ignition_threshold]
-  GRASS = 0
+  """Room to introduce more different kinds of nodes."""
+  TREES = 0
   WATER = 1
 
 
@@ -59,9 +59,10 @@ class Node:
 
 
   def set_default_properties(self):
-    if self.type == NodeType.GRASS:
+    """Different kinds of nodes have different fuel amounts and ignition temperatures."""
+    if self.type == NodeType.TREES:
       self.default_props = {"fuel": 20, "temp": 0, "ign_thres": 3}
-    if self.type == NodeType.WATER:
+    if self.type == NodeType.WATER:                         # NOT USED
       self.default_props = {"fuel": 0, "temp": 0, "ign_thres": float("inf")}
   
 

@@ -1,8 +1,4 @@
-from Model.direction import Direction
-from enum import IntEnum
 import time
-import random
-
 
 # WIND values
 windspeed = 0
@@ -11,12 +7,12 @@ n_wind_dirs = 8
 n_wind_speed_levels = 5
 
 # GLOBALS (documented when saving)
-size = 255  # environment size
+size = 255                                                  # environment size
 nr_of_agents = 5
-timeframe = 20  # timeframe in between setting new waypoints
-agentRadius = 70  # agents spawn in this radius around the fire (it's a box, not a circle, for now, see model.get_random_position())
+timeframe = 20                                              # timeframe in between setting new waypoints
+agentRadius = 70                                            # agents spawn in this radius around the fire
 randseed = time.time()
-fire_step_multiplicator = 1
+fire_step_multiplicator = 1                                 # int!! to speed up fire
 
 # OTHER GLOBALS
 block_size_in_pixels = int(765 / size)

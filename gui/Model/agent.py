@@ -38,6 +38,7 @@ class Agent:
       if self.save_move:
         self.agent_hist.append(self.position)
 
+
   def assign_new_waypoint(self, position, digging):
     """Takes a position selected by a mouse click and projects it onto
        a square (rotated diamond-like) around the agent, where it can

@@ -12,14 +12,14 @@ import math
 import numpy as np
 
 class State(Enum):
+  """Possible states of the model, will reset when fire out of control
+     (outside borders of environment)."""
   ONGOING = 0
   FIRE_CONTAINED = 1
   FIRE_OUT_OF_CONTROL = 2
 
 
 class Model:
-  # Other parameters can be added later
-  ## Length: Grid size
   def __init__(self, length: int, nr_of_agents: int, radius: int):
     self.counter = 0
     self.firebreaks = set()
@@ -32,37 +32,34 @@ class Model:
     self.centre = (int(length / 2), int(length / 2))
     self.nr_of_agents = nr_of_agents
     self.wind_dir = self.set_wind_dir()
-    print(self.wind_dir)
+    print("wind direction: ", self.wind_dir)
     self.windspeed = self.set_windspeed()
-    print("speed: ", self.windspeed)
+    print("wind speed: ", self.windspeed)
 
-    ## initial properties of this model
+    # initial properties of this model
     self.agents = []
     self.nodes = []
     self.state = State.ONGOING
     self.init_nodes()
     self.reset_necessary = False
 
-    ## Fire initialization
+    # Fire initialization
     self.radius = radius
     self.firepos = set()
 
-    ## Data saving initialization
+    # Data saving initialization
     self.DataSaver = DataSaver(self)
     self.highlighted_agent_nr = None
     self.highlighted_agent = None
 
-    ## NN integration
+    # NN integration
     shape = (256, 256, 5)
     self.array_np = np.zeros(shape, dtype=np.double)
-    self.wind_info_vector = np.zeros(13, dtype=np.double)              # 8 wind directions # TODO check dtype
+    self.wind_info_vector = np.zeros(13, dtype=np.double)              # 8 wind directions
     self.start_episode()  # Initialize episode
 
 
-
-  ## Episode Initialization
   def start_episode(self):
-
     self.counter += 1
     print(f"{self.counter}th run")
     self.reset_agents()
@@ -81,11 +78,12 @@ class Model:
     self.set_initial_fire()
     self.firebreaks = set()
 
-    ## NN integration
+    # NN integration
     for rowIdx, row in enumerate(self.array_np):
       for colIdx, _ in enumerate(row):
         self.array_np[rowIdx][colIdx][0] = 1
-    
+
+
     for agent in self.agents:
       x, y = agent.position
       self.array_np[x][y][0] = 0
@@ -93,21 +91,23 @@ class Model:
     
     self.wind_info_vector = np.zeros(13, dtype = np.uint8)
     self.wind_info_vector[self.get_wind_dir_idx()] = 1
-    self.wind_info_vector[self.windspeed + 8] = 1  # +8 wind directions
-
+    self.wind_info_vector[self.windspeed + 8] = 1           # +8 wind directions
 
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.RESET)
 
   def init_nodes(self):
+    """Construct Nodes, set their neighbours to speed up retrieval of that
+       information."""
+    # Set all Nodes to be forest
     for x in range(self.size):
       node_row = []
       for y in range(self.size):
-        newNode = Node(self, (x, y), NodeType.GRASS, self.wind_dir, self.windspeed)
+        newNode = Node(self, (x, y), NodeType.TREES, self.wind_dir, self.windspeed)
         node_row.append(newNode)
       self.nodes.append(node_row)
 
-      ## Set the neighbours
+    # Set the neighbours
     for node_row in self.nodes:
       for node in node_row:
         pos = node.position
@@ -119,47 +119,18 @@ class Model:
                             south=self.find_node(neighbour["S"]),
                             west=self.find_node(neighbour["W"]))
 
-  def append_datapoint(self):
-    print("Saving waypoints")
-    self.DataSaver.append_datapoint()
-
-  def output_datapoints(self):
-    print("testing data pass")
-    return self.DataSaver.output_datapoint()
-
-  def discard_episode(self):
-    self.DataSaver.discard_episode()
-
-  def append_episode(self):
-    self.DataSaver.append_episode()
-
-  def save_training_run(self):
-    self.DataSaver.save_training_run()
 
   def set_initial_fire(self):
+    """Ignite the centre node."""
     x = y = int(self.size / 2)
     centre_node = self.find_node((x, y))
     centre_node.ignite()
     self.firepos.add((x, y))
 
-  @staticmethod
-  def set_windspeed():
-    """values from 0 to including 4 is there are 5 wind speed levels"""
-    return random.randint(0, n_wind_speed_levels-1)
-
-  @staticmethod
-  def set_wind_dir():
-    wind_dirs = {0: (Direction.NORTH, Direction.NORTH),
-                 1: (Direction.NORTH, Direction.EAST),
-                 2: (Direction.EAST, Direction.EAST),
-                 3: (Direction.SOUTH, Direction.EAST),
-                 4: (Direction.SOUTH, Direction.SOUTH),
-                 5: (Direction.SOUTH, Direction.WEST),
-                 6: (Direction.WEST, Direction.WEST),
-                 7: (Direction.NORTH, Direction.WEST)}
-    return random.choice(list(wind_dirs.values()))
 
   def reset_wind(self):
+    """Reset values for wind speed and direction held by model and
+       each individual node."""
     self.windspeed = self.set_windspeed()
     self.wind_dir = self.set_wind_dir()
     print("windspeed: ", self.windspeed)
@@ -224,6 +195,7 @@ class Model:
 
 
   def get_neighbours(self, position):
+    """NOT USED"""
     return {"N": self.find_node(Direction.GO_NORTH),
             "E": self.find_node(Direction.GO_EAST),
             "S": self.find_node(Direction.GO_SOUTH),
@@ -299,7 +271,7 @@ class Model:
 
 
   def undo_selection(self, agent_no):
-    """"""
+    """Delete last waypoint in order to redo it."""
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.CLEAR_WAYPOINTS, position=[self.find_node(pos) for pos in self.waypoints])
     
@@ -309,7 +281,7 @@ class Model:
     
     for agent in self.agents[:agent_no]:
       if agent.waypoint is not None:
-        self.waypoints.add(agent.original_waypoint)         # keep old waypoints for now
+        self.waypoints.add(agent.original_waypoint)
         if agent.is_digging:
           self.waypoints_digging.add(agent.original_waypoint)
         else:
@@ -318,17 +290,16 @@ class Model:
           subscriber.update(UpdateType.WAYPOINT, position=agent.original_waypoint)
 
     print(self.waypoints)
-
     self.highlight_agent(agent_no)
 
 
   def select_square(self, position, digging):
-    if self.highlighted_agent == None:
+    if self.highlighted_agent is None:
       return
 
     self.highlighted_agent.assign_new_waypoint(position, digging)
 
-    self.waypoints.add(position)                            # keep old waypoints for now
+    self.waypoints.add(position)
     if digging:
       self.waypoints_digging.add(position)
     else:
@@ -341,8 +312,11 @@ class Model:
   ## State changes
   ## Call from Node
   def node_state_change(self, node: Node):
+    """Node informs the model that it's state changed, so the
+       internal representation (env matrix and fire/agent lists)
+       is adjusted."""
     x, y = node.position
-    self.array_np[x][y][0] = 0 ## No longer grass
+    self.array_np[x][y][0] = 0                              # No longer grass
     if node.state == NodeState.ON_FIRE:
       self.array_np[x][y][2] = 1
       self.firepos.add(node.position)
@@ -388,7 +362,28 @@ class Model:
       subscriber.update(UpdateType.AGENT, agent=agent)
 
 
+  @staticmethod
+  def set_windspeed():
+    """Values from 0 to including 4 means there are 5 wind speed levels"""
+    return random.randint(0, n_wind_speed_levels-1)
+
+
+  @staticmethod
+  def set_wind_dir():
+    """Choose randomly out of 8 possible wind directions."""
+    wind_dirs = {0: (Direction.NORTH, Direction.NORTH),
+                 1: (Direction.NORTH, Direction.EAST),
+                 2: (Direction.EAST, Direction.EAST),
+                 3: (Direction.SOUTH, Direction.EAST),
+                 4: (Direction.SOUTH, Direction.SOUTH),
+                 5: (Direction.SOUTH, Direction.WEST),
+                 6: (Direction.WEST, Direction.WEST),
+                 7: (Direction.NORTH, Direction.WEST)}
+    return random.choice(list(wind_dirs.values()))
+
+
   def subscribe(self, subscriber):
+    """View becomes subscriber to changes in the model."""
     self.subscribers.append(subscriber)
 
 
@@ -396,6 +391,24 @@ class Model:
     """Makes waypoint assgignment start on the left above the middle in
     clock-wise fashion to achieve faster data gathering."""
     self.agents.sort(key=lambda x:x.angle())
+
+
+  def append_datapoint(self):
+    print("Saving waypoints")
+    self.DataSaver.append_datapoint()
+
+  def output_datapoints(self):
+    print("testing data pass")
+    return self.DataSaver.output_datapoint()
+
+  def discard_episode(self):
+    self.DataSaver.discard_episode()
+
+  def append_episode(self):
+    self.DataSaver.append_episode()
+
+  def save_training_run(self):
+    self.DataSaver.save_training_run()
 
 
   def shut_down(self):

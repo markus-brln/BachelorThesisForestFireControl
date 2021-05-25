@@ -208,20 +208,21 @@ def raw_to_IO_arrays(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
 
-  data = load_all_data(file_filter="NEWFive")
-  all_data = []
-  for idx in range(len(data)):
-    print("augmenting ", idx, "/", len(data))
-    all_data += augment_datapoint(data[idx])
+  # OLD WAY data = load_all_data(file_filter="NEWFive")
+  data = load_all_data(file_filter="EASYFive")
+  #all_data = []
+  #for idx in range(len(data)):
+  #  print("augmenting ", idx, "/", len(data))
+  #  all_data += augment_datapoint(data[idx])
 
   #indeces = random.sample(range(len(all_data)), 1000)     # make a smaller set of data
   #all_data = [all_data[x] for x in indeces]
 
-  print(len(all_data))
+  #print(len(all_data))
     
   #exit(0)
-  images, concat, outputs = raw_to_IO_arrays(all_data)
+  images, concat, outputs = raw_to_IO_arrays(data)
 
-  np.save(file="imagesNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="concatNEW.npy", arr=concat, allow_pickle=True)
-  np.save(file="outputsNEW.npy", arr=outputs, allow_pickle=True)
+  np.save(file="imagesEASYNEW.npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="concatEASYNEW.npy", arr=concat, allow_pickle=True)
+  np.save(file="outputsEASYNEW.npy", arr=outputs, allow_pickle=True)

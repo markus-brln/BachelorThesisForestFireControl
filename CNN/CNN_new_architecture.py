@@ -12,9 +12,9 @@ from NNutils import *
 
 def load_data():
     print("loading data")
-    images = np.load("imagesNEW.npy", allow_pickle=True)
-    windinfo = np.load("concatNEW.npy", allow_pickle=True)
-    outputs = np.load("outputsNEW.npy", allow_pickle=True)
+    images = np.load("imagesEASYNEW.npy", allow_pickle=True)
+    windinfo = np.load("concatEASYNEW.npy", allow_pickle=True)
+    outputs = np.load("outputsEASYNEW.npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("wind info + agents: ", windinfo.shape)
@@ -141,17 +141,17 @@ if __name__ == "__main__":
     # exit()
 
     images, concat, outputs = load_data()
-    test_data = [images[:200], concat[:200], outputs[:200]]
-    images, concat, outputs = images[200:], concat[200:], outputs[200:]
+    test_data = [images[:20], concat[:20], outputs[:20]]
+    images, concat, outputs = images[20:], concat[20:], outputs[20:]
 
-    check_performance(test_data)
-    exit()
+    #check_performance(test_data)
+    #exit()
 
     model = build_model(images[0].shape, concat[0].shape)
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=1)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5)
     class_weight = {0: 0.7,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}
@@ -165,8 +165,8 @@ if __name__ == "__main__":
               class_weight=class_weight,
               callbacks=[callback])
 
+    save(model, "CNN")  # utils
     check_performance(test_data, model)
-    save(model, "CNN")                       # utils
     plot_history(history=history)
     #predict(model=model, data=test_data)
 

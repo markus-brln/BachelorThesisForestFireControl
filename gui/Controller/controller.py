@@ -147,6 +147,12 @@ class Controller:
       # TODO save data about how often fire was contained
       exit()
 
+    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != 5:
+      self.model.discard_episode()
+      self.model.start_episode()                            # BACKSPACE to go to next episode
+      self.model.reset_wind()
+      self.last_timestep_waypoint_collection = -1
+
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
       outputs = self.predict_NN()
       print("outputs: ", outputs)

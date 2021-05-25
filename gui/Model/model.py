@@ -144,11 +144,24 @@ class Model:
   def reset_agents(self):
     """Place agents at random positions in a donut shape around the fire."""
     self.agents.clear()
+    from Model.utils import rotate_point
+    angle = 0
+    uncertainty = 10
+    orig_point = self.centre[0] - self.radius, self.centre[1]
+
     for agent in range(0, self.nr_of_agents):
+      spawn_point = rotate_point(self.centre, orig_point, angle)
+      spawn_point = spawn_point[0] + random.randint(-uncertainty, uncertainty), spawn_point[1] + random.randint(-uncertainty, uncertainty)
+      self.agents += [Agent(spawn_point, self)]
+      angle += math.pi * 2 / self.nr_of_agents              # star formation around centre
+
+
+    # HARD WAY of setting agent positions
+    '''for agent in range(0, self.nr_of_agents):
       x, y = 0, 0
       while not (agentRadius < math.sqrt((x - self.size / 2)**2 + (y - self.size / 2)**2) < self.size / 2  and 0 < x < self.size and 0 < y < self.size):
         x, y = (random.randint(0, self.size), random.randint(0, self.size))
-      self.agents += [Agent((x, y), self)]
+      self.agents += [Agent((x, y), self)]'''
 
 
   def time_step(self):
@@ -365,7 +378,8 @@ class Model:
   @staticmethod
   def set_windspeed():
     """Values from 0 to including 4 means there are 5 wind speed levels"""
-    return random.randint(0, n_wind_speed_levels-1)
+    # OLD WAY return random.randint(0, n_wind_speed_levels-1)
+    return 0
 
 
   @staticmethod
@@ -379,7 +393,10 @@ class Model:
                  5: (Direction.SOUTH, Direction.WEST),
                  6: (Direction.WEST, Direction.WEST),
                  7: (Direction.NORTH, Direction.WEST)}
-    return random.choice(list(wind_dirs.values()))
+
+    # OLD WAY
+    #return random.choice(list(wind_dirs.values()))
+    return list(wind_dirs.values())[0]
 
 
   def subscribe(self, subscriber):

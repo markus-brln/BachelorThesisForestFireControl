@@ -1,4 +1,5 @@
 import time
+import math
 
 # WIND values
 windspeed = 0
@@ -16,3 +17,12 @@ fire_step_multiplicator = 1                                 # int!! to speed up 
 
 # OTHER GLOBALS
 block_size_in_pixels = int(765 / size)
+
+
+def rotate_point(origin, point, angle):
+    ox, oy = origin
+    px, py = point
+    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+    qy = oy + math.sin(angle) * (px - ox) - math.cos(angle) * (py - oy)
+
+    return int(qx), int(qy)

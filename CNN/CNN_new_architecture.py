@@ -144,8 +144,8 @@ if __name__ == "__main__":
     test_data = [images[:200], concat[:200], outputs[:200]]
     images, concat, outputs = images[200:], concat[200:], outputs[200:]
 
-    #check_performance(test_data)
-    #exit()
+    check_performance(test_data)
+    exit()
 
     model = build_model(images[0].shape, concat[0].shape)
     print(model.summary())

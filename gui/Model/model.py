@@ -11,7 +11,7 @@ import random
 import math
 import numpy as np
 
-class State(Enum):
+class ModelState(Enum):
   """Possible states of the model, will reset when fire out of control
      (outside borders of environment)."""
   ONGOING = 0
@@ -39,7 +39,7 @@ class Model:
     # initial properties of this model
     self.agents = []
     self.nodes = []
-    self.state = State.ONGOING
+    self.state = ModelState.ONGOING
     self.init_nodes()
     self.reset_necessary = False
 
@@ -67,7 +67,7 @@ class Model:
     self.waypoints_walking = set()
     self.waypoints_digging = set()
     self.time = 0
-    self.state = State.ONGOING
+    self.state = ModelState.ONGOING
 
     for node_row in self.nodes:
       for node in node_row:
@@ -79,6 +79,8 @@ class Model:
     self.firebreaks = set()
 
     # NN integration
+    shape = (256, 256, 5)
+    self.array_np = np.zeros(shape, dtype=np.double)        # reset the NN's picture of the env
     for rowIdx, row in enumerate(self.array_np):
       for colIdx, _ in enumerate(row):
         self.array_np[rowIdx][colIdx][0] = 1
@@ -89,7 +91,7 @@ class Model:
       self.array_np[x][y][0] = 0
       self.array_np[x][y][4] = 1
     
-    self.wind_info_vector = np.zeros(13, dtype = np.uint8)
+    self.wind_info_vector = np.zeros(n_wind_dirs + n_wind_speed_levels, dtype=np.uint8)
     self.wind_info_vector[self.get_wind_dir_idx()] = 1
     self.wind_info_vector[self.windspeed + 8] = 1           # +8 wind directions
 
@@ -192,7 +194,7 @@ class Model:
         for node in node_row:
           node.update_state()
 
-    if self.state == State.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
+    if self.state == ModelState.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
       self.start_episode()
       self.reset_necessary = True                           # view needs to be updated by controller... not a nice way but works
       return

@@ -45,18 +45,18 @@ class DataSaver:
     for agent in self.model.agents:
       x, y = agent.position
       image[y][x] = int(NodeState.AGENT)
-      if agent.waypoint_digging:                            # one of the waypoints is None
-        x, y = agent.waypoint_digging
+      if agent.wp_digging:                            # one of the waypoints is None
+        x, y = agent.wp_digging
         image[y][x] = 5
-        agent_pos_with_waypoints.append([agent.position, agent.waypoint_digging, 1])    # 1 == digging
-      if agent.waypoint_walking:
-        x, y = agent.waypoint_walking
+        agent_pos_with_waypoints.append([agent.position, agent.wp_digging, 1])    # 1 == digging
+      if agent.wp_driving:
+        x, y = agent.wp_driving
         image[y][x] = 6
-        agent_pos_with_waypoints.append([agent.position, agent.waypoint_walking, 0])    # 0 == driving
+        agent_pos_with_waypoints.append([agent.position, agent.wp_driving, 0])    # 0 == driving
 
     wind_dir_vec[self.get_wind_dir_idx()] = 1               # set the right category in the wind_dir vector
 
-    windspeed_vec[self.model.windspeed] = 1
+    windspeed_vec[self.model.wind_speed] = 1
 
     # check output
     #print(self.model.windspeed)

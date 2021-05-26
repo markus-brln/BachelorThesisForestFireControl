@@ -8,35 +8,29 @@ from numpy import arctan2
 
 
 class Agent:
-  def __init__(self, position, model, active = False):
+  def __init__(self, position, model):
     self.position = position
-    self.start_pos = position                 # to move in a straight line
+    self.start_pos = position                               # to move in a straight line
     self.node = model.find_node(position)
-    self.prev_node = model.find_node(position)
+    self.prev_node = model.find_node(position)              # old position needed to move in straight line to wp
     self.dead = False
-    self.active = active
-    self.agent_hist = deque()
-    self.agent_hist.append(self.position)
-    self.save_move = False
     self.original_waypoint = None
-    self.waypoint = None
-    self.waypoint_digging = None
-    self.waypoint_walking = None
+    self.wp = None
+    self.wp_digging = None
+    self.wp_driving = None
     self.model = model
     self.is_digging = True
 
-  def timestep(self, time):
+
+  def timestep(self):
     """Either dig+drive or drive 2 times based on waypoint type."""
     if self.is_digging:
       self.dig()
       self.move()                                           # walk towards waypoint (straight line) + dig on every step
-      if self.save_move:
-        self.agent_hist.append(self.position)
+
     else:
       self.move()                                           # move at double the speed compared to digging
       self.move()
-      if self.save_move:
-        self.agent_hist.append(self.position)
 
 
   def assign_new_waypoint(self, position, digging):
@@ -56,15 +50,15 @@ class Agent:
 
     if self.is_digging:                                     # selected node closer to agent, then only walk/dig that far
       if total_steps < timeframe:
-        self.waypoint_digging = position
-        self.waypoint = position
-        self.waypoint_walking = None
+        self.wp_digging = position
+        self.wp = position
+        self.wp_driving = None
         return
     else:
       if total_steps < timeframe * 2:
-        self.waypoint_digging = None
-        self.waypoint = position
-        self.waypoint_walking = position
+        self.wp_digging = None
+        self.wp = position
+        self.wp_driving = position
         return
 
     if total_steps == 0:
@@ -75,14 +69,14 @@ class Agent:
       move_x = (delta_x / total_steps ) * (timeframe - 1)   # make use of the fact that we deal with 'similar triangles'
       move_y = (delta_y / total_steps) * (timeframe - 1)
 
-    self.waypoint = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
+    self.wp = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
 
     if self.is_digging:
-      self.waypoint_digging = self.waypoint
-      self.waypoint_walking = None
+      self.wp_digging = self.wp
+      self.wp_driving = None
     else:
-      self.waypoint_digging = None
-      self.waypoint_walking = [round(self.position[0] + 2 * move_x), round(self.position[1] + 2 * move_y)] # walking twice as fast
+      self.wp_digging = None
+      self.wp_driving = [round(self.position[0] + 2 * move_x), round(self.position[1] + 2 * move_y)] # walking twice as fast
 
 
   def dig(self):
@@ -93,7 +87,7 @@ class Agent:
 
   def move(self):
     """Find the direction to go to, move one step N/S/E/W."""
-    if self.waypoint_digging is None and self.waypoint_walking is None:
+    if self.wp_digging is None and self.wp_driving is None:
       return
     self.prev_node = self.node
     self.position = Direction.find(self)(self.position)

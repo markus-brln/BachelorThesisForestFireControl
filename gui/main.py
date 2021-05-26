@@ -16,7 +16,6 @@ pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 
 def main():
-  # Initialization
   model = Model(size, nr_of_agents, agentRadius)            # Initialize Environment
   view = View(model, block_size_in_pixels)                  # Start View
 

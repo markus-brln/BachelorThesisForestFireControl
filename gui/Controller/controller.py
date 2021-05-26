@@ -181,13 +181,17 @@ class Controller:
       self.model.highlight_agent(self.agent_no)
       self.model.select_square(new_wp, digging=digging)
       self.agent_no += 1
-      time.sleep(0.5)
+      time.sleep(0.5)                           # TODO get rid of this when collecting data
 
     self.collecting_waypoints = False
     self.model.highlight_agent(None)
 
 
   def postprocess_output_NN(self, output, agent):
+    """All operations needed to transform the raw normalized NN output
+    to pixel coords of the waypoints and a drive/dig (0/1) decision.
+    Scales the waypoints to fit the maximum ('timeframe') distance
+    they can travel between waypoint assignments."""
     new_wp = (int(output[0] * 255), int(output[1] * 255))
     digging = output[2] > self.digging_threshold
 
@@ -195,19 +199,11 @@ class Controller:
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
-    #print("prev out: ", new_wp)
-
     delta_x = new_wp[0] - agent.position[0]
     delta_y = new_wp[1] - agent.position[1]
-    #print("deltas: ", delta_x, delta_y)
 
     scale = wanted_len / (abs(delta_x) + abs(delta_y))
-    #print(scale)
-
     output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
-    #print("new out: ", output)
-    #print("new deltas: ", int(scale * delta_x), int(scale * delta_y))
-
 
     return output, digging
 

@@ -4,7 +4,6 @@ from Model.data_saver import DataSaver
 from Model.node import Node, NodeType, NodeState
 from View.updatetype import UpdateType
 from Model.utils import *
-from Model.utils import n_wind_speed_levels
 
 from enum import Enum
 import random
@@ -20,43 +19,41 @@ class ModelState(Enum):
 
 
 class Model:
-  def __init__(self, length: int, nr_of_agents: int, radius: int):
+  def __init__(self, length: int, n_agents: int, radius: int):
     self.counter = 0
     self.firebreaks = set()
     self.waypoints = set()
-    self.waypoints_walking = set()
-    self.waypoints_digging = set()
+    self.wp_driving = set()
+    self.wp_digging = set()
     self.time = 0
     self.subscribers = []
     self.size = length
     self.centre = (int(length / 2), int(length / 2))
-    self.nr_of_agents = nr_of_agents
-    self.wind_dir = self.set_wind_dir()
-    print("wind direction: ", self.wind_dir)
-    self.windspeed = self.set_windspeed()
-    print("wind speed: ", self.windspeed)
-
-    # initial properties of this model
+    self.n_agents = n_agents
     self.agents = []
-    self.nodes = []
     self.state = ModelState.ONGOING
-    self.init_nodes()
     self.reset_necessary = False
+    self.wind_dir = self.set_wind_dir()
+    self.wind_speed = self.set_windspeed()
+    print("wind direction: ", self.wind_dir)
+    print("wind speed: ", self.wind_speed)
+    self.nodes = []
+    self.init_nodes()
 
     # Fire initialization
-    self.radius = radius
+    self.agent_radius = radius                              # distance of spawning of agents from the centre
     self.firepos = set()
 
     # Data saving initialization
-    self.DataSaver = DataSaver(self)
+    self.DataSaver = DataSaver(self)                        # receives reference to the model
     self.highlighted_agent_nr = None
     self.highlighted_agent = None
 
     # NN integration
     shape = (256, 256, 5)
     self.array_np = np.zeros(shape, dtype=np.double)
-    self.wind_info_vector = np.zeros(13, dtype=np.double)              # 8 wind directions
-    self.start_episode()  # Initialize episode
+    self.wind_info_vector = np.zeros(13, dtype=np.double)   # 8 wind directions
+    self.start_episode()
 
 
   def start_episode(self):
@@ -64,8 +61,8 @@ class Model:
     print(f"{self.counter}th run")
     self.reset_agents()
     self.waypoints = set()
-    self.waypoints_walking = set()
-    self.waypoints_digging = set()
+    self.wp_driving = set()
+    self.wp_digging = set()
     self.time = 0
     self.state = ModelState.ONGOING
 
@@ -93,7 +90,7 @@ class Model:
     
     self.wind_info_vector = np.zeros(n_wind_dirs + n_wind_speed_levels, dtype=np.uint8)
     self.wind_info_vector[self.get_wind_dir_idx()] = 1
-    self.wind_info_vector[self.windspeed + 8] = 1           # +8 wind directions
+    self.wind_info_vector[self.wind_speed + 8] = 1           # +8 wind directions
 
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.RESET)
@@ -105,7 +102,7 @@ class Model:
     for x in range(self.size):
       node_row = []
       for y in range(self.size):
-        newNode = Node(self, (x, y), NodeType.TREES, self.wind_dir, self.windspeed)
+        newNode = Node(self, (x, y), NodeType.TREES, self.wind_dir, self.wind_speed)
         node_row.append(newNode)
       self.nodes.append(node_row)
 
@@ -133,13 +130,13 @@ class Model:
   def reset_wind(self):
     """Reset values for wind speed and direction held by model and
        each individual node."""
-    self.windspeed = self.set_windspeed()
+    self.wind_speed = self.set_windspeed()
     self.wind_dir = self.set_wind_dir()
-    print("windspeed: ", self.windspeed)
+    print("windspeed: ", self.wind_speed)
     print(self.wind_dir)
     for node_row in self.nodes:
       for node in node_row:
-        node.windspeed = self.windspeed
+        node.wind_speed = self.wind_speed
         node.wind_dir = self.wind_dir
 
 
@@ -149,13 +146,13 @@ class Model:
     from Model.utils import rotate_point
     angle = 0
     uncertainty = 10
-    orig_point = self.centre[0] - self.radius, self.centre[1]
+    orig_point = self.centre[0] - self.agent_radius, self.centre[1]
 
-    for agent in range(0, self.nr_of_agents):
+    for agent in range(0, self.n_agents):
       spawn_point = rotate_point(self.centre, orig_point, angle)
       spawn_point = spawn_point[0] + random.randint(-uncertainty, uncertainty), spawn_point[1] + random.randint(-uncertainty, uncertainty)
       self.agents += [Agent(spawn_point, self)]
-      angle += math.pi * 2 / self.nr_of_agents              # star formation around centre
+      angle += math.pi * 2 / self.n_agents              # star formation around centre
 
 
     # HARD WAY of setting agent positions
@@ -180,11 +177,12 @@ class Model:
       return
 
     for agent in self.agents:
-      if not self.find_node(agent.position).state == None and self.find_node(agent.position).state == NodeState.ON_FIRE:
+      if not self.find_node(agent.position).state is None \
+              and self.find_node(agent.position).state == NodeState.ON_FIRE:
         agent.dead = True
         print("agent dies")
         self.agents.remove(agent)
-      agent.timestep(self.time)                             # walks 1 step towards current waypoint & digs on the way
+      agent.timestep()                                      # walks 1 step towards current waypoint & digs on the way
 
     for _ in range(fire_step_multiplicator):                # multiplicator of fire speed basically
       for node_row in self.nodes:
@@ -209,7 +207,7 @@ class Model:
     return self.nodes[pos[0]][pos[1]]
 
 
-  def get_neighbours(self, position):
+  def get_neighbours(self):
     """NOT USED"""
     return {"N": self.find_node(Direction.GO_NORTH),
             "E": self.find_node(Direction.GO_EAST),
@@ -217,42 +215,42 @@ class Model:
             "W": self.find_node(Direction.GO_WEST)}
 
 
-  def get_random_position(self, id):
+  def get_random_position(self, ID):
     """NOT USED"""
-    if id == 1:  ## top left
+    if ID == 1:  ## top left
       x = random.randint(0, int(self.size / 2))
       y = random.randint(int(self.size / 2), (self.size - 1))
-      while (x > (int(self.size / 2) - self.radius) and y < int(self.size / 2) + self.radius):  ##within radius
+      while x > (int(self.size / 2) - self.agent_radius) and y < int(self.size / 2) + self.agent_radius:  ##within radius
         x = random.randint(0, int(self.size / 2))
         y = random.randint(int(self.size / 2), (self.size - 1))
-      return (x, y)
+      return x, y
 
-    elif id == 2:  ##top right
+    elif ID == 2:  ##top right
       x = random.randint(int(self.size / 2), (self.size - 1))
       y = random.randint(int(self.size / 2), (self.size - 1))
-      while (x < (int(self.size / 2) + self.radius) and y < (
-              int(self.size / 2) + self.radius)):  ##within centre radius
+      while (x < (int(self.size / 2) + self.agent_radius) and y < (
+              int(self.size / 2) + self.agent_radius)):  ##within centre radius
         x = random.randint(int(self.size / 2), (self.size - 1))
         y = random.randint(int(self.size / 2), (self.size - 1))
-      return (x, y)
+      return x, y
 
-    elif id == 3:  ##bottom left
+    elif ID == 3:  ##bottom left
       x = random.randint(0, int(self.size / 2))
       y = random.randint(0, int(self.size / 2))
-      while (x > (int(self.size / 2) - self.radius) and y > (
-              int(self.size / 2) - self.radius)):  ##within centre radius
+      while (x > (int(self.size / 2) - self.agent_radius) and y > (
+              int(self.size / 2) - self.agent_radius)):  ##within centre radius
         x = random.randint(0, int(self.size / 2))
         y = random.randint(0, int(self.size / 2))
-      return (x, y)
+      return x, y
 
-    elif id == 4:  ##bottom right
+    elif ID == 4:  ##bottom right
       x = random.randint(int(self.size / 2), self.size - 1)
       y = random.randint(0, int(self.size / 2))
-      while (x < int(self.size / 2) + self.radius and y > int(
-              self.size / 2) - self.radius):  ##within centre radius
+      while (x < int(self.size / 2) + self.agent_radius and y > int(
+              self.size / 2) - self.agent_radius):  ##within centre radius
         x = random.randint(int(self.size / 2), self.size - 1)
         y = random.randint(0, int(self.size / 2))
-      return (x, y)
+      return x, y
     print("error placing agent!")
     return
 
@@ -266,8 +264,8 @@ class Model:
     """NOT USED"""
     print("wp: ", len(self.waypoints))
     self.waypoints.clear()
-    self.waypoints_walking.clear()
-    self.waypoints_digging.clear()
+    self.wp_driving.clear()
+    self.wp_digging.clear()
     print("wp: ", len(self.waypoints))
 
 
@@ -291,16 +289,16 @@ class Model:
       subscriber.update(UpdateType.CLEAR_WAYPOINTS, position=[self.find_node(pos) for pos in self.waypoints])
     
     self.waypoints.clear()
-    self.waypoints_digging.clear()
-    self.waypoints_walking.clear()
+    self.wp_digging.clear()
+    self.wp_driving.clear()
     
     for agent in self.agents[:agent_no]:
-      if agent.waypoint is not None:
+      if agent.wp is not None:
         self.waypoints.add(agent.original_waypoint)
         if agent.is_digging:
-          self.waypoints_digging.add(agent.original_waypoint)
+          self.wp_digging.add(agent.original_waypoint)
         else:
-          self.waypoints_walking.add(agent.original_waypoint)
+          self.wp_driving.add(agent.original_waypoint)
         for subscriber in self.subscribers:
           subscriber.update(UpdateType.WAYPOINT, position=agent.original_waypoint)
 
@@ -316,9 +314,9 @@ class Model:
 
     self.waypoints.add(position)
     if digging:
-      self.waypoints_digging.add(position)
+      self.wp_digging.add(position)
     else:
-      self.waypoints_walking.add(position)
+      self.wp_driving.add(position)
     for subscriber in self.subscribers:
       subscriber.update(UpdateType.WAYPOINT, position=position)
 
@@ -350,9 +348,8 @@ class Model:
     old_x, old_y = agent.prev_node.position
     new_x, new_y = agent.position
 
-    if agent.prev_node.state == NodeState.NORMAL:
-      cell = 0
-    elif agent.prev_node.state == NodeState.FIREBREAK:
+    cell = 0                                                # agent.prev_node.state == NodeState.NORMAL
+    if agent.prev_node.state == NodeState.FIREBREAK:
       cell = 1
     elif agent.prev_node.state == NodeState.ON_FIRE:
       cell = 2

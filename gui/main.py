@@ -20,7 +20,7 @@ def main():
   model = Model(size, nr_of_agents, agentRadius)            # Initialize Environment
   view = View(model, block_size_in_pixels)                  # Start View
 
-  NN_control = True                                         # False -> gather data, True -> test NN
+  NN_control = False                                         # False -> gather data, True -> test NN
   controller = Controller(model, view, NN_control)          # Initialize Controller with model and view
 
   if NN_control:

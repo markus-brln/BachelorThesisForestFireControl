@@ -39,13 +39,11 @@ class Agent:
        actually reach it within X timesteps. This is done to have uniform
        waypoint distances from the agents."""
     self.original_waypoint = position
-
     self.is_digging = digging
     self.start_pos = self.position                          # save where the agent came from
 
     delta_x = position[0] - self.position[0]
     delta_y = position[1] - self.position[1]
-
     total_steps = abs(delta_x) + abs(delta_y)               # total steps cannot be bigger than timeframe for agents to move
 
     if self.is_digging:                                     # selected node closer to agent, then only walk/dig that far

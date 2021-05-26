@@ -22,8 +22,6 @@ def load_data():
     return images, windinfo, outputs
 
 def build_model(input1_shape, input2_shape):
-    # idea/"tutorial" from:
-    # https://stackoverflow.com/questions/46397258/how-to-merge-sequential-models-in-keras-2-0
     feature_vector_len = 128
 
     downscaleInput = Input(shape=input1_shape)
@@ -36,7 +34,7 @@ def build_model(input1_shape, input2_shape):
     downscaled = Flatten()(downscaled)
     downscaled = Dense(feature_vector_len, activation='relu')(downscaled)
 
-    # CONCATENATE WITH WIND INFO
+    # CONCATENATE WITH WIND INFO AND AGENT POSITION
     inp2 = Input(input2_shape)
     model_concat = concatenate([downscaled, inp2], axis=1)
     out = Dense(feature_vector_len, activation='relu')(model_concat)
@@ -48,7 +46,6 @@ def build_model(input1_shape, input2_shape):
     model.compile(loss='mse',
                   optimizer='adam',
                   metrics=['mse'])
-
 
     return model
 

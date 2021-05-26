@@ -20,10 +20,10 @@ class Controller:
 
     # NN INTEGRATION
     self.NN_control = NN_control
-    self.nn = None
+    self.NN = None
     if self.NN_control:
-      self.nn = self.load_NN()
-    self.digging_threshold = 0.5
+      self.NN = self.load_NN()                              # from json and h5 file
+    self.digging_threshold = digging_threshold
 
 
   def update(self, event):
@@ -151,10 +151,11 @@ class Controller:
       self.model.discard_episode()
       self.model.start_episode()                            # BACKSPACE to go to next episode
       self.model.reset_wind()
+      #self.nn = self.load_NN()
       self.last_timestep_waypoint_collection = -1
 
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-      outputs = self.predict_NN()
+      outputs = self.predict_NN()                           # waypoints from CNN
       print("outputs: ", outputs)
       self.set_waypoints_NN(outputs)
 
@@ -175,8 +176,7 @@ class Controller:
        by using the NN output."""
 
     for output in outputs:
-      new_wp = (int(output[0] * 255), int(output[1] * 255))
-      digging = output[2] > self.digging_threshold
+      new_wp, digging = self.postprocess_output_NN(output, self.model.agents[self.agent_no])
       print("pos: ", new_wp, "dig: ", digging)
       self.model.highlight_agent(self.agent_no)
       self.model.select_square(new_wp, digging=digging)
@@ -185,6 +185,31 @@ class Controller:
 
     self.collecting_waypoints = False
     self.model.highlight_agent(None)
+
+
+  def postprocess_output_NN(self, output, agent):
+    new_wp = (int(output[0] * 255), int(output[1] * 255))
+    digging = output[2] > self.digging_threshold
+
+    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    if not digging:
+      wanted_len *= 2                                       # driving twice as fast
+
+    #print("prev out: ", new_wp)
+
+    delta_x = new_wp[0] - agent.position[0]
+    delta_y = new_wp[1] - agent.position[1]
+    #print("deltas: ", delta_x, delta_y)
+
+    scale = wanted_len / (abs(delta_x) + abs(delta_y))
+    #print(scale)
+
+    output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
+    #print("new out: ", output)
+    #print("new deltas: ", int(scale * delta_x), int(scale * delta_y))
+
+
+    return output, digging
 
 
   def predict_NN(self):
@@ -205,15 +230,16 @@ class Controller:
     X1 = 5 * [self.model.array_np]
     wind_info = list(self.model.wind_info_vector)
     agent_positions = [agent.position for agent in self.model.agents]
+    print("agent positions: ", agent_positions)
     concat_vector = list()
     for pos in agent_positions:
-      concat_vector.append(wind_info + [pos[0] / 255, pos[1] / 255])
+      concat_vector.append(wind_info + [pos[0] / size, pos[1] / size])
 
     print(concat_vector)
     concat_vector = np.asarray(concat_vector)
 
     print("predicting")
-    output = self.nn.predict([X1, concat_vector])                        # outputs 16x16x3
+    output = self.NN.predict([X1, concat_vector])                        # outputs 16x16x3
     return output
 
 

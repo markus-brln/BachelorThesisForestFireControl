@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from numpy.core import multiarray
 from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 sep = os.path.sep
+timeframe = 40
 
 def load_raw_data(file_filter):
   """Loads and concatenates all data from files in data/runs/"""
@@ -35,6 +36,7 @@ def load_raw_data(file_filter):
       data = np.concatenate([data, file_data])
   return data
 
+
 def rot_pos(pos):
   size = 255
   x, y = pos
@@ -42,6 +44,7 @@ def rot_pos(pos):
   y -= size / 2
 
   return (-y + size / 2, x + size / 2)
+
 
 def rotate_wind(wind):
     list = wind.tolist()
@@ -67,6 +70,7 @@ def rotate_wind(wind):
     wind = np.array(list)
     return wind
 
+
 def rotate(datapoint):
   environment = np.rot90(datapoint[0])
   wind = rotate_wind(datapoint[1])
@@ -90,7 +94,6 @@ def augment_datapoint(datapoint):
   augmented_data.append(rotate(augmented_data[-1]))
 
   return augmented_data
-
 
 
 def raw_to_IO_arrays(data):
@@ -203,22 +206,57 @@ def raw_to_IO_arrays(data):
         # input, input,         output
   return images, concat_vector, outputs
 
+
 def plot_np_image(image):
   channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
   f, axarr = plt.subplots(2, 3)
   axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 0].set_title("")
+  axarr[0, 0].set_title("active fire")
   axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 1].set_title("")
+  axarr[0, 1].set_title("fire breaks")
   axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 2].set_title("")
+  axarr[0, 2].set_title("wind dir (uniform)")
   axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 0].set_title("")
+  axarr[1, 0].set_title("wind speed (uniform)")
   axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 1].set_title("")
+  axarr[1, 1].set_title("other agents")
   axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 2].set_title("")
+  axarr[1, 2].set_title("active agent")
   plt.show()
+
+
+def outputs_xy(data):
+  print("Constructing xy outputs")
+  agent_info = [data_point[3] for data_point in data]
+  agent_info = [j for sub in agent_info for j in sub]       # flatten the list
+
+  outputs = []                                              # [[x rel. to agent, y, drive/dig], ...]
+  for raw in agent_info:
+    agent_pos = raw[0]                                      # make things explicit, easy-to-understand
+    wp = raw[1]
+    drive_dig = raw[2]
+
+    max_dist = timeframe
+    if drive_dig == 0:                                      # driving wp => 2 times the speed
+      max_dist = 2 * timeframe
+
+    delta_x = (wp[0] - agent_pos[0]) / max_dist             # normalized difference between agent position and wp
+    delta_y = (wp[1] - agent_pos[1]) / max_dist
+
+    outputs.append([delta_x, delta_y, drive_dig])
+
+  print(outputs)
+  print(agent_info)
+  return np.asarray(outputs, dtype=np.float16)
+
+
+def outputs_angle(data):
+  return []
+
+
+def outputs_box(data):
+  return []
+
 
 def construct_output(data, NN_variant):
   """
@@ -227,10 +265,18 @@ def construct_output(data, NN_variant):
   - angle, distance
   - vector of L*L where L == side length of a box around agent, 1 where agent needs to go
   """
-  return data
+  output = []
+  if NN_variant == "xy":
+    output = outputs_xy(data)
+  if NN_variant == "angle":
+    output = outputs_angle(data)
+  if NN_variant == "box":
+    output = outputs_box(data)
+
+  return output
 
 
-def construct_input_images(data):
+def construct_input(data):
   """
   Translates the raw data generated from playing the simulation to NN-friendly I/O.
 
@@ -245,10 +291,6 @@ def construct_input_images(data):
   # DEFINITIONS
   n_channels = 6
   n_agents = len(data[0][3])
-  print("agents", n_agents)
-  env_dim = 256
-  waypoint_dig_channel = 5
-  waypoint_drive_channel = 6
 
   # FIX N_AGENTS NOT SAME (DEAD AGENT IN DATA)
   datatmp = []
@@ -259,10 +301,10 @@ def construct_input_images(data):
   data = datatmp[:5]
   print(len(data))
 
+  # INPUT IMAGES
   shape = (len(data), 256, 256, n_channels)  # new pass per agent
   input_images_single = np.zeros(shape, dtype=np.float16)  # single images not for each agent
 
-  # INPUT IMAGES
   for i in range(len(data)):
     print("picture " + str(i) + "/" + str(len(data)))
     picture_raw = data[i][0]
@@ -279,7 +321,7 @@ def construct_input_images(data):
     input_images_single[i][:, :, 2] = wind_dir_idx / (len(data[i][1]) - 1)
     input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
 
-
+  apd = 5                                                   # agent_point_diameter
   all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
   for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
     print("picture per agent " + str(i) + "/" + str(len(data)))
@@ -287,26 +329,27 @@ def construct_input_images(data):
 
     for active_pos in agent_positions:
       agent_image = np.copy(single_image)
-      agent_image[active_pos[0]][active_pos[1]][5] = 1      # mark position of active agent, channel [5]
+      agent_image[active_pos[0] - apd : active_pos[0] + apd, active_pos[1] - apd : active_pos[1] + apd, 5] = 1      # mark position of active agent, channel [5]
 
       for others_pos in agent_positions:
         if others_pos != active_pos:
-          agent_image[others_pos[0]][others_pos[1]][4] = 1  # mark position of other agents, channel [4]
+          #agent_image[others_pos[0]][others_pos[1]][4] = 1  # mark position of other agents, channel [4]
+          agent_image[others_pos[0] - apd: others_pos[0] + apd, others_pos[1] - apd : others_pos[1] + apd, 4] = 1
 
-      #plot_np_image(agent_image)
+      plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
   print("final amount of datapoints: ",len(all_images))
 
-  return np.asarray(all_images)
+  return np.asarray(all_images, dtype=np.float16)
 
 
 def raw_to_IO(data, NN_variant):
-  images = construct_input_images(data)  # same input data for each architecture
-  exit()
   outputs = construct_output(data, NN_variant)
+  images = construct_input(data)  # same input data for each architecture
 
   return images, outputs
+
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))

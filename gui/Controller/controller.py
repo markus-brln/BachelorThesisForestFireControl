@@ -177,7 +177,12 @@ class Controller:
        by using the NN output."""
 
     for output in outputs:
-      new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
+      if self.NN_variant == "xy":
+        new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
+      else:
+        print("implement postprocess_output_NN_...() for your variant")
+        exit()
+
       print("pos: ", new_wp, "dig: ", digging)
       self.model.highlight_agent(self.agent_no)
       self.model.select_square(new_wp, digging=digging)

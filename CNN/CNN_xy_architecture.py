@@ -13,32 +13,36 @@ from NNutils import *
 def load_data(out_variant):
     print("loading data")
     images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+    concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
     outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)
 
-    return images, outputs
+    return images, concat, outputs
 
 
-def build_model(input_shape):
+def build_model(input_shape, concat_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
     and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=128, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
 
-    out = Dense(64, activation='sigmoid')(downscaled)
+    inp2 = Input(concat_shape)
+    model_concat = concatenate([downscaled, inp2], axis=1)
+    out = Dense(64, activation='sigmoid')(model_concat)
     out = Dense(32, activation='sigmoid')(out)
     out = Dense(3)(out)                                     # nothing specified, so linear output
 
-    model = Model(inputs=[downscaleInput], outputs=out)
+    model = Model(inputs=[downscaleInput, inp2], outputs=out)
 
     model.compile(loss='mse',
                   optimizer='adam',
@@ -94,10 +98,10 @@ def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
     if not model:
-        model = load("CNN")
+        model = load("CNNxy")
 
-    images, outputs = test_data
-    results = model.predict([images])
+    images, concat, outputs = test_data
+    results = model.predict([images, concat])
     print("results ", results)
 
     delta_x, delta_y, delta_digdrive = 0, 0, 0
@@ -137,32 +141,32 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[0]
 
-    images, outputs = load_data(out_variant)
-    test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
+    images, concat, outputs = load_data(out_variant)
+    test_data = [images[:20], concat[:20], outputs[:20]]
+    images, concat, outputs = images[20:], concat[20:], outputs[20:]
 
     #check_performance(test_data)
     #exit()
 
-    model = build_model(images[0].shape)
+    model = build_model(images[0].shape, concat[0].shape)
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.7,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}
 
-    history = model.fit(images,  # list of 2 inputs to model
+    history = model.fit([images, concat],  # list of 2 inputs to model
               outputs,
               batch_size=64,
-              epochs=5,
+              epochs=50,
               shuffle=True,
-              #callbacks=[callback],
+              callbacks=[callback],
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNN")  # utils
+    save(model, "CNNxy")  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)

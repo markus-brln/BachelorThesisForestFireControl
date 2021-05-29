@@ -5,10 +5,11 @@ from View.view import View
 from Model.utils import *
 import os
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 class Controller:
-  def __init__(self, model: Model, view: View, NN_control = False):
+  def __init__(self, model: Model, view: View, NN_control = False, variant="xy"):
     self.model = model
     self.view = view
 
@@ -19,10 +20,11 @@ class Controller:
     self.last_timestep_waypoint_collection = -1
 
     # NN INTEGRATION
+    self.NN_variant = variant                               # xy, angle, box
     self.NN_control = NN_control
     self.NN = None
     if self.NN_control:
-      self.NN = self.load_NN()                              # from json and h5 file
+      self.NN = self.load_NN("CNN"+self.NN_variant)                              # from json and h5 file
     self.digging_threshold = digging_threshold
 
 
@@ -151,12 +153,11 @@ class Controller:
       self.model.discard_episode()
       self.model.start_episode()                            # BACKSPACE to go to next episode
       self.model.reset_wind()
-      #self.nn = self.load_NN()
       self.last_timestep_waypoint_collection = -1
 
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
       outputs = self.predict_NN()                           # waypoints from CNN
-      print("outputs: ", outputs)
+      #print("outputs: ", outputs)
       self.set_waypoints_NN(outputs)
 
       for _ in range(timeframe):
@@ -176,7 +177,7 @@ class Controller:
        by using the NN output."""
 
     for output in outputs:
-      new_wp, digging = self.postprocess_output_NN(output, self.model.agents[self.agent_no])
+      new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
       print("pos: ", new_wp, "dig: ", digging)
       self.model.highlight_agent(self.agent_no)
       self.model.select_square(new_wp, digging=digging)
@@ -187,8 +188,28 @@ class Controller:
     self.model.highlight_agent(None)
 
 
-  def postprocess_output_NN(self, output, agent):
+  def postprocess_output_NN_xy(self, output, agent):
     """All operations needed to transform the raw normalized NN output
+    to pixel coords of the waypoints and a drive/dig (0/1) decision.
+    """
+    digging = output[2] > self.digging_threshold
+
+    if digging:
+      delta_x = output[0] * timeframe
+      delta_y = output[1] * timeframe
+    else:
+      delta_x = output[0] * timeframe * 2                   # twice as fast driving
+      delta_y = output[1] * timeframe * 2
+
+    output = int(agent.position[0] + delta_x), int(agent.position[1] + delta_y)
+
+    return output, digging
+
+
+  def postprocess_output_NN_xy_full_env(self, output, agent):
+    """
+    NOT USED in 3 different architectures
+    All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     Scales the waypoints to fit the maximum ('timeframe') distance
     they can travel between waypoint assignments."""
@@ -207,23 +228,78 @@ class Controller:
 
     return output, digging
 
+  @staticmethod
+  def plot_np_image(image):
+    channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
+    f, axarr = plt.subplots(2, 3)
+    axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[0, 0].set_title("active fire")
+    axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[0, 1].set_title("fire breaks")
+    axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[0, 2].set_title("wind dir (uniform)")
+    axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[1, 0].set_title("wind speed (uniform)")
+    axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[1, 1].set_title("other agents")
+    # axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
+    # axarr[1, 2].set_title("active agent")
+    plt.show()
 
-  def predict_NN(self):
-    """Use the pre-loaded CNN to generate waypoints for the agents.
+  def produce_input_NN(self):
+    """
+    construct inputs images like in the data_translator, plus active agent positions to concatenate
+
+    - [0] active fire (no burned cell or tree channels)
+    - [1] fire breaks
+    - [2] wind direction
+    - [3] wind speed
+    - [4] other agents
+    """
+    concat = [agent.position for agent in self.model.agents]  # the only info concatenated at the
+                                                              # moment is the positions of the active agents
+    for pos in concat:
+      pos = [pos[0] / size, pos[1] / size]
+
+    shape = (256, 256, 5)                                     # see doc comment
+    single_image = np.zeros(shape)
+
+    for fire_pixel in self.model.firepos:
+      single_image[fire_pixel[0]][fire_pixel[1]][0] = 1
+    for firebreak_pixel in self.model.firebreaks:
+      single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
+
+
+    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
+    single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
+
+    all_images = []
+    apd = 10                                                # agent_point_diameter
+    for active_agent in self.model.agents:
+      agent_image = np.copy(single_image)
+      for other_agent in self.model.agents:
+        if other_agent != active_agent:
+          x, y = other_agent.position
+          agent_image[x - apd: x + apd, y - apd : y + apd, 4] = 1
+
+      #self.plot_np_image(agent_image)
+      all_images.append(agent_image)                        # 1 picture per agent
+
+
+    return [np.asarray(all_images), np.asarray(concat)]
+
+
+  def produce_input_full_env_xy(self):
+    """NOT USED
+    not for the 3 newest architectures
+
     INPUT:
     - on-the-fly updated 5-channel image of environment
     - concat vector (wind dir + wind speed + agent pos)
 
     OUTPUT:
-    - n_agents * [x, y, 0-1 value for drive/dig]
-    """
-    if len(self.model.agents) != 5:
-      print("Agent(s) must have died")
-      exit()
-
-    #self.plot_env_img(self.model.array_np)
-
-    X1 = 5 * [self.model.array_np]
+    - n_agents * [x, y, 0-1 value for drive/dig]"""
+    env_images = 5 * [self.model.array_np]
     wind_info = list(self.model.wind_info_vector)
     agent_positions = [agent.position for agent in self.model.agents]
     print("agent positions: ", agent_positions)
@@ -234,8 +310,20 @@ class Controller:
     print(concat_vector)
     concat_vector = np.asarray(concat_vector)
 
+    return env_images, concat_vector
+
+  def predict_NN(self):
+    """Use the pre-loaded CNN to generate waypoints for the agents.
+    """
+    if len(self.model.agents) != 5:
+      print("Agent(s) must have died")
+      exit()
+
+    NN_input = self.produce_input_NN()
+    print(NN_input)
+
     print("predicting")
-    output = self.NN.predict([X1, concat_vector])                        # outputs 16x16x3
+    output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
     return output
 
 
@@ -256,7 +344,7 @@ class Controller:
 
 
   @staticmethod
-  def load_NN(filename="CNN"):
+  def load_NN(filename):
     """Load a Keras model from json file and weights (.h5). Same as in
     CNN/NNutils.py"""
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/

@@ -220,8 +220,8 @@ def plot_np_image(image):
   axarr[1, 0].set_title("wind speed (uniform)")
   axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
   axarr[1, 1].set_title("other agents")
-  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 2].set_title("active agent")
+  #axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
+  #axarr[1, 2].set_title("active agent")
   plt.show()
 
 
@@ -280,16 +280,16 @@ def construct_input(data):
   """
   Translates the raw data generated from playing the simulation to NN-friendly I/O.
 
-  6 channel image NN input:
+  6 channel image NN input: (5 channels atm)
   - [0] active fire (no burned cell or tree channels)
   - [1] fire breaks
   - [2] wind direction
   - [3] wind speed
   - [4] other agents
-  - [5] current agent (maybe mark several pixels)
+  - NOT USED [5] current agent (maybe mark several pixels)
   """
   # DEFINITIONS
-  n_channels = 6
+  n_channels = 5
   n_agents = len(data[0][3])
 
   # FIX N_AGENTS NOT SAME (DEAD AGENT IN DATA)
@@ -298,7 +298,7 @@ def construct_input(data):
     agent_specific = data_point[3]
     if len(agent_specific) == n_agents:  # some data points don't have the right amount of agents
       datatmp.append(data_point)
-  data = datatmp[:5]
+  data = datatmp#[:5]
   print(len(data))
 
   # INPUT IMAGES
@@ -321,7 +321,78 @@ def construct_input(data):
     input_images_single[i][:, :, 2] = wind_dir_idx / (len(data[i][1]) - 1)
     input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
 
-  apd = 5                                                   # agent_point_diameter
+  apd = 10                                                   # agent_point_diameter
+  all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
+  active_agents_pos = []
+  for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
+    print("picture per agent " + str(i) + "/" + str(len(data)))
+    agent_positions = [agent[0] for agent in data_point[3]]
+
+    for active_pos in agent_positions:
+      agent_image = np.copy(single_image)
+      #agent_image[active_pos[0] - apd : active_pos[0] + apd, active_pos[1] - apd : active_pos[1] + apd, 5] = 1      # mark position of active agent, channel [5]
+      active_agents_pos.append([active_pos[0] / 255, active_pos[1] / 255])
+
+      for others_pos in agent_positions:
+        if others_pos != active_pos:
+          #agent_image[others_pos[0]][others_pos[1]][4] = 1  # mark position of other agents, channel [4]
+          agent_image[others_pos[0] - apd: others_pos[0] + apd, others_pos[1] - apd : others_pos[1] + apd, 4] = 1
+
+      #plot_np_image(agent_image)
+      all_images.append(agent_image)                        # 1 picture per agent
+
+  print(active_agents_pos)
+  print("final amount of datapoints: ",len(all_images))
+
+  return np.asarray(all_images, dtype=np.float16), np.asarray(active_agents_pos)
+
+
+def construct_input_images_only(data):
+  """
+  Translates the raw data generated from playing the simulation to NN-friendly I/O.
+
+  6 channel image NN input:
+  - [0] active fire (no burned cell or tree channels)
+  - [1] fire breaks
+  - [2] wind direction
+  - [3] wind speed
+  - [4] other agents
+  - [5] current agent (maybe mark several pixels)
+  """
+  # DEFINITIONS
+  n_channels = 6
+  n_agents = len(data[0][3])
+
+  # FIX N_AGENTS NOT SAME (DEAD AGENT IN DATA)
+  datatmp = []
+  for data_point in data:
+    agent_specific = data_point[3]
+    if len(agent_specific) == n_agents:  # some data points don't have the right amount of agents
+      datatmp.append(data_point)
+  data = datatmp#[:5]
+  print(len(data))
+
+  # INPUT IMAGES
+  shape = (len(data), 256, 256, n_channels)  # new pass per agent
+  input_images_single = np.zeros(shape, dtype=np.float16)  # single images not for each agent
+
+  for i in range(len(data)):
+    print("picture " + str(i) + "/" + str(len(data)))
+    picture_raw = data[i][0]
+
+    for y, row in enumerate(picture_raw):                   # picture of environment (trees and burned cells ignored)
+      for x, cell in enumerate(row):
+        if cell == 1:                                       # firebreak channel [1]
+          input_images_single[i][y][x][1] = 1
+        if cell == 2:                                       # active fire channel [0]
+          input_images_single[i][y][x][0] = 1
+
+    wind_dir_idx = np.argmax(data[i][1])                    # encode wind dir and speed info in channels [2] and [3]
+    wind_speed_idx = np.argmax(data[i][2])
+    input_images_single[i][:, :, 2] = wind_dir_idx / (len(data[i][1]) - 1)
+    input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
+
+  apd = 10                                                   # agent_point_diameter
   all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
   for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
     print("picture per agent " + str(i) + "/" + str(len(data)))
@@ -336,28 +407,29 @@ def construct_input(data):
           #agent_image[others_pos[0]][others_pos[1]][4] = 1  # mark position of other agents, channel [4]
           agent_image[others_pos[0] - apd: others_pos[0] + apd, others_pos[1] - apd : others_pos[1] + apd, 4] = 1
 
-      plot_np_image(agent_image)
+      #plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
   print("final amount of datapoints: ",len(all_images))
 
   return np.asarray(all_images, dtype=np.float16)
 
-
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  images = construct_input(data)  # same input data for each architecture
+  images, concat = construct_input(data)  # same input data for each architecture
 
-  return images, outputs
+  return images, concat, outputs
 
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="EASYFive")
+  data = load_raw_data(file_filter="mEASYFive3")
+  data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
   out_variant = architecture_variants[0]
-  images, outputs = raw_to_IO(data, out_variant)
+  images, concat, outputs = raw_to_IO(data, out_variant)
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
   np.save(file="outputs_" + out_variant + ".npy", arr=outputs, allow_pickle=True)

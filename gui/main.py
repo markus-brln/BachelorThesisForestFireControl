@@ -19,8 +19,11 @@ def main():
   model = Model(size, nr_of_agents, agentRadius)            # Initialize Environment
   view = View(model, block_size_in_pixels)                  # Start View
 
-  NN_control = False                                         # False -> gather data, True -> test NN
-  controller = Controller(model, view, NN_control)          # Initialize Controller with model and view
+  architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
+
+  NN_control = True                                         # False -> gather data, True -> test NN
+                                                            # Initialize Controller with model and view, NN stuff
+  controller = Controller(model, view, NN_control, architecture_variants[0])
 
   if NN_control:
     while True:

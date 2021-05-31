@@ -157,7 +157,7 @@ class Controller:
 
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
       outputs = self.predict_NN()                           # waypoints from CNN
-      #print("outputs: ", outputs)
+      print("outputs: ", outputs)
       self.set_waypoints_NN(outputs)
 
       for _ in range(timeframe):
@@ -177,6 +177,7 @@ class Controller:
        by using the NN output."""
 
     for output in outputs:
+      new_wp, digging = None, None
       if self.NN_variant == "xy":
         new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
       else:
@@ -206,7 +207,12 @@ class Controller:
       delta_x = output[0] * timeframe * 2                   # twice as fast driving
       delta_y = output[1] * timeframe * 2
 
-    output = int(agent.position[0] + delta_x), int(agent.position[1] + delta_y)
+    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    if not digging:
+      wanted_len *= 2                                       # driving twice as fast
+
+    scale = wanted_len / (abs(delta_x) + abs(delta_y))
+    output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
 
     return output, digging
 
@@ -263,8 +269,11 @@ class Controller:
     """
     concat = [agent.position for agent in self.model.agents]  # the only info concatenated at the
                                                               # moment is the positions of the active agents
+    concat_tmp = []
     for pos in concat:
-      pos = [pos[0] / size, pos[1] / size]
+      concat_tmp.append([pos[0] / size, pos[1] / size])
+    concat = concat_tmp
+
 
     shape = (256, 256, 5)                                     # see doc comment
     single_image = np.zeros(shape)
@@ -325,7 +334,7 @@ class Controller:
       exit()
 
     NN_input = self.produce_input_NN()
-    print(NN_input)
+    #print(NN_input)
 
     print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see

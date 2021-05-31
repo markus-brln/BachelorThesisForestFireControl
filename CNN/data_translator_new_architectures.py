@@ -423,7 +423,7 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mEASYFive3")
+  data = load_raw_data(file_filter="mXYEASYFIVE")
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants

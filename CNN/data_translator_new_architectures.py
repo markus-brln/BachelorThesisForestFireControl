@@ -170,7 +170,7 @@ def raw_to_IO_arrays(data):
     agent_specific = data[i][3]
     #if len(agent_specific) == n_agents:       # some data points don't have the right amount of agents
     for j in range(n_agents):
-      agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])             # x, y of agent that needs waypoint
+      agent_positions.append([agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])     # x, y of agent that needs waypoint
       #print(j, [agent_specific[j][0][0] / env_dim, agent_specific[j][0][1] / env_dim])
       outputs.append([agent_specific[j][1][0] / env_dim, agent_specific[j][1][1] / env_dim, agent_specific[j][2]])
     #else:
@@ -251,10 +251,34 @@ def outputs_xy(data):
 
 
 def outputs_angle(data):
-  return []
+  print("Constructing xy outputs")
+  agent_info = [data_point[3] for data_point in data]
+  agent_info = [j for sub in agent_info for j in sub]  # flatten the list
+
+  outputs = []  # [[x rel. to agent, y, drive/dig], ...]
+  for raw in agent_info:
+    agent_pos = raw[0]  # make things explicit, easy-to-understand
+    wp = raw[1]
+    drive_dig = raw[2]
+
+    max_dist = timeframe
+    if drive_dig == 0:  # driving wp => 2 times the speed
+      max_dist = 2 * timeframe
+
+    delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
+    delta_y = (wp[1] - agent_pos[1]) / max_dist
+
+    angle = math.atan2(delta_y, delta_x),
+
+    outputs.append([angle, drive_dig])
+
+  print(outputs)
+  print(agent_info)
+  return np.asarray(outputs, dtype=np.float16)
 
 
 def outputs_box(data):
+
   return []
 
 
@@ -414,9 +438,88 @@ def construct_input_images_only(data):
 
   return np.asarray(all_images, dtype=np.float16)
 
+def construct_input_bigAgents(data):
+  """
+  Translates the raw data generated from playing the simulation to NN-friendly I/O.
+
+  6 channel image NN input: (5 channels atm)
+  - [0] active fire (no burned cell or tree channels)
+  - [1] fire breaks
+  - [2] wind direction
+  - [3] wind speed
+  - [4] other agents
+  - NOT USED [5] current agent (maybe mark several pixels)
+  """
+  # DEFINITIONS
+  n_channels = 5
+  n_agents = len(data[0][3])
+
+  # FIX N_AGENTS NOT SAME (DEAD AGENT IN DATA)
+  datatmp = []
+  for data_point in data:
+    agent_specific = data_point[3]
+    if len(agent_specific) == n_agents:  # some data points don't have the right amount of agents
+      datatmp.append(data_point)
+  data = datatmp#[:5]
+  print(len(data))
+
+  # INPUT IMAGES
+  shape = (len(data), 256, 256, n_channels)  # new pass per agent
+  input_images_single = np.zeros(shape, dtype=np.float16)  # single images not for each agent
+
+  for i in range(len(data)):
+    print("picture " + str(i) + "/" + str(len(data)))
+    picture_raw = data[i][0]
+
+    for y, row in enumerate(picture_raw):                   # picture of environment (trees and burned cells ignored)
+      for x, cell in enumerate(row):
+        if cell == 1:                                       # firebreak channel [1]
+          input_images_single[i][y][x][1] = 1
+        if cell == 2:                                       # active fire channel [0]
+          input_images_single[i][y][x][0] = 1
+
+    wind_dir_idx = np.argmax(data[i][1])                    # encode wind dir and speed info in channels [2] and [3]
+    wind_speed_idx = np.argmax(data[i][2])
+    input_images_single[i][:, :, 2] = wind_dir_idx / (len(data[i][1]) - 1)
+    input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
+
+  apd = 10                                                   # agent_point_diameter
+  all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
+  active_agents_pos = []
+  for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
+    print("picture per agent " + str(i) + "/" + str(len(data)))
+    # agent_positions = [agent[0] for agent in data_point[3]]
+    for agent in data_point[3]:
+      agent_pos = agent[0]
+      for neighbouringPos in range(0, 9, 1):
+        neighbouringCells =
+
+    for active_pos in agent_positions:
+      agent_image = np.copy(single_image)
+      #agent_image[active_pos[0] - apd : active_pos[0] + apd, active_pos[1] - apd : active_pos[1] + apd, 5] = 1      # mark position of active agent, channel [5]
+      active_agents_pos.append([active_pos[0] / 255, active_pos[1] / 255])
+
+      for others_pos in agent_positions:
+        if others_pos != active_pos:
+          #agent_image[others_pos[0]][others_pos[1]][4] = 1  # mark position of other agents, channel [4]
+          agent_image[others_pos[0] - apd: others_pos[0] + apd, others_pos[1] - apd : others_pos[1] + apd, 4] = 1
+
+      #plot_np_image(agent_image)
+      all_images.append(agent_image)                        # 1 picture per agent
+
+  print(active_agents_pos)
+  print("final amount of datapoints: ",len(all_images))
+
+  return np.asarray(all_images, dtype=np.float16), np.asarray(active_agents_pos)
+
+
+
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  images, concat = construct_input(data)  # same input data for each architecture
+  if NN_variant == 'input':
+    images, concat = construct_input_bigAgents (data) ## creates a box around the agent to increase weight of agent position in the model
+  else:
+    images, concat = construct_input(data)  # same input data for each architecture
 
   return images, concat, outputs
 

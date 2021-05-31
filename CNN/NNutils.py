@@ -3,7 +3,7 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from keras.engine.saving import model_from_json
+# from keras.engine.saving import model_from_json
 from tensorflow.keras import layers, models
 
 def unison_shuffled_copies(a, b):

@@ -184,13 +184,28 @@ class Model:
         self.agents.remove(agent)
       agent.timestep()                                      # walks 1 step towards current waypoint & digs on the way
 
-    for _ in range(fire_step_multiplicator):                # multiplicator of fire speed basically
-      for node_row in self.nodes:
-        for node in node_row:
-          node.time_step()
-      for node_row in self.nodes:
+
+    if fire_step_multiplicator >= 1:
+      for _ in range(fire_step_multiplicator):              # multiplicator of fire speed basically
+        for node_row in self.nodes:
+          for node in node_row:
+            node.time_step()
+        for node_row in self.nodes:
+          for node in node_row:
+            node.update_state()
+    elif 0 < fire_step_multiplicator < 1:
+      if random.uniform(0, 1) < fire_step_multiplicator:    # slow fire down below 1 step / timestep for easy envs
+        for node_row in self.nodes:
+          for node in node_row:
+            node.time_step()
+
+      for node_row in self.nodes:                           # update states anyway for gui to catch new firebreaks
         for node in node_row:
           node.update_state()
+    else:
+      print("invalid fire_step_multiplicator! exiting")
+      exit()
+
 
     if self.state == ModelState.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
       self.start_episode()

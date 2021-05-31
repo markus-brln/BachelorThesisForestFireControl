@@ -21,7 +21,7 @@ def main():
 
   architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
 
-  NN_control = False                                         # False -> gather data, True -> test NN
+  NN_control = True                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
   controller = Controller(model, view, NN_control, architecture_variants[0])
 

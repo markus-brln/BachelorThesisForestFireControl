@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from numpy.core import multiarray
 from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 sep = os.path.sep
-timeframe = 40
+timeframe = 20
 
 def load_raw_data(file_filter):
   """Loads and concatenates all data from files in data/runs/"""

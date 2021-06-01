@@ -209,7 +209,7 @@ def raw_to_IO_arrays(data):
 
 def plot_np_image(image):
   channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
-  f, axarr = plt.subplots(2, 3)
+  f, axarr = plt.subplots(2, 4)
   axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
   axarr[0, 0].set_title("active fire")
   axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
@@ -220,8 +220,11 @@ def plot_np_image(image):
   axarr[1, 0].set_title("wind speed (uniform)")
   axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
   axarr[1, 1].set_title("other agents")
-  #axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  #axarr[1, 2].set_title("active agent")
+  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 2].set_title("active agent")
+  axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 3].set_title("active agent y")
+  print("max", np.max(channels[5]), np.max(channels[6]))
   plt.show()
 
 
@@ -313,7 +316,7 @@ def construct_input(data):
   - NOT USED [5] current agent (maybe mark several pixels)
   """
   # DEFINITIONS
-  n_channels = 5
+  n_channels = 7
   n_agents = len(data[0][3])
 
   # FIX N_AGENTS NOT SAME (DEAD AGENT IN DATA)
@@ -322,7 +325,7 @@ def construct_input(data):
     agent_specific = data_point[3]
     if len(agent_specific) == n_agents:  # some data points don't have the right amount of agents
       datatmp.append(data_point)
-  data = datatmp#[:5]
+  data = datatmp#[0:5]
   print(len(data))
 
   # INPUT IMAGES
@@ -345,6 +348,7 @@ def construct_input(data):
     input_images_single[i][:, :, 2] = wind_dir_idx / (len(data[i][1]) - 1)
     input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
 
+
   apd = 10                                                   # agent_point_diameter
   all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
   active_agents_pos = []
@@ -365,10 +369,16 @@ def construct_input(data):
       #plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
+  # FOR NON-CONCAT
+  for img, agent in zip(all_images, active_agents_pos):
+    img[:, :, 5] = agent[0]                                 # x, y position of active agent on channel 5,6
+    img[:, :, 6] = agent[1]
+    #plot_np_image(img)
+
   print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
 
-  return np.asarray(all_images, dtype=np.float16), np.asarray(active_agents_pos)
+  return np.asarray(all_images, dtype=np.float16)#, np.asarray(active_agents_pos)
 
 
 def construct_input_images_only(data):
@@ -519,9 +529,9 @@ def raw_to_IO(data, NN_variant):
   if NN_variant == 'input':
     images, concat = construct_input_bigAgents (data) ## creates a box around the agent to increase weight of agent position in the model
   else:
-    images, concat = construct_input(data)  # same input data for each architecture
+    images = construct_input(data)  # same input data for each architecture
 
-  return images, concat, outputs
+  return images, outputs
 
 
 if __name__ == "__main__":
@@ -531,8 +541,8 @@ if __name__ == "__main__":
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
   out_variant = architecture_variants[0]
-  images, concat, outputs = raw_to_IO(data, out_variant)
+  images, outputs = raw_to_IO(data, out_variant)
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
+  #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
   np.save(file="outputs_" + out_variant + ".npy", arr=outputs, allow_pickle=True)

@@ -36,3 +36,25 @@ def main():
 
 if __name__=="__main__":
   main()
+
+
+# TODO NOTES
+'''
+- PEREGRINE!!!
+- generate data in a certain way (show), move to the outside once finished
+- make basic env work for all architectures
+- including current agent position in input works better than concatenating
+
+- show where to integrate other outputs
+
+4 different environments to test:
+- basic
+- normal fire speed               # make each of us responsible for collecting data for one of 
+                                  # those! so that our different strategies won't interfere
+- normal + wind dir
+- normal + wind dir + wind speed
+
+additional experiments (for each env variant):
+- 3 different levels of amounts of training data
+
+'''

@@ -2,6 +2,7 @@
 
 # not the large concatenated data files
 **.npy
+!gui/data/runs/*.npy
 
 .idea/
 *.xml

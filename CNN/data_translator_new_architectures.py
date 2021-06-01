@@ -490,9 +490,9 @@ def construct_input_bigAgents(data):
     print("picture per agent " + str(i) + "/" + str(len(data)))
     # agent_positions = [agent[0] for agent in data_point[3]]
     for agent in data_point[3]:
-      agent_pos = agent[0]
-      for neighbouringPos in range(0, 9, 1):
-        neighbouringCells =
+      agent_x, agent_y = agent[0]
+      neighbouringCells = []
+      neighbouringCells.append([agent_x - 1, agent_y - 1])
 
     for active_pos in agent_positions:
       agent_image = np.copy(single_image)

@@ -251,11 +251,68 @@ def outputs_xy(data):
 
 
 def outputs_angle(data):
+  print("Constructing with polar outputs")
+  agent_info = [data_point[3] for data_point in data]
+  agent_info = [j for sub in agent_info for j in sub]       # flatten the list
+
+  outputs = []                                              # [[x rel. to agent, y, drive/dig], ...]
+  for raw in agent_info:
+    agent_pos = raw[0]                                      # make things explicit, easy-to-understand
+    wp = raw[1]
+    drive_dig = raw[2]
+
+    max_dist = timeframe
+    if drive_dig == 0:                                      # driving wp => 2 times the speed
+      max_dist = 2 * timeframe
+
+    delta_x = (wp[0] - agent_pos[0])                        # normalized difference between agent position and wp
+    delta_y = (wp[1] - agent_pos[1])
+
+    angle = math.atan2(delta_y, delta_x) / ( 2 * math.pi )
+    distance = (delta_x**2 + delta_y**2) ** 0.5 / max_dist
+
+    outputs.append([distance, angle, drive_dig])
+
+  print(outputs)
+  print(agent_info)
+  return np.asarray(outputs, dtype=np.float16)
   return []
 
 
 def outputs_box(data):
-  return []
+  print("Constructing box outputs")
+  agent_info = [data_point[3] for data_point in data]
+  agent_info = [j for sub in agent_info for j in sub]       # flatten the list
+
+  outputs = []                                              # [[x rel. to agent, y, drive/dig], ...]
+  for raw in agent_info:
+    agent_pos = raw[0]                                      # make things explicit, easy-to-understand
+    wp = raw[1]
+    drive_dig = raw[2]
+
+    max_dist = timeframe
+    if drive_dig == 0:                                      # driving wp => 2 times the speed
+      max_dist = 2 * timeframe
+
+    delta_x = (wp[0] - agent_pos[0]) / max_dist             # normalized difference between agent position and wp
+    delta_y = (wp[1] - agent_pos[1]) / max_dist
+
+    angle_one_hot = np.zeros(50)
+    if delta_x < 0.5 and delta_y < 0.5:
+      angle_one_hot[48] = 1
+      
+    else:
+      angle = math.atan2(delta_y, delta_x)
+      angle *= 48 / (2 * math.pi)
+      angle_one_hot[round(angle) % 48] = 1
+    
+    angle_one_hot[49] = drive_dig
+
+    outputs.append(angle_one_hot)
+  
+  to_return = np.asarray(outputs, dtype=np.float16)
+  print(to_return.shape)
+  return to_return
 
 
 def construct_output(data, NN_variant):
@@ -341,7 +398,7 @@ def construct_input(data):
       #plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
-  print(active_agents_pos)
+  # print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
 
   return np.asarray(all_images, dtype=np.float16), np.asarray(active_agents_pos)
@@ -423,12 +480,14 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mXYEASYFIVE")
-  data = data
+  data = load_raw_data(file_filter="NEWFive")
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[0]
+  out_variant = architecture_variants[1]
   images, concat, outputs = raw_to_IO(data, out_variant)
+  print(images.shape)
+  print(outputs.shape)
+  
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)

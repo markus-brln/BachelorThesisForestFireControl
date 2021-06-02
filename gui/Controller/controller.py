@@ -241,7 +241,7 @@ class Controller:
   @staticmethod
   def plot_np_image(image):
     channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
-    f, axarr = plt.subplots(2, 3)
+    f, axarr = plt.subplots(2, 4)
     axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
     axarr[0, 0].set_title("active fire")
     axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
@@ -252,8 +252,11 @@ class Controller:
     axarr[1, 0].set_title("wind speed (uniform)")
     axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
     axarr[1, 1].set_title("other agents")
-    # axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-    # axarr[1, 2].set_title("active agent")
+    axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[1, 2].set_title("active agent")
+    axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
+    axarr[1, 3].set_title("active agent y")
+    print("max", np.max(channels[5]), np.max(channels[6]))
     plt.show()
 
   def produce_input_NN(self):
@@ -266,15 +269,15 @@ class Controller:
     - [3] wind speed
     - [4] other agents
     """
-    concat = [agent.position for agent in self.model.agents]  # the only info concatenated at the
+    agent_positions = [agent.position for agent in self.model.agents]  # the only info concatenated at the
                                                               # moment is the positions of the active agents
-    concat_tmp = []
-    for pos in concat:
-      concat_tmp.append([pos[0] / size, pos[1] / size])
-    concat = concat_tmp
+    agent_positions_tmp = []
+    for pos in agent_positions:
+      agent_positions_tmp.append([pos[0] / size, pos[1] / size])
+    agent_positions = agent_positions_tmp
 
 
-    shape = (256, 256, 5)                                     # see doc comment
+    shape = (256, 256, 7)                                     # see doc comment
     single_image = np.zeros(shape)
 
     for fire_pixel in self.model.firepos:
@@ -286,10 +289,14 @@ class Controller:
     single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
     single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
 
+
     all_images = []
     apd = 10                                                # agent_point_diameter
     for active_agent in self.model.agents:
       agent_image = np.copy(single_image)
+      agent_image[:, :, 5] = active_agent.position[0] / 255  # x, y position of active agent on channel 5,6
+      agent_image[:, :, 6] = active_agent.position[1] / 255
+
       for other_agent in self.model.agents:
         if other_agent != active_agent:
           x, y = other_agent.position
@@ -299,7 +306,7 @@ class Controller:
       all_images.append(agent_image)                        # 1 picture per agent
 
 
-    return [np.asarray(all_images), np.asarray(concat)]
+    return [np.asarray(all_images), np.asarray(agent_positions)]
 
 
   def produce_input_full_env_xy(self):

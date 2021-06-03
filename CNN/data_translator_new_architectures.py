@@ -9,6 +9,7 @@ from numpy.core import multiarray
 from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 sep = os.path.sep
 timeframe = 20
+size = 255
 
 def load_raw_data(file_filter):
   """Loads and concatenates all data from files in data/runs/"""
@@ -281,8 +282,51 @@ def outputs_angle(data):
 
 
 def outputs_box(data):
+# TODO this
+  print("Constructing box output")
+  agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
+  agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
 
-  return []
+  outputs = []  # box/grid of possible locations
+
+  for agent in agent_info:
+    xpos, ypos = agent[0]
+    for x in range(1, timeframe + 1, 1):
+      newXpos = xpos + x
+      newYpos = ypos + timeframe - x
+      if (newXpos >= 0 and newXpos <= size):
+        if (newYpos >= 0 and newYpos <= size):
+          a = (newXpos, newYpos)
+          outputs.append(a)
+      if (x == timeframe):
+        newXpos = xpos + timeframe - x
+        newYpos = ypos + x
+        if (newXpos >= 0 and newXpos <= size):
+          if (newYpos >= 0 and newYpos <= size):
+            b = (newXpos, newYpos)
+      else:
+        newXpos = xpos + timeframe - x
+        newYpos = ypos - x
+        if (newXpos >= 0 and newXpos <= size):
+          if (newYpos >= 0 and newYpos <= size):
+            b = (newXpos, newYpos)
+      if b:
+        outputs.append(b)
+      newXpos = xpos - x
+      newYpos = ypos + timeframe - x
+      if (newXpos >= 0 and newXpos <= size):
+        if (newYpos >= 0 and newYpos <= size):
+          c = (newXpos, newYpos)
+          outputs.append(c)
+
+      newXpos = xpos - timeframe + x
+      newYpos = ypos - x
+      if (newXpos >= 0 and newXpos <= size):
+        if (newYpos >= 0 and newYpos <= size):
+          d = (newXpos, newYpos)
+          outputs.append(d)
+
+  return np.asarray(outputs, dtype=np.float16)
 
 
 def construct_output(data, NN_variant):
@@ -448,7 +492,7 @@ def construct_input_images_only(data):
 
   return np.asarray(all_images, dtype=np.float16)
 
-def construct_input_bigAgents(data):
+def construct_input_bigAgents(data):  ## not used afaik
   """
   Translates the raw data generated from playing the simulation to NN-friendly I/O.
 
@@ -540,7 +584,7 @@ if __name__ == "__main__":
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[0]
+  out_variant = architecture_variants[2]
   images, outputs = raw_to_IO(data, out_variant)
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

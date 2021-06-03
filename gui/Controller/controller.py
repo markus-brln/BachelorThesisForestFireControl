@@ -188,7 +188,6 @@ class Controller:
       self.model.highlight_agent(self.agent_no)
       self.model.select_square(new_wp, digging=digging)
       self.agent_no += 1
-      time.sleep(0.5)                           # TODO get rid of this when collecting data
 
     self.collecting_waypoints = False
     self.model.highlight_agent(None)

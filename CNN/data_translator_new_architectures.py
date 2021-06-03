@@ -282,7 +282,7 @@ def outputs_angle(data):
 
 
 def outputs_box(data):
-# TODO this
+# TODO make this work
   print("Constructing box output")
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent

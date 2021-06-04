@@ -192,6 +192,28 @@ class Controller:
     self.collecting_waypoints = False
     self.model.highlight_agent(None)
 
+  def postprocess_output_NN_box(self, output, agent):
+    """All operations needed to transform the raw normalized NN output
+    to pixel coords of the waypoints and a drive/dig (0/1) decision.
+    """
+    digging = output[2] > self.digging_threshold
+
+    if digging:
+      delta_x = output[0] * timeframe
+      delta_y = output[1] * timeframe
+    else:
+      delta_x = output[0] * timeframe * 2                   # twice as fast driving
+      delta_y = output[1] * timeframe * 2
+
+    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    if not digging:
+      wanted_len *= 2                                       # driving twice as fast
+
+    scale = wanted_len / (abs(delta_x) + abs(delta_y))
+    output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
+
+    return output, digging
+
 
   def postprocess_output_NN_xy(self, output, agent):
     """All operations needed to transform the raw normalized NN output

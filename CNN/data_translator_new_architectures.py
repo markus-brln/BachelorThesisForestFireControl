@@ -580,7 +580,7 @@ def construct_input_bigAgents(data):  ## not used afaik
 
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  if NN_variant == 'input':
+  if NN_variant == 'input': ## NOT CURRENTLY IN USE
     images, concat = construct_input_bigAgents (data) ## creates a box around the agent to increase weight of agent position in the model
   else:
     images = construct_input(data)  # same input data for each architecture

@@ -291,6 +291,8 @@ def outputs_box(data):
 
   for agent in agent_info:
     xpos, ypos = agent[0]
+    waypoint = agent[1]
+    drive_dig = agent[2]
     for x in range(1, timeframe + 1, 1):
       newXpos = xpos + x
       newYpos = ypos + timeframe - x

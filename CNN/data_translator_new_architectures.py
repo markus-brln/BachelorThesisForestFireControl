@@ -272,12 +272,12 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    angle = math.atan2(delta_y, delta_x),
+    angle = math.atan2(delta_y, delta_x) / math.pi - 1
+    dist = math.sqrt(delta_y * delta_y + delta_x * delta_x)
+    print(dist)
 
-    outputs.append([angle, drive_dig])
+    outputs.append([angle, dist, drive_dig])
 
-  print(outputs)
-  print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -584,7 +584,7 @@ if __name__ == "__main__":
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[2]
+  out_variant = architecture_variants[1]
   images, outputs = raw_to_IO(data, out_variant)
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

@@ -93,11 +93,6 @@ def augment_datapoint(datapoint):
   augmented_data.append(rotate(augmented_data[-1]))
   augmented_data.append(rotate(augmented_data[-1]))
   augmented_data.append(rotate(augmented_data[-1]))
-  for data in augmented_data:
-   img = data[0]
-   plt.imshow(np.reshape(img, (255, 255)))
-   print("augmented")
-   plt.show()
 
   return augmented_data
 
@@ -277,12 +272,12 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    angle = math.atan2(delta_y, delta_x),
+    angle = math.atan2(delta_y, delta_x) / math.pi - 1
+    dist = math.sqrt(delta_y * delta_y + delta_x * delta_x)
+    print(dist)
 
-    outputs.append([angle, drive_dig])
+    outputs.append([angle, dist, drive_dig])
 
-  print(outputs)
-  print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -296,8 +291,6 @@ def outputs_box(data):
 
   for agent in agent_info:
     xpos, ypos = agent[0]
-    waypoint = agent[1]
-    drive_dig = agent[2]
     for x in range(1, timeframe + 1, 1):
       newXpos = xpos + x
       newYpos = ypos + timeframe - x
@@ -343,9 +336,6 @@ def construct_output(data, NN_variant):
   - angle, distance
   - vector of L*L where L == side length of a box around agent, 1 where agent needs to go
   """
-  for datapoint in data:
-    data = augment_datapoint(datapoint)
-
   output = []
   if NN_variant == "xy":
     output = outputs_xy(data)
@@ -580,7 +570,7 @@ def construct_input_bigAgents(data):  ## not used afaik
 
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  if NN_variant == 'input': ## NOT CURRENTLY IN USE
+  if NN_variant == 'input':
     images, concat = construct_input_bigAgents (data) ## creates a box around the agent to increase weight of agent position in the model
   else:
     images = construct_input(data)  # same input data for each architecture
@@ -590,21 +580,12 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="jtestt")
+  data = load_raw_data(file_filter="mXYEASYFIVE")
   data = data
 
-  for dat in data:
-   img = dat[0]
-   plt.imshow(np.reshape(img, (255, 255)))
-   plt.annotate("label", (0,0))
-   print("start")
-   plt.show()
-
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[0]
+  out_variant = architecture_variants[1]
   images, outputs = raw_to_IO(data, out_variant)
-
-
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)

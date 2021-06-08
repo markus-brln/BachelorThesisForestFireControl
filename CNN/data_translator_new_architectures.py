@@ -290,66 +290,38 @@ def outputs_box(data):
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
 
-  outputs = []  # box/grid of possible locations
+  outputs = []  # box/grid of possible locations format [[xpos, ypos, waypoint/not waypoint],...
 
   for agent in agent_info:
     xpos, ypos = agent[0]
-    waypoint = agent[1]
+    waypoint = tuple(agent[1])
     drive_dig = agent[2]
-    if waypoint == (xpos, ypos):
-      outputs.append(list((xpos, ypos), 1))
-    else:
-      outputs.append(list((xpos, ypos), 0))  ## centre agent position before moving
-
-    for x in range(1, timeframe + 1, 1):
+    for x in range(-timeframe, timeframe + 1, 1):
+      diff = timeframe - abs(x)
       newXpos = xpos + x
-      newYpos = ypos + timeframe - x
-      if (newXpos >= 0 and newXpos <= size):
-        if (newYpos >= 0 and newYpos <= size):
-          a = (newXpos, newYpos)
-          if waypoint == a:
-            outputs.append([a, 1])
+      if (newXpos >= 0 and newXpos <= size and ypos >= 0 and ypos <= size):
+        a = tuple((newXpos, ypos))
+        if a not in outputs:
+          if waypoint == a: ## if that position is the waypoint
+            a = [newXpos, ypos, 1]
+            outputs.append(a)
           else:
-            outputs.append([a, 0])
-
-      if (x == timeframe):
-        newXpos = xpos + timeframe - x
-        newYpos = ypos + x
-        if (newXpos >= 0 and newXpos <= size):
-          if (newYpos >= 0 and newYpos <= size):
-            b = (newXpos, newYpos)
-      else:
-        newXpos = xpos + timeframe - x
-        newYpos = ypos - x
-        if (newXpos >= 0 and newXpos <= size):
-          if (newYpos >= 0 and newYpos <= size):
-            b = (newXpos, newYpos)
-      if b:
-        if waypoint == b:
-          outputs.append([b, 1])
-        else:
-          outputs.append([b, 0])
-
-      newXpos = xpos - x
-      newYpos = ypos + timeframe - x
-      if (newXpos >= 0 and newXpos <= size):
-        if (newYpos >= 0 and newYpos <= size):
-          c = (newXpos, newYpos)
-          if waypoint == c:
-            outputs.append([c, 1])
-          else:
-            outputs.append([c, 0])
-
-      newXpos = xpos - timeframe + x
-      newYpos = ypos - x
-      if (newXpos >= 0 and newXpos <= size):
-        if (newYpos >= 0 and newYpos <= size):
-          d = (newXpos, newYpos)
-          if waypoint == d:
-            outputs.append([d, 1])
-          else:
-            outputs.append([d, 0])
-  print("magic")
+            print(type(a), a)
+            a = [newXpos, ypos, 0]
+          outputs.append(a)
+      if diff != 0:
+        for y in range(-diff, diff + 1, 1):
+          newXpos = xpos + x
+          newYpos = ypos + y
+          if (newXpos >= 0 and newXpos <= size and newYpos >= 0 and newYpos <= size):
+            a = (newXpos, newYpos)
+            if a not in outputs:
+              if waypoint == a:  ## if that position is the waypoint
+                a = [newXpos, newYpos, 1]
+              else:
+                a = [newXpos, newYpos, 0]
+              outputs.append(a)
+  # print(outputs)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -601,7 +573,7 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mXYEASYFIVE") ## mXYEASYFIVE
+  data = load_raw_data(file_filter="jtestt") ## mXYEASYFIVE
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants

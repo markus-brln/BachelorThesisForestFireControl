@@ -282,6 +282,9 @@ def outputs_angle(data):
 
 
 def outputs_box(data):
+  '''
+   returns vector of L*L where L == side length of a box around agent, 1 where agent needs to go
+  '''
 # TODO make this work
   print("Constructing box output")
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
@@ -293,13 +296,22 @@ def outputs_box(data):
     xpos, ypos = agent[0]
     waypoint = agent[1]
     drive_dig = agent[2]
+    if waypoint == (xpos, ypos):
+      outputs.append(list((xpos, ypos), 1))
+    else:
+      outputs.append(list((xpos, ypos), 0))  ## centre agent position before moving
+
     for x in range(1, timeframe + 1, 1):
       newXpos = xpos + x
       newYpos = ypos + timeframe - x
       if (newXpos >= 0 and newXpos <= size):
         if (newYpos >= 0 and newYpos <= size):
           a = (newXpos, newYpos)
-          outputs.append(a)
+          if waypoint == a:
+            outputs.append([a, 1])
+          else:
+            outputs.append([a, 0])
+
       if (x == timeframe):
         newXpos = xpos + timeframe - x
         newYpos = ypos + x
@@ -313,21 +325,31 @@ def outputs_box(data):
           if (newYpos >= 0 and newYpos <= size):
             b = (newXpos, newYpos)
       if b:
-        outputs.append(b)
+        if waypoint == b:
+          outputs.append([b, 1])
+        else:
+          outputs.append([b, 0])
+
       newXpos = xpos - x
       newYpos = ypos + timeframe - x
       if (newXpos >= 0 and newXpos <= size):
         if (newYpos >= 0 and newYpos <= size):
           c = (newXpos, newYpos)
-          outputs.append(c)
+          if waypoint == c:
+            outputs.append([c, 1])
+          else:
+            outputs.append([c, 0])
 
       newXpos = xpos - timeframe + x
       newYpos = ypos - x
       if (newXpos >= 0 and newXpos <= size):
         if (newYpos >= 0 and newYpos <= size):
           d = (newXpos, newYpos)
-          outputs.append(d)
-
+          if waypoint == d:
+            outputs.append([d, 1])
+          else:
+            outputs.append([d, 0])
+  print("magic")
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -572,21 +594,18 @@ def construct_input_bigAgents(data):  ## not used afaik
 
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  if NN_variant == 'input':
-    images, concat = construct_input_bigAgents (data) ## creates a box around the agent to increase weight of agent position in the model
-  else:
-    images = construct_input(data)  # same input data for each architecture
+  images = construct_input(data)  # same input data for each architecture
 
   return images, outputs
 
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mXYEASYFIVE")
+  data = load_raw_data(file_filter="mXYEASYFIVE") ## mXYEASYFIVE
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[1]
+  out_variant = architecture_variants[2]
   images, outputs = raw_to_IO(data, out_variant)
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir

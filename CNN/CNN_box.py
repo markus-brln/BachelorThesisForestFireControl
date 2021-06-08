@@ -35,6 +35,7 @@ def build_model(input_shape):
     downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
+    # out = Flatten()(out) ## do we need flatten layer before dense layer
     out = Dense(64, activation='sigmoid')(downscaled)
     out = Dense(32, activation='sigmoid')(out)
     out = Dense(3)(out)                                     # nothing specified, so linear output

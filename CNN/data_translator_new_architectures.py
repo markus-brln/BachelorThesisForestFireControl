@@ -590,7 +590,7 @@ def plot_data(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   data = load_raw_data(file_filter="STOCHASTIC")#"mXYEASYFIVE")
-  data = data[:100]
+  data = data#[:100]
 
   #plot_data(data)
 

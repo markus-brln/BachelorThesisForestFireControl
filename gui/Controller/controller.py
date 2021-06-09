@@ -149,7 +149,7 @@ class Controller:
       # TODO save data about how often fire was contained
       exit()
 
-    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != 5:
+    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != nr_of_agents:
       self.model.discard_episode()
       self.model.start_episode()                            # BACKSPACE to go to next episode
       self.model.reset_wind()
@@ -291,14 +291,6 @@ class Controller:
     - [3] wind speed
     - [4] other agents
     """
-    agent_positions = [agent.position for agent in self.model.agents]  # the only info concatenated at the
-                                                              # moment is the positions of the active agents
-    agent_positions_tmp = []
-    for pos in agent_positions:
-      agent_positions_tmp.append([pos[0] / size, pos[1] / size])
-    agent_positions = agent_positions_tmp
-
-
     shape = (256, 256, 7)                                     # see doc comment
     single_image = np.zeros(shape)
 
@@ -307,10 +299,8 @@ class Controller:
     for firebreak_pixel in self.model.firebreaks:
       single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
 
-
     single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
     single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
-
 
     all_images = []
     apd = 10                                                # agent_point_diameter
@@ -322,13 +312,15 @@ class Controller:
       for other_agent in self.model.agents:
         if other_agent != active_agent:
           x, y = other_agent.position
-          agent_image[x - apd: x + apd, y - apd : y + apd, 4] = 1
+          agent_image[y - apd : y + apd, x - apd: x + apd, 4] = 1
+
+      print("current agent: ", active_agent.position)
 
       #self.plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
-
-    return [np.asarray(all_images), np.asarray(agent_positions)]
+    return np.asarray(all_images)
+    #return [np.asarray(all_images), np.asarray(agent_positions)]   concat version
 
 
   def produce_input_full_env_xy(self):
@@ -357,7 +349,7 @@ class Controller:
   def predict_NN(self):
     """Use the pre-loaded CNN to generate waypoints for the agents.
     """
-    if len(self.model.agents) != 5:
+    if len(self.model.agents) != nr_of_agents:
       print("Agent(s) must have died")
       exit()
 
@@ -393,13 +385,13 @@ class Controller:
     print("loading model " + filename)
     import tensorflow
     # load json and create model
-    json_file = open('saved_models' + os.sep + filename + '.json', 'r')
+    json_file = open('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
     model_json = json_file.read()
     json_file.close()
 
     model = tensorflow.keras.models.model_from_json(model_json)
     # load weights into new model
-    model.load_weights('saved_models' + os.sep + filename + ".h5")
+    model.load_weights('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
     print("Loaded model from disk")
 
     return model

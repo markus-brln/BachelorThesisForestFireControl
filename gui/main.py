@@ -51,7 +51,6 @@ if __name__=="__main__":
 - basic
 - normal fire speed               # make each of us responsible for collecting data for one of 
                                   # those! so that our different strategies won't interfere
-- normal + wind dir
 - normal + wind dir + wind speed
 
 additional experiments (for each env variant):

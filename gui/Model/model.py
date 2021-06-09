@@ -145,7 +145,7 @@ class Model:
     self.agents.clear()
     from Model.utils import rotate_point
     angle = 0
-    uncertainty = 5
+    uncertainty = 0
     orig_point = self.centre[0] - self.agent_radius, self.centre[1]
 
     for agent in range(0, self.n_agents):

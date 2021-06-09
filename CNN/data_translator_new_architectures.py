@@ -588,7 +588,7 @@ def plot_data(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mXYEASYFOUR1")#"mXYEASYFIVE")
+  data = load_raw_data(file_filter="mXYEASYFIVE7")#"mXYEASYFIVE")
   data = data[:100]
 
   #plot_data(data)

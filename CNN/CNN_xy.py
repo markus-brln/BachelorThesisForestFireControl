@@ -152,7 +152,7 @@ def plot_np_image(image):
   axarr[1, 2].set_title("active agent x")
   axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
   axarr[1, 3].set_title("active agent y")
-  print("max", 255 * np.max(channels[5]), 255 * np.max(channels[6]))
+  print("x, y pos of active agent: ", channels[0][0][5], channels[0][0][6])
   plt.show()
 
 
@@ -163,16 +163,13 @@ if __name__ == "__main__":
     out_variant = architecture_variants[0]
 
     images, outputs = load_data(out_variant)
-    test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
+    test_data = [images[:200], outputs[:200]]
+    images, outputs = images[200:], outputs[200:]
 
     #for image, output in zip(images, outputs):
     #    print(output)
     #    print("x,y active: ", image[0][0][5], image[0][0][6])
     #    plot_np_image(image)
-
-
-
 
     #check_performance(test_data)
     #exit()
@@ -181,7 +178,7 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
     class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}

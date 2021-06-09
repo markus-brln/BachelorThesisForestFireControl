@@ -291,14 +291,6 @@ class Controller:
     - [3] wind speed
     - [4] other agents
     """
-    agent_positions = [agent.position for agent in self.model.agents]  # the only info concatenated at the
-                                                              # moment is the positions of the active agents
-    agent_positions_tmp = []
-    for pos in agent_positions:
-      agent_positions_tmp.append([pos[0] / size, pos[1] / size])
-    agent_positions = agent_positions_tmp
-
-
     shape = (256, 256, 7)                                     # see doc comment
     single_image = np.zeros(shape)
 
@@ -307,10 +299,8 @@ class Controller:
     for firebreak_pixel in self.model.firebreaks:
       single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
 
-
     single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
     single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
-
 
     all_images = []
     apd = 10                                                # agent_point_diameter
@@ -326,7 +316,7 @@ class Controller:
 
       print("current agent: ", active_agent.position)
 
-      self.plot_np_image(agent_image)
+      #self.plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
     return np.asarray(all_images)

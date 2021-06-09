@@ -60,8 +60,8 @@ class DataSaver:
 
     # check output
     #print(self.model.windspeed)
-    #print("wind: ", wind_dir_vec, windspeed_vec)
-    #print("agent, wp len: ", len(agent_pos_with_waypoints))
+    print("wind: ", wind_dir_vec, windspeed_vec)
+    print("agent, wp len: ", len(agent_pos_with_waypoints))
 
     image_and_wind = [image, wind_dir_vec, windspeed_vec, agent_pos_with_waypoints] # this is one raw datapoint
     self.episode_data.append(image_and_wind)

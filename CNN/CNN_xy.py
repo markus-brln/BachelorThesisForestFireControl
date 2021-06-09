@@ -42,7 +42,7 @@ def build_model(input_shape):
 
     model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.005)    # initial learning rate faster
 
     model.compile(loss='mse',
                   optimizer=adam,
@@ -163,18 +163,19 @@ if __name__ == "__main__":
     out_variant = architecture_variants[0]
 
     images, outputs = load_data(out_variant)
-
-    for image in images:
-
-
     test_data = [images[:20], outputs[:20]]
     images, outputs = images[20:], outputs[20:]
+
+    #for image, output in zip(images, outputs):
+    #    print(output)
+    #    print("x,y active: ", image[0][0][5], image[0][0][6])
+    #    plot_np_image(image)
 
 
 
 
     #check_performance(test_data)
-    exit()
+    #exit()
 
     model = build_model(images[0].shape)
     print(model.summary())

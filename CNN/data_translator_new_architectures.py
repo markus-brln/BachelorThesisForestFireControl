@@ -28,7 +28,6 @@ def load_raw_data(file_filter):
       fp_tmp.append(filepath)
   filepaths = fp_tmp
 
-
   data = np.load(filepaths[0], allow_pickle=True)
   for filepath in filepaths[1:]:                      # optionally load more data
     if file_filter in filepath:
@@ -101,7 +100,7 @@ def raw_to_IO_arrays(data):
   """See Documentation/dataTranslationNewArchitecture.png"""
   # DEFINITIONS
   n_channels = 5
-  n_agents = 5
+  n_agents = 4
   env_dim = 256
   waypoint_dig_channel = 5
   waypoint_drive_channel = 6
@@ -408,7 +407,7 @@ def construct_input(data):
       for others_pos in agent_positions:
         if others_pos != active_pos:
           #agent_image[others_pos[0]][others_pos[1]][4] = 1  # mark position of other agents, channel [4]
-          agent_image[others_pos[0] - apd: others_pos[0] + apd, others_pos[1] - apd : others_pos[1] + apd, 4] = 1
+          agent_image[others_pos[1] - apd: others_pos[1] + apd, others_pos[0] - apd : others_pos[0] + apd, 4] = 1
 
       #plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
@@ -491,6 +490,8 @@ def construct_input_images_only(data):
   print("final amount of datapoints: ",len(all_images))
 
   return np.asarray(all_images, dtype=np.float16)
+
+
 
 def construct_input_bigAgents(data):  ## not used afaik
   """
@@ -577,15 +578,31 @@ def raw_to_IO(data, NN_variant):
 
   return images, outputs
 
+def plot_data(data):
+  for dat in data:
+    print(dat[3])
+    plt.imshow(dat[0])
+    plt.show()
+
+  exit()
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mXYEASYFIVE")
-  data = data
+  data = load_raw_data(file_filter="mXYEASYFOUR1")#"mXYEASYFIVE")
+  data = data[:100]
+
+  #plot_data(data)
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[2]
+  out_variant = architecture_variants[0]
   images, outputs = raw_to_IO(data, out_variant)
+
+  #for img, out in zip(images, outputs):
+  #  print(out)
+  #  print("x, y: ", img[0][0][5], img[0][0][6])
+  #  plot_np_image(img)
+
+  #exit()
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)

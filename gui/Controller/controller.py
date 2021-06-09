@@ -24,7 +24,7 @@ class Controller:
     self.NN_control = NN_control
     self.NN = None
     if self.NN_control:
-      self.NN = self.load_NN("CNN"+self.NN_variant+"notsogreat")                              # from json and h5 file
+      self.NN = self.load_NN("CNN"+self.NN_variant)                              # from json and h5 file
     self.digging_threshold = digging_threshold
 
 
@@ -149,7 +149,7 @@ class Controller:
       # TODO save data about how often fire was contained
       exit()
 
-    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != 5:
+    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != nr_of_agents:
       self.model.discard_episode()
       self.model.start_episode()                            # BACKSPACE to go to next episode
       self.model.reset_wind()
@@ -322,13 +322,15 @@ class Controller:
       for other_agent in self.model.agents:
         if other_agent != active_agent:
           x, y = other_agent.position
-          agent_image[x - apd: x + apd, y - apd : y + apd, 4] = 1
+          agent_image[y - apd : y + apd, x - apd: x + apd, 4] = 1
 
-      #self.plot_np_image(agent_image)
+      print("current agent: ", active_agent.position)
+
+      self.plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
-
-    return [np.asarray(all_images), np.asarray(agent_positions)]
+    return np.asarray(all_images)
+    #return [np.asarray(all_images), np.asarray(agent_positions)]   concat version
 
 
   def produce_input_full_env_xy(self):
@@ -357,7 +359,7 @@ class Controller:
   def predict_NN(self):
     """Use the pre-loaded CNN to generate waypoints for the agents.
     """
-    if len(self.model.agents) != 5:
+    if len(self.model.agents) != nr_of_agents:
       print("Agent(s) must have died")
       exit()
 

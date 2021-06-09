@@ -1,0 +1,13 @@
+Different levels of difficulty:
+
+1.
+setting:
+- 5 agents, static spawning in regular distance, 70 agent radius, 1/3 fire speed, no wind
+tactic:
+- all digging, close circle, then go outwards still digging
+
+2.
+setting:
+- same as 1., just agent spawn uncertainty = 10 cells
+tactic:
+- same as 1.

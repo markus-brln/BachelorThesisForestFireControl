@@ -28,11 +28,9 @@ def build_model(input_shape):
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
@@ -163,8 +161,8 @@ if __name__ == "__main__":
     out_variant = architecture_variants[0]
 
     images, outputs = load_data(out_variant)
-    test_data = [images[:200], outputs[:200]]
-    images, outputs = images[200:], outputs[200:]
+    test_data = [images[:20], outputs[:20]]
+    images, outputs = images[20:], outputs[20:]
 
     #for image, output in zip(images, outputs):
     #    print(output)

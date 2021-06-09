@@ -295,7 +295,7 @@ def outputs_box(data):
   for agent in agent_info:
     xpos, ypos = agent[0]
     waypoint = tuple(agent[1])
-    drive_dig = agent[2]
+    drive_dig = agent[2] ## not currently using the dig drive info
     for x in range(-timeframe, timeframe + 1, 1):
       diff = timeframe - abs(x)
       newXpos = xpos + x

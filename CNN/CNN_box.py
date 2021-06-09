@@ -38,10 +38,13 @@ def build_model(input_shape):
     # out = Flatten()(out) ## do we need flatten layer before dense layer
     out = Dense(64, activation='sigmoid')(downscaled)
     out = Dense(32, activation='sigmoid')(out)
-    out = Dense(3)(out)                                     # nothing specified, so linear output
-    out = Dense(1, activation='softmax')(out)       ## complete guess (let's see what happens)
+    box = Dense(841, activation='softmax')(out)
+    dig_drive = Dense(1, activation='sigmoid')(out)
 
-    model = Model(inputs=downscaleInput, outputs=out)
+    # out = Dense(3)(out)                                     # nothing specified, so linear output
+    # out = Dense(1, activation='softmax')(out)       ## complete guess (let's see what happens)
+
+    model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
 
     model.compile(loss='categorical_crossentropy',
                   optimizer='adam',
@@ -141,6 +144,8 @@ if __name__ == "__main__":
     out_variant = architecture_variants[0]
 
     images, outputs = load_data(out_variant)
+    box, dig_drive = outputs
+    ## to finish for two things
     test_data = [images[:20], outputs[:20]]
     images, outputs = images[20:], outputs[20:]
 
@@ -156,8 +161,8 @@ if __name__ == "__main__":
                     1: 0.9, # why y coords less precise??
                     2: 0.5}
 
-    history = model.fit([images],  # list of 2 inputs to model
-              outputs,
+    history = model.fit(images,  # used to be list of 2 inputs to model
+              [box, dig_drive],
               batch_size=64,
               epochs=50,
               shuffle=True,
@@ -165,7 +170,7 @@ if __name__ == "__main__":
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNNxy")  # utils
+    save(model, "CNNbox")  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)

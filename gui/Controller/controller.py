@@ -24,7 +24,7 @@ class Controller:
     self.NN_control = NN_control
     self.NN = None
     if self.NN_control:
-      self.NN = self.load_NN("CNN"+self.NN_variant)                              # from json and h5 file
+      self.NN = self.load_NN("CNN"+self.NN_variant+"notsogreat")                              # from json and h5 file
     self.digging_threshold = digging_threshold
 
 
@@ -393,13 +393,13 @@ class Controller:
     print("loading model " + filename)
     import tensorflow
     # load json and create model
-    json_file = open('saved_models' + os.sep + filename + '.json', 'r')
+    json_file = open('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
     model_json = json_file.read()
     json_file.close()
 
     model = tensorflow.keras.models.model_from_json(model_json)
     # load weights into new model
-    model.load_weights('saved_models' + os.sep + filename + ".h5")
+    model.load_weights('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
     print("Loaded model from disk")
 
     return model

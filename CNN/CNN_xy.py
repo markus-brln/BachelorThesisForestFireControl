@@ -28,11 +28,12 @@ def build_model(input_shape):
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
     out = Dense(64, activation='sigmoid')(downscaled)
@@ -41,8 +42,10 @@ def build_model(input_shape):
 
     model = Model(inputs=downscaleInput, outputs=out)
 
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
+
     model.compile(loss='mse',
-                  optimizer='adam',
+                  optimizer=adam,
                   metrics=['mse'])
 
     return model
@@ -132,6 +135,27 @@ def check_performance(test_data=None, model=None):
     plt.show()
 
 
+def plot_np_image(image):
+  channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
+  f, axarr = plt.subplots(2, 4)
+  axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[0, 0].set_title("active fire")
+  axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[0, 1].set_title("fire breaks")
+  axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[0, 2].set_title("wind dir (uniform)")
+  axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 0].set_title("wind speed (uniform)")
+  axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 1].set_title("other agents")
+  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 2].set_title("active agent x")
+  axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 3].set_title("active agent y")
+  print("max", 255 * np.max(channels[5]), 255 * np.max(channels[6]))
+  plt.show()
+
+
 if __name__ == "__main__":
     # predict()                          # predict with model loaded from file
     # exit()
@@ -139,25 +163,32 @@ if __name__ == "__main__":
     out_variant = architecture_variants[0]
 
     images, outputs = load_data(out_variant)
+
+    for image in images:
+
+
     test_data = [images[:20], outputs[:20]]
     images, outputs = images[20:], outputs[20:]
 
+
+
+
     #check_performance(test_data)
-    #exit()
+    exit()
 
     model = build_model(images[0].shape)
     print(model.summary())
     #exit()
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
-    class_weight = {0: 0.7,
+    class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}
 
     history = model.fit([images],  # list of 2 inputs to model
               outputs,
               batch_size=64,
-              epochs=50,
+              epochs=100,
               shuffle=True,
               callbacks=[callback],
               #class_weight=class_weight,
@@ -167,3 +198,26 @@ if __name__ == "__main__":
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)
+
+"""
+mXYEASYFIVE5
+average Delta X:  0.1311199590563774
+average Delta Y:  0.08875736445188523
+average Delta DD:  0.022097966494038702
+
+5 with smaller architecture
+average Delta X:  0.16767661944031714
+average Delta Y:  0.17266307808458806
+average Delta DD:  0.03222956005483866
+
+mXYEASYFIVE3
+average Delta X:  0.12525362521409988
+average Delta Y:  0.19226661119610072
+average Delta DD:  0.0808281959965825
+
+both 
+average Delta X:  0.18563791997730733
+average Delta Y:  0.22454358264803886
+average Delta DD:  0.2907822608947754
+
+"""

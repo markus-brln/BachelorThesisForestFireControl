@@ -222,7 +222,7 @@ def plot_np_image(image):
   axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
   axarr[1, 1].set_title("other agents")
   axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 2].set_title("active agent")
+  axarr[1, 2].set_title("active agent x")
   axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
   axarr[1, 3].set_title("active agent y")
   print("max", np.max(channels[5]), np.max(channels[6]))
@@ -272,56 +272,60 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    angle = math.atan2(delta_y, delta_x) / math.pi - 1
-    dist = math.sqrt(delta_y * delta_y + delta_x * delta_x)
-    print(dist)
+    angle = math.atan2(delta_y, delta_x),
 
-    outputs.append([angle, dist, drive_dig])
+    outputs.append([angle, drive_dig])
 
+  print(outputs)
+  print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
 
 def outputs_box(data):
-  '''
-   returns vector of L*L where L == side length of a box around agent, 1 where agent needs to go
-  '''
 # TODO make this work
   print("Constructing box output")
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
 
-  outputs = []  # box/grid of possible locations format [[xpos, ypos, waypoint/not waypoint],...
+  outputs = []  # box/grid of possible locations
 
   for agent in agent_info:
     xpos, ypos = agent[0]
-    waypoint = tuple(agent[1])
-    drive_dig = agent[2]
-    for x in range(-timeframe, timeframe + 1, 1):
-      diff = timeframe - abs(x)
+    for x in range(1, timeframe + 1, 1):
       newXpos = xpos + x
-      if (newXpos >= 0 and newXpos <= size and ypos >= 0 and ypos <= size):
-        a = tuple((newXpos, ypos))
-        if a not in outputs:
-          if waypoint == a: ## if that position is the waypoint
-            a = [newXpos, ypos, 1]
-            outputs.append(a)
-          else:
-            print(type(a), a)
-            a = [newXpos, ypos, 0]
+      newYpos = ypos + timeframe - x
+      if (newXpos >= 0 and newXpos <= size):
+        if (newYpos >= 0 and newYpos <= size):
+          a = (newXpos, newYpos)
           outputs.append(a)
-      if diff != 0:
-        for y in range(-diff, diff + 1, 1):
-          newXpos = xpos + x
-          newYpos = ypos + y
-          if (newXpos >= 0 and newXpos <= size and newYpos >= 0 and newYpos <= size):
-            a = (newXpos, newYpos)
-            if a not in outputs:
-              if waypoint == a:  ## if that position is the waypoint
-                a = [newXpos, newYpos, 1]
-              else:
-                a = [newXpos, newYpos, 0]
-              outputs.append(a)
-  # print(outputs)
+      if (x == timeframe):
+        newXpos = xpos + timeframe - x
+        newYpos = ypos + x
+        if (newXpos >= 0 and newXpos <= size):
+          if (newYpos >= 0 and newYpos <= size):
+            b = (newXpos, newYpos)
+      else:
+        newXpos = xpos + timeframe - x
+        newYpos = ypos - x
+        if (newXpos >= 0 and newXpos <= size):
+          if (newYpos >= 0 and newYpos <= size):
+            b = (newXpos, newYpos)
+      if b:
+        outputs.append(b)
+      newXpos = xpos - x
+      newYpos = ypos + timeframe - x
+      if (newXpos >= 0 and newXpos <= size):
+        if (newYpos >= 0 and newYpos <= size):
+          c = (newXpos, newYpos)
+          outputs.append(c)
+
+      newXpos = xpos - timeframe + x
+      newYpos = ypos - x
+      if (newXpos >= 0 and newXpos <= size):
+        if (newYpos >= 0 and newYpos <= size):
+          d = (newXpos, newYpos)
+          outputs.append(d)
+
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -566,14 +570,17 @@ def construct_input_bigAgents(data):  ## not used afaik
 
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  images = construct_input(data)  # same input data for each architecture
+  if NN_variant == 'input':
+    images, concat = construct_input_bigAgents(data) ## creates a box around the agent to increase weight of agent position in the model
+  else:
+    images = construct_input(data)  # same input data for each architecture
 
   return images, outputs
 
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="jtestt") ## mXYEASYFIVE
+  data = load_raw_data(file_filter="mXYEASYFIVE")
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants

@@ -145,12 +145,12 @@ class Model:
     self.agents.clear()
     from Model.utils import rotate_point
     angle = 0
-    uncertainty = 0
     orig_point = self.centre[0] - self.agent_radius, self.centre[1]
 
     for agent in range(0, self.n_agents):
       spawn_point = rotate_point(self.centre, orig_point, angle)
-      spawn_point = spawn_point[0] + random.randint(-uncertainty, uncertainty), spawn_point[1] + random.randint(-uncertainty, uncertainty)
+      spawn_point = spawn_point[0] + random.randint(-uncertain_spawn, uncertain_spawn), \
+                    spawn_point[1] + random.randint(-uncertain_spawn, uncertain_spawn)
       self.agents += [Agent(spawn_point, self)]
       angle += math.pi * 2 / self.n_agents              # star formation around centre
 

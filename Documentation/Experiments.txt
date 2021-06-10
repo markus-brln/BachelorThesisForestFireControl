@@ -1,0 +1,24 @@
+Different levels of difficulty:
+
+1. BASIC [WORKS]
+setting:
+- 5 agents, static spawning in regular distance, 70 agent radius, 1/3 fire speed, no wind
+tactic:
+- all digging, close circle, then go outwards still digging
+files:
+- mEASYFIVE.npy
+
+2. STOCHASTIC [WORKS mostly]
+setting:
+- same as 1., just agent spawn uncertainty = 10 cells
+tactic:
+- same as 1.
+files:
+- mEASYFIVESTOCHASTIC0.npy, mEASYFIVESTOCHASTIC1.npy, mEASYFIVESTOCHASTIC2.npy
+
+3.
+setting:
+-
+tactic:
+-
+files:

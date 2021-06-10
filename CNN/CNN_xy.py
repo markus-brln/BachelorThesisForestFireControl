@@ -27,16 +27,14 @@ def build_model(input_shape):
     and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    out = Dense(64, activation='sigmoid')(downscaled)
+    out = Dense(48, activation='sigmoid')(downscaled)
     out = Dense(32, activation='sigmoid')(out)
     out = Dense(3)(out)                                     # nothing specified, so linear output
 
@@ -163,8 +161,8 @@ if __name__ == "__main__":
     out_variant = architecture_variants[0]
 
     images, outputs = load_data(out_variant)
-    test_data = [images[:200], outputs[:200]]
-    images, outputs = images[200:], outputs[200:]
+    test_data = [images[:20], outputs[:20]]
+    images, outputs = images[20:], outputs[20:]
 
     #for image, output in zip(images, outputs):
     #    print(output)
@@ -178,7 +176,7 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}

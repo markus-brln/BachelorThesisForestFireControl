@@ -21,7 +21,7 @@ def main():
 
   architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
 
-  NN_control = True                                         # False -> gather data, True -> test NN
+  NN_control = False                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
   controller = Controller(model, view, NN_control, architecture_variants[0])
 
@@ -48,7 +48,7 @@ if __name__=="__main__":
 - show where to integrate other outputs
 
 4 different environments to test:
-- basic
+- basic 
 - normal fire speed               # make each of us responsible for collecting data for one of 
                                   # those! so that our different strategies won't interfere
 - normal + wind dir + wind speed

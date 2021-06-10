@@ -141,7 +141,7 @@ if __name__ == "__main__":
     # predict()                          # predict with model loaded from file
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    out_variant = architecture_variants[0]
+    out_variant = architecture_variants[2]
 
     images, outputs = load_data(out_variant)
     box, dig_drive = outputs
@@ -151,6 +151,7 @@ if __name__ == "__main__":
 
     #check_performance(test_data)
     #exit()
+    ## https://stackoverflow.com/questions/44036971/multiple-outputs-in-keras
 
     model = build_model(images[0].shape)
     print(model.summary())

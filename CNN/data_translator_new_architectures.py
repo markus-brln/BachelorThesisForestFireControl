@@ -7,6 +7,9 @@ import glob
 import matplotlib.pyplot as plt
 from numpy.core import multiarray
 from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
+
+import sys
+
 sep = os.path.sep
 timeframe = 20
 size = 255
@@ -452,7 +455,12 @@ if __name__ == "__main__":
   #plot_data(data)
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[1]
+
+  architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
+    out_variant = architecture_variants[int(sys.argv[1])]
+  else:
+    out_variant = architecture_variants[0]
   images, outputs = raw_to_IO(data, out_variant)
 
   #for img, out in zip(images, outputs):

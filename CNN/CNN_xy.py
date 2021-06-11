@@ -6,8 +6,8 @@ import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
 from NNutils import *
-tf.random.set_seed(923)
-np.random.seed(923)
+#tf.random.set_seed(923)
+#np.random.seed(923)
 
 
 def load_data(out_variant):

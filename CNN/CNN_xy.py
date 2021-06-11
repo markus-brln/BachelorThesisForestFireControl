@@ -6,8 +6,8 @@ import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
 from NNutils import *
-#tf.random.set_seed(123)
-#np.random.seed(123)
+tf.random.set_seed(923)
+np.random.seed(923)
 
 
 def load_data(out_variant):
@@ -196,6 +196,25 @@ if __name__ == "__main__":
     #predict(model=model, data=test_data)
 
 """
+paths on:
+23 epochs
+average Delta X:  0.06107376478612423
+average Delta Y:  0.06356262788176537
+average Delta DD:  0.01568102240562439
+
+paths off:
+26 epochs
+average Delta X:  0.054342984408140185
+average Delta Y:  0.05875470265746117
+average Delta DD:  0.014626950025558472
+
+thicker paths:
+26 epochs
+average Delta X:  0.05476411022245884
+average Delta Y:  0.053901639953255656
+average Delta DD:  0.0066058248281478885
+
+
 mXYEASYFIVE5
 average Delta X:  0.1311199590563774
 average Delta Y:  0.08875736445188523

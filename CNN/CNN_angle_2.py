@@ -5,56 +5,57 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
-from tensorflow.python.keras.losses import BinaryCrossentropy
 from NNutils import *
-
-from tensorflow.keras.losses import SparseCategoricalCrossentropy
 #tf.random.set_seed(123)
 #np.random.seed(123)
+
+import keras.backend as kb
+
+
+def custom_loss_function(value, prediction):
+		angle_error = kb.minimum(kb.square(value[:][0] - prediction[:][0]), kb.square(1 - value[:][0] + prediction[:][0]))
+		dista_error = kb.square(value[:][1] - prediction[:][1])
+		diggi_error = kb.square(value[:][2] - prediction[:][2])
+		return (angle_error + dista_error + diggi_error) / 3
 
 
 def load_data(out_variant):
     print("loading data")
     images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
-    concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
+    #concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
     outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)
 
-    return images, concat, outputs
+    return images, outputs
 
 
-def build_model(input_shape, concat_shape):
-    """Architecture for the angle2 outputs. Takes a 6-channel image of the environment
-    and outputs a vector of size 50 with 0-47 representing an angle relative to the active agent's position.
-    48 represents a stationary waypoint
-    49 indicates whether the agent should be digging.
-    """
+def build_model(input_shape):
+    """Architecture for the xy outputs. Takes a 6-channel image of the environment
+    and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
+    out = Dense(48, activation='sigmoid')(downscaled)
+    out = Dense(32, activation='sigmoid')(out)
+    out = Dense(3)(out)                                     # nothing specified, so linear output
 
-    inp2 = Input(concat_shape)
-    model_concat = concatenate([downscaled, inp2], axis=1)
-    out = Dense(64, activation='sigmoid')(model_concat)
-    out = Dense(50)(out)                                     # nothing specified, so linear output
+    model = Model(inputs=downscaleInput, outputs=out)
 
-    model = Model(inputs=[downscaleInput, inp2], outputs=out)
+    adam = tf.keras.optimizers.Adam(learning_rate=0.002)    # initial learning rate faster
 
-    loss_function = BinaryCrossentropy()
-    model.compile(loss=loss_function,
-                  optimizer='adam',
-                  metrics=['mse'])
-
+    model.compile(loss="mse",
+                  optimizer=adam,
+                  metrics=["mse"])
     return model
+
 
 def predict(model=None, data=None, n_examples=5):
     """show inputs together with predictions of CNN,
@@ -68,7 +69,7 @@ def predict(model=None, data=None, n_examples=5):
 
     if not model:
         model = tf.keras.models.load_model("saved_models/safetySafe")
-    #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
+    #X1 = images[0][np.newaxis, ...]                            # pretend as if there were multiple input pictures (verbose)
     indeces = random.sample(range(len(images)), n_examples)
     X1 = images[indeces]                                        # more clever way to write it down
     X2 = concat[indeces]
@@ -104,10 +105,10 @@ def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
     if not model:
-        model = load("CNNangle2")
+        model = load("CNNangle")
 
-    images, concat, outputs = test_data
-    results = model.predict([images, concat])
+    images, outputs = test_data
+    results = model.predict([images])
     print("results ", results)
 
     delta_x, delta_y, delta_digdrive = 0, 0, 0
@@ -145,25 +146,25 @@ if __name__ == "__main__":
     # predict()                          # predict with model loaded from file
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    out_variant = architecture_variants[2]
+    out_variant = architecture_variants[1]
 
-    images, concat, outputs = load_data(out_variant)
-    test_data = [images[:20], concat[:20], outputs[:20]]
-    images, concat, outputs = images[20:], concat[20:], outputs[20:]
+    images, outputs = load_data(out_variant)
+    test_data = [images[:20], outputs[:20]]
+    images, outputs = images[20:], outputs[20:]
 
     #check_performance(test_data)
     #exit()
 
-    model = build_model(images[0].shape, concat[0].shape)
+    model = build_model(images[0].shape)
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
-    class_weight = {0: 0.7,
-                    1: 0.9, # why y coords less precise??
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+    class_weight = {0: 0.9,
+                    1: 0.7, # why y coords less precise??
                     2: 0.5}
 
-    history = model.fit([images, concat],  # list of 2 inputs to model
+    history = model.fit([images],  # list of 2 inputs to model
               outputs,
               batch_size=64,
               epochs=50,
@@ -172,61 +173,7 @@ if __name__ == "__main__":
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNNangle2")  # utils
+    save(model, "CNNangle")  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)
-
-"""
-patience 2:
-[[ 2.94984639e-01  2.58510768e-01  1.02607584e+00]
- [ 2.05759406e-02  3.74104083e-01  1.00585532e+00]
- [-4.09858406e-01 -1.03594735e-04  9.90627050e-01]
- [-9.11411922e-03 -3.16003352e-01  1.02364981e+00]
- [ 3.15944940e-01 -1.50187820e-01  1.02305043e+00]
- [ 2.49238849e-01 -2.62882710e-01  1.02715027e+00]
- [ 3.32698286e-01  2.52575278e-01  1.05216086e+00]
- [ 8.10624473e-03  3.95186126e-01  1.02276850e+00]
- [-3.99246097e-01  1.73732147e-01  1.01920116e+00]
- [-1.52711168e-01 -2.24665582e-01  1.03958142e+00]
- [ 3.85340035e-01 -3.53569001e-01  1.00229347e+00]
- [ 3.64671439e-01  2.08834320e-01  1.03540397e+00]
- [ 2.82211035e-01  2.01858431e-01  1.03551030e+00]
- [-6.94707707e-02  3.46116535e-02  1.03225744e+00]
- [-2.62999982e-02 -2.46265203e-01  1.03271818e+00]
- [ 4.39144820e-01 -1.84096932e-01  1.00884044e+00]
- [ 3.66291493e-01  3.28707516e-01  1.01003790e+00]
- [ 8.61206725e-02  1.18945636e-01  1.03751266e+00]
- [-3.72175910e-02  1.60673410e-02  1.00376105e+00]
- [-7.62920603e-02 -2.42700636e-01  1.01043761e+00]]
-average Delta X:  0.12584362123161555
-average Delta Y:  0.09161575371399522
-average Delta DD:  0.022881978750228883
-
-
-patience 1: 
- [-0.02437374 -0.08945458  0.84981143]
- [-0.02702904 -0.09062058  0.85652924]
- [-0.02282679 -0.09860069  0.8630065 ]
- [-0.01203194 -0.10163944  0.85491157]
- [-0.02104833 -0.09229805  0.88378763]
- [-0.01863575 -0.0889342   0.8753562 ]
- [-0.02928913 -0.08457538  0.88660324]
- [-0.03376792 -0.08535147  0.88313866]
- [-0.02950079 -0.08681776  0.89049035]
- [-0.0161792  -0.09833044  0.88390815]
- [-0.02554017 -0.08899659  0.89110696]
- [-0.02561095 -0.09026257  0.89177775]
- [-0.02749812 -0.09125054  0.887328  ]
- [-0.02537356 -0.0918282   0.89215195]
- [-0.01617044 -0.09172588  0.8877018 ]
- [-0.02136821 -0.09032801  0.87859863]
- [-0.02055001 -0.09108231  0.88884383]
- [-0.02111759 -0.08844857  0.89646983]
- [-0.01944978 -0.0940548   0.8880652 ]]
-average Delta X:  0.23166612423956395
-average Delta Y:  0.24804759360849857
-average Delta DD:  0.12086288034915924
-
-Process finished with exit code 0
-"""

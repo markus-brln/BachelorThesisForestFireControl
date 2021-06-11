@@ -195,7 +195,8 @@ class Controller:
         if self.NN_variant == "xy":
           new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
         elif self.NN_variant == "angle":
-        new_wp, digging = self.postprocess_output_NN_angle(output, self.model.agents[self.agent_no])else:
+          new_wp, digging = self.postprocess_output_NN_angle(output, self.model.agents[self.agent_no])
+        else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
         print("pos: ", new_wp, "dig: ", digging)

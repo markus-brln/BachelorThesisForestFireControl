@@ -72,10 +72,10 @@ def save(model, filename):
     if not os.path.exists('saved_models'):
         os.makedirs('saved_models')
 
-    with open('saved_models\\' + filename + ".json", "w") as json_file:
+    with open('saved_models' + os.sep + filename + ".json", "w") as json_file:
         json_file.write(model_json)
     # serialize weights to HDF5
-    model.save_weights('saved_models\\' + filename + ".h5")
+    model.save_weights('saved_models' + os.sep + filename + ".h5")
     print("saving model " + filename)
     #model.save('saved_models\\' + filename)
 
@@ -85,12 +85,12 @@ def load(filename):
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     print("loading model " + filename)
     # load json and create model
-    json_file = open('saved_models\\' + filename + '.json', 'r')
+    json_file = open('saved_models' + os.sep + filename + '.json', 'r')
     model_json = json_file.read()
     json_file.close()
     model = tf.keras.models.model_from_json(model_json)
     # load weights into new model
-    model.load_weights('saved_models\\' + filename + ".h5")
+    model.load_weights('saved_models' + os.sep + filename + ".h5")
     print("Loaded model from disk")
 
     #json_model_file = open(os.path.join(self.model_path, name + '.json'), "r").read()

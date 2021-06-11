@@ -6,6 +6,7 @@ from Model.utils import *
 import os
 import numpy as np
 from matplotlib import pyplot as plt
+import math
 
 
 class Controller:
@@ -104,7 +105,7 @@ class Controller:
       return
 
     self.model.highlight_agent(self.agent_no)
-
+  
 
   def key_press(self, event):
     """Governs data collection.
@@ -155,7 +156,9 @@ class Controller:
       self.model.reset_wind()
       self.last_timestep_waypoint_collection = -1
 
-    if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+
+    if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+      self.prepare_collecting_waypoints()
       outputs = self.predict_NN()                           # waypoints from CNN
       print("outputs: ", outputs)
       self.set_waypoints_NN(outputs)
@@ -168,9 +171,6 @@ class Controller:
       self.view.update()
       self.model.reset_necessary = False
 
-    elif not self.collecting_waypoints and event.type == pygame.KEYDOWN:
-      self.prepare_collecting_waypoints()
-
 
   def set_waypoints_NN(self, outputs):
     """Emulates the manual setting of waypoints through mouse clicks
@@ -180,6 +180,8 @@ class Controller:
       new_wp, digging = None, None
       if self.NN_variant == "xy":
         new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
+      elif self.NN_variant == "angle":
+        new_wp, digging = self.postprocess_output_NN_angle(output, self.model.agents[self.agent_no])
       else:
         print("implement postprocess_output_NN_...() for your variant")
         exit()
@@ -237,6 +239,31 @@ class Controller:
 
     return output, digging
 
+
+  def postprocess_output_NN_angle(self, output, agent):
+    """All operations needed to transform the raw normalized NN output
+    to pixel coords of the waypoints and a drive/dig (0/1) decision.
+    """
+    digging = output[2] > self.digging_threshold
+    print(f"output: {output}")
+
+    angle = (output[0] - 0.5) * 2 * math.pi
+
+    delta_x = math.cos(angle) * timeframe * output[1]
+    delta_y = math.sin(angle) * timeframe * output[1]
+
+    if not digging:
+      delta_x = timeframe * 2
+      delta_y = timeframe * 2
+
+    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    if not digging:
+      wanted_len *= 2                                       # driving twice as fast
+
+    scale = wanted_len / (abs(delta_x) + abs(delta_y))
+    output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
+
+    return output, digging
 
   def postprocess_output_NN_xy_full_env(self, output, agent):
     """

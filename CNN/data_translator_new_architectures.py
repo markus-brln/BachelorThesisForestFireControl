@@ -189,9 +189,9 @@ def raw_to_IO_arrays(data):
   concat_vector = np.asarray(concat_vector)
 
 
-  print("input image shape: ", np.shape(images))
-  print("wind info vector shape: ", np.shape(wind_dir_speed))
-  print("agent input positions: ", np.shape(agent_positions))
+  # print("input image shape: ", np.shape(images))
+  # print("wind info vector shape: ", np.shape(wind_dir_speed))
+  # print("agent input positions: ", np.shape(agent_positions))
   print("wind+agent concat: ", concat_vector.shape)
   print("outputs shape: ", np.shape(outputs))
 
@@ -272,12 +272,15 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    angle = math.atan2(delta_y, delta_x),
+    angle = math.atan2(delta_y, delta_x) / (2 * math.pi) + 0.5
+    print(f"x:{delta_x}, y:{delta_y}, angle:{angle}")
+    radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
+    print(angle)
 
-    outputs.append([angle, drive_dig])
+    outputs.append([angle, radius, drive_dig])
 
-  print(outputs)
-  print(agent_info)
+  # print(outputs)
+#   print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -419,7 +422,7 @@ def construct_input(data):
     img[:, :, 6] = agent[1]
     #plot_np_image(img)
 
-  print(active_agents_pos)
+  # print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
 
   return np.asarray(all_images, dtype=np.float16)#, np.asarray(active_agents_pos)
@@ -563,7 +566,7 @@ def construct_input_bigAgents(data):  ## not used afaik
       #plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
-  print(active_agents_pos)
+  # print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
 
   return np.asarray(all_images, dtype=np.float16), np.asarray(active_agents_pos)
@@ -581,7 +584,7 @@ def raw_to_IO(data, NN_variant):
 
 def plot_data(data):
   for dat in data:
-    print(dat[3])
+    # print(dat[3])
     plt.imshow(dat[0])
     plt.show()
 
@@ -589,13 +592,13 @@ def plot_data(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="STOCHASTIC")#"mXYEASYFIVE")
-  data = data#[:100]
+  data = load_raw_data(file_filter="mEASYFIVE") #"STOCHASTIC")#
+  data = data[:250]
 
   #plot_data(data)
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-  out_variant = architecture_variants[0]
+  out_variant = architecture_variants[1]
   images, outputs = raw_to_IO(data, out_variant)
 
   #for img, out in zip(images, outputs):

@@ -17,7 +17,7 @@ def load_data(out_variant):
     outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
-    print("outputs: ", outputs.shape)
+    print("CNN box - outputs: ", outputs.shape)
 
     return images, outputs
 
@@ -38,7 +38,7 @@ def build_model(input_shape):
     # out = Flatten()(out) ## do we need flatten layer before dense layer
     out = Dense(64, activation='sigmoid')(downscaled)
     out = Dense(32, activation='sigmoid')(out)
-    box = Dense(841, activation='softmax')(out)
+    box = Dense(221, activation='softmax')(out)
     dig_drive = Dense(1, activation='sigmoid')(out)
 
     # out = Dense(3)(out)                                     # nothing specified, so linear output
@@ -46,7 +46,7 @@ def build_model(input_shape):
 
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
 
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss=['categorical_crossentropy', 'mse'],
                   optimizer='adam',
                   metrics=['accuracy']) ##not sure if metric is correct (maybe try mse)
 
@@ -55,6 +55,7 @@ def build_model(input_shape):
 def predict(model=None, data=None, n_examples=5):
     """show inputs together with predictions of CNN,
        either provided as param or loaded from file"""
+    print("attempting prediction!")
     if data:
         n_examples = len(data[0])
     if not data:
@@ -100,7 +101,7 @@ def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
     if not model:
-        model = load("CNNxy")
+        model = load("CNNbox")
 
     images, outputs = test_data
     results = model.predict([images])
@@ -144,14 +145,19 @@ if __name__ == "__main__":
     out_variant = architecture_variants[2]
 
     images, outputs = load_data(out_variant)
-    box, dig_drive = outputs
+    box = [x[:-1] for x in outputs if len(outputs) > 2]
+    box = np.asarray(box, dtype=np.float16)
+    # print("shapes:", box.shape) ##841
+    dig_drive = [x[-1] for x in outputs if len(outputs) > 2]
+    dig_drive = np.asarray(dig_drive, dtype=np.float16)
     ## to finish for two things
-    test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
+    test_data = [images[:20], box[:20], dig_drive[:20]]
+    images, box, dig_drive = images[20:], box[20:], dig_drive[20:]
 
     #check_performance(test_data)
     #exit()
     ## https://stackoverflow.com/questions/44036971/multiple-outputs-in-keras
+    print("shapes:", images[0].shape) ##(256, 256, 7)
 
     model = build_model(images[0].shape)
     print(model.summary())

@@ -260,11 +260,14 @@ def outputs_angle(data):
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list
 
   outputs = []  # [[x rel. to agent, y, drive/dig], ...]
+  cnt = 0
   for raw in agent_info:
     agent_pos = raw[0]  # make things explicit, easy-to-understand
     wp = raw[1]
     drive_dig = raw[2]
-
+    if drive_dig != 1:
+      cnt += 1
+    print("no. of drive wps", cnt)
     max_dist = timeframe
     if drive_dig == 0:  # driving wp => 2 times the speed
       max_dist = 2 * timeframe
@@ -294,14 +297,18 @@ def waypoint2array(wp):
   for idx in range(len(arr)):
     if (arr[idx] == wp):
       to_ret = idx
-  print("wp2arrfunc", wp, type(wp), "idx", to_ret)
+  # print("wp2arrfunc", wp, type(wp), "idx", to_ret)
   return to_ret
 
 def shrink2reachablewaypoint(wpX, wpY):
   '''
     fits waypoints into a range that the agent can reach given timeframe
   '''
-  size = int(timeframe + 1/ 2)
+  if(abs(wpX + wpY) > timeframe / 2):
+    scale = (timeframe / 2) / (abs(wpX) + abs(wpY))
+    wpX = round(wpX * scale)
+    wpY = round(wpY * scale)
+  size = int((timeframe + 1) / 2)
   tmp = 1
   while abs(wpX) > size:
     tmp * -1
@@ -326,32 +333,28 @@ def outputs_box(data):
   print("Constructing box output")
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
-
-
   outputs = []
+  size = 10
+  timeframe = size
   for agent in agent_info:
     # box/grid of possible locations format [[0,0,1,0,..], dig/drive],[[0,1,...0], dig/drive...]
     output = [0] * ((timeframe * timeframe) + ((timeframe + 1) * (timeframe + 1)))
+    print("len", len(output))
     xpos, ypos = agent[0]
     waypoint = tuple(agent[1])
-    print("agent: (", xpos, ",", ypos, ") wp: (", waypoint[0], ",", waypoint[1], ")")
-    drive_dig = agent[2] ## not currently using the dig drive info
+    # print("agent: (", xpos, ",", ypos, ") wp: (", waypoint[0], ",", waypoint[1], ")")
+    drive_dig = agent[2]
+
     deltaX = int(((waypoint[0] - xpos) + 1) / 2)
     deltaY = int(((waypoint[1] - ypos) + 1) / 2)
-
-    test = postprocess_waypoint(waypoint, drive_dig, agent[0])
-    wp, dd = test
-    print("thnm", wp, dd)
     wp = shrink2reachablewaypoint(deltaX, deltaY)
-
-    print("new wp:", wp)
     if waypoint2array(wp) != -1:
       output[waypoint2array(wp)] = 1
     else:
-      print("FUCKITY FUCKING CUNT!")
-    output.append([drive_dig])
-    print(output)
-    outputs.append(output)
+      print("Scale fail!")
+    list = output + [drive_dig]
+    print(list)
+    outputs.append(list)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -449,6 +452,17 @@ def construct_input(data):
   print("final amount of datapoints: ",len(all_images))
 
   return np.asarray(all_images, dtype=np.float16)#, np.asarray(active_agents_pos)
+
+def load_data(out_variant):
+  print("loading data")
+  images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+  # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
+  outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
+
+  print("input images: ", images.shape)
+  print("outputs: ", outputs.shape)
+
+  return images, outputs
 
 
 def construct_input_images_only(data):
@@ -592,28 +606,6 @@ def construct_input_bigAgents(data):  ## not used afaik
 
   return np.asarray(all_images, dtype=np.float16), np.asarray(active_agents_pos)
 
-def postprocess_waypoint(wp, dd, agent):
-  """All operations needed to transform the raw normalized NN output
-  to pixel coords of the waypoints and a drive/dig (0/1) decision.
-  """
-  digging = dd > 0.5
-
-  if digging:
-    delta_x = wp[0] * timeframe
-    delta_y = wp[1] * timeframe
-  else:
-    delta_x = wp[0] * timeframe * 2                   # twice as fast driving
-    delta_y = wp[1] * timeframe * 2
-
-  wanted_len = timeframe                                  # agents can dig 1 step per timestep
-  if not digging:
-    wanted_len *= 2                                       # driving twice as fast
-
-  scale = wanted_len / (abs(delta_x) + abs(delta_y))
-  output = agent[0] + int(scale * delta_x), agent[1] + int(scale * delta_y)
-
-  return output, digging
-
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
   images = construct_input(data)  # same input data for each architecture
@@ -623,7 +615,7 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="jtestt") ## mXYEASYFIVE
+  data = load_raw_data(file_filter="mEASYFIVE") ## mXYEASYFIVE
   data = data
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
@@ -633,3 +625,17 @@ if __name__ == "__main__":
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
   np.save(file="outputs_" + out_variant + ".npy", arr=outputs, allow_pickle=True)
+
+
+  images, outputs = load_data(out_variant)
+  box = [x[:-1] for x in outputs if len(outputs) > 2]
+  box = np.asarray(box, dtype=np.float16)
+  # print("shapes:", box.shape) ##841
+  dig_drive = [x[-1] for x in outputs if len(outputs) > 2]
+  dig_drive = np.asarray(dig_drive, dtype=np.float16)
+  print("box as arr", box)
+  print(" ")
+  print("drivedig as arr", dig_drive)
+  ## to finish for two things
+  test_data = [images[:20], box[:20], dig_drive[:20]]
+  images, box, dig_drive = images[20:], box[20:], dig_drive[20:]

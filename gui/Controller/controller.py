@@ -157,7 +157,7 @@ class Controller:
 
     if self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
       outputs = self.predict_NN()                           # waypoints from CNN
-      print("outputs: ", outputs)
+      # print("controller - outputs: ", outputs)
       self.set_waypoints_NN(outputs)
 
       for _ in range(timeframe):
@@ -175,42 +175,76 @@ class Controller:
   def set_waypoints_NN(self, outputs):
     """Emulates the manual setting of waypoints through mouse clicks
        by using the NN output."""
-
-    for output in outputs:
-      new_wp, digging = None, None
-      if self.NN_variant == "xy":
-        new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
-      else:
-        print("implement postprocess_output_NN_...() for your variant")
-        exit()
-
-      print("pos: ", new_wp, "dig: ", digging)
-      self.model.highlight_agent(self.agent_no)
-      self.model.select_square(new_wp, digging=digging)
-      self.agent_no += 1
+    if self.NN_variant == "box":
+      for agent in range(0, 5):
+        positions, dig_drive = outputs
+        # print("len", len(positions), "agent no.", self.agent_no)
+        new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
+        print("pos: ", new_wp, "dig: ", digging)
+        print(" ")
+        self.model.highlight_agent(agent)
+        self.model.select_square(new_wp, digging=digging)
+        self.agent_no += 1
+        print("new agent", self.agent_no)
+      # elif self.NN_variant == "box":
+      #   print("gaga", self.agent_no)
+      #   new_wp, digging = self.postprocess_output_NN_box(output[self.agent_no], self.model.agents[self.agent_no])
+    else:
+      for output in outputs:
+        new_wp, digging = None, None
+        if self.NN_variant == "xy":
+          new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
+        else:
+          print("implement postprocess_output_NN_...() for your variant")
+          exit()
+        print("pos: ", new_wp, "dig: ", digging)
+        print(" ")
+        self.model.highlight_agent(self.agent_no)
+        self.model.select_square(new_wp, digging=digging)
+        self.agent_no += 1
 
     self.collecting_waypoints = False
     self.model.highlight_agent(None)
+
+  def arrayIndex2WaypointPos(self, idx):
+    size = int((timeframe + 1)/ 2)
+    x = 0
+    cnt = 0
+    wp = (0, 0)
+    for y in range(-size, size + 1):
+      for x in range(-x, x + 1):
+        cnt += 1
+        if cnt == idx:
+          wp = (x, y)
+          print(cnt, "wp", wp)
+      x += 1 if y < 0 else -1
+    return wp
 
   def postprocess_output_NN_box(self, output, agent):
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
-    digging = output[2] > self.digging_threshold
 
-    if digging:
-      delta_x = output[0] * timeframe
-      delta_y = output[1] * timeframe
-    else:
-      delta_x = output[0] * timeframe * 2                   # twice as fast driving
-      delta_y = output[1] * timeframe * 2
+    print("pay attention", max(output))
+    # digging = output[1] > self.digging_threshold
+    digging = 1
+    for idx in range(len(output)):
+      # print("tits", len(output[0]))
+      if output[idx] == max(output):
+        waypointIdx = idx
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
-    if not digging:
-      wanted_len *= 2                                       # driving twice as fast
+    print("agent pos", agent.position[0], agent.position[1])
+    wp = self.arrayIndex2WaypointPos(waypointIdx)
+    # print("indx:", waypointIdx, "wp", wp)
 
-    scale = wanted_len / (abs(delta_x) + abs(delta_y))
-    output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
+    delta_x = wp[0]
+    delta_y = wp[1]
+    print("x", delta_x, "y", delta_y)
+    # if digging:
+    #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
+    #   delta_y = self.arrayIndex2WaypointPos(waypointIdx[1])
+    print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
+    output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
 
     return output, digging
 

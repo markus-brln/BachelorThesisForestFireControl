@@ -213,7 +213,7 @@ class Controller:
     self.model.highlight_agent(None)
 
   def arrayIndex2WaypointPos(self, idx):
-    size = int((timeframe + 1)/ 2)
+    size = 5
     x = 0
     cnt = 0
     wp = (0, 0)
@@ -223,8 +223,23 @@ class Controller:
         if cnt == idx:
           wp = (x, y)
           print(cnt, "wp", wp)
+          if (abs(x) + abs(y)) != 0:
+            scale = timeframe / (abs(x) + abs(y))
+          else:
+            scale = 1
+          x = round(scale * x)
+          y = round(scale * y)
+          wp = (x, y)
       x += 1 if y < 0 else -1
+
     return wp
+
+  def waypointValid(self, wp):
+    if (wp[0] >= -20 and wp[0] <= 20):
+      if(wp[1] >= -20 and wp[1] <= 20):
+        return 1
+    return 0
+
 
   def postprocess_output_NN_box(self, output, agent):
     """All operations needed to transform the raw normalized NN output
@@ -242,16 +257,17 @@ class Controller:
     print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
     # print("indx:", waypointIdx, "wp", wp)
-
-    delta_x = wp[0]
-    delta_y = wp[1]
-    print("x", delta_x, "y", delta_y)
-    # if digging:
-    #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
-    #   delta_y = self.arrayIndex2WaypointPos(waypointIdx[1])
-    print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
-    output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
-
+    if self.waypointValid(wp):
+      delta_x = wp[0]
+      delta_y = wp[1]
+      print("x", delta_x, "y", delta_y)
+      # if digging:
+      #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
+      #   delta_y = self.arrayIndex2WaypointPos(waypointIdx[1])
+      print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
+      output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
+    else:
+      output = agent.position[0], agent.position[1]
     return output, digging
 
 

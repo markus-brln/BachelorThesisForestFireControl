@@ -288,7 +288,7 @@ def outputs_angle(data):
 
 
 def waypoint2array(wp):
-  boxsize = 5
+  boxsize = 20
   arr = {}
   x = 0
   cur_entry = 0
@@ -309,7 +309,7 @@ def shrink2reachablewaypoint(wpX, wpY):
   '''
     fits waypoints into a range that the agent can reach given timeframe
   '''
-  size = 4
+  size = 1
   boxsize = timeframe / size
   roundError = 0.0
   while(float(abs(wpX) + abs(wpY)) > boxsize):
@@ -351,7 +351,7 @@ def outputs_box(data):
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
   outputs = []
-  boxsize = 5
+  boxsize = 20
   for agent in agent_info:
     # box/grid of possible locations format [[0,0,1,0,..], dig/drive],[[0,1,...0], dig/drive...]
     output = [0] * ((boxsize * boxsize) + ((boxsize + 1) * (boxsize + 1)))
@@ -389,7 +389,7 @@ def construct_output(data, NN_variant):
     output = outputs_angle(data)
   if NN_variant == "box":
     output = outputs_box(data)
-
+  
   return output
 
 

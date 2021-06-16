@@ -27,28 +27,24 @@ def build_model(input_shape):
     and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(3, 3), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+    downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(3, 3), strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
     # downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
     # out = Flatten()(out) ## do we need flatten layer before dense layer
-    out = Dense(64, activation='sigmoid')(downscaled)
+    out = Dense(32, activation='sigmoid')(downscaled)
     # out = Dense(16, activation='sigmoid')(out)
     # out = Dropout(0.2)(out)
     box = Dense(61, activation='softmax')(out)
     dig_drive = Dense(1, activation='sigmoid')(out)
 
-
-    # out = Dense(3)(out)                                     # nothing specified, so linear output
-    # out = Dense(1, activation='softmax')(out)       ## complete guess (let's see what happens)
-
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
-    adam = tf.keras.optimizers.Adam(learning_rate=0.001)
+    adam = tf.keras.optimizers.Adam(learning_rate=0.05)
     model.compile(loss=['categorical_crossentropy', 'mse'], # kullback_leibler_divergence ## categorical_crossentropy
                   optimizer=adam,
                   metrics=['categorical_accuracy', 'mse'])
@@ -140,6 +136,28 @@ def check_performance(test_data=None, model=None):
     plt.legend(['delta x', 'delta y', 'delta dig/drive'])
     plt.show()
 
+def arrayIndex2WaypointPos(idx):
+    size = 20
+    timeframe = 20
+    x = 0
+    cnt = 0
+    wp = (0, 0)
+    for y in range(-size, size + 1):
+      for x in range(-x, x + 1):
+        cnt += 1
+        if cnt == idx:
+          wp = (x, y)
+          # print(cnt, "wp", wp)
+          if (abs(x) + abs(y)) != 0:
+            scale = timeframe / (abs(x) + abs(y))
+          else:
+            scale = 1
+          x = round(scale * x)
+          y = round(scale * y)
+          wp = (x, y)
+      x += 1 if y < 0 else -1
+
+    return wp
 
 if __name__ == "__main__":
     # predict()                          # predict with model loaded from file
@@ -158,6 +176,16 @@ if __name__ == "__main__":
         boxArr.append(box)
 
     boxes = np.asarray(boxArr, dtype=np.float16)
+    boxID = [0] * 841
+    for box in boxes:
+        cnt = 0
+        for i in range(len(box)):
+            if box[i] == 1:
+                boxID[i] += 1
+
+    for p in range(len(boxID)):
+        if boxID[p] != 0:
+            print("array position:", p, "number of values in dataset:", boxID[p], "waypoint:", arrayIndex2WaypointPos(p))
     dig_drive = np.asarray(dig_drive, dtype=np.float16)
     print(boxes.shape, dig_drive.shape)
     ## to finish for two things

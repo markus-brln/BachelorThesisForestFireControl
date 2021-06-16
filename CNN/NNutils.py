@@ -40,6 +40,34 @@ def plot_history(history):
     plt.show()
 
 
+def plot_history_box(history):
+    """Plots accuracy/loss for training/validation set as a function of the epochs
+        :param history: Training history of model
+
+        Pro Tipp:     print(history.history.keys())
+                      if you want to find out what you can actually plot :)
+
+        inspiration taken from https://github.com/musikalkemist/DeepLearningForAudioWithPython
+    """
+    fig, axs = plt.subplots(2)
+
+    # create accuracy sublpot
+    axs[0].plot(history.history["box_categorical_accuracy"], label="train accuracy")
+    axs[0].plot(history.history["val_box_categorical_accuracy"], label="validation accuracy")
+    axs[0].set_ylabel("box_categorical_accuracy")
+    axs[0].legend(loc="lower right")
+    axs[0].set_title("val_box_categorical_accuracy")
+
+    # create error sublpot
+    axs[1].plot(history.history["box_loss"], label="train error")
+    axs[1].plot(history.history["val_box_loss"], label="validation error")
+    axs[1].set_ylabel("box_loss")
+    axs[1].set_xlabel("Epoch")
+    axs[1].legend(loc="upper right")
+    axs[1].set_title("val_box_loss")
+
+    plt.show()
+
 
 # https://github.com/musikalkemist/DeepLearningForAudioWithPython
 # https://www.youtube.com/playlist?list=PL-wATfeyAMNrtbkCNsLcpoAyBBRJZVlnf

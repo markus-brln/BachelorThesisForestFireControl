@@ -31,7 +31,7 @@ def main():
   print(f"variant: {variant}")
   
 
-  NN_control = True                                         # False -> gather data, True -> test NN
+  NN_control = False                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
   controller = Controller(model, view, NN_control, variant)
 

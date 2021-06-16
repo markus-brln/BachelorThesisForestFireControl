@@ -392,8 +392,9 @@ class Model:
   @staticmethod
   def set_windspeed():
     """Values from 0 to including 4 means there are 5 wind speed levels"""
-    # OLD WAY return random.randint(0, n_wind_speed_levels-1)
-    return 0
+    # OLD WAY
+    # return random.randint(0, n_wind_speed_levels-1)
+    return 2
 
 
   @staticmethod
@@ -410,7 +411,7 @@ class Model:
 
     # OLD WAY
     #return random.choice(list(wind_dirs.values()))
-    return list(wind_dirs.values())[0]
+    return list(wind_dirs.values())[4]
 
 
   def subscribe(self, subscriber):

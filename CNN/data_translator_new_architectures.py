@@ -497,7 +497,7 @@ def plot_data(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mEASYFIVE")#"STOCHASTIC")#
+  data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
   data = data[:100]
 
   #plot_data(data)
@@ -507,7 +507,7 @@ if __name__ == "__main__":
   #if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
   #  out_variant = architecture_variants[int(sys.argv[1])]
   #else:
-  out_variant = architecture_variants[0]
+  out_variant = architecture_variants[2]
   images, outputs = raw_to_IO(data, out_variant)
 
   #for img, out in zip(images, outputs):

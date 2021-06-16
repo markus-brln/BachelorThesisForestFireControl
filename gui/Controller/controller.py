@@ -209,7 +209,7 @@ class Controller:
     self.model.highlight_agent(None)
 
   def arrayIndex2WaypointPos(self, idx):
-    size = 10
+    size = 5
     x = 0
     cnt = 0
     wp = (0, 0)
@@ -219,7 +219,10 @@ class Controller:
         if cnt == idx:
           wp = (x, y)
           print(cnt, "wp", wp)
-          scale = timeframe / (abs(x) + abs(y))
+          if (abs(x) + abs(y)) != 0:
+            scale = timeframe / (abs(x) + abs(y))
+          else:
+            scale = 1
           x = round(scale * x)
           y = round(scale * y)
           wp = (x, y)

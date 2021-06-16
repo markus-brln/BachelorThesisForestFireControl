@@ -28,18 +28,19 @@ def build_model(input_shape):
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    # downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
     # out = Flatten()(out) ## do we need flatten layer before dense layer
     out = Dense(64, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(out)
+    # out = Dense(16, activation='sigmoid')(out)
     # out = Dropout(0.2)(out)
-    box = Dense(221, activation='softmax')(out)
+    box = Dense(61, activation='softmax')(out)
     dig_drive = Dense(1, activation='sigmoid')(out)
 
 
@@ -47,10 +48,10 @@ def build_model(input_shape):
     # out = Dense(1, activation='softmax')(out)       ## complete guess (let's see what happens)
 
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
-
-    model.compile(loss=['kullback_leibler_divergence', 'mse'], # kullback_leibler_divergence
-                  optimizer='adam',
-                  metrics=['categorical_accuracy', 'mse']) ##not sure if metric is correct (maybe try mse)
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)
+    model.compile(loss=['categorical_crossentropy', 'mse'], # kullback_leibler_divergence ## categorical_crossentropy
+                  optimizer=adam,
+                  metrics=['categorical_accuracy', 'mse'])
 
     return model
 
@@ -105,20 +106,20 @@ def check_performance(test_data=None, model=None):
     if not model:
         model = load("CNNbox")
 
-    images, outputs = test_data
+    images, boxes, dig_drive = test_data
     results = model.predict([images])
     print("results ", results)
 
     delta_x, delta_y, delta_digdrive = 0, 0, 0
     d_x, d_y, d_digdrive = list(), list(), list()
 
-    for result, desired in zip(outputs, results):
+    for result, desired in zip(boxes, results):
         d_x.append(abs(result[0] - desired[0]))
         d_y.append(abs(result[1] - desired[1]))
-        d_digdrive.append(abs(result[2] - desired[2]))
+        # d_digdrive.append(abs(result[2] - desired[2]))
         delta_x += abs(result[0] - desired[0])
         delta_y += abs(result[1] - desired[1])
-        delta_digdrive += abs(result[2] - desired[2])
+        # delta_digdrive += abs(result[2] - desired[2])
 
     delta_x, delta_y, delta_digdrive = delta_x / len(outputs), delta_y / len(outputs), delta_digdrive / len(outputs)
 
@@ -179,14 +180,24 @@ if __name__ == "__main__":
 
     history = model.fit(images,  # used to be list of 2 inputs to model
               [box, dig_drive],
-              batch_size=12, #64
-              epochs=60, #50
+              batch_size=32, #64
+              epochs=50, #50
               shuffle=True,
               # callbacks=[callback],
               #class_weight=class_weight,
               validation_split=0.2) #0.2
 
+    loss_values = history.history['loss']
+    epochs = range(1, len(loss_values) + 1)
+
+    plt.plot(epochs, loss_values, label='Training Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.show()
+
     save(model, "CNNbox")  # utils
     # check_performance(test_data, model)
     plot_history(history=history)
+
     #predict(model=model, data=test_data)

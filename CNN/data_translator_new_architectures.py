@@ -288,7 +288,7 @@ def outputs_angle(data):
 
 
 def waypoint2array(wp):
-  boxsize = 10
+  boxsize = 5
   arr = {}
   x = 0
   cur_entry = 0
@@ -309,11 +309,12 @@ def shrink2reachablewaypoint(wpX, wpY):
   '''
     fits waypoints into a range that the agent can reach given timeframe
   '''
-  boxsize = timeframe / 10
+  size = 4
+  boxsize = timeframe / size
   roundError = 0.0
-  while(float(abs(wpX) + abs(wpY)) > float(timeframe / boxsize)):
-    # print("while", (abs(wpX) + abs(wpY)), ">=",  (timeframe / boxsize))
-    scale = (timeframe / boxsize) / (abs(wpX) + abs(wpY))
+  while(float(abs(wpX) + abs(wpY)) > boxsize):
+    print("while", (abs(wpX) + abs(wpY)), ">=",  boxsize)
+    scale = boxsize / (abs(wpX) + abs(wpY))
     wpX = (wpX * scale) - roundError
     wpY = (wpY * scale) - roundError
     # print("pre round", (wpX, wpY))
@@ -350,12 +351,11 @@ def outputs_box(data):
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
   outputs = []
-  # boxsize = 2.5
-  timeframe = 10
+  boxsize = 5
   for agent in agent_info:
     # box/grid of possible locations format [[0,0,1,0,..], dig/drive],[[0,1,...0], dig/drive...]
-    output = [0] * ((timeframe * timeframe) + ((timeframe + 1) * (timeframe + 1)))
-    print("len", len(output))
+    output = [0] * ((boxsize * boxsize) + ((boxsize + 1) * (boxsize + 1)))
+    # print("len", len(output))
     xpos, ypos = agent[0]
     waypoint = tuple(agent[1])
     print("agent: (", xpos, ",", ypos, ") wp: (", waypoint[0], ",", waypoint[1], ")")

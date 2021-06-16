@@ -116,7 +116,11 @@ class Controller:
     """
     if event.key == pygame.K_ESCAPE:
       self.model.DataSaver.save_training_run()
-
+    if event.key == pygame.K_p:
+      print("hi")
+      env = self.produce_input_NN()
+      print(env.shape)
+      self.plot_binmap(env[0])
     if event.key == pygame.K_SPACE:
       if self.model.time % timeframe == 0:
         if self.last_timestep_waypoint_collection != self.model.time:
@@ -338,6 +342,27 @@ class Controller:
     return output, digging
 
   @staticmethod
+  def plot_binmap(image):
+    channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
+    f, axarr = plt.subplots(2, 4)
+    axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)).T, cmap='Greys', vmin=0, vmax=1)
+    axarr[0, 0].set_title("active fire")
+    axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)).T, cmap='Greys',vmin=0, vmax=1)
+    axarr[0, 1].set_title("fire breaks")
+    axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)).T, cmap='Greys',vmin=0, vmax=1)
+    axarr[0, 2].set_title("wind dir (uniform)")
+    axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)).T, cmap='Greys',vmin=0, vmax=1)
+    axarr[1, 0].set_title("wind speed (uniform)")
+    axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)).T, cmap='Greys',vmin=0, vmax=1)
+    axarr[1, 1].set_title("other agents")
+    axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)).T, cmap='Greys',vmin=0, vmax=1)
+    axarr[1, 2].set_title("active agent")
+    axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)).T, cmap='Greys',vmin=0, vmax=1)
+    axarr[1, 3].set_title("active agent y")
+    print("max", np.max(channels[5]), np.max(channels[6]))
+    plt.show()
+
+  @staticmethod
   def plot_np_image(image):
     channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
     f, axarr = plt.subplots(2, 4)
@@ -383,8 +408,8 @@ class Controller:
     apd = 10                                                # agent_point_diameter
     for active_agent in self.model.agents:
       agent_image = np.copy(single_image)
-      agent_image[:, :, 5] = active_agent.position[0] / 255  # x, y position of active agent on channel 5,6
-      agent_image[:, :, 6] = active_agent.position[1] / 255
+      agent_image[:, :, 5] = active_agent.position[0] / size  # x, y position of active agent on channel 5,6
+      agent_image[:, :, 6] = active_agent.position[1] / size
 
       for other_agent in self.model.agents:
         if other_agent != active_agent:

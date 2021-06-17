@@ -1,5 +1,6 @@
 import random
 
+import keras.losses
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -36,18 +37,18 @@ def build_model(input_shape):
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(out)
+    #out = Dense(32, activation='sigmoid')(downscaled)
     out = Dense(4)(out)                                     # nothing specified, so linear output
 
     model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.005)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
 
     model.compile(loss='mse',
                   optimizer=adam,
@@ -123,8 +124,8 @@ def check_performance(test_data=None, model=None):
     delta_x, delta_y, delta_digdrive = delta_x / len(outputs), delta_y / len(outputs), delta_digdrive / len(outputs)
 
 
-    print("average Delta X: ", delta_x)
-    print("average Delta Y: ", delta_y)
+    print("average Delta sin: ", delta_x)
+    print("average Delta cos: ", delta_y)
     print("average Delta DD: ", delta_digdrive)
 
     from scipy.stats import gaussian_kde
@@ -201,4 +202,3 @@ if __name__ == "__main__":
     save(model, "CNNangle")  # utils
     check_performance(test_data, model)
     plot_history(history=history)
-    #predict(model=model, data=test_data)

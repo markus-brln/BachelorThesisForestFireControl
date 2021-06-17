@@ -257,6 +257,11 @@ def outputs_xy(data):
   print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
+# Required for outputs_angle
+def cos_sin(x, y):
+    angle = math.atan2(x, y)
+    return math.cos(angle), math.sin(angle)
+
 
 def outputs_angle(data):
   print("Constructing angle outputs")
@@ -394,6 +399,12 @@ def construct_output(data, NN_variant):
   - angle, distance
   - vector of L*L where L == side length of a box around agent, 1 where agent needs to go
   """
+  #output1 = outputs_xy(data)
+  #output2 = outputs_angle(data)
+
+  #for out1, out2 in zip(output1, output2):
+  #  print(out1, out2)
+
   output = []
   if NN_variant == "xy":
     output = outputs_xy(data)
@@ -486,7 +497,7 @@ def construct_input(data):
     #img[ag_y][ag_x] = 1
     #img[agent[1] - ag_s: agent[1] + ag_s, agent[0] - ag_s: agent[0] + ag_s, 5] = 1
     '''
-    plot_np_image(img)
+    #plot_np_image(img)
 
   # print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
@@ -520,7 +531,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[2]
+    out_variant = architecture_variants[1]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

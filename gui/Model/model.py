@@ -194,9 +194,9 @@ class Model:
           for node in node_row:
             node.update_state()
     elif 0 < fire_step_multiplicator < 1:
-      if random.uniform(0, 1) < fire_step_multiplicator:    # slow fire down below 1 step / timestep for easy envs
-        for node_row in self.nodes:
-          for node in node_row:
+      for node_row in self.nodes:
+        for node in node_row:
+          if random.uniform(0, 1) < fire_step_multiplicator:  # slow fire down below 1 step / timestep for easy envs
             node.time_step()
 
       for node_row in self.nodes:                           # update states anyway for gui to catch new firebreaks
@@ -394,7 +394,7 @@ class Model:
     """Values from 0 to including 4 means there are 5 wind speed levels"""
     # OLD WAY
     # return random.randint(0, n_wind_speed_levels-1)
-    return 2
+    return 0
 
 
   @staticmethod
@@ -411,7 +411,7 @@ class Model:
 
     # OLD WAY
     #return random.choice(list(wind_dirs.values()))
-    return list(wind_dirs.values())[4]
+    return list(wind_dirs.values())[0]
 
 
   def subscribe(self, subscriber):

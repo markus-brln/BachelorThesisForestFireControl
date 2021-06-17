@@ -63,7 +63,7 @@ class Controller:
 
   def prepare_collecting_waypoints(self):
     """Clear old waypoints from view, order by angle, highlight first agent."""
-    print("Start collecting waypoints")
+    # print("Start collecting waypoints")
     self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
     self.model.waypoints.clear()                            # clear the actual waypoint positions after
                                                             # deleting them on the view!
@@ -203,7 +203,7 @@ class Controller:
         else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
-        print("pos: ", new_wp, "dig: ", digging)
+        # print("pos: ", new_wp, "dig: ", digging)
         print(" ")
         self.model.highlight_agent(self.agent_no)
         self.model.select_square(new_wp, digging=digging)
@@ -298,13 +298,14 @@ class Controller:
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
-    digging = output[2] > self.digging_threshold
-    print(f"output: {output}")
+    digging = output[3] > self.digging_threshold
+    # print(f"output: {output}")
+    cos_x = output[0]
+    sin_x = output[1]
+    radius = output[2]
 
-    angle = (output[0] - 0.5) * 2 * math.pi
-
-    delta_x = math.cos(angle) * timeframe * output[1]
-    delta_y = math.sin(angle) * timeframe * output[1]
+    delta_x = cos_x * radius * timeframe
+    delta_y = sin_x * radius * timeframe
 
     if not digging:
       delta_x = timeframe * 2
@@ -416,7 +417,7 @@ class Controller:
           x, y = other_agent.position
           agent_image[y - apd : y + apd, x - apd: x + apd, 4] = 1
 
-      print("current agent: ", active_agent.position)
+      # print("current agent: ", active_agent.position)
 
       #self.plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
@@ -460,6 +461,7 @@ class Controller:
 
     print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
+    print(output)
     return output
 
 

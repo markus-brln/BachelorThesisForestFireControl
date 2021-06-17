@@ -9,6 +9,7 @@ from numpy.core import multiarray
 from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 
 import sys
+import time
 
 sep = os.path.sep
 timeframe = 20
@@ -258,7 +259,7 @@ def outputs_xy(data):
 
 
 def outputs_angle(data):
-  print("Constructing xy outputs")
+  print("Constructing angle outputs")
   agent_info = [data_point[3] for data_point in data]
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list
 
@@ -275,12 +276,23 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    angle = math.atan2(delta_y, delta_x) / (2 * math.pi) + 0.5
-    print(f"x:{delta_x}, y:{delta_y}, angle:{angle}")
+    cos_position, sin_position = cos_sin(delta_x, delta_y)
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
-    print(angle)
-
-    outputs.append([angle, radius, drive_dig])
+    print("new agent")
+    print(f"sin: {sin_position}, x: {delta_x}")
+    print(f"cos: {cos_position}, y: {delta_y}")
+    print(f"radius: {radius}, dig: {drive_dig}")
+    if abs(cos_position * radius - delta_y) > 0.01:
+      print(f"invalid cos:")
+      print(f"cos: {cos_position}, radius: {radius}, y: {delta_y}")
+      print(f"cos * radius = {cos_position * radius}")
+      time.sleep(1)
+    if abs(sin_position * radius - delta_x) > 0.01:
+      print(f"invalid sin:")
+      print(f"sin: {sin_position}, radius: {radius}, x: {delta_x}")
+      print(f"sin * radius = {sin_position * radius}")
+      time.sleep(1)
+    outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)
 #   print(agent_info)
@@ -498,17 +510,18 @@ def plot_data(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="wind")#"STOCHASTIC")#"mEASYFIVEBASIC")
-  #data = data[:100]
+  data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
+  data = data[:100]
 
   #plot_data(data)
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
 
-  #if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
-  #  out_variant = architecture_variants[int(sys.argv[1])]
-  #else:
-  out_variant = architecture_variants[0]
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
+    out_variant = architecture_variants[int(sys.argv[1])]
+  else:
+    out_variant = architecture_variants[2]
+  print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 
   #for img, out in zip(images, outputs):

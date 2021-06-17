@@ -9,6 +9,7 @@ from numpy.core import multiarray
 from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
 
 import sys
+import time
 
 sep = os.path.sep
 timeframe = 20
@@ -285,6 +286,16 @@ def outputs_angle(data):
     print(f"sin: {sin_position}, x: {delta_x}")
     print(f"cos: {cos_position}, y: {delta_y}")
     print(f"radius: {radius}, dig: {drive_dig}")
+    if abs(cos_position * radius - delta_y) > 0.01:
+      print(f"invalid cos:")
+      print(f"cos: {cos_position}, radius: {radius}, y: {delta_y}")
+      print(f"cos * radius = {cos_position * radius}")
+      time.sleep(1)
+    if abs(sin_position * radius - delta_x) > 0.01:
+      print(f"invalid sin:")
+      print(f"sin: {sin_position}, radius: {radius}, x: {delta_x}")
+      print(f"sin * radius = {sin_position * radius}")
+      time.sleep(1)
     outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)

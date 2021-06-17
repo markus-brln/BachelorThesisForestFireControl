@@ -531,7 +531,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[1]
+    out_variant = architecture_variants[0]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

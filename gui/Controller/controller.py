@@ -204,7 +204,6 @@ class Controller:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
         # print("pos: ", new_wp, "dig: ", digging)
-        print(" ")
         self.model.highlight_agent(self.agent_no)
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1

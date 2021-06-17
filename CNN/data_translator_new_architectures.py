@@ -14,6 +14,9 @@ import time
 sep = os.path.sep
 timeframe = 20
 size = 255
+apd = 10                                                    # agent_point_diameter of inactive agents in CNN input
+
+
 
 def load_raw_data(file_filter):
   """Loads and concatenates all data from files in data/runs/"""
@@ -463,7 +466,6 @@ def construct_input(data):
     input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
 
 
-  apd = 5                                                   # agent_point_diameter
   all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
   active_agents_pos = []
   for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
@@ -522,7 +524,7 @@ def plot_data(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
-  data = data[:100]
+  data = data[:150]
 
   #plot_data(data)
 

@@ -19,6 +19,7 @@ uncertain_spawn = 0
 # OTHER GLOBALS
 block_size_in_pixels = int(765 / size)
 digging_threshold = 0.5                                     # NN output > threshold -> agent will dig (new architecture)
+apd = 10                                                    # agent_point_diameter when constructing the CNN input image
 
 
 def rotate_point(origin, point, angle):

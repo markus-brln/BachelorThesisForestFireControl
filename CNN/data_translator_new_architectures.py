@@ -280,9 +280,11 @@ def outputs_angle(data):
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
     cos_position, sin_position = cos_sin(delta_x, delta_y)
-    print(f"cos{cos_position}, y{delta_y}")
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
-    print(radius, cos_position, sin_position)
+    print("new agent")
+    print(f"cos: {cos_position}, y: {delta_y}")
+    print(f"sin: {sin_position}, x: {delta_x}")
+    print(f"radius: {radius}, dig: {drive_dig}")
     outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)

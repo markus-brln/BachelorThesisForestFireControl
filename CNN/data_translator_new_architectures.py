@@ -282,14 +282,13 @@ def outputs_angle(data):
     cos_position, sin_position = cos_sin(delta_x, delta_y)
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
     print("new agent")
-    print(f"cos: {cos_position}, x: {delta_x}")
-    print(f"sin: {sin_position}, y: {delta_y}")
+    print(f"sin: {sin_position}, x: {delta_x}")
+    print(f"cos: {cos_position}, y: {delta_y}")
     print(f"radius: {radius}, dig: {drive_dig}")
     outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)
 #   print(agent_info)
-  exit(0)
   return np.asarray(outputs, dtype=np.float16)
 
 

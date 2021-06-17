@@ -473,7 +473,8 @@ def construct_input(data):
     #img[ag_y - ag_s : ag_y +ag_s, ag_x -ag_s : ag_x +ag_s, 5] = 0.5 
     #img[ag_y][ag_x] = 1
     #img[agent[1] - ag_s: agent[1] + ag_s, agent[0] - ag_s: agent[0] + ag_s, 5] = 1
-    #plot_np_image(img)'''
+    '''
+    plot_np_image(img)
 
   # print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
@@ -497,8 +498,8 @@ def plot_data(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
-  data = data[:100]
+  data = load_raw_data(file_filter="wind")#"STOCHASTIC")#"mEASYFIVEBASIC")
+  #data = data[:100]
 
   #plot_data(data)
 
@@ -507,7 +508,7 @@ if __name__ == "__main__":
   #if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
   #  out_variant = architecture_variants[int(sys.argv[1])]
   #else:
-  out_variant = architecture_variants[2]
+  out_variant = architecture_variants[0]
   images, outputs = raw_to_IO(data, out_variant)
 
   #for img, out in zip(images, outputs):

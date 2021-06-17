@@ -9,7 +9,9 @@ they generalize for different environments, in my estimation.
 
 1. BASIC [WORKS]
 setting:
-- 5 agents, static spawning in regular distance, 70 agent radius, 1/3 fire speed, no wind
+- 5 agents, static spawning in regular distance (star formation), 70 agent radius,
+- fire speed 1 == 6 pixels per 20, so 1/3 of agent speed digging
+- no wind
 tactic:
 - all digging, close circle, then go outwards still digging
 files:
@@ -23,9 +25,27 @@ tactic:
 files:
 - mEASYFIVESTOCHASTIC0.npy, mEASYFIVESTOCHASTIC1.npy, mEASYFIVESTOCHASTIC2.npy
 
-3.
+3. WIND
 setting:
--
+- 8 different wind directions, 5 wind speed levels
+- spawn uncertainty = 10
+tactic:
+- focus on where the wind is going
+files:
+
+4. HIGH SPAWN UNCERTAINTY
+setting:
+- higher spawn uncertainty, not
 tactic:
 -
 files:
+
+4. HIGH SPAWN UNCERTAINTY + WIND
+setting:
+- difficulties of 3. and 4. combined
+tactic:
+-
+files:
+
+- maybe first experiment is too trivial
+- 3 architectures * 4 experiments * 10(?) trained models each

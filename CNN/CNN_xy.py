@@ -29,7 +29,7 @@ def build_model(input_shape):
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled) # strides==pool size by default
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)

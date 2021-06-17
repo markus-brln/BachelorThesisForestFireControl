@@ -13,7 +13,7 @@ nr_of_agents = 5
 timeframe = 20                                              # timeframe in between setting new waypoints
 agentRadius = 70                                            # agents spawn in this radius around the fire
 randseed = time.time()
-fire_step_multiplicator = 0.3                                 # speed up / slow down fire
+fire_step_multiplicator = 1                                 # speed up / slow down fire
 uncertain_spawn = 0
 
 # OTHER GLOBALS

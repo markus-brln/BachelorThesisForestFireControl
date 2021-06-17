@@ -291,7 +291,7 @@ def outputs_angle(data):
 
 
 def waypoint2array(wp):
-  boxsize = 10
+  boxsize = 5
   arr = {}
   x = 0
   cur_entry = 0
@@ -312,11 +312,12 @@ def shrink2reachablewaypoint(wpX, wpY):
   '''
     fits waypoints into a range that the agent can reach given timeframe
   '''
-  boxsize = timeframe / 10
+  size = 4
+  boxsize = timeframe / size
   roundError = 0.0
-  while(float(abs(wpX) + abs(wpY)) > float(timeframe / boxsize)):
-    # print("while", (abs(wpX) + abs(wpY)), ">=",  (timeframe / boxsize))
-    scale = (timeframe / boxsize) / (abs(wpX) + abs(wpY))
+  while(float(abs(wpX) + abs(wpY)) > boxsize):
+    print("while", (abs(wpX) + abs(wpY)), ">=",  boxsize)
+    scale = boxsize / (abs(wpX) + abs(wpY))
     wpX = (wpX * scale) - roundError
     wpY = (wpY * scale) - roundError
     # print("pre round", (wpX, wpY))
@@ -353,12 +354,11 @@ def outputs_box(data):
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
   outputs = []
-  # boxsize = 2.5
-  timeframe = 10
+  boxsize = 5
   for agent in agent_info:
     # box/grid of possible locations format [[0,0,1,0,..], dig/drive],[[0,1,...0], dig/drive...]
-    output = [0] * ((timeframe * timeframe) + ((timeframe + 1) * (timeframe + 1)))
-    print("len", len(output))
+    output = [0] * ((boxsize * boxsize) + ((boxsize + 1) * (boxsize + 1)))
+    # print("len", len(output))
     xpos, ypos = agent[0]
     waypoint = tuple(agent[1])
     print("agent: (", xpos, ",", ypos, ") wp: (", waypoint[0], ",", waypoint[1], ")")
@@ -400,7 +400,7 @@ def construct_input(data):
   """
   Translates the raw data generated from playing the simulation to NN-friendly I/O.
 
-  6 channel image NN input: (5 channels atm)
+  7 channel image NN input:
   - [0] active fire (no burned cell or tree channels)
   - [1] fire breaks
   - [2] wind direction
@@ -443,7 +443,7 @@ def construct_input(data):
     input_images_single[i][:, :, 3] = wind_speed_idx / (len(data[i][2]) - 1)
 
 
-  apd = 10                                                   # agent_point_diameter
+  apd = 5                                                   # agent_point_diameter
   all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
   active_agents_pos = []
   for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
@@ -452,21 +452,31 @@ def construct_input(data):
 
     for active_pos in agent_positions:
       agent_image = np.copy(single_image)
-      #agent_image[active_pos[0] - apd : active_pos[0] + apd, active_pos[1] - apd : active_pos[1] + apd, 5] = 1      # mark position of active agent, channel [5]
+      agent_image[active_pos[0] - apd : active_pos[0] + apd, active_pos[1] - apd : active_pos[1] + apd, 5] = 1      # mark position of active agent, channel [5]
       active_agents_pos.append([active_pos[0] / 255, active_pos[1] / 255])
 
       for others_pos in agent_positions:
         if others_pos != active_pos:
                                                              # mark position of other agents, channel [4]
           agent_image[others_pos[1] - apd: others_pos[1] + apd, others_pos[0] - apd : others_pos[0] + apd, 4] = 1
+      #    agent_image[others_pos[1], others_pos[0], 4] = 1
 
       all_images.append(agent_image)                        # 1 picture per agent
 
   # FOR NON-CONCAT
+  ag_s = 5
   for img, agent in zip(all_images, active_agents_pos):
     img[:, :, 5] = agent[0]                                 # x, y position of active agent on channel 5,6
     img[:, :, 6] = agent[1]
-    #plot_np_image(img)
+    '''
+    This stuff is for encoding active agent positions in
+    one channel as a box of 0.5 with a centre of 1.0.
+    #ag_x = int(agent[0] * 255)
+    #ag_y = int(agent[1] * 255)
+    #img[ag_y - ag_s : ag_y +ag_s, ag_x -ag_s : ag_x +ag_s, 5] = 0.5 
+    #img[ag_y][ag_x] = 1
+    #img[agent[1] - ag_s: agent[1] + ag_s, agent[0] - ag_s: agent[0] + ag_s, 5] = 1
+    #plot_np_image(img)'''
 
   # print(active_agents_pos)
   print("final amount of datapoints: ",len(all_images))
@@ -475,10 +485,8 @@ def construct_input(data):
 
 def raw_to_IO(data, NN_variant):
   outputs = construct_output(data, NN_variant)
-  if NN_variant == 'input':
-    images, concat = construct_input_bigAgents(data) ## creates a box around the agent to increase weight of agent position in the model
-  else:
-    images = construct_input(data)  # same input data for each architecture
+
+  images = construct_input(data)  # same input data for each architecture
 
   return images, outputs
 
@@ -492,7 +500,7 @@ def plot_data(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mEASYFIVE")#"STOCHASTIC")
+  data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
   data = data[:100]
 
   #plot_data(data)

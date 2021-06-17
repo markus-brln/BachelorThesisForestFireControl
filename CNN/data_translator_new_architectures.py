@@ -289,6 +289,7 @@ def outputs_angle(data):
 
   # print(outputs)
 #   print(agent_info)
+  exit(0)
   return np.asarray(outputs, dtype=np.float16)
 
 

@@ -11,10 +11,10 @@ from NNutils import *
 
 
 def custom_loss_function(value, prediction):
-		angle_error = kb.minimum(kb.square(value[:][0] - prediction[:][0]), kb.square(1 - value[:][0] + prediction[:][0]))
-		dista_error = kb.square(value[:][1] - prediction[:][1])
-		diggi_error = kb.square(value[:][2] - prediction[:][2])
-		return (angle_error + dista_error + diggi_error) / 3
+    angle_error = kb.minimum(kb.square(value[:][0] - prediction[:][0]), kb.square(1 - value[:][0] + prediction[:][0]))
+    radius_error = kb.square(value[:][1] - prediction[:][1])
+    digging_error = kb.square(value[:][2] - prediction[:][2])
+    return (angle_error + radius_error + digging_error) / 3
 
 
 def load_data(out_variant):
@@ -31,7 +31,7 @@ def load_data(out_variant):
 
 def build_model(input_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
-    and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
+    and outputs [cos(pos_angle), sin(pos_angle), radius, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
@@ -43,7 +43,7 @@ def build_model(input_shape):
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='sigmoid')(downscaled)
     out = Dense(32, activation='sigmoid')(out)
-    out = Dense(3)(out)                                     # nothing specified, so linear output
+    out = Dense(4)(out)                                     # nothing specified, so linear output
 
     model = Model(inputs=downscaleInput, outputs=out)
 
@@ -186,7 +186,8 @@ if __name__ == "__main__":
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
-                    2: 0.5}
+                    2: 0.8,
+                    3: 0.5}
 
     history = model.fit([images],  # list of 2 inputs to model
               outputs,

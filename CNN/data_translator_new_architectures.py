@@ -256,9 +256,13 @@ def outputs_xy(data):
   print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
+# Required for outputs_angle
+def cos_sin(x, y):
+    angle = math.atan2(x, y)
+    return math.cos(angle), math.sin(angle)
 
 def outputs_angle(data):
-  print("Constructing xy outputs")
+  print("Constructing angle outputs")
   agent_info = [data_point[3] for data_point in data]
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list
 
@@ -275,12 +279,11 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    angle = math.atan2(delta_y, delta_x) / (2 * math.pi) + 0.5
-    print(f"x:{delta_x}, y:{delta_y}, angle:{angle}")
+    cos_position, sin_position = cos_sin(delta_x, delta_y)
+    print(f"cos{cos_position}, y{delta_y}")
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
-    print(angle)
-
-    outputs.append([angle, radius, drive_dig])
+    print(radius, cos_position, sin_position)
+    outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)
 #   print(agent_info)
@@ -496,11 +499,11 @@ if __name__ == "__main__":
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
 
-  architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
     out_variant = architecture_variants[2]
+  print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 
   #for img, out in zip(images, outputs):

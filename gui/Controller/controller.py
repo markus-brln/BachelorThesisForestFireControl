@@ -383,6 +383,48 @@ class Controller:
     print("max", np.max(channels[5]), np.max(channels[6]))
     plt.show()
 
+
+  def produce_input_NN_old(self):
+    """
+    construct inputs images like in the data_translator, plus active agent positions to concatenate
+    - [0] active fire (no burned cell or tree channels)
+    - [1] fire breaks
+    - [2] wind direction
+    - [3] wind speed
+    - [4] other agents
+    """
+    shape = (256, 256, 7)  # see doc comment
+    single_image = np.zeros(shape)
+
+    for fire_pixel in self.model.firepos:
+      single_image[fire_pixel[0]][fire_pixel[1]][0] = 1
+    for firebreak_pixel in self.model.firebreaks:
+      single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
+
+    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
+    single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
+
+    all_images = []
+    apd = 10  # agent_point_diameter
+    for active_agent in self.model.agents:
+      agent_image = np.copy(single_image)
+      agent_image[:, :, 5] = active_agent.position[0] / 255  # x, y position of active agent on channel 5,6
+      agent_image[:, :, 6] = active_agent.position[1] / 255
+
+      for other_agent in self.model.agents:
+        if other_agent != active_agent:
+          x, y = other_agent.position
+          agent_image[y - apd: y + apd, x - apd: x + apd, 4] = 1
+
+      print("current agent: ", active_agent.position)
+
+      # self.plot_np_image(agent_image)
+      all_images.append(agent_image)  # 1 picture per agent
+
+    return np.asarray(all_images)
+    # return [np.asarray(all_images), np.asarray(agent_positions)]   concat version
+
+
   def produce_input_NN(self):
     """
     construct inputs images like in the data_translator, plus active agent positions to concatenate

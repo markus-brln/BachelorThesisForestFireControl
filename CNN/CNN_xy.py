@@ -26,34 +26,21 @@ def build_model(input_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
     and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
-    """downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled) # strides==pool size by default
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Flatten()(downscaled)
-    #out = Dense(48, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(downscaled)
-    out = Dense(3)(out)                                     # nothing specified, so linear output
-"""
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled) # strides==pool size by default
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    #out = Dense(48, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(downscaled)
-    out = Dense(3)(out)                                     # nothing specified, so linear output"""
+    out = Dense(48, activation='sigmoid')(downscaled)
+    out = Dense(32, activation='sigmoid')(out)
+    out = Dense(3)(out)                                     # nothing specified, so linear output
 
     model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.005)    # initial learning rate faster
 
     model.compile(loss='mse',
                   optimizer=adam,

@@ -10,7 +10,7 @@ they generalize for different environments, in my estimation.
 1. BASIC [WORKS]
 setting:
 - 5 agents, static spawning in regular distance (star formation), 70 agent radius,
-- fire speed 1 == 6 pixels per 20, so 1/3 of agent speed digging
+- fire speed 1 == 2 pixels per 20, so 1/10 of agent speed digging
 - no wind
 tactic:
 - all digging, close circle, then go outwards still digging

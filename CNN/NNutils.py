@@ -13,6 +13,14 @@ def unison_shuffled_copies(a, b):
     return a[p], b[p]
 
 
+def n_samples(list_of_lists, k):
+    """Takes k random samples from all lists inside the given list."""
+    if k > len(list_of_lists[0]):
+        print("list not long enough! returning full list.")
+        return list_of_lists
+
+
+
 def plot_history(history):
     # function taken from https://github.com/musikalkemist/DeepLearningForAudioWithPython
     """Plots accuracy/loss for training/validation set as a function of the epochs

@@ -146,6 +146,8 @@ if __name__ == "__main__":
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[2]
+    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+    experiment = experiments[0]                             # dictates model name
 
     images, outputs = load_data(out_variant)
     box = []
@@ -196,7 +198,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.show()
 
-    save(model, "CNNbox")  # utils
+    save(model, "CNNbox" + experiment)  # utils
     # check_performance(test_data, model)
     plot_history(history=history)
 

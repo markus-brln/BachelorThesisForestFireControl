@@ -15,7 +15,7 @@ setting:
 tactic:
 - all digging, close circle, then go outwards still digging
 files:
-- mEASYFIVE.npy
+- mBASICFIVE.npy
 
 2. STOCHASTIC [WORKS mostly]
 setting:
@@ -23,18 +23,22 @@ setting:
 tactic:
 - same as 1.
 files:
-- mEASYFIVESTOCHASTIC0.npy, mEASYFIVESTOCHASTIC1.npy, mEASYFIVESTOCHASTIC2.npy
+- mSTOCHASTICFIVE0.npy, mSTOCHASTICFIVE1.npy, mSTOCHASTICFIVE2.npy
 
 3. WIND
 setting:
 - 8 different wind directions, 5 wind speed levels
 - spawn uncertainty = 10
+- agentRadius = 80  (increased by 10 so first waypoint can be driving to the middle)
 - fire_step_multiplicator = 0.6
   -> max wind speed: 7.6 pixels per 20 timesteps -> 1/2.5 agent speed
   -> min wind speed: 3.6                         -> 1/5.5 agent speed
 tactic:
-- focus on where the wind is going
+- drive to middle
+- start digging clock-wise, as usual
+- focus a bit on where the wind is going
 files:
+- mWINDFIVE0.npy,
 
 4. HIGH SPAWN UNCERTAINTY
 setting:

@@ -166,6 +166,8 @@ if __name__ == "__main__":
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[1]
+    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+    experiment = experiments[0]                             # dictates model name
 
     images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]
@@ -198,7 +200,7 @@ if __name__ == "__main__":
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNNangle")  # utils
+    save(model, "CNNangle" + experiment)  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)

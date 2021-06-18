@@ -25,7 +25,7 @@ class Controller:
     self.NN_control = NN_control
     self.NN = None
     if self.NN_control:
-      self.NN = self.load_NN("CNN"+self.NN_variant)                              # from json and h5 file
+      self.NN = self.load_NN("CNN"+self.NN_variant + utils.experiment)  # from json and h5 file
     self.digging_threshold = utils.digging_threshold
 
 

@@ -1,13 +1,9 @@
 import os
-import random
-
 import numpy as np
 import math
 import glob
 import matplotlib.pyplot as plt
-from numpy.core import multiarray
-from numpy.lib.ufunclike import _fix_and_maybe_deprecate_out_named_y
-
+from NNutils import plot_np_image, plot_data
 import sys
 import time
 
@@ -43,86 +39,6 @@ def load_raw_data(file_filter):
       file_data = np.load(filepath, allow_pickle=True)
       data = np.concatenate([data, file_data])
   return data
-
-
-def rot_pos(pos):
-  size = 255
-  x, y = pos
-  x -= size / 2
-  y -= size / 2
-
-  return (-y + size / 2, x + size / 2)
-
-
-def rotate_wind(wind):
-    list = wind.tolist()
-    idx = list.index(1)
-    list[idx] = 0
-    if idx == 0: #nn
-      idx = 2 #ee
-    elif idx == 1: #ss
-      idx = 3 #ww
-    if idx == 2: #ee
-      idx = 1 #ss
-    elif idx == 3: #ww
-      idx = 0 #nn
-    if idx == 4: #ne
-      idx = 6 #se
-    elif idx == 5: #nw
-      idx = 4 #ne
-    if idx == 6: #se
-      idx = 7 #sw
-    elif idx == 7: #sw
-      idx = 5 #nw
-    list[idx] = 1
-    wind = np.array(list)
-    return wind
-
-
-def rotate(datapoint):
-  environment = np.rot90(datapoint[0])
-  wind = rotate_wind(datapoint[1])
-                                    # Wind speed
-  windspeed = datapoint[2]
-
-  new_waypoints = []
-  for idx in range(len(datapoint[3])):
-    first_entry = rot_pos(datapoint[3][idx][0])
-    second_entry = rot_pos(datapoint[3][idx][1])
-    digging = datapoint[3][idx][2]
-    new_waypoints.append([first_entry, second_entry, digging])
-    
-  return [environment, wind, windspeed, new_waypoints]
-
-
-def augment_datapoint(datapoint):
-  augmented_data = [datapoint]
-  augmented_data.append(rotate(augmented_data[-1]))
-  augmented_data.append(rotate(augmented_data[-1]))
-  augmented_data.append(rotate(augmented_data[-1]))
-
-  return augmented_data
-
-
-def plot_np_image(image):
-  channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
-  f, axarr = plt.subplots(2, 4)
-  axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 0].set_title("active fire")
-  axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 1].set_title("fire breaks")
-  axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 2].set_title("wind dir (uniform)")
-  axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 0].set_title("wind speed (uniform)")
-  axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 1].set_title("other agents")
-  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 2].set_title("active agent x")
-  axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 3].set_title("active agent y")
-  print("max", np.max(channels[5]), np.max(channels[6]))
-  plt.show()
 
 
 def outputs_xy(data):
@@ -323,7 +239,7 @@ def construct_input(data):
     agent_specific = data_point[3]
     if len(agent_specific) == n_agents:  # some data points don't have the right amount of agents
       datatmp.append(data_point)
-  data = datatmp[0:5]
+  data = datatmp#[0:5]
   print(len(data))
 
   # INPUT IMAGES
@@ -371,7 +287,7 @@ def construct_input(data):
   for img, agent in zip(all_images, active_agents_pos):
     img[:, :, 5] = agent[0]  # x, y position of active agent on channel 5,6
     img[:, :, 6] = agent[1]
-    plot_np_image(img)
+    #plot_np_image(img)
 
   print(active_agents_pos)
   print("final amount of datapoints: ", len(all_images))
@@ -386,21 +302,13 @@ def raw_to_IO(data, NN_variant):
   return images, outputs
 
 
-def plot_data(data):
-  for dat in data:
-    print("wind dir:", dat[1])
-    print("wind speed:", dat[2])
-    print("agent info:",dat[3])
-    plt.imshow(dat[0])
-    plt.show()
-  exit()
-
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   data = load_raw_data(file_filter="WIND")#"BASIC")#"STOCHASTIC")#
-  data = data#[:100]
-
+  data = data#[:3]
+  #data = shift_augment(data)     # does not work yet
+  print(len(data))
   #plot_data(data)
 
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
@@ -412,12 +320,6 @@ if __name__ == "__main__":
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 
-  #for img, out in zip(images, outputs):
-  #  print(out)
-  #  print("x, y: ", img[0][0][5], img[0][0][6])
-  #  plot_np_image(img)
-
-  #exit()
 
   np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)

@@ -48,50 +48,6 @@ def build_model(input_shape):
 
     return model
 
-def predict(model=None, data=None, n_examples=5):
-    """show inputs together with predictions of CNN,
-       either provided as param or loaded from file"""
-    if data:
-        n_examples = len(data[0])
-    if not data:
-        images, concat, desired_outputs = load_data()
-    else:
-        images, concat, desired_outputs = data
-
-    if not model:
-        model = tf.keras.models.load_model("saved_models/safetySafe")
-    #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
-    indeces = random.sample(range(len(images)), n_examples)
-    X1 = images[indeces]                                        # more clever way to write it down
-    X2 = concat[indeces]
-    desired = desired_outputs[indeces]
-
-    NN_output = model.predict([X1, X2])                        # outputs 61x61x2
-
-    # translate the 5 channel input back to displayable images
-    orig_img = np.zeros((len(X1), 256, 256))
-    for i, image in enumerate(X1):
-        print("reconstructing image ", i+1, "/", n_examples)
-        for y, row in enumerate(image):
-            for x, cell in enumerate(row):
-                for idx, item in enumerate(cell):
-                    if item == 1:
-                        orig_img[i][y][x] = idx
-
-    #outputs = np.zeros((len(X1), 256, 256))
-    #for img, point in outputs, NN_output:
-
-
-    # display input images and the 2 waypoint output images (from 2 channels)
-    for i in range(len(NN_output)):
-        print("agent pos: ", X2[i][-2], X2[i][-1])
-        print("desired: ", desired[i])
-        print("NN output: ", NN_output[i])
-        plt.imshow(orig_img[i])
-        plt.title("input image")
-        plt.show()
-
-
 def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
@@ -133,27 +89,6 @@ def check_performance(test_data=None, model=None):
     plt.show()
 
 
-def plot_np_image(image):
-  channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
-  f, axarr = plt.subplots(2, 4)
-  axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 0].set_title("active fire")
-  axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 1].set_title("fire breaks")
-  axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 2].set_title("wind dir (uniform)")
-  axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 0].set_title("wind speed (uniform)")
-  axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 1].set_title("other agents")
-  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 2].set_title("active agent x")
-  axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 3].set_title("active agent y")
-  print("x, y pos of active agent: ", channels[0][0][5], channels[0][0][6])
-  plt.show()
-
-
 if __name__ == "__main__":
     # predict()                                             # predict with model loaded from file
     # exit()
@@ -163,9 +98,9 @@ if __name__ == "__main__":
     experiment = experiments[2]                             # dictates model name
 
     images, outputs = load_data(out_variant)
+
     test_data = [images[:20], outputs[:20]]
     images, outputs = images[20:], outputs[20:]
-
     #for image, output in zip(images, outputs):
     #    print(output)
     #    print("x,y active: ", image[0][0][5], image[0][0][6])

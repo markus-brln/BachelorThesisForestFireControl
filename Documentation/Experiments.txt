@@ -10,7 +10,7 @@ they generalize for different environments, in my estimation.
 1. BASIC [WORKS]
 setting:
 - 5 agents, static spawning in regular distance (star formation), 70 agent radius,
-- fire speed 1 == 2 pixels per 20, so 1/10 of agent speed digging
+- fire_step_multiplicator = 0.3 => 2 pixels per 20, so 1/10 of agent speed digging
 - no wind
 tactic:
 - all digging, close circle, then go outwards still digging
@@ -29,6 +29,9 @@ files:
 setting:
 - 8 different wind directions, 5 wind speed levels
 - spawn uncertainty = 10
+- fire_step_multiplicator = 0.6
+  -> max wind speed: 7.6 pixels per 20 timesteps -> 1/2.5 agent speed
+  -> min wind speed: 3.6                         -> 1/5.5 agent speed
 tactic:
 - focus on where the wind is going
 files:

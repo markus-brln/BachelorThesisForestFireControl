@@ -2,8 +2,6 @@ import time
 import math
 
 # WIND values
-windspeed = 0
-wind_dir = []
 n_wind_dirs = 8
 n_wind_speed_levels = 5
 wind_on = False
@@ -25,6 +23,7 @@ apd = 10                                                    # agent_point_diamet
 def configure_globals(experiment):
     global wind_on
     global uncertain_spawn
+    global fire_step_multiplicator
 
     if experiment == "BASIC":
         wind_on = False
@@ -35,6 +34,7 @@ def configure_globals(experiment):
     elif experiment == "WIND":
         wind_on = True
         uncertain_spawn = 10
+        fire_step_multiplicator = 0.6
 
     elif experiment == "UNCERTAINTY":
         pass

@@ -1,9 +1,9 @@
 from enum import Enum, IntEnum
 from Model.direction import Direction
-import numpy as np
 import random
+from Model import utils
 
-#random.seed(0)
+
 
 class NodeType (Enum):
   """Room to introduce more different kinds of nodes."""
@@ -20,7 +20,7 @@ class NodeState (IntEnum):
 
 
 class Node:
-  def __init__(self, model, position, node_type, wind_dir, windspeed):
+  def __init__(self, model, position, node_type, wind_dir, wind_speed):
     ## For callbacks
     self.model = model
 
@@ -28,25 +28,13 @@ class Node:
     self.type = node_type
     self.position = position
     self.wind_dir = wind_dir
-    self.windspeed = windspeed
+    self.wind_speed = wind_speed
     self.set_default_properties()         ## Set fuel, temp and ignition threshold to default based on type
     self.state = NodeState.NORMAL
     self.next_state = NodeState.NORMAL
 
     ## Prepare for first episode
     self.reset()
-
-    #self.more_neighbours = self.init_more_neighbours()
-
-  #def init_more_neighbours(self):
-  #  more_neighbours = list()
-  #  for x in range(self.position[0] - 3, self.position[0] + 3):
-  #    if -1 < x < self.model.size:
-  #      for y in range(self.position[1] - 3, self.position[1] + 3):
-  #        if -1 < y < self.model.size and not (x is self.position[0] and y is self.position[1]):
-  #          #print(x,y, self.position)
-  #          more_neighbours.append((x,y))
-  #  return more_neighbours
 
 
   def reset(self):
@@ -73,7 +61,6 @@ class Node:
                        Direction.WEST: west}
 
   
-  ## Time iteration 
   def time_step(self):
     if self.state == NodeState.ON_FIRE:
       if self.present_agent:
@@ -84,37 +71,18 @@ class Node:
         self.burn_out()
       
       self.heat_up_neighbours()
-  
-  #@jit(nopython=True)
-  #def get_multipliers(self, winddir1, winddir2):
-  #  x_mult = 1
-  #  y_mult = 1
-  #  return x_mult, y_mult
 
 
   def heat_up_neighbours(self):
     for direction, neighbour in self.neighbours.items():
       if neighbour is not None:
         heat_spread = random.uniform(0.5, 1.5)
-        #heat_spread = 1 #TODO Stochastic?
         if any(Direction.is_opposite(direction, wind_dir) for wind_dir in self.wind_dir):
-          heat_spread /= (1 + (self.windspeed / 4))    # half the spread if full wind in opposite dir
+          heat_spread /= (1 + (self.wind_speed / 3))    # half the spread if full wind in opposite dir
         elif direction in self.wind_dir:
-          if self.windspeed > 0:
-            heat_spread *= 1 + (self.windspeed / 4)
-          #else:
-          #  heat_spread = 1
+          if self.wind_speed > 0:
+            heat_spread *= 1 + (self.wind_speed / 3)
         neighbour.heat_up(heat_spread)
-
-    # a not so nice approach
-    #for neighbour in self.more_neighbours:
-    #  node = self.model.nodes[neighbour[0]][neighbour[1]]
-    #  delta_x = 1 + abs(node.position[0] - self.position[0])
-    #  delta_y = 1 + abs(node.position[1] - self.position[1])
-    #  x_mult, y_mult = self.get_multipliers(self.wind_dir[0], self.wind_dir[1])
-    #  heat = x_mult / delta_x + y_mult / delta_y
-    #  node.heat_up(heat)
-
 
 
   def heat_up(self, heat):

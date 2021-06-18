@@ -591,15 +591,16 @@ def raw_to_IO(data, NN_variant):
 
 def plot_data(data):
   for dat in data:
-    # print(dat[3])
+    print("wind dir:", dat[1])
+    print("wind speed:", dat[2])
+    print("agent info:",dat[3])
     plt.imshow(dat[0])
     plt.show()
-
   exit()
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
+  data = load_raw_data(file_filter="WIND")#"BASIC")#"STOCHASTIC")#
   data = data[:100]
 
   #plot_data(data)

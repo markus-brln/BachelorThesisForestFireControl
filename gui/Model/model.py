@@ -131,6 +131,7 @@ class Model:
     """Reset values for wind speed and direction held by model and
        each individual node."""
     self.wind_speed = self.set_windspeed()
+
     self.wind_dir = self.set_wind_dir()
     print("windspeed: ", self.wind_speed)
     print(self.wind_dir)
@@ -192,12 +193,12 @@ class Model:
           for node in node_row:
             node.update_state()
     elif 0 < utils.fire_step_multiplicator < 1:
-      for node_row in self.nodes:
-        for node in node_row:
-          if random.uniform(0, 1) < utils.fire_step_multiplicator:  # slow fire down below 1 step / timestep for easy envs
+      if random.uniform(0, 1) < utils.fire_step_multiplicator:  # slow fire down below 1 step / timestep for easy envs
+        for node_row in self.nodes:
+          for node in node_row:
             node.time_step()
 
-      for node_row in self.nodes:                           # update states anyway for gui to catch new firebreaks
+      for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
         for node in node_row:
           node.update_state()
     else:

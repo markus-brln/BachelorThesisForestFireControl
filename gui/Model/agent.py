@@ -2,7 +2,7 @@ from collections import deque
 from math import sqrt
 
 from Model.direction import Direction
-from Model.utils import *
+from Model import utils
 
 from numpy import arctan2
 
@@ -47,13 +47,13 @@ class Agent:
     total_steps = abs(delta_x) + abs(delta_y)               # total steps cannot be bigger than timeframe for agents to move
 
     if self.is_digging:                                     # selected node closer to agent, then only walk/dig that far
-      if total_steps < timeframe:
+      if total_steps < utils.timeframe:
         self.wp_digging = position
         self.wp = position
         self.wp_driving = None
         return
     else:
-      if total_steps < timeframe * 2:
+      if total_steps < utils.timeframe * 2:
         self.wp_digging = None
         self.wp = position
         self.wp_driving = position
@@ -64,8 +64,8 @@ class Agent:
       move_y = 0
 
     else:
-      move_x = (delta_x / total_steps ) * (timeframe - 1)   # make use of the fact that we deal with 'similar triangles'
-      move_y = (delta_y / total_steps) * (timeframe - 1)
+      move_x = (delta_x / total_steps ) * (utils.timeframe - 1)   # make use of the fact that we deal with 'similar triangles'
+      move_y = (delta_y / total_steps) * (utils.timeframe - 1)
 
     self.wp = [round(self.position[0] + move_x), round(self.position[1] + move_y)]
 

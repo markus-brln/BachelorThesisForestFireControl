@@ -6,6 +6,7 @@ windspeed = 0
 wind_dir = []
 n_wind_dirs = 8
 n_wind_speed_levels = 5
+wind_on = False
 
 # GLOBALS (documented when saving)
 size = 255                                                  # environment size
@@ -20,6 +21,25 @@ uncertain_spawn = 0
 block_size_in_pixels = int(765 / size)
 digging_threshold = 0.5                                     # NN output > threshold -> agent will dig (new architecture)
 apd = 10                                                    # agent_point_diameter when constructing the CNN input image
+
+def configure_globals(experiment):
+    global wind_on
+    global uncertain_spawn
+
+    if experiment == "BASIC":
+        wind_on = False
+        uncertain_spawn = 0
+    elif experiment == "STOCHASTIC":
+        wind_on = False
+        uncertain_spawn = 10
+    elif experiment == "WIND":
+        wind_on = True
+        uncertain_spawn = 10
+
+    elif experiment == "UNCERTAINTY":
+        pass
+    elif experiment == "UNCERTAINTY+WIND":
+        pass
 
 
 def rotate_point(origin, point, angle):

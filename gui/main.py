@@ -9,30 +9,29 @@ import pygame
 from Model.model import Model
 from View.view import View
 from Controller.controller import Controller
-from Model.utils import *
-
 import sys
+from Model import utils
 
 pygame.init()                                               # Initialize Pygame
 pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 
 def main():
-	
-  model = Model(size, nr_of_agents, agentRadius)            # Initialize Environment
-  view = View(model, block_size_in_pixels)                  # Start View
+  architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
+  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
 
-  architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
-    variant = architecture_variants[int(sys.argv[1])]
+      variant = architecture_variants[int(sys.argv[1])]
   else:
-    variant = architecture_variants[0]
-   
+      variant = architecture_variants[0]
   print(f"variant: {variant}")
-  
-
-  NN_control = True                                         # False -> gather data, True -> test NN
+  experiment = experiments[2]
+  NN_control = False                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
+
+  utils.configure_globals(experiment)
+  model = Model(utils.size, utils.nr_of_agents, utils.agentRadius)            # Initialize Environment
+  view = View(model, utils.block_size_in_pixels)                  # Start View
   controller = Controller(model, view, NN_control, variant)
 
   if NN_control:

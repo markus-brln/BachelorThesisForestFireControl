@@ -2,7 +2,7 @@ import pygame
 import time
 from Model.model import Model
 from View.view import View
-from Model.utils import *
+from Model import utils
 import os
 import numpy as np
 from matplotlib import pyplot as plt
@@ -26,7 +26,7 @@ class Controller:
     self.NN = None
     if self.NN_control:
       self.NN = self.load_NN("CNN"+self.NN_variant)                              # from json and h5 file
-    self.digging_threshold = digging_threshold
+    self.digging_threshold = utils.digging_threshold
 
 
   def update(self, event):
@@ -122,14 +122,14 @@ class Controller:
       print(env.shape)
       self.plot_binmap(env[0])
     if event.key == pygame.K_SPACE:
-      if self.model.time % timeframe == 0:
+      if self.model.time % utils.timeframe == 0:
         if self.last_timestep_waypoint_collection != self.model.time:
           self.prepare_collecting_waypoints()
           self.last_timestep_waypoint_collection = self.model.time
         else:
           self.model.append_datapoint()                     # only start after first 'timeframe' timesteps
           #start = time.time()                              # measure model progression
-          for _ in range(timeframe):
+          for _ in range(utils.timeframe):
             self.model.time_step()                          # Space to go to next timestep
 
           #print("time: ", time.time()-start)
@@ -154,7 +154,7 @@ class Controller:
       # TODO save data about how often fire was contained
       exit()
 
-    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != nr_of_agents:
+    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != utils.nr_of_agents:
       self.model.discard_episode()
       self.model.start_episode()                            # BACKSPACE to go to next episode
       self.model.reset_wind()
@@ -167,7 +167,7 @@ class Controller:
       # print("controller - outputs: ", outputs)
       self.set_waypoints_NN(outputs)
 
-      for _ in range(timeframe):
+      for _ in range(utils.timeframe):
         self.model.time_step()
       return
 
@@ -223,7 +223,7 @@ class Controller:
           wp = (x, y)
           print(cnt, "wp", wp)
           if (abs(x) + abs(y)) != 0:
-            scale = timeframe / (abs(x) + abs(y))
+            scale = utils.timeframe / (abs(x) + abs(y))
           else:
             scale = 1
           x = round(scale * x)
@@ -277,13 +277,13 @@ class Controller:
     digging = output[2] > self.digging_threshold
 
     if digging:
-      delta_x = output[0] * timeframe
-      delta_y = output[1] * timeframe
+      delta_x = output[0] * utils.timeframe
+      delta_y = output[1] * utils.timeframe
     else:
-      delta_x = output[0] * timeframe * 2                   # twice as fast driving
-      delta_y = output[1] * timeframe * 2
+      delta_x = output[0] * utils.timeframe * 2                   # twice as fast driving
+      delta_y = output[1] * utils.timeframe * 2
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                                  # agents can dig 1 step per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
@@ -303,14 +303,14 @@ class Controller:
     sin_x = output[1]
     radius = output[2]
 
-    delta_x = cos_x * radius * timeframe
-    delta_y = sin_x * radius * timeframe
+    delta_x = cos_x * radius * utils.timeframe
+    delta_y = sin_x * radius * utils.timeframe
 
     if not digging:
-      delta_x = timeframe * 2
-      delta_y = timeframe * 2
+      delta_x = utils.timeframe * 2
+      delta_y = utils.timeframe * 2
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                                  # agents can dig 1 step per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
@@ -329,7 +329,7 @@ class Controller:
     new_wp = (int(output[0] * 255), int(output[1] * 255))
     digging = output[2] > self.digging_threshold
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                                  # agents can dig 1 step per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
@@ -401,8 +401,8 @@ class Controller:
     for firebreak_pixel in self.model.firebreaks:
       single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
 
-    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
-    single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
+    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (utils.n_wind_dirs - 1)
+    single_image[:, :, 3] = self.model.wind_speed / (utils.n_wind_speed_levels - 1)
 
     all_images = []
     apd = 10  # agent_point_diameter
@@ -443,15 +443,15 @@ class Controller:
     for firebreak_pixel in self.model.firebreaks:
       single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
 
-    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
-    single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
+    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (utils.n_wind_dirs - 1)
+    single_image[:, :, 3] = self.model.wind_speed / (utils.n_wind_speed_levels - 1)
 
     all_images = []
     apd = 10                                                # agent_point_diameter
     for active_agent in self.model.agents:
       agent_image = np.copy(single_image)
-      agent_image[:, :, 5] = active_agent.position[0] / size  # x, y position of active agent on channel 5,6
-      agent_image[:, :, 6] = active_agent.position[1] / size
+      agent_image[:, :, 5] = active_agent.position[0] / utils.size  # x, y position of active agent on channel 5,6
+      agent_image[:, :, 6] = active_agent.position[1] / utils.size
 
       for other_agent in self.model.agents:
         if other_agent != active_agent:
@@ -483,7 +483,7 @@ class Controller:
     print("agent positions: ", agent_positions)
     concat_vector = list()
     for pos in agent_positions:
-      concat_vector.append(wind_info + [pos[0] / size, pos[1] / size])
+      concat_vector.append(wind_info + [pos[0] / utils.size, pos[1] / utils.size])
 
     print(concat_vector)
     concat_vector = np.asarray(concat_vector)
@@ -493,7 +493,7 @@ class Controller:
   def predict_NN(self):
     """Use the pre-loaded CNN to generate waypoints for the agents.
     """
-    if len(self.model.agents) != nr_of_agents:
+    if len(self.model.agents) != utils.nr_of_agents:
       print("Agent(s) must have died")
       exit()
 

@@ -38,8 +38,8 @@ def configure_globals(experiment_name):
     elif experiment_name == "WIND":
         wind_on = True
         uncertain_spawn = 10
-        fire_step_multiplicator = 0.6
-        agentRadius = 80                                    # increased by 10 so first waypoint can be driving to the middle
+        fire_step_multiplicator = 0.5
+        agentRadius = 90                                    # increased by 10 so first waypoint can be driving to the middle
 
     elif experiment_name == "UNCERTAINTY":
         pass

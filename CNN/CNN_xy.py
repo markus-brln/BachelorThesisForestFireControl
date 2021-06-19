@@ -52,7 +52,7 @@ def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
     if not model:
-        model = load("CNNxy")
+        model = load("CNNxyWIND")
 
     images, outputs = test_data
     results = model.predict([images])
@@ -98,9 +98,9 @@ if __name__ == "__main__":
     experiment = experiments[2]                             # dictates model name
 
     images, outputs = load_data(out_variant)
-
-    test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
+    images, outputs = unison_shuffled_copies(images, outputs)
+    test_data = [images[:100], outputs[:100]]               # take random test data away from dataset
+    images, outputs = images[100:], outputs[100:]
     #for image, output in zip(images, outputs):
     #    print(output)
     #    print("x,y active: ", image[0][0][5], image[0][0][6])
@@ -133,6 +133,12 @@ if __name__ == "__main__":
     #predict(model=model, data=test_data)
 
 """
+wind
+average Delta X:  0.10400249533355237
+average Delta Y:  0.12826617445796729
+average Delta DD:  0.022055730298161505
+
+
 standard architecture
 0.0147
 average Delta X:  0.0739567045122385

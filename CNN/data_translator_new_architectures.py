@@ -305,10 +305,8 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="WINDFIVE")#"STOCHASTICFIVE")#"BASIC")#"STOCHASTIC")#
-  #import NNutils
-  #data, nothing = NNutils.unison_shuffled_copies(data, data)
-  #data = data[:100]
+  filters_exp = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
+  data = load_raw_data(file_filter=filters_exp[3])
 
   #data = shift_augment(data)     # does not work yet
   print(len(data))

@@ -189,22 +189,18 @@ class Model:
         for node_row in self.nodes:
           for node in node_row:
             node.time_step()
-        for node_row in self.nodes:
-          for node in node_row:
-            node.update_state()
     elif 0 < utils.fire_step_multiplicator < 1:
       if random.uniform(0, 1) < utils.fire_step_multiplicator:  # slow fire down below 1 step / timestep for easy envs
         for node_row in self.nodes:
           for node in node_row:
             node.time_step()
-
-      for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
-        for node in node_row:
-          node.update_state()
     else:
       print("invalid fire_step_multiplicator! exiting")
       exit()
 
+    for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
+      for node in node_row:
+        node.update_state()
 
     if self.state == ModelState.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
       self.start_episode()

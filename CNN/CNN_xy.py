@@ -95,7 +95,7 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]          # our 3 individual network output variants
     out_variant = architecture_variants[0]
     experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
-    experiment = experiments[2]                             # dictates model name
+    experiment = experiments[3]                             # dictates model name
 
     images, outputs = load_data(out_variant)
     images, outputs = unison_shuffled_copies(images, outputs)

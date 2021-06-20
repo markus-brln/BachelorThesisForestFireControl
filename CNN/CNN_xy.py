@@ -133,6 +133,11 @@ if __name__ == "__main__":
     #predict(model=model, data=test_data)
 
 """
+windfive7
+average Delta X:  0.09615891709923745
+average Delta Y:  0.09676042325794697
+average Delta DD:  0.0067756188474595545
+
 wind
 average Delta X:  0.10400249533355237
 average Delta Y:  0.12826617445796729

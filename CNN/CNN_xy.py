@@ -133,6 +133,11 @@ if __name__ == "__main__":
     #predict(model=model, data=test_data)
 
 """
+windfive8 (from peregrine)
+average Delta X:  0.06951058655977249
+average Delta Y:  0.07161892522126437
+average Delta DD:  0.00711326296441257
+
 windfive7
 average Delta X:  0.09615891709923745
 average Delta Y:  0.09676042325794697

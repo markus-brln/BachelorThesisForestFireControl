@@ -61,8 +61,8 @@ def outputs_xy(data):
 
     outputs.append([delta_x, delta_y, drive_dig])
 
-  print(outputs)
-  print(agent_info)
+  #print(outputs)
+  #print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
 # Required for outputs_angle

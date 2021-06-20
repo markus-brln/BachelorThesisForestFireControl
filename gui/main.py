@@ -26,7 +26,7 @@ def main():
       variant = architecture_variants[0]
   print(f"variant: {variant}")
   experiment = experiments[3]
-  NN_control = False                                         # False -> gather data, True -> test NN
+  NN_control = True                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
 
   utils.configure_globals(experiment)

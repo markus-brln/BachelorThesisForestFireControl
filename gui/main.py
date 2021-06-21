@@ -18,14 +18,14 @@ pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]
   else:
       variant = architecture_variants[0]
   print(f"variant: {variant}")
-  experiment = experiments[3]
+  experiment = experiments[4]
   NN_control = True                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
 

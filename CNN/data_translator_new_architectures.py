@@ -306,7 +306,7 @@ def raw_to_IO(data, NN_variant):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   filters_exp = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
-  data = load_raw_data(file_filter=filters_exp[3])
+  data = load_raw_data(file_filter=filters_exp[4])
 
   #data = shift_augment(data)     # does not work yet
   print(len(data))

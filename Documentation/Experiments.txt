@@ -29,10 +29,10 @@ files:
 setting:
 - 8 different wind directions, 5 wind speed levels
 - spawn uncertainty = 10
-- agentRadius = 80  (increased by 10 so first waypoint can be driving to the middle)
-- fire_step_multiplicator = 0.6
-  -> max wind speed: 7.6 pixels per 20 timesteps -> 1/2.5 agent speed
-  -> min wind speed: 3.6                         -> 1/5.5 agent speed
+- agentRadius = 90  (increased by 20 so first waypoint can be simply driving to the middle)
+- fire_step_multiplicator = 0.5
+  -> max wind speed: 6.3 pixels per 20 timesteps -> 0.315 agent speed
+  -> min wind speed: 3                           -> 0.15 agent speed
 tactic:
 - drive to middle
 - start digging clock-wise, as usual
@@ -42,17 +42,30 @@ files:
 
 4. HIGH SPAWN UNCERTAINTY
 setting:
-- higher spawn uncertainty, not
+-  no wind
+- uncertain_spawn = 30
+- agentRadius = 70
 tactic:
--
+- make a relatively even pentagon mixing driving and digging
+- continue to spiral when other firebreak crossed (seems to influence behaviour in simulation such that
+gaps are still closed)
 files:
+- UNCERTAIN
 
-4. HIGH SPAWN UNCERTAINTY + WIND
+5. HIGH SPAWN UNCERTAINTY + WIND
 setting:
 - difficulties of 3. and 4. combined
+- wind_on = True
+- uncertain_spawn = 30
+- agentRadius = 90
+- fire_step_multiplicator = 0.5
 tactic:
--
+- more or less like 4., try to even out gaps with driving faster
+- containing a lot closer to the fire to increase difficulty a bit more
 files:
+UNCERTAIN
+
+
 
 - maybe first experiment is too trivial
 - 3 architectures * 4 experiments * 10(?) trained models each

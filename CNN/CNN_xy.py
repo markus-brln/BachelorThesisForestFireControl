@@ -10,11 +10,11 @@ from NNutils import *
 #np.random.seed(923)
 
 
-def load_data(out_variant):
+def load_data(out_variant, experiment):
     print("loading data")
-    images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+    images = np.load("images_" + out_variant +  experiment +".npy", allow_pickle=True)
     #concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
-    outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
+    outputs = np.load("outputs_" + out_variant +  experiment +".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)
@@ -34,13 +34,13 @@ def build_model(input_shape):
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    out = Dense(48, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(out)
+    out = Dense(48, activation='relu')(downscaled)
+    out = Dense(32, activation='relu')(out)
     out = Dense(3)(out)                                     # nothing specified, so linear output
 
     model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.005)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
 
     model.compile(loss='mse',
                   optimizer=adam,
@@ -95,9 +95,9 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]          # our 3 individual network output variants
     out_variant = architecture_variants[0]
     experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
-    experiment = experiments[4]                             # dictates model name
+    experiment = experiments[1]                             # dictates model name
 
-    images, outputs = load_data(out_variant)
+    images, outputs = load_data(out_variant, experiment)
     images, outputs = unison_shuffled_copies(images, outputs)
     test_data = [images[:100], outputs[:100]]               # take random test data away from dataset
     images, outputs = images[100:], outputs[100:]
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}

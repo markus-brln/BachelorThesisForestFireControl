@@ -25,7 +25,7 @@ def main():
   else:
       variant = architecture_variants[0]
   print(f"variant: {variant}")
-  experiment = experiments[4]
+  experiment = experiments[0]
   NN_control = True                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
 
@@ -45,3 +45,17 @@ def main():
 
 if __name__=="__main__":
   main()
+
+#TODO
+"""
+Questions for meeting:
+- is 20% solving enough for most difficult env?
+- what about different amounts of data? not that much needed for easier envs
+- compare between experiments when different amounts of data?
+
+- change Johnny's architecture?
+
+- how much stuff to mention in the experimental setup?
+- which hyper parameters?
+
+"""

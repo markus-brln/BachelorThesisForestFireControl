@@ -2,7 +2,7 @@ import pygame
 import time
 from Model.model import Model
 from View.view import View
-from Model.utils import *
+from Model import utils
 import os
 import numpy as np
 from matplotlib import pyplot as plt
@@ -25,8 +25,11 @@ class Controller:
     self.NN_control = NN_control
     self.NN = None
     if self.NN_control:
-      self.NN = self.load_NN("CNN"+self.NN_variant)                              # from json and h5 file
-    self.digging_threshold = digging_threshold
+      self.NN = self.load_NN("CNN"+self.NN_variant + utils.experiment)  # from json and h5 file
+    self.digging_threshold = utils.digging_threshold
+    self.n_failed = 0
+    self.n_success = 0
+    self.n_burned_cells = []
 
 
   def update(self, event):
@@ -63,7 +66,7 @@ class Controller:
 
   def prepare_collecting_waypoints(self):
     """Clear old waypoints from view, order by angle, highlight first agent."""
-    print("Start collecting waypoints")
+    # print("Start collecting waypoints")
     self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
     self.model.waypoints.clear()                            # clear the actual waypoint positions after
                                                             # deleting them on the view!
@@ -122,14 +125,14 @@ class Controller:
       print(env.shape)
       self.plot_binmap(env[0])
     if event.key == pygame.K_SPACE:
-      if self.model.time % timeframe == 0:
+      if self.model.time % utils.timeframe == 0:
         if self.last_timestep_waypoint_collection != self.model.time:
           self.prepare_collecting_waypoints()
           self.last_timestep_waypoint_collection = self.model.time
         else:
           self.model.append_datapoint()                     # only start after first 'timeframe' timesteps
           #start = time.time()                              # measure model progression
-          for _ in range(timeframe):
+          for _ in range(utils.timeframe):
             self.model.time_step()                          # Space to go to next timestep
 
           #print("time: ", time.time()-start)
@@ -151,14 +154,31 @@ class Controller:
   def update_NN(self, event):
     """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
     if event.type == pygame.QUIT:
-      # TODO save data about how often fire was contained
+      import statistics
+      print("\n\nEND OF TESTING")
+      print("successfully contained fires: ", self.n_success)
+      print("failed attempts: ", self.n_failed)
+      print("total: ", self.n_failed + self.n_success)
+      print("amounts of burned cells:", self.n_burned_cells)
+      print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
+      print("SD, SE: ", statistics.stdev(self.n_burned_cells),
+            statistics.stdev(self.n_burned_cells) /math.sqrt(len(self.n_burned_cells)))
       exit()
 
-    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != nr_of_agents:
-      self.model.discard_episode()
-      self.model.start_episode()                            # BACKSPACE to go to next episode
-      self.model.reset_wind()
-      self.last_timestep_waypoint_collection = -1
+    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN) or len(self.model.agents) != utils.nr_of_agents:
+      if event.key == pygame.K_BACKSPACE:                   # BACKSPACE to failed_episodes+=1 and go to next episode
+        self.model.discard_episode()
+        self.model.start_episode()
+        self.model.reset_wind()
+        self.last_timestep_waypoint_collection = -1
+        self.n_failed += 1
+      if event.key == pygame.K_RETURN:                    # ENTER to successful_episodes+=1, count containment, go to next episode
+        self.n_burned_cells.append(self.model.count_containment())
+        self.model.discard_episode()
+        self.model.start_episode()
+        self.model.reset_wind()
+        self.last_timestep_waypoint_collection = -1
+        self.n_success += 1
 
 
     if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -167,7 +187,7 @@ class Controller:
       # print("controller - outputs: ", outputs)
       self.set_waypoints_NN(outputs)
 
-      for _ in range(timeframe):
+      for _ in range(utils.timeframe):
         self.model.time_step()
       return
 
@@ -203,8 +223,7 @@ class Controller:
         else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
-        print("pos: ", new_wp, "dig: ", digging)
-        print(" ")
+        # print("pos: ", new_wp, "dig: ", digging)
         self.model.highlight_agent(self.agent_no)
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
@@ -224,7 +243,7 @@ class Controller:
           wp = (x, y)
           print(cnt, "wp", wp)
           if (abs(x) + abs(y)) != 0:
-            scale = timeframe / (abs(x) + abs(y))
+            scale = utils.timeframe / (abs(x) + abs(y))
           else:
             scale = 1
           x = round(scale * x)
@@ -249,6 +268,7 @@ class Controller:
     print("pay attention", max(output))
     # digging = output[1] > self.digging_threshold
     digging = 1
+    waypointIdx = 0
     for idx in range(len(output)):
       # print("tits", len(output[0]))
       if output[idx] == max(output):
@@ -278,13 +298,13 @@ class Controller:
     digging = output[2] > self.digging_threshold
 
     if digging:
-      delta_x = output[0] * timeframe
-      delta_y = output[1] * timeframe
+      delta_x = output[0] * utils.timeframe
+      delta_y = output[1] * utils.timeframe
     else:
-      delta_x = output[0] * timeframe * 2                   # twice as fast driving
-      delta_y = output[1] * timeframe * 2
+      delta_x = output[0] * utils.timeframe * 2                   # twice as fast driving
+      delta_y = output[1] * utils.timeframe * 2
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                                  # agents can dig 1 step per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
@@ -298,19 +318,21 @@ class Controller:
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
-    digging = output[2] > self.digging_threshold
-    print(f"output: {output}")
 
-    angle = (output[0] - 0.5) * 2 * math.pi
+    # print(f"output: {output}")
+    cos_x = output[0]
+    sin_x = output[1]
+    radius = output[2]
+    digging = output[3] > self.digging_threshold
 
-    delta_x = math.cos(angle) * timeframe * output[1]
-    delta_y = math.sin(angle) * timeframe * output[1]
+    delta_x = cos_x * radius * utils.timeframe
+    delta_y = sin_x * radius * utils.timeframe
 
     if not digging:
-      delta_x = timeframe * 2
-      delta_y = timeframe * 2
+      delta_x = utils.timeframe * 2
+      delta_y = utils.timeframe * 2
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                            # agents can dig 1 cell per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
@@ -329,7 +351,7 @@ class Controller:
     new_wp = (int(output[0] * 255), int(output[1] * 255))
     digging = output[2] > self.digging_threshold
 
-    wanted_len = timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                                  # agents can dig 1 step per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 
@@ -383,6 +405,48 @@ class Controller:
     print("max", np.max(channels[5]), np.max(channels[6]))
     plt.show()
 
+
+  def produce_input_NN_old(self):
+    """
+    construct inputs images like in the data_translator, plus active agent positions to concatenate
+    - [0] active fire (no burned cell or tree channels)
+    - [1] fire breaks
+    - [2] wind direction
+    - [3] wind speed
+    - [4] other agents
+    """
+    shape = (256, 256, 7)  # see doc comment
+    single_image = np.zeros(shape)
+
+    for fire_pixel in self.model.firepos:
+      single_image[fire_pixel[0]][fire_pixel[1]][0] = 1
+    for firebreak_pixel in self.model.firebreaks:
+      single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
+
+    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (utils.n_wind_dirs - 1)
+    single_image[:, :, 3] = self.model.wind_speed / (utils.n_wind_speed_levels - 1)
+
+    all_images = []
+    apd = 10  # agent_point_diameter
+    for active_agent in self.model.agents:
+      agent_image = np.copy(single_image)
+      agent_image[:, :, 5] = active_agent.position[0] / 255  # x, y position of active agent on channel 5,6
+      agent_image[:, :, 6] = active_agent.position[1] / 255
+
+      for other_agent in self.model.agents:
+        if other_agent != active_agent:
+          x, y = other_agent.position
+          agent_image[y - apd: y + apd, x - apd: x + apd, 4] = 1
+
+      print("current agent: ", active_agent.position)
+
+      # self.plot_np_image(agent_image)
+      all_images.append(agent_image)  # 1 picture per agent
+
+    return np.asarray(all_images)
+    # return [np.asarray(all_images), np.asarray(agent_positions)]   concat version
+
+
   def produce_input_NN(self):
     """
     construct inputs images like in the data_translator, plus active agent positions to concatenate
@@ -401,22 +465,22 @@ class Controller:
     for firebreak_pixel in self.model.firebreaks:
       single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
 
-    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (n_wind_dirs - 1)
-    single_image[:, :, 3] = self.model.wind_speed / (n_wind_speed_levels - 1)
+    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (utils.n_wind_dirs - 1)
+    single_image[:, :, 3] = self.model.wind_speed / (utils.n_wind_speed_levels - 1)
 
     all_images = []
     apd = 10                                                # agent_point_diameter
     for active_agent in self.model.agents:
       agent_image = np.copy(single_image)
-      agent_image[:, :, 5] = active_agent.position[0] / size  # x, y position of active agent on channel 5,6
-      agent_image[:, :, 6] = active_agent.position[1] / size
+      agent_image[:, :, 5] = active_agent.position[0] / utils.size  # x, y position of active agent on channel 5,6
+      agent_image[:, :, 6] = active_agent.position[1] / utils.size
 
       for other_agent in self.model.agents:
         if other_agent != active_agent:
           x, y = other_agent.position
           agent_image[y - apd : y + apd, x - apd: x + apd, 4] = 1
 
-      print("current agent: ", active_agent.position)
+      # print("current agent: ", active_agent.position)
 
       #self.plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
@@ -441,7 +505,7 @@ class Controller:
     print("agent positions: ", agent_positions)
     concat_vector = list()
     for pos in agent_positions:
-      concat_vector.append(wind_info + [pos[0] / size, pos[1] / size])
+      concat_vector.append(wind_info + [pos[0] / utils.size, pos[1] / utils.size])
 
     print(concat_vector)
     concat_vector = np.asarray(concat_vector)
@@ -451,7 +515,7 @@ class Controller:
   def predict_NN(self):
     """Use the pre-loaded CNN to generate waypoints for the agents.
     """
-    if len(self.model.agents) != nr_of_agents:
+    if len(self.model.agents) != utils.nr_of_agents:
       print("Agent(s) must have died")
       exit()
 
@@ -460,6 +524,7 @@ class Controller:
 
     print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
+    print(output)
     return output
 
 

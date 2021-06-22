@@ -1,16 +1,71 @@
 import os
-
 import numpy as np
+import random
 import tensorflow as tf
 import matplotlib.pyplot as plt
 # from keras.engine.saving import model_from_json
 from tensorflow.keras import layers, models
+
+def plot_np_image(image):
+  channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
+  f, axarr = plt.subplots(2, 4)
+  axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[0, 0].set_title("active fire")
+  axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[0, 1].set_title("fire breaks")
+  axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[0, 2].set_title("wind dir (uniform)")
+  axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 0].set_title("wind speed (uniform)")
+  axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 1].set_title("other agents")
+  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 2].set_title("active agent x")
+  axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
+  axarr[1, 3].set_title("active agent y")
+  print("x, y pos of active agent: ", channels[0][0][5], channels[0][0][6])
+  plt.show()
+
+def plot_data(data):
+  for dat in data:
+    print("wind dir:", dat[1])
+    print("wind speed:", dat[2])
+    print("agent info:",dat[3])
+    plt.imshow(dat[0])
+    plt.show()
+  exit()
 
 def unison_shuffled_copies(a, b):
     # from https://stackoverflow.com/questions/4601373/better-way-to-shuffle-two-numpy-arrays-in-unison
     assert len(a) == len(b)
     p = np.random.permutation(len(a))
     return a[p], b[p]
+
+
+def n_samples(list_of_lists, k):
+    """Takes k random samples from all lists inside the given list."""
+    if k > len(list_of_lists[0]):
+        print("list not long enough! returning full list.")
+        return list_of_lists
+
+    indeces = np.random.permutation(k)
+    n_lists = len(list_of_lists)
+    extracted =[]# [list() for i in range(n_lists)]
+    reduced = []#[list() for i in range(n_lists)]
+
+    shuffle_seed = random.random()
+    for single_list in list_of_lists:
+        random.shuffle(single_list, shuffle_seed)
+
+    """for i in range(len(list_of_lists[0])):
+        for j in range(n_lists):
+            print(j, i)
+            if i in indeces:
+                extracted[j].append(list_of_lists[i][j].pop(i))"""
+
+
+    return extracted, reduced
+
 
 
 def plot_history(history):
@@ -136,3 +191,45 @@ def save_history(file_name, history):
 def load_history(filename):
     return np.load(filename, allow_pickle=True).item()
 
+def predict(model=None, data=None, n_examples=5):
+    """NOT USED show inputs together with predictions of CNN,
+       either provided as param or loaded from file"""
+    if data:
+        n_examples = len(data[0])
+    if not data:
+        images, concat, desired_outputs = load_data()
+    else:
+        images, concat, desired_outputs = data
+
+    if not model:
+        model = tf.keras.models.load_model("saved_models/safetySafe")
+    #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
+    indeces = random.sample(range(len(images)), n_examples)
+    X1 = images[indeces]                                        # more clever way to write it down
+    X2 = concat[indeces]
+    desired = desired_outputs[indeces]
+
+    NN_output = model.predict([X1, X2])                        # outputs 61x61x2
+
+    # translate the 5 channel input back to displayable images
+    orig_img = np.zeros((len(X1), 256, 256))
+    for i, image in enumerate(X1):
+        print("reconstructing image ", i+1, "/", n_examples)
+        for y, row in enumerate(image):
+            for x, cell in enumerate(row):
+                for idx, item in enumerate(cell):
+                    if item == 1:
+                        orig_img[i][y][x] = idx
+
+    #outputs = np.zeros((len(X1), 256, 256))
+    #for img, point in outputs, NN_output:
+
+
+    # display input images and the 2 waypoint output images (from 2 channels)
+    for i in range(len(NN_output)):
+        print("agent pos: ", X2[i][-2], X2[i][-1])
+        print("desired: ", desired[i])
+        print("NN output: ", NN_output[i])
+        plt.imshow(orig_img[i])
+        plt.title("input image")
+        plt.show()

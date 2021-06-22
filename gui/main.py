@@ -9,30 +9,35 @@ import pygame
 from Model.model import Model
 from View.view import View
 from Controller.controller import Controller
-from Model.utils import *
-
 import sys
+from Model import utils
 
 pygame.init()                                               # Initialize Pygame
 pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 
 def main():
-	
-  model = Model(size, nr_of_agents, agentRadius)            # Initialize Environment
-  view = View(model, block_size_in_pixels)                  # Start View
+  architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
+  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
 
-  architecture_variants = ["xy", "angle", "box"]            # our 3 individual network output variants
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
-    variant = architecture_variants[int(sys.argv[1])]
+      variant = architecture_variants[int(sys.argv[1])]
   else:
-    variant = architecture_variants[2]
-   
+      variant = architecture_variants[0]
+  if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
+      experiment = experiments[int(sys.argv[2])]
+  else:
+      experiment = experiments[1]
+
   print(f"variant: {variant}")
-  
+  print(f"experiment: {experiment}")
 
   NN_control = True                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
+
+  utils.configure_globals(experiment)
+  model = Model(utils.size, utils.nr_of_agents, utils.agentRadius)            # Initialize Environment
+  view = View(model, utils.block_size_in_pixels)                  # Start View
   controller = Controller(model, view, NN_control, variant)
 
   if NN_control:
@@ -47,23 +52,16 @@ def main():
 if __name__=="__main__":
   main()
 
+#TODO
+"""
+Questions for meeting:
+- is 20% solving enough for most difficult env?
+- what about different amounts of data? not that much needed for easier envs
+- compare between experiments when different amounts of data?
 
-# TODO NOTES
-'''
-- PEREGRINE!!!
-- generate data in a certain way (show), move to the outside once finished
-- make basic env work for all architectures
-- including current agent position in input works better than concatenating
+- change Johnny's architecture?
 
-- show where to integrate other outputs
+- how much stuff to mention in the experimental setup?
+- which hyper parameters?
 
-4 different environments to test:
-- basic 
-- normal fire speed               # make each of us responsible for collecting data for one of 
-                                  # those! so that our different strategies won't interfere
-- normal + wind dir + wind speed
-
-additional experiments (for each env variant):
-- 3 different levels of amounts of training data
-
-'''
+"""

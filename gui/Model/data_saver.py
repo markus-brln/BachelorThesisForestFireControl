@@ -5,7 +5,7 @@ import os
 import matplotlib.pyplot as plt
 
 from Model.node import NodeState
-from Model.utils import *
+from Model import utils
 from Model.direction import Direction
 
 class DataSaver:
@@ -24,8 +24,8 @@ class DataSaver:
         return
 
     image = np.zeros((self.model.size, self.model.size), dtype=np.uint8)  # save memory with uint8
-    wind_dir_vec = np.zeros(n_wind_dirs, dtype=np.uint8)                  # 8 wind directions
-    windspeed_vec = np.zeros(n_wind_speed_levels, dtype=np.uint8)         # 5 'wind speed levels'
+    wind_dir_vec = np.zeros(utils.n_wind_dirs, dtype=np.uint8)                  # 8 wind directions
+    windspeed_vec = np.zeros(utils.n_wind_speed_levels, dtype=np.uint8)         # 5 'wind speed levels'
     agent_pos_with_waypoints = list()                       # elements: [agent.position,
                                                             #            agent.waypoint_digging,
                                                             #            drive/dig (0/1)]
@@ -104,8 +104,9 @@ class DataSaver:
 
     # another file with the same number, saving all relevant globals
     globals_file = open(dirname + "globals" + sep + self.name + ".txt", "w+")
-    globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(size) + " #agents: " + str(nr_of_agents) + " timeframe: " + str(timeframe)
-                       + " agentRadius: " + str(agentRadius) + " randseed: " + str(randseed))
+    globals_file.write("# training examples: " + str(len(all_data)) + "size: " + str(utils.size) + " #agents: " +
+                       str(utils.nr_of_agents) + " timeframe: " + str(utils.timeframe)
+                       + " agentRadius: " + str(utils.agentRadius) + " randseed: " + str(utils.randseed))
 
 
   def get_wind_dir_idx(self):

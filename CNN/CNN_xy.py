@@ -10,11 +10,11 @@ from NNutils import *
 #np.random.seed(923)
 
 
-def load_data(out_variant):
+def load_data(out_variant, experiment):
     print("loading data")
-    images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+    images = np.load("images_" + out_variant +  experiment +".npy", allow_pickle=True)
     #concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
-    outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
+    outputs = np.load("outputs_" + out_variant +  experiment +".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)
@@ -32,23 +32,11 @@ def build_model(input_shape):
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Flatten()(downscaled)
-    #out = Dense(48, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(downscaled)
-    out = Dense(3)(out)                                     # nothing specified, so linear output
-
-    """downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='sigmoid')(downscaled)
     out = Dense(32, activation='sigmoid')(out)
-    out = Dense(3)(out)                                     # nothing specified, so linear output"""
+    out = Dense(3)(out)                                     # nothing specified, so linear output
 
     model = Model(inputs=downscaleInput, outputs=out)
 
@@ -60,55 +48,11 @@ def build_model(input_shape):
 
     return model
 
-def predict(model=None, data=None, n_examples=5):
-    """show inputs together with predictions of CNN,
-       either provided as param or loaded from file"""
-    if data:
-        n_examples = len(data[0])
-    if not data:
-        images, concat, desired_outputs = load_data()
-    else:
-        images, concat, desired_outputs = data
-
-    if not model:
-        model = tf.keras.models.load_model("saved_models/safetySafe")
-    #X1 = images[0][np.newaxis, ...]                        # pretend as if there were multiple input pictures (verbose)
-    indeces = random.sample(range(len(images)), n_examples)
-    X1 = images[indeces]                                        # more clever way to write it down
-    X2 = concat[indeces]
-    desired = desired_outputs[indeces]
-
-    NN_output = model.predict([X1, X2])                        # outputs 61x61x2
-
-    # translate the 5 channel input back to displayable images
-    orig_img = np.zeros((len(X1), 256, 256))
-    for i, image in enumerate(X1):
-        print("reconstructing image ", i+1, "/", n_examples)
-        for y, row in enumerate(image):
-            for x, cell in enumerate(row):
-                for idx, item in enumerate(cell):
-                    if item == 1:
-                        orig_img[i][y][x] = idx
-
-    #outputs = np.zeros((len(X1), 256, 256))
-    #for img, point in outputs, NN_output:
-
-
-    # display input images and the 2 waypoint output images (from 2 channels)
-    for i in range(len(NN_output)):
-        print("agent pos: ", X2[i][-2], X2[i][-1])
-        print("desired: ", desired[i])
-        print("NN output: ", NN_output[i])
-        plt.imshow(orig_img[i])
-        plt.title("input image")
-        plt.show()
-
-
 def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
     if not model:
-        model = load("CNNxy")
+        model = load("CNNxyWIND")
 
     images, outputs = test_data
     results = model.predict([images])
@@ -145,37 +89,18 @@ def check_performance(test_data=None, model=None):
     plt.show()
 
 
-def plot_np_image(image):
-  channels = np.dsplit(image.astype(dtype=np.float32), len(image[0][0]))
-  f, axarr = plt.subplots(2, 4)
-  axarr[0, 0].imshow(np.reshape(channels[0], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 0].set_title("active fire")
-  axarr[0, 1].imshow(np.reshape(channels[1], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 1].set_title("fire breaks")
-  axarr[0, 2].imshow(np.reshape(channels[2], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[0, 2].set_title("wind dir (uniform)")
-  axarr[1, 0].imshow(np.reshape(channels[3], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 0].set_title("wind speed (uniform)")
-  axarr[1, 1].imshow(np.reshape(channels[4], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 1].set_title("other agents")
-  axarr[1, 2].imshow(np.reshape(channels[5], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 2].set_title("active agent x")
-  axarr[1, 3].imshow(np.reshape(channels[6], newshape=(256, 256)), vmin=0, vmax=1)
-  axarr[1, 3].set_title("active agent y")
-  print("x, y pos of active agent: ", channels[0][0][5], channels[0][0][6])
-  plt.show()
-
-
 if __name__ == "__main__":
-    # predict()                          # predict with model loaded from file
+    # predict()                                             # predict with model loaded from file
     # exit()
-    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
+    architecture_variants = ["xy", "angle", "box"]          # our 3 individual network output variants
     out_variant = architecture_variants[0]
+    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
+    experiment = experiments[1]                             # dictates model name
 
-    images, outputs = load_data(out_variant)
-    test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
-
+    images, outputs = load_data(out_variant, experiment)
+    images, outputs = unison_shuffled_copies(images, outputs)
+    test_data = [images[:100], outputs[:100]]               # take random test data away from dataset
+    images, outputs = images[100:], outputs[100:]
     #for image, output in zip(images, outputs):
     #    print(output)
     #    print("x,y active: ", image[0][0][5], image[0][0][6])
@@ -188,7 +113,7 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}
@@ -202,12 +127,35 @@ if __name__ == "__main__":
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNNxy")  # utils
+    save(model, "CNNxy" + experiment)  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)
 
 """
+windfive8 (from peregrine)
+average Delta X:  0.06951058655977249
+average Delta Y:  0.07161892522126437
+average Delta DD:  0.00711326296441257
+
+windfive7
+average Delta X:  0.09615891709923745
+average Delta Y:  0.09676042325794697
+average Delta DD:  0.0067756188474595545
+
+wind
+average Delta X:  0.10400249533355237
+average Delta Y:  0.12826617445796729
+average Delta DD:  0.022055730298161505
+
+
+standard architecture
+0.0147
+average Delta X:  0.0739567045122385
+average Delta Y:  0.050198440253734586
+average Delta DD:  0.013081759214401245
+
+
 paths on:
 23 epochs
 average Delta X:  0.06107376478612423

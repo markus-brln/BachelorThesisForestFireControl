@@ -9,14 +9,6 @@ from NNutils import *
 #tf.random.set_seed(123)
 #np.random.seed(123)
 
-
-def custom_loss_function(value, prediction):
-		angle_error = kb.minimum(kb.square(value[:][0] - prediction[:][0]), kb.square(1 - value[:][0] + prediction[:][0]))
-		dista_error = kb.square(value[:][1] - prediction[:][1])
-		diggi_error = kb.square(value[:][2] - prediction[:][2])
-		return (angle_error + dista_error + diggi_error) / 3
-
-
 def load_data(out_variant):
     print("loading data")
     images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
@@ -31,27 +23,28 @@ def load_data(out_variant):
 
 def build_model(input_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
-    and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
+    and outputs [cos(pos_angle), sin(pos_angle), radius, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    out = Dense(48, activation='sigmoid')(downscaled)
-    out = Dense(32, activation='sigmoid')(out)
-    out = Dense(3)(out)                                     # nothing specified, so linear output
+    out = Dense(48, activation='relu')(downscaled)
+    out = Dense(32, activation='relu')(out)
+    pos_out = Dense(3)(out)                                     # nothing specified, so linear output
+    dig_out = Dense(1)(out)
 
-    model = Model(inputs=downscaleInput, outputs=out)
+    model = Model(inputs=downscaleInput, outputs=[pos_out, dig_out])
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.005)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
 
-    model.compile(loss='mse',
+    model.compile(loss=['mse', 'binary_crossentropy'],
                   optimizer=adam,
-                  metrics=['mse'])
+                  metrics='mse')
 
     return model
 
@@ -166,10 +159,13 @@ if __name__ == "__main__":
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[1]
+    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+    experiment = experiments[0]                             # dictates model name
 
     images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
+    images = images[20:],
+    positions, dig_drive = outputs[20:][:3], outputs[20:][3]
 
     #for image, output in zip(images, outputs):
     #    print(output)
@@ -185,11 +181,12 @@ if __name__ == "__main__":
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.9,
-                    1: 0.9, # why y coords less precise??
-                    2: 0.5}
+                    1: 0.9,
+                    2: 0.8,
+                    3: 0.5}
 
     history = model.fit([images],  # list of 2 inputs to model
-              outputs,
+              [positions, dig_drive],
               batch_size=64,
               epochs=100,
               shuffle=True,
@@ -197,30 +194,7 @@ if __name__ == "__main__":
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNNangle")  # utils
+    save(model, "CNNangle" + experiment)  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)
-
-"""
-mXYEASYFIVE5
-average Delta X:  0.1311199590563774
-average Delta Y:  0.08875736445188523
-average Delta DD:  0.022097966494038702
-
-5 with smaller architecture
-average Delta X:  0.16767661944031714
-average Delta Y:  0.17266307808458806
-average Delta DD:  0.03222956005483866
-
-mXYEASYFIVE3
-average Delta X:  0.12525362521409988
-average Delta Y:  0.19226661119610072
-average Delta DD:  0.0808281959965825
-
-both 
-average Delta X:  0.18563791997730733
-average Delta Y:  0.22454358264803886
-average Delta DD:  0.2907822608947754
-
-"""

@@ -3,7 +3,7 @@ from Model.direction import Direction
 from Model.data_saver import DataSaver
 from Model.node import Node, NodeType, NodeState
 from View.updatetype import UpdateType
-from Model.utils import *
+from Model import utils
 
 from enum import Enum
 import random
@@ -88,7 +88,7 @@ class Model:
       self.array_np[x][y][0] = 0
       self.array_np[x][y][4] = 1
     
-    self.wind_info_vector = np.zeros(n_wind_dirs + n_wind_speed_levels, dtype=np.uint8)
+    self.wind_info_vector = np.zeros(utils.n_wind_dirs + utils.n_wind_speed_levels, dtype=np.uint8)
     self.wind_info_vector[self.get_wind_dir_idx()] = 1
     self.wind_info_vector[self.wind_speed + 8] = 1           # +8 wind directions
 
@@ -131,6 +131,7 @@ class Model:
     """Reset values for wind speed and direction held by model and
        each individual node."""
     self.wind_speed = self.set_windspeed()
+
     self.wind_dir = self.set_wind_dir()
     print("windspeed: ", self.wind_speed)
     print(self.wind_dir)
@@ -143,14 +144,12 @@ class Model:
   def reset_agents(self):
     """Place agents at random positions in a donut shape around the fire."""
     self.agents.clear()
-    from Model.utils import rotate_point
     angle = 0
     orig_point = self.centre[0] - self.agent_radius, self.centre[1]
-
     for agent in range(0, self.n_agents):
-      spawn_point = rotate_point(self.centre, orig_point, angle)
-      spawn_point = spawn_point[0] + random.randint(-uncertain_spawn, uncertain_spawn), \
-                    spawn_point[1] + random.randint(-uncertain_spawn, uncertain_spawn)
+      spawn_point = utils.rotate_point(self.centre, orig_point, angle)
+      spawn_point = spawn_point[0] + random.randint(-utils.uncertain_spawn, utils.uncertain_spawn), \
+                    spawn_point[1] + random.randint(-utils.uncertain_spawn, utils.uncertain_spawn)
       self.agents += [Agent(spawn_point, self)]
       angle += math.pi * 2 / self.n_agents              # star formation around centre
 
@@ -185,27 +184,23 @@ class Model:
       agent.timestep()                                      # walks 1 step towards current waypoint & digs on the way
 
 
-    if fire_step_multiplicator >= 1:
-      for _ in range(fire_step_multiplicator):              # multiplicator of fire speed basically
+    if utils.fire_step_multiplicator >= 1:
+      for _ in range(utils.fire_step_multiplicator):              # multiplicator of fire speed basically
         for node_row in self.nodes:
           for node in node_row:
             node.time_step()
-        for node_row in self.nodes:
-          for node in node_row:
-            node.update_state()
-    elif 0 < fire_step_multiplicator < 1:
-      if random.uniform(0, 1) < fire_step_multiplicator:    # slow fire down below 1 step / timestep for easy envs
+    elif 0 < utils.fire_step_multiplicator < 1:
+      if random.uniform(0, 1) < utils.fire_step_multiplicator:  # slow fire down below 1 step / timestep for easy envs
         for node_row in self.nodes:
           for node in node_row:
             node.time_step()
-
-      for node_row in self.nodes:                           # update states anyway for gui to catch new firebreaks
-        for node in node_row:
-          node.update_state()
     else:
       print("invalid fire_step_multiplicator! exiting")
       exit()
 
+    for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
+      for node in node_row:
+        node.update_state()
 
     if self.state == ModelState.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
       self.start_episode()
@@ -392,9 +387,10 @@ class Model:
   @staticmethod
   def set_windspeed():
     """Values from 0 to including 4 means there are 5 wind speed levels"""
-    # OLD WAY
-    # return random.randint(0, n_wind_speed_levels-1)
-    return 0
+    if utils.wind_on:
+      return random.randint(0, utils.n_wind_speed_levels-1)
+    else:
+      return 0
 
   @staticmethod
   def set_wind_dir():
@@ -407,10 +403,10 @@ class Model:
                  5: (Direction.SOUTH, Direction.WEST),
                  6: (Direction.WEST, Direction.WEST),
                  7: (Direction.NORTH, Direction.WEST)}
-
-    # OLD WAY
-    #return random.choice(list(wind_dirs.values()))
-    return list(wind_dirs.values())[4]
+    if utils.wind_on:
+      return random.choice(list(wind_dirs.values()))
+    else:
+      return list(wind_dirs.values())[0]
 
 
   def subscribe(self, subscriber):
@@ -440,6 +436,26 @@ class Model:
 
   def save_training_run(self):
     self.DataSaver.save_training_run()
+
+  def count_containment(self):
+    """Important for testing, counts the amount of potentially
+    burned cells when fire was contained."""
+    burned = [(int(self.size/2), int(self.size/2))]         # starting from the middle like the fire
+    new_burned = burned.copy()
+    previous_n = 0                                          # previous amount of potentially burned cells
+
+    while len(burned) > previous_n:
+      previous_n = len(burned)
+      new_new_burned = []
+      for pos in new_burned:
+        neighbours = [(pos[0] + 1, pos[1]),(pos[0], pos[1] + 1),(pos[0] - 1, pos[1]),(pos[0], pos[1] - 1)]
+        for neighbour in neighbours:
+          if neighbour not in self.firebreaks and neighbour not in burned and neighbour not in new_new_burned:
+            new_new_burned.append(neighbour)
+      new_burned = new_new_burned
+      burned.extend(new_burned)
+
+    return len(burned)
 
 
   def shut_down(self):

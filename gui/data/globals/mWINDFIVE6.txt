@@ -1,0 +1,1 @@
+# training examples: 129size: 255 #agents: 5 timeframe: 20 agentRadius: 90 randseed: 1624102877.2591097

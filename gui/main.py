@@ -20,12 +20,18 @@ def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
 
-  if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
       variant = architecture_variants[int(sys.argv[1])]
   else:
       variant = architecture_variants[0]
+  if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
+      experiment = experiments[int(sys.argv[2])]
+  else:
+      experiment = experiments[0]
+
   print(f"variant: {variant}")
-  experiment = experiments[2]
+  print(f"experiment: {experiment}")
+
   NN_control = True                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
 

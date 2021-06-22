@@ -156,13 +156,13 @@ class Controller:
     if event.type == pygame.QUIT:
       import statistics
       print("\n\nEND OF TESTING")
+      print("successfully contained fires: ", self.n_success)
+      print("failed attempts: ", self.n_failed)
+      print("total: ", self.n_failed + self.n_success)
       print("amounts of burned cells:", self.n_burned_cells)
       print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
       print("SD, SE: ", statistics.stdev(self.n_burned_cells),
             statistics.stdev(self.n_burned_cells) /math.sqrt(len(self.n_burned_cells)))
-      print("successfully contained fires: ", self.n_success)
-      print("failed attempts: ", self.n_failed)
-      print("total: ", self.n_failed + self.n_success)
       exit()
 
     if (not self.collecting_waypoints and event.type == pygame.KEYDOWN) or len(self.model.agents) != utils.nr_of_agents:
@@ -318,11 +318,12 @@ class Controller:
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
-    digging = output[3] > self.digging_threshold
+
     # print(f"output: {output}")
     cos_x = output[0]
     sin_x = output[1]
     radius = output[2]
+    digging = output[3] > self.digging_threshold
 
     delta_x = cos_x * radius * utils.timeframe
     delta_y = sin_x * radius * utils.timeframe
@@ -331,7 +332,7 @@ class Controller:
       delta_x = utils.timeframe * 2
       delta_y = utils.timeframe * 2
 
-    wanted_len = utils.timeframe                                  # agents can dig 1 step per timestep
+    wanted_len = utils.timeframe                            # agents can dig 1 cell per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast
 

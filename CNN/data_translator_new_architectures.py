@@ -67,7 +67,7 @@ def outputs_xy(data):
 
 # Required for outputs_angle
 def cos_sin(x, y):
-    angle = math.atan2(x, y)
+    angle = math.atan2(y, x)
     return math.cos(angle), math.sin(angle)
 
 
@@ -78,6 +78,7 @@ def outputs_angle(data):
 
   outputs = []  # [[x rel. to agent, y, drive/dig], ...]
   for raw in agent_info:
+
     agent_pos = raw[0]  # make things explicit, easy-to-understand
     wp = raw[1]
     drive_dig = raw[2]
@@ -92,6 +93,7 @@ def outputs_angle(data):
     cos_position, sin_position = cos_sin(delta_x, delta_y)
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
     print("new agent")
+    print("raw: ",raw)
     print(f"sin: {sin_position}, x: {delta_x}")
     print(f"cos: {cos_position}, y: {delta_y}")
     print(f"radius: {radius}, dig: {drive_dig}")
@@ -306,8 +308,9 @@ def raw_to_IO(data, NN_variant):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   filters_exp = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
-  experiment = filters_exp[1]
+  experiment = "BASICTEST"#filters_exp[0]
   data = load_raw_data(file_filter=experiment)
+  data = data#[:600]
 
   #data = shift_augment(data)     # does not work yet
   print(len(data))
@@ -318,7 +321,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[0]
+    out_variant = architecture_variants[1]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

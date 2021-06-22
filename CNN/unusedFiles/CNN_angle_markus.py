@@ -18,11 +18,11 @@ def custom_loss_function(value, prediction):
     return (angle_error + radius_error + digging_error) / 3
 
 
-def load_data(out_variant):
+def load_data(out_variant, experiment):
     print("loading data")
-    images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+    images = np.load("images_" + out_variant +  experiment +".npy", allow_pickle=True)
     #concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
-    outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
+    outputs = np.load("outputs_" + out_variant +  experiment +".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)
@@ -34,7 +34,7 @@ def build_model(input_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
     and outputs [cos(pos_angle), sin(pos_angle), radius, drive/dig] with x,y relative to the active agent's position."""
 
-    downscaleInput = Input(shape=input_shape)
+    """downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
@@ -45,7 +45,19 @@ def build_model(input_shape):
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='sigmoid')(downscaled)
     #out = Dense(32, activation='sigmoid')(downscaled)
-    out = Dense(4)(out)                                     # nothing specified, so linear output
+    out = Dense(4)(out)                                     # nothing specified, so linear output"""
+    downscaleInput = Input(shape=input_shape)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+        downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Flatten()(downscaled)
+    out = Dense(48, activation='relu')(downscaled)
+    out = Dense(32, activation='relu')(out)
+    out = Dense(4)(out)  # nothing specified, so linear output
 
     model = Model(inputs=downscaleInput, outputs=out)
 
@@ -169,23 +181,19 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[1]
 
-    images, outputs = load_data(out_variant)
+    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
+    experiment = experiments[0]  # dictates model name
+
+    images, outputs = load_data(out_variant, experiment)
+    images, outputs = images[:1000], outputs[:1000]
     test_data = [images[:20], outputs[:20]]
     images, outputs = images[20:], outputs[20:]
-
-    #for image, output in zip(images, outputs):
-    #    print(output)
-    #    print("x,y active: ", image[0][0][5], image[0][0][6])
-    #    plot_np_image(image)
-
-    #check_performance(test_data)
-    #exit()
 
     model = build_model(images[0].shape)
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
     class_weight = {0: 0.9,
                     1: 0.9,
                     2: 0.8,
@@ -200,6 +208,6 @@ if __name__ == "__main__":
               #class_weight=class_weight,
               validation_split=0.2)
 
-    save(model, "CNNangle")  # utils
+    save(model, "CNNangle" + experiment)  # utils
     check_performance(test_data, model)
     plot_history(history=history)

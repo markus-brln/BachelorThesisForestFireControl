@@ -9,14 +9,6 @@ from NNutils import *
 #tf.random.set_seed(123)
 #np.random.seed(123)
 
-
-def custom_loss_function(value, prediction):
-    angle_error = kb.minimum(kb.square(value[:][0] - prediction[:][0]), kb.square(1 - value[:][0] + prediction[:][0]))
-    radius_error = kb.square(value[:][1] - prediction[:][1])
-    digging_error = kb.square(value[:][2] - prediction[:][2])
-    return (angle_error + radius_error + digging_error) / 3
-
-
 def load_data(out_variant):
     print("loading data")
     images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
@@ -43,15 +35,16 @@ def build_model(input_shape):
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='relu')(downscaled)
     out = Dense(32, activation='relu')(out)
-    out = Dense(4)(out)                                     # nothing specified, so linear output
+    pos_out = Dense(3)(out)                                     # nothing specified, so linear output
+    dig_out = Dense(1)(out)
 
-    model = Model(inputs=downscaleInput, outputs=out)
+    model = Model(inputs=downscaleInput, outputs=[pos_out, dig_out])
 
     adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
 
-    model.compile(loss='mse',
+    model.compile(loss=['mse', 'binary_crossentropy'],
                   optimizer=adam,
-                  metrics=['mse'])
+                  metrics='mse')
 
     return model
 
@@ -171,7 +164,8 @@ if __name__ == "__main__":
 
     images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]
-    images, outputs = images[20:], outputs[20:]
+    images = images[20:],
+    positions, dig_drive = outputs[20:][:3], outputs[20:][3]
 
     #for image, output in zip(images, outputs):
     #    print(output)
@@ -192,7 +186,7 @@ if __name__ == "__main__":
                     3: 0.5}
 
     history = model.fit([images],  # list of 2 inputs to model
-              outputs,
+              [positions, dig_drive],
               batch_size=64,
               epochs=100,
               shuffle=True,

@@ -61,8 +61,8 @@ def outputs_xy(data):
 
     outputs.append([delta_x, delta_y, drive_dig])
 
-  print(outputs)
-  print(agent_info)
+  #print(outputs)
+  #print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
 # Required for outputs_angle
@@ -305,10 +305,9 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="WINDFIVE")#"STOCHASTICFIVE")#"BASIC")#"STOCHASTIC")#
-  #import NNutils
-  #data, nothing = NNutils.unison_shuffled_copies(data, data)
-  #data = data[:100]
+  filters_exp = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
+  experiment = filters_exp[1]
+  data = load_raw_data(file_filter=experiment)
 
   #data = shift_augment(data)     # does not work yet
   print(len(data))
@@ -324,6 +323,6 @@ if __name__ == "__main__":
   images, outputs = raw_to_IO(data, out_variant)
 
 
-  np.save(file="images_" + out_variant + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="images_" + out_variant + experiment +".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
-  np.save(file="outputs_" + out_variant + ".npy", arr=outputs, allow_pickle=True)
+  np.save(file="outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)

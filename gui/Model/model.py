@@ -189,22 +189,18 @@ class Model:
         for node_row in self.nodes:
           for node in node_row:
             node.time_step()
-        for node_row in self.nodes:
-          for node in node_row:
-            node.update_state()
     elif 0 < utils.fire_step_multiplicator < 1:
       if random.uniform(0, 1) < utils.fire_step_multiplicator:  # slow fire down below 1 step / timestep for easy envs
         for node_row in self.nodes:
           for node in node_row:
             node.time_step()
-
-      for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
-        for node in node_row:
-          node.update_state()
     else:
       print("invalid fire_step_multiplicator! exiting")
       exit()
 
+    for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
+      for node in node_row:
+        node.update_state()
 
     if self.state == ModelState.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
       self.start_episode()
@@ -441,6 +437,26 @@ class Model:
 
   def save_training_run(self):
     self.DataSaver.save_training_run()
+
+  def count_containment(self):
+    """Important for testing, counts the amount of potentially
+    burned cells when fire was contained."""
+    burned = [(int(self.size/2), int(self.size/2))]         # starting from the middle like the fire
+    new_burned = burned.copy()
+    previous_n = 0                                          # previous amount of potentially burned cells
+
+    while len(burned) > previous_n:
+      previous_n = len(burned)
+      new_new_burned = []
+      for pos in new_burned:
+        neighbours = [(pos[0] + 1, pos[1]),(pos[0], pos[1] + 1),(pos[0] - 1, pos[1]),(pos[0], pos[1] - 1)]
+        for neighbour in neighbours:
+          if neighbour not in self.firebreaks and neighbour not in burned and neighbour not in new_new_burned:
+            new_new_burned.append(neighbour)
+      new_burned = new_new_burned
+      burned.extend(new_burned)
+
+    return len(burned)
 
 
   def shut_down(self):

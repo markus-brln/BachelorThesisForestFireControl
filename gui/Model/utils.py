@@ -40,11 +40,15 @@ def configure_globals(experiment_name):
         uncertain_spawn = 10
         fire_step_multiplicator = 0.5
         agentRadius = 90                                    # increased by 10 so first waypoint can be driving to the middle
-
-    elif experiment_name == "UNCERTAINTY":
-        pass
-    elif experiment_name == "UNCERTAINTY+WIND":
-        pass
+    elif experiment_name == "UNCERTAIN":
+        wind_on = False
+        uncertain_spawn = 30
+        agentRadius = 70
+    elif experiment_name == "UNCERTAIN+WIND":
+        wind_on = True
+        uncertain_spawn = 30
+        agentRadius = 70
+        fire_step_multiplicator = 0.5
 
 
 def rotate_point(origin, point, angle):

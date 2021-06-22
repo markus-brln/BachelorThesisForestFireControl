@@ -27,6 +27,9 @@ class Controller:
     if self.NN_control:
       self.NN = self.load_NN("CNN"+self.NN_variant + utils.experiment)  # from json and h5 file
     self.digging_threshold = utils.digging_threshold
+    self.n_failed = 0
+    self.n_success = 0
+    self.n_burned_cells = []
 
 
   def update(self, event):
@@ -151,14 +154,31 @@ class Controller:
   def update_NN(self, event):
     """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
     if event.type == pygame.QUIT:
-      # TODO save data about how often fire was contained
+      import statistics
+      print("\n\nEND OF TESTING")
+      print("amounts of burned cells:", self.n_burned_cells)
+      print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
+      print("SD, SE: ", statistics.stdev(self.n_burned_cells),
+            statistics.stdev(self.n_burned_cells) /math.sqrt(len(self.n_burned_cells)))
+      print("successfully contained fires: ", self.n_success)
+      print("failed attempts: ", self.n_failed)
+      print("total: ", self.n_failed + self.n_success)
       exit()
 
-    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE) or len(self.model.agents) != utils.nr_of_agents:
-      self.model.discard_episode()
-      self.model.start_episode()                            # BACKSPACE to go to next episode
-      self.model.reset_wind()
-      self.last_timestep_waypoint_collection = -1
+    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN) or len(self.model.agents) != utils.nr_of_agents:
+      if event.key == pygame.K_BACKSPACE:                   # BACKSPACE to failed_episodes+=1 and go to next episode
+        self.model.discard_episode()
+        self.model.start_episode()
+        self.model.reset_wind()
+        self.last_timestep_waypoint_collection = -1
+        self.n_failed += 1
+      if event.key == pygame.K_RETURN:                    # ENTER to successful_episodes+=1, count containment, go to next episode
+        self.n_burned_cells.append(self.model.count_containment())
+        self.model.discard_episode()
+        self.model.start_episode()
+        self.model.reset_wind()
+        self.last_timestep_waypoint_collection = -1
+        self.n_success += 1
 
 
     if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -248,6 +268,7 @@ class Controller:
     print("pay attention", max(output))
     # digging = output[1] > self.digging_threshold
     digging = 1
+    waypointIdx = 0
     for idx in range(len(output)):
       # print("tits", len(output[0]))
       if output[idx] == max(output):

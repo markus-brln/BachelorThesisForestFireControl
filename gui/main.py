@@ -18,7 +18,7 @@ pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
       variant = architecture_variants[int(sys.argv[1])]
@@ -51,3 +51,17 @@ def main():
 
 if __name__=="__main__":
   main()
+
+#TODO
+"""
+Questions for meeting:
+- is 20% solving enough for most difficult env?
+- what about different amounts of data? not that much needed for easier envs
+- compare between experiments when different amounts of data?
+
+- change Johnny's architecture?
+
+- how much stuff to mention in the experimental setup?
+- which hyper parameters?
+
+"""

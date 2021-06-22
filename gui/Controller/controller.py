@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import math
 
-
+timeframe = 20
 class Controller:
   def __init__(self, model: Model, view: View, NN_control = False, variant="xy"):
     self.model = model

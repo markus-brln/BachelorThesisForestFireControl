@@ -84,7 +84,7 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='box_categorical_accuracy', patience=3)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='box_categorical_accuracy', patience=5)
     class_weight = {0: 0.7,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}

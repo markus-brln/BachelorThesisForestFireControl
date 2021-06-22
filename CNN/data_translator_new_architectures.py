@@ -128,16 +128,17 @@ def raw_to_IO_arrays(data):
 
   # INPUT IMAGES
   for i in range(len(data)):
-    print("picture " + str(i) + "/" + str(len(data)))
-    picture_raw = data[i][0]
-    for y, row in enumerate(picture_raw):
-      for x, cell in enumerate(row):
-        if cell == waypoint_dig_channel:         # make 2D image of waypoints
-          images_single[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
-        elif cell == waypoint_drive_channel:         # make 2D image of waypoints
-          images_single[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
-        else:
-          images_single[i][y][x][cell] = 1
+    if (i % 100 == 0):
+      print("picture " + str(i) + "/" + str(len(data)))
+      picture_raw = data[i][0]
+      for y, row in enumerate(picture_raw):
+        for x, cell in enumerate(row):
+          if cell == waypoint_dig_channel:         # make 2D image of waypoints
+            images_single[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
+          elif cell == waypoint_drive_channel:         # make 2D image of waypoints
+            images_single[i][y][x][0] = 1             # leave waypoints like forest (so at idx 0 -> value 1)
+          else:
+            images_single[i][y][x][cell] = 1
 
   shape = (len(data) * n_agents, 256, 256, n_channels)      # new pass per agent
   images = np.zeros(shape, dtype=np.uint8)           # images for each agent
@@ -288,7 +289,7 @@ def outputs_angle(data):
 
 
 def waypoint2array(wp):
-  boxsize = 20
+  boxsize = 5
   arr = {}
   x = 0
   cur_entry = 0
@@ -309,7 +310,7 @@ def shrink2reachablewaypoint(wpX, wpY):
   '''
     fits waypoints into a range that the agent can reach given timeframe
   '''
-  size = 1
+  size = 4
   boxsize = timeframe / size
   roundError = 0.0
   while(float(abs(wpX) + abs(wpY)) > boxsize):
@@ -325,18 +326,6 @@ def shrink2reachablewaypoint(wpX, wpY):
     if(roundError >= 0.5):
       print("round", roundError)
       break
-  # size = int((timeframe + 1) / boxsize)
-  # tmp = 1
-  # while abs(wpX) > size:
-  #   tmp * -1
-  #   diff = abs(wpX) - size
-  #   wpX -= diff
-  #   wpX *= tmp
-  # while abs(wpY) > size:
-  #   tmp * -1
-  #   diff = abs(wpY) - size
-  #   wpY -= diff
-  #   wpY *= tmp
   wp = (wpX, wpY)
   return tuple(wp)
 
@@ -349,9 +338,10 @@ def outputs_box(data):
 # TODO make this work
   print("Constructing box output")
   agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
+  print("here", agent_info[0], agent_info[1], agent_info[2])
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
   outputs = []
-  boxsize = 20
+  boxsize = 5
   for agent in agent_info:
     # box/grid of possible locations format [[0,0,1,0,..], dig/drive],[[0,1,...0], dig/drive...]
     output = [0] * ((boxsize * boxsize) + ((boxsize + 1) * (boxsize + 1)))
@@ -424,7 +414,8 @@ def construct_input(data):
   input_images_single = np.zeros(shape, dtype=np.float16)  # single images not for each agent
 
   for i in range(len(data)):
-    print("picture " + str(i) + "/" + str(len(data)))
+    if i % 100 == 0:
+      print("picture " + str(i) + "/" + str(len(data)))
     picture_raw = data[i][0]
 
     for y, row in enumerate(picture_raw):                   # picture of environment (trees and burned cells ignored)
@@ -444,7 +435,8 @@ def construct_input(data):
   all_images = []                                           # multiply amount of images by n_agents, set channels [4] and [5]
   active_agents_pos = []
   for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
-    print("picture per agent " + str(i) + "/" + str(len(data)))
+    if i % 100 == 0:
+      print("picture per agent " + str(i) + "/" + str(len(data)))
     agent_positions = [agent[0] for agent in data_point[3]]
 
     for active_pos in agent_positions:
@@ -476,7 +468,7 @@ def construct_input(data):
     #plot_np_image(img)'''
 
   # print(active_agents_pos)
-  print("final amount of datapoints: ",len(all_images))
+  print("final amount of datapoints: ", len(all_images))
 
   return np.asarray(all_images, dtype=np.float16)#, np.asarray(active_agents_pos)
 
@@ -495,13 +487,82 @@ def plot_data(data):
 
   exit()
 
+def augmentData(data):
+  print("!augmenting data!")
+  print("original", data[-1])
+  augmentedData = data.tolist()
+  print(len(augmentedData))
+  for data_point in data:
+    agent_positions = data_point[3]
+    for i in range(1, 5):
+      ''' x - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] - i, agent[0][1])
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x - 1, y - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] - i, agent[0][1] - i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' y - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0], agent[0][1] - i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x + 1, y - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] + i, agent[0][1] - i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] + i, agent[0][1])
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x + 1, y + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] + i, agent[0][1] + i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' y + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0], agent[0][1] + i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), list(aug_positions)]
+      augmentedData.append(episode)
+      ''' x - 1, y + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] - 1, agent[0][1] + i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), list(aug_positions)]
+      augmentedData.append(episode)
+  return  np.asarray(augmentedData, dtype=object)
+
+
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
   data = data[:100]
 
-  #plot_data(data)
-
+  data = augmentData(data)
+  # plot_data(data)
+  # print(data[1:])
+  # print(data[:-1])
   architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
 
   #if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):

@@ -394,8 +394,7 @@ class Model:
     """Values from 0 to including 4 means there are 5 wind speed levels"""
     # OLD WAY
     # return random.randint(0, n_wind_speed_levels-1)
-    return 2
-
+    return 0
 
   @staticmethod
   def set_wind_dir():

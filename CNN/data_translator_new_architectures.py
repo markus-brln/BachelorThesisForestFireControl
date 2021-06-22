@@ -31,7 +31,7 @@ def load_raw_data(file_filter):
       fp_tmp.append(filepath)
   filepaths = fp_tmp
 
-
+  print("loading data from:", filepaths, sep='\n')
   data = np.load(filepaths[0], allow_pickle=True)
   for filepath in filepaths[1:]:                      # optionally load more data
     if file_filter in filepath:
@@ -307,8 +307,8 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  filters_exp = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
-  experiment = "BASICTEST"#filters_exp[0]
+  filters_exp = ["BASIC", "STOCHASTICFIVENEW", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
+  experiment = filters_exp[1]
   data = load_raw_data(file_filter=experiment)
   data = data#[:600]
 
@@ -321,7 +321,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[1]
+    out_variant = architecture_variants[0]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

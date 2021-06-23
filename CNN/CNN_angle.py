@@ -159,7 +159,7 @@ if __name__ == "__main__":
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[1]
-    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+    experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
     experiment = experiments[0]                             # dictates model name
 
     images, outputs = load_data(out_variant)
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
     class_weight = {0: 0.9,
                     1: 0.9,
                     2: 0.8,

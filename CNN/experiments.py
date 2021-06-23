@@ -53,7 +53,7 @@ def build_model_xy(input_shape):
     return model
 
 
-def check_performance_xy(test_data=None, model=None):
+def check_performance(test_data=None, model=None):
     """Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
     if not model:
@@ -78,26 +78,67 @@ def check_performance_xy(test_data=None, model=None):
     return delta_0, delta_1, delta_2
 
 
-
 def run_experiments():
     """Choose the architecture variant from the list below, make sure
     you have translated all experiment data files according to your
     architecture:
     - 4 * images_architecture_experiment.npy
     - 4 * outputs_architecture_experiment.npy"""
-    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    out_variant = architecture_variants[0]
-    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
-    experiment = experiments[1]  # dictates model name
+    import time
+    start = time.time()
 
-    for experiment in experiments:
-        images, outputs = load_data(out_variant, experiment)
-        images, outputs = unison_shuffled_copies(images, outputs)
-        test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
-        images, outputs = images[100:], outputs[100:]
+
+    n_runs = 2
+    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
+    architecture_variant = architecture_variants[0]
+    experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+
+    for exp, experiment in enumerate(experiments):
+
+        performances = open("performance_data/performance" + architecture_variant+experiment+ ".txt", mode='w')
+        performances.write("Experiment" + experiment + "\n")
+
+        images, outputs = load_data(architecture_variant, experiment)
+
+        for run in range(n_runs):
+            print(experiment, "run:", run)
+            images, outputs = unison_shuffled_copies(images, outputs)
+            test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
+            images, outputs = images[100:], outputs[100:]
+
+            model = build_model_xy(images[0].shape)
+
+            callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+            model.fit(images, outputs,
+                      batch_size=64, epochs=100, shuffle=True,
+                      callbacks=[callback],
+                      validation_split=0.2,
+                      verbose=2)
+
+            save(model, "CNN" + architecture_variant + experiment + str(run))
+            performances.write(str(check_performance(test_data, model)) + "\n")
+
+            print(f"model {exp * n_runs + run + 1}/{len(experiments) * n_runs}")
+            end = time.time()
+            hours, rem = divmod(end - start, 3600)
+            minutes, seconds = divmod(rem, 60)
+            print("time elapsed:")
+            print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
+
+            time_left = ((len(experiments) * n_runs) / (exp * n_runs + run + 1)) * (end-start) - (end-start)
+
+            hours, rem = divmod(time_left, 3600)
+            minutes, seconds = divmod(rem, 60)
+            print("estimated time left:")
+            print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds), "\n\n")
+
+        performances.close()
+
 
 
 if __name__ == "__main__":
+    run_experiments()
+    exit()
     # predict()                                             # predict with model loaded from file
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
@@ -117,7 +158,7 @@ if __name__ == "__main__":
     # check_performance(test_data)
     # exit()
 
-    model = build_model(images[0].shape)
+    model = build_model_xy(images[0].shape)
     print(model.summary())
     # exit()
 
@@ -136,5 +177,4 @@ if __name__ == "__main__":
                         validation_split=0.2)
 
     save(model, "CNNxy" + experiment)  # utils
-    check_performance(test_data, model)
     plot_history(history=history)

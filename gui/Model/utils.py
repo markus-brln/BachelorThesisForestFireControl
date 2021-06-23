@@ -35,12 +35,12 @@ def configure_globals(experiment_name):
     elif experiment_name == "STOCHASTIC":
         wind_on = False
         uncertain_spawn = 10
-    elif experiment_name == "WIND":
+    elif experiment_name == "WINDONLY":
         wind_on = True
         uncertain_spawn = 10
         fire_step_multiplicator = 0.5
         agentRadius = 90                                    # increased by 10 so first waypoint can be driving to the middle
-    elif experiment_name == "UNCERTAIN":
+    elif experiment_name == "UNCERTAINONLY":
         wind_on = False
         uncertain_spawn = 30
         agentRadius = 70

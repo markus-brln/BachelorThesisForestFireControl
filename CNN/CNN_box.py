@@ -43,11 +43,11 @@ def weighted_categorical_crossentropy(y_true, y_pred, weights):
 
 
 def loss(y_true, y_pred, weights):
-  # scale predictions so that the class probas of each sample sum to 1
+  # scale predictions so that the class probabilities of each sample sum to 1
   y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
-  # clip to prevent NaN's and Inf's
+  # clipping to remove divide by zero errors
   y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
-  # calc
+  # results of loss func
   loss = y_true * K.log(y_pred) * weights
   loss = -K.sum(loss, -1)
   return loss
@@ -56,28 +56,25 @@ def build_model(input_shape, weights):
   """Architecture for the xy outputs. Takes a 6-channel image of the environment
     and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
-  regu_factor = 0.001
+
   downscaleInput = Input(shape=input_shape)
-  downscaled = Conv2D(16, kernel_size=(2, 2), strides=(1, 1), kernel_regularizer=l2(regu_factor), activation="relu")(downscaleInput)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), kernel_regularizer=l2(regu_factor), activation="relu", padding="same")(downscaleInput)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(1, 1), kernel_regularizer=l2(regu_factor), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(1, 1), kernel_regularizer=l2(regu_factor), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  # downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
+  downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
   downscaled = Flatten()(downscaled)
-  # out = Flatten()(out) ## do we need flatten layer before dense layer
-  out = Dense(64, activation='sigmoid', kernel_regularizer=l2(regu_factor))(downscaled)
-  # out = Dense(16, activation='sigmoid')(out)
-  # out = Dropout(0.2)(out)
-  box = Dense(61, activation='softmax', kernel_regularizer=l2(regu_factor))(out)
+  out = Dense(64, activation='sigmoid')(downscaled)
+  box = Dense(61, activation='softmax')(out)
   dig_drive = Dense(1, activation='sigmoid')(out)
 
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
   adam = tf.keras.optimizers.Adam(learning_rate=0.005)
-  model.compile(loss=['categorical_crossentropy', 'mse'],  # kullback_leibler_divergence ## categorical_crossentropy
+  from functools import partial
+  loss1 = partial(loss, weights=weights)
+  model.compile(loss=[loss1, 'mse'],  # kullback_leibler_divergence ## categorical_crossentropy
                 optimizer=adam,
                 metrics=['categorical_accuracy', 'mse'])
 
@@ -201,27 +198,27 @@ def create_class_weight(boxID):
   for i in range(len(boxID)):
       if boxID[i] > 0:
           weights_dict[i] = total_val / boxID[i]
-          # weights_dict[i] /= total_val
+          # weights_dict[i] /= 10
       else:
           weights_dict[i] = total_val
           # weights_dict[i] /= total_val
   return np.asarray(weights_dict)
-
+  # return 1
 
 if __name__ == "__main__":
   # predict()                          # predict with model loaded from file
   # exit()
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
-    experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
-    experiment = experiments[0]                             # dictates model name
+  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+  experiment = experiments[0]                             # dictates model name
 
   images, outputs = load_data(out_variant)
   box = []
   dig_drive = []
   boxArr = []
-  images = images[:-9500]
-  outputs = outputs[:-9500]
+  # images = images[:-9500]
+  # outputs = outputs[:-9500]
   for out in outputs:
     box = out[:-1]
     dig_drive.append(out[-1])
@@ -237,7 +234,7 @@ if __name__ == "__main__":
 
   for p in range(len(boxID)):
     if boxID[p] != 0:
-      print("array position:", p, "number of values in dataset:", boxID[p], "waypoint:", arrayIndex2WaypointPos(p), "len", len(boxID))
+      print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
 
   dig_drive = np.asarray(dig_drive, dtype=np.float16)
   print(boxes.shape, dig_drive.shape)
@@ -253,14 +250,14 @@ if __name__ == "__main__":
   # random labels_dict
 
   class_weight = create_class_weight(boxID)
-  print("lengths class & boxID", len(class_weight), len(boxID))
-  print("shapes:", images[0].shape)  ##(256, 256, 7)
+  # print("lengths class & boxID", len(class_weight), len(boxID))
+  # print("shapes:", images[0].shape)  ##(256, 256, 7)
 
   model = build_model(images[0].shape, class_weight)
   print(model.summary())
   # exit()
 
-  callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4)
+  callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=8)
 
 
   # class_weight = {0: 0.7,
@@ -270,7 +267,7 @@ if __name__ == "__main__":
   history = model.fit(images,  # used to be list of 2 inputs to model
                       [box, dig_drive],
                       batch_size=64,  # 64
-                      epochs=50,  # 50
+                      epochs=40,  # 50
                       shuffle=True,
                       callbacks=[callback],
                       # class_weight=class_weight,

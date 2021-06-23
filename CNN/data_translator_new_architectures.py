@@ -494,7 +494,7 @@ def augmentData(data):
   print(len(augmentedData))
   for data_point in data:
     agent_positions = data_point[3]
-    for i in range(1, 5):
+    for i in range(1, 2):
       ''' x - 1 '''
       aug_positions = []
       for agent in agent_positions:
@@ -556,10 +556,10 @@ def augmentData(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  data = load_raw_data(file_filter="mEASYFIVEBASIC")#"STOCHASTIC")#
-  data = data[:100]
+  data = load_raw_data(file_filter="mBASICFIVE")#"STOCHASTIC")#
+  data = data[:100]  #:100
 
-  data = augmentData(data)
+  # data = augmentData(data)
   # plot_data(data)
   # print(data[1:])
   # print(data[:-1])

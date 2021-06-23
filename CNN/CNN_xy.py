@@ -56,7 +56,7 @@ def check_performance(test_data=None, model=None):
 
     images, outputs = test_data
     results = model.predict([images])
-    print("results ", results)
+    #print("results ", results)
 
     delta_x, delta_y, delta_digdrive = 0, 0, 0
     d_x, d_y, d_digdrive = list(), list(), list()
@@ -112,8 +112,6 @@ if __name__ == "__main__":
     model = build_model(images[0].shape)
     print(model.summary())
     #exit()
-
-
 
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)

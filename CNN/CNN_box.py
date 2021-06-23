@@ -67,7 +67,7 @@ def build_model(input_shape, weights):
   downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
   downscaled = Flatten()(downscaled)
   out = Dense(64, activation='sigmoid')(downscaled)
-  box = Dense(61, activation='softmax')(out)
+  box = Dense(61, activation='softmax', name='box')(out)
   dig_drive = Dense(1, activation='sigmoid')(out)
 
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
@@ -202,8 +202,8 @@ def create_class_weight(boxID):
       else:
           weights_dict[i] = total_val
           # weights_dict[i] /= total_val
-  return np.asarray(weights_dict)
-  # return 1
+  # return np.asarray(weights_dict)
+  return 1
 
 if __name__ == "__main__":
   # predict()                          # predict with model loaded from file
@@ -273,12 +273,16 @@ if __name__ == "__main__":
                       # class_weight=class_weight,
                       validation_split=0.2)  # 0.2
 
-  loss_values = history.history['loss']
-  epochs = range(1, len(loss_values) + 1)
 
-  plt.plot(epochs, loss_values, label='Training Loss')
+  # print("hist", history.history.keys())
+  train_accuracy = history.history['box_categorical_accuracy']
+  test_accuracy = history.history['val_box_categorical_accuracy']
+  epochs = range(1, len(train_accuracy) + 1)
+
+  plt.plot(epochs, train_accuracy, label='Training Accuracy')
+  plt.plot(epochs, test_accuracy, label='Testing Accuracy')
   plt.xlabel('Epochs')
-  plt.ylabel('Loss')
+  plt.ylabel('Accuracy')
   plt.legend()
   plt.show()
 

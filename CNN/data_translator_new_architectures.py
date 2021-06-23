@@ -249,7 +249,8 @@ def construct_input(data):
   input_images_single = np.zeros(shape, dtype=np.float16)  # single images not for each agent
 
   for i in range(len(data)):
-    print("picture " + str(i) + "/" + str(len(data)))
+    if i % 100 == 0:
+      print("picture " + str(i) + "/" + str(len(data)))
     picture_raw = data[i][0]
 
     for y, row in enumerate(picture_raw):  # picture of environment (trees and burned cells ignored)
@@ -268,7 +269,8 @@ def construct_input(data):
   all_images = []  # multiply amount of images by n_agents, set channels [4] and [5]
   active_agents_pos = []
   for single_image, data_point, i in zip(input_images_single, data, range(0, len(data))):
-    print("picture per agent " + str(i) + "/" + str(len(data)))
+    if i % 100 == 0:
+      print("picture per agent " + str(i) + "/" + str(len(data)))
     agent_positions = [agent[0] for agent in data_point[3]]
 
     for active_pos in agent_positions:
@@ -303,16 +305,80 @@ def raw_to_IO(data, NN_variant):
 
   return images, outputs
 
-
+def augmentData(data):
+  print("!augmenting data!")
+  print("original", data[-1])
+  augmentedData = data.tolist()
+  print(len(augmentedData))
+  for data_point in data:
+    agent_positions = data_point[3]
+    for i in range(1, 2):
+      ''' x - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] - i, agent[0][1])
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x - 1, y - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] - i, agent[0][1] - i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' y - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0], agent[0][1] - i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x + 1, y - 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] + i, agent[0][1] - i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] + i, agent[0][1])
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' x + 1, y + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] + i, agent[0][1] + i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
+      augmentedData.append(episode)
+      ''' y + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0], agent[0][1] + i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), list(aug_positions)]
+      augmentedData.append(episode)
+      ''' x - 1, y + 1 '''
+      aug_positions = []
+      for agent in agent_positions:
+        agent[0] = (agent[0][0] - 1, agent[0][1] + i)
+        aug_positions.append(agent)
+        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), list(aug_positions)]
+      augmentedData.append(episode)
+  return  np.asarray(augmentedData, dtype=object)
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   filters_exp = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = filters_exp[2]
+  experiment = filters_exp[0]
   data = load_raw_data(file_filter=experiment)
-  data = data#[:600]
-
-  #data = shift_augment(data)     # does not work yet
+  data = data[:100]
+  data = augmentData(data)
+  # data = shift_augment(data)     # does not work yet
   print(len(data))
   #plot_data(data)
 
@@ -321,7 +387,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[0]
+    out_variant = architecture_variants[2]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

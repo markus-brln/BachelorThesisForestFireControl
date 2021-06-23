@@ -44,7 +44,7 @@ def build_model_xy(input_shape):
 
     model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.003)  # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.002)  # initial learning rate faster
 
     model.compile(loss='mse',
                   optimizer=adam,
@@ -88,7 +88,7 @@ def run_experiments():
     start = time.time()
 
 
-    n_runs = 2
+    n_runs = 5
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[0]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]

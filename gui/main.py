@@ -27,7 +27,7 @@ def main():
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
   else:
-      experiment = experiments[2]
+      experiment = experiments[3]
 
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")

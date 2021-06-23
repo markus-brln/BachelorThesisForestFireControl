@@ -95,7 +95,7 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]          # our 3 individual network output variants
     out_variant = architecture_variants[0]
     experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-    experiment = experiments[2]                             # dictates model name
+    experiment = experiments[3]                             # dictates model name
 
     images, outputs = load_data(out_variant, experiment)
     images, outputs = unison_shuffled_copies(images, outputs)
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     #exit()
 
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True)
     class_weight = {0: 0.9,
                     1: 0.9, # why y coords less precise??
                     2: 0.5}

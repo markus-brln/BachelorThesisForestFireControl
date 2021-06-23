@@ -146,7 +146,7 @@ if __name__ == "__main__":
     # exit()
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[2]
-    experiments = ["BASIC", "STOCHASTICFIVE", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+    experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
     experiment = experiments[0]                             # dictates model name
 
     images, outputs = load_data(out_variant)

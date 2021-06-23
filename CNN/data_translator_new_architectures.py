@@ -291,7 +291,7 @@ def construct_input(data):
     img[:, :, 6] = agent[1]
     #plot_np_image(img)
 
-  print(active_agents_pos)
+  #print(active_agents_pos)
   print("final amount of datapoints: ", len(all_images))
 
   return np.asarray(all_images, dtype=np.float16)  # , np.asarray(active_agents_pos)
@@ -307,7 +307,7 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  filters_exp = ["BASIC", "STOCHASTICFIVE", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  filters_exp = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   experiment = filters_exp[2]
   data = load_raw_data(file_filter=experiment)
   data = data#[:600]

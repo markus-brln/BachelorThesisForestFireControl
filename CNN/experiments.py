@@ -25,7 +25,7 @@ def load_data(out_variant, experiment):
     return images, outputs
 
 
-def build_model(input_shape):
+def build_model_xy(input_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
     and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
 
@@ -80,6 +80,11 @@ def check_performance_xy(test_data=None, model=None):
 
 
 def run_experiments():
+    """Choose the architecture variant from the list below, make sure
+    you have translated all experiment data files according to your
+    architecture:
+    - 4 * images_architecture_experiment.npy
+    - 4 * outputs_architecture_experiment.npy"""
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[0]
     experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]

@@ -18,7 +18,7 @@ pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
+  experiments = ["BASIC", "STOCHASTICFIVE", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]

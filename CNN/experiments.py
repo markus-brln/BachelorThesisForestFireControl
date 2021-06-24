@@ -44,7 +44,7 @@ def build_model_xy(input_shape):
 
     model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.002)  # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # initial learning rate faster
 
     model.compile(loss='mse',
                   optimizer=adam,
@@ -88,10 +88,10 @@ def run_experiments():
     start = time.time()
 
 
-    n_runs = 5
+    n_runs = 12
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[0]
-    experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+    experiments = ["UNCERTAINONLY", "UNCERTAIN+WIND"] #"STOCHASTIC", "WINDONLY",
 
     for exp, experiment in enumerate(experiments):
 
@@ -100,7 +100,7 @@ def run_experiments():
 
         images, outputs = load_data(architecture_variant, experiment)
 
-        for run in range(n_runs):
+        for run in range(0, n_runs):
             print(experiment, "run:", run)
             images, outputs = unison_shuffled_copies(images, outputs)
             test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
@@ -108,7 +108,7 @@ def run_experiments():
 
             model = build_model_xy(images[0].shape)
 
-            callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+            callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
             model.fit(images, outputs,
                       batch_size=64, epochs=100, shuffle=True,
                       callbacks=[callback],
@@ -141,22 +141,15 @@ if __name__ == "__main__":
     exit()
     # predict()                                             # predict with model loaded from file
     # exit()
-    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
+    architecture_variants = ["xy", "angle", "box"]          # our 3 individual network output variants
     out_variant = architecture_variants[0]
     experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAIN", "UNCERTAIN+WIND"]
-    experiment = experiments[1]  # dictates model name
+    experiment = experiments[1]                             # dictates model name
 
     images, outputs = load_data(out_variant, experiment)
     images, outputs = unison_shuffled_copies(images, outputs)
     test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
     images, outputs = images[100:], outputs[100:]
-    # for image, output in zip(images, outputs):
-    #    print(output)
-    #    print("x,y active: ", image[0][0][5], image[0][0][6])
-    #    plot_np_image(image)
-
-    # check_performance(test_data)
-    # exit()
 
     model = build_model_xy(images[0].shape)
     print(model.summary())

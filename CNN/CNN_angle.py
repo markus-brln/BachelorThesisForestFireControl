@@ -27,7 +27,7 @@ def build_model(input_shape):
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaled)
@@ -35,15 +35,13 @@ def build_model(input_shape):
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='relu')(downscaled)
     out = Dense(32, activation='relu')(out)
-    pos_out = Dense(3)(out)                                     # nothing specified, so linear output
-    dig_out = Dense(1)(out)
+    out = Dense(4)(out)                                     # nothing specified, so linear output
 
-    model = Model(inputs=downscaleInput, outputs=[pos_out, dig_out])
+    model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
 
-    model.compile(loss=['mse', 'binary_crossentropy'],
-                  optimizer=adam,
+    model.compile(loss='mse', optimizer=adam,
                   metrics='mse')
 
     return model
@@ -164,8 +162,8 @@ if __name__ == "__main__":
 
     images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]
-    images = images[20:],
-    positions, dig_drive = outputs[20:][:3], outputs[20:][3]
+    images = images[20:]
+    outputs = outputs[20:]
 
     #for image, output in zip(images, outputs):
     #    print(output)
@@ -186,7 +184,7 @@ if __name__ == "__main__":
                     3: 0.5}
 
     history = model.fit([images],  # list of 2 inputs to model
-              [positions, dig_drive],
+              outputs,
               batch_size=64,
               epochs=100,
               shuffle=True,

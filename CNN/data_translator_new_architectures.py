@@ -12,8 +12,6 @@ timeframe = 20
 size = 255
 apd = 10                                                    # agent_point_diameter of inactive agents in CNN input
 
-
-
 def load_raw_data(file_filter):
   """Loads and concatenates all data from files in data/runs/"""
   dirname = os.path.dirname(os.path.realpath(__file__)) + sep + ".." + sep + "gui" + sep + "data" + sep
@@ -92,21 +90,6 @@ def outputs_angle(data):
 
     cos_position, sin_position = cos_sin(delta_x, delta_y)
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
-    print("new agent")
-    print("raw: ",raw)
-    print(f"sin: {sin_position}, x: {delta_x}")
-    print(f"cos: {cos_position}, y: {delta_y}")
-    print(f"radius: {radius}, dig: {drive_dig}")
-    if abs(cos_position * radius - delta_y) > 0.01:
-      print(f"invalid cos:")
-      print(f"cos: {cos_position}, radius: {radius}, y: {delta_y}")
-      print(f"cos * radius = {cos_position * radius}")
-      time.sleep(1)
-    if abs(sin_position * radius - delta_x) > 0.01:
-      print(f"invalid sin:")
-      print(f"sin: {sin_position}, radius: {radius}, x: {delta_x}")
-      print(f"sin * radius = {sin_position * radius}")
-      time.sleep(1)
     outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)
@@ -377,7 +360,7 @@ if __name__ == "__main__":
   experiment = filters_exp[0]
   data = load_raw_data(file_filter=experiment)
   data = data[:100]
-  data = augmentData(data)
+  # data = augmentData(data)
   # data = shift_augment(data)     # does not work yet
   print(len(data))
   #plot_data(data)

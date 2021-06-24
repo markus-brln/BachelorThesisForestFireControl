@@ -68,16 +68,13 @@ def check_performance(test_data, model):
     delta_0, delta_1, delta_2, delta_3 = 0, 0, 0, 0
 
     for result, desired in zip(outputs, results):
-        d_x.append(abs(result[0] - desired[0]))
-        d_y.append(abs(result[1] - desired[1]))
-        d_digdrive.append(abs(result[2] - desired[2]))
         delta_0 += abs(result[0] - desired[0])
         delta_1 += abs(result[1] - desired[1])
         delta_2 += abs(result[2] - desired[2])
         if len(result) == 4:
             delta_3 += abs(result[3] - desired[3])
 
-    delta_0, delta_1, delta_2 = delta_0 / len(outputs), delta_1 / len(outputs), delta_2 / len(outputs), delta_3 / len(
+    delta_0, delta_1, delta_2, delta_3= delta_0 / len(outputs), delta_1 / len(outputs), delta_2 / len(outputs), delta_3 / len(
         outputs)
     return delta_0, delta_1, delta_2, delta_3
 

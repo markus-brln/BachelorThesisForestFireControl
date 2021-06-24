@@ -179,13 +179,14 @@ class Controller:
         self.model.reset_wind()
         self.last_timestep_waypoint_collection = -1
         self.n_failed += 1
-      if event.key == pygame.K_RETURN:                    # ENTER to successful_episodes+=1, count containment, go to next episode
+      if event.key == pygame.K_RETURN:                      # ENTER to successful_episodes+=1, count containment, go to next episode
         burned_cells = self.model.count_containment()
         if burned_cells > 0:                                # protection against RETURN misclick
           self.n_success += 1
           self.n_burned_cells.append(burned_cells)
         else:
-          self.n_failed += 1
+          print("You misclicked RETURN, run won't be counted")
+          self.model.counter -= 1
         self.model.discard_episode()
         self.model.start_episode()
         self.model.reset_wind()
@@ -219,6 +220,9 @@ class Controller:
         print("pos: ", new_wp, "dig: ", digging)
         print(" ")
         self.model.highlight_agent(agent)
+        if not 0 < new_wp[0] < utils.size or not 0 < new_wp[0] < utils.size:
+          new_wp = int(utils.size / 2), int(utils.size / 2)
+          print("Waypoint was outside the environment! Press backspace to discard episode!")
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
         print("new agent", self.agent_no)
@@ -235,6 +239,9 @@ class Controller:
         else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
+        if not 0 < new_wp[0] < utils.size or not 0 < new_wp[0] < utils.size:
+          new_wp = int(utils.size / 2), int(utils.size / 2)
+          print("Waypoint was outside the environment! Press backspace to discard episode!")
         # print("pos: ", new_wp, "dig: ", digging)
         self.model.highlight_agent(self.agent_no)
         self.model.select_square(new_wp, digging=digging)

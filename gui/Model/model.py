@@ -445,6 +445,8 @@ class Model:
     previous_n = 0                                          # previous amount of potentially burned cells
 
     while len(burned) > previous_n:
+      if len(burned) > 14000:
+        return -1
       previous_n = len(burned)
       new_new_burned = []
       for pos in new_burned:

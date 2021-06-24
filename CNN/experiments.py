@@ -91,7 +91,7 @@ def run_experiments():
     n_runs = 12
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[0]
-    experiments = ["UNCERTAINONLY", "UNCERTAIN+WIND"] #"STOCHASTIC", "WINDONLY",
+    experiments = ["STOCHASTIC", "WINDONLY","UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
 

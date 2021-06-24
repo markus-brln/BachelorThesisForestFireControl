@@ -10,7 +10,7 @@ import math
 
 timeframe = 20
 class Controller:
-  def __init__(self, model: Model, view: View, NN_control = False, variant="xy"):
+  def __init__(self, model: Model, view: View, NN_control = False, variant="xy", NN_number=None):
     self.model = model
     self.view = view
 
@@ -25,7 +25,7 @@ class Controller:
     self.NN_control = NN_control
     self.NN = None
     if self.NN_control:
-      self.NN = self.load_NN("CNN"+self.NN_variant + utils.experiment)  # from json and h5 file
+      self.NN = self.load_NN("CNN"+self.NN_variant + utils.experiment+str(NN_number))  # from json and h5 file
     self.digging_threshold = utils.digging_threshold
     self.n_failed = 0
     self.n_success = 0
@@ -160,12 +160,19 @@ class Controller:
       print("failed attempts: ", self.n_failed)
       print("total: ", self.n_failed + self.n_success)
       print("amounts of burned cells:", self.n_burned_cells)
-      print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
-      print("SD, SE: ", statistics.stdev(self.n_burned_cells),
+      if self.n_burned_cells:
+        print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
+        print("SD, SE: ", statistics.stdev(self.n_burned_cells),
             statistics.stdev(self.n_burned_cells) /math.sqrt(len(self.n_burned_cells)))
       exit()
 
-    if (not self.collecting_waypoints and event.type == pygame.KEYDOWN) or len(self.model.agents) != utils.nr_of_agents:
+    if len(self.model.agents) != utils.nr_of_agents:
+      self.model.discard_episode()
+      self.model.start_episode()
+      self.model.reset_wind()
+      self.last_timestep_waypoint_collection = -1
+      self.n_failed += 1
+    if not self.collecting_waypoints and event.type == pygame.KEYDOWN:
       if event.key == pygame.K_BACKSPACE:                   # BACKSPACE to failed_episodes+=1 and go to next episode
         self.model.discard_episode()
         self.model.start_episode()
@@ -173,12 +180,17 @@ class Controller:
         self.last_timestep_waypoint_collection = -1
         self.n_failed += 1
       if event.key == pygame.K_RETURN:                    # ENTER to successful_episodes+=1, count containment, go to next episode
-        self.n_burned_cells.append(self.model.count_containment())
+        burned_cells = self.model.count_containment()
+        if burned_cells > 0:                                # protection against RETURN misclick
+          self.n_success += 1
+          self.n_burned_cells.append(burned_cells)
+        else:
+          self.n_failed += 1
         self.model.discard_episode()
         self.model.start_episode()
         self.model.reset_wind()
         self.last_timestep_waypoint_collection = -1
-        self.n_success += 1
+
 
 
     if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:

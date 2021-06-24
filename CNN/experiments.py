@@ -135,7 +135,7 @@ def run_experiments():
 
             callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
             model.fit(images, outputs,
-                      batch_size=64, epochs=1, shuffle=True,
+                      batch_size=64, epochs=100, shuffle=True,
                       callbacks=[callback],
                       validation_split=0.2,
                       verbose=2)

@@ -66,7 +66,7 @@ def outputs_xy(data):
 # Required for outputs_angle
 def cos_sin(x, y):
     angle = math.atan2(y, x)
-    return math.cos(angle), math.sin(angle)
+    return math.sin(angle), math.cos(angle)
 
 
 def outputs_angle(data):
@@ -370,7 +370,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[2]
+    out_variant = architecture_variants[1]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

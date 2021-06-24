@@ -359,7 +359,7 @@ if __name__ == "__main__":
   filters_exp = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   experiment = filters_exp[1]
   data = load_raw_data(file_filter=experiment)
-  data = data[:100]
+  #data = data[:100]
   # data = augmentData(data)
   # data = shift_augment(data)     # does not work yet
   print(len(data))
@@ -370,7 +370,7 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[1]
+    out_variant = architecture_variants[0]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

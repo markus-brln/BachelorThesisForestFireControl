@@ -7,6 +7,7 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 import math
+import statistics
 
 timeframe = 20
 class Controller:
@@ -154,7 +155,6 @@ class Controller:
   def update_NN(self, event):
     """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
     if event.type == pygame.QUIT:
-      import statistics
       print("\n\nEND OF TESTING")
       print("successfully contained fires: ", self.n_success)
       print("failed attempts: ", self.n_failed)
@@ -191,6 +191,14 @@ class Controller:
         self.model.start_episode()
         self.model.reset_wind()
         self.last_timestep_waypoint_collection = -1
+        print("successfully contained fires: ", self.n_success)
+        print("failed attempts: ", self.n_failed)
+        print("total: ", self.n_failed + self.n_success)
+        print("amounts of burned cells:", self.n_burned_cells)
+        if len(self.n_burned_cells) > 2:
+          print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
+          print("SD, SE: ", statistics.stdev(self.n_burned_cells),
+                statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells)))
 
 
 

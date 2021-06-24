@@ -54,6 +54,30 @@ def build_model_xy(input_shape):
 
 
 def build_model_angle(input_shape):
+    """Architecture for the xy outputs. Takes a 6-channel image of the environment
+        and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
+
+    downscaleInput = Input(shape=input_shape)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+        downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Flatten()(downscaled)
+    out = Dense(48, activation='sigmoid')(downscaled)
+    out = Dense(32, activation='sigmoid')(out)
+    out = Dense(4)(out)  # nothing specified, so linear output
+
+    model = Model(inputs=downscaleInput, outputs=out)
+
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # initial learning rate faster
+
+    model.compile(loss='mse',
+                  optimizer=adam,
+                  metrics=['mse'])
+
     return model
 
 
@@ -88,10 +112,10 @@ def run_experiments():
     import time
     start = time.time()
 
-    n_runs = 12
+    n_runs = 10
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    architecture_variant = architecture_variants[0]
-    experiments = ["UNCERTAINONLY", "UNCERTAIN+WIND"]  # "STOCHASTIC", "WINDONLY",
+    architecture_variant = architecture_variants[1]
+    experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
 
@@ -111,7 +135,7 @@ def run_experiments():
 
             callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
             model.fit(images, outputs,
-                      batch_size=64, epochs=100, shuffle=True,
+                      batch_size=64, epochs=1, shuffle=True,
                       callbacks=[callback],
                       validation_split=0.2,
                       verbose=2)

@@ -28,7 +28,7 @@ def main():
       experiment = experiments[int(sys.argv[2])]
   else:
       experiment = experiments[1]
-  NN_number = 3
+  NN_number = 8
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 

@@ -22,12 +22,12 @@ def load_data(out_variant):
 
 
 def build_model(input_shape):
-    """Architecture for the xy outputs. Takes a 6-channel image of the environment
+    """
     and outputs [cos(pos_angle), sin(pos_angle), radius, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaleInput)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaled)
@@ -41,7 +41,8 @@ def build_model(input_shape):
 
     adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
 
-    model.compile(loss='mse', optimizer=adam,
+    model.compile(loss=['mse', 'binary_crossentropy'],
+                  optimizer=adam,
                   metrics='mse')
 
     return model
@@ -158,7 +159,7 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[1]
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-    experiment = experiments[0]                             # dictates model name
+    experiment = experiments[1]                             # dictates model name
 
     images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]

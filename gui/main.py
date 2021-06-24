@@ -27,7 +27,7 @@ def main():
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
   else:
-      experiment = experiments[2]
+      experiment = experiments[1]
   NN_number = 0
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
@@ -54,14 +54,4 @@ if __name__=="__main__":
 
 #TODO
 """
-Questions for meeting:
-- is 20% solving enough for most difficult env?
-- what about different amounts of data? not that much needed for easier envs
-- compare between experiments when different amounts of data?
-
-- change Johnny's architecture?
-
-- how much stuff to mention in the experimental setup?
-- which hyper parameters?
-
 """

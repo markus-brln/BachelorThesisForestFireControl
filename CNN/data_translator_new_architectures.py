@@ -357,7 +357,7 @@ def augmentData(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   filters_exp = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = filters_exp[0]
+  experiment = filters_exp[1]
   data = load_raw_data(file_filter=experiment)
   data = data[:100]
   # data = augmentData(data)

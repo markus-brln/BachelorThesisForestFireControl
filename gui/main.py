@@ -1,19 +1,12 @@
 #!/bin/python3
 
-### Required packages
-# Pygame > 2.0.1: pip install pygame
-
+# numba
 # Tensorflow 2.x (when testing the CNN)
 
-import pygame
 from Model.model import Model
-from View.view import View
 from Controller.controller import Controller
 import sys
 from Model import utils
-
-pygame.init()                                               # Initialize Pygame
-pygame.display.set_caption('Only you can prevent Forest Fires!')
 
 
 def main():
@@ -27,8 +20,10 @@ def main():
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
   else:
-      experiment = experiments[1]
-  NN_number = 0
+      experiment = experiments[2]
+
+  n_NN_to_test = 10
+  n_runs_per_NN = 50
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 
@@ -37,17 +32,20 @@ def main():
 
   utils.configure_globals(experiment)
   model = Model(utils.size, utils.nr_of_agents, utils.agentRadius)            # Initialize Environment
-  view = View(model, utils.block_size_in_pixels)                  # Start View
-  controller = Controller(model, view, NN_control, variant, NN_number)
+  #view = View(model, utils.block_size_in_pixels)                  # Start View
+  #controller = Controller(model, view, NN_control, variant, NN_number)
 
   if NN_control:
-    while True:
-      controller.update_NN_no_gui()#pygame.event.wait())
-      #controller.update_NN(pygame.event.wait())
-  else:
-    while True:
-      controller.update(pygame.event.wait())                # Let the controller take over
+    for NN_nr in range(n_NN_to_test):
+      controller = Controller(model, NN_control, variant, NN_nr, n_runs_per_NN)
+      while True:
+        controller.update_NN_no_gui()
+        if controller.next_model:                           # new controller with next model
+          break
 
+  #else:
+  #  while True:
+  #    controller.update(pygame.event.wait())                # Let the controller take over
 
 
 if __name__=="__main__":
@@ -57,7 +55,7 @@ if __name__=="__main__":
 """
 conditions to fail:
 - agent in fire
-- 20 waypoint assignments done
+- 15 waypoint assignments done
 - agent waypoint outside of env
 
 conditions to win:

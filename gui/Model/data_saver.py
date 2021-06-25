@@ -68,13 +68,13 @@ class DataSaver:
 
 
   def append_episode(self):
-    print("appending episode")
+    #print("appending episode")
     self.all_data.extend(self.episode_data)
     self.episode_data.clear()
 
 
   def discard_episode(self):
-    print("discarding episode")
+    #print("discarding episode")
     self.episode_data.clear()                               # ignore unsuccessful episode (BACKSPACE)
 
 

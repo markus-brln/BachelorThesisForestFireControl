@@ -1,0 +1,16 @@
+xyWINDONLY model nr:0
+successfully contained fires: 26
+failed attempts: 24
+total #runs: 50
+amounts of burned cells: [5697, 6871, 5061, 6294, 5540, 5370, 7216, 6831, 5126, 5216, 6108, 4696, 6001, 5981, 5312, 7624, 5849, 5293, 4830, 6117, 5345, 5261, 5824, 3932, 5296, 6197]
+average: 5726.461538461538
+SD, SE: 814.2486711450861 159.68730242637648
+
+xyWINDONLY model nr:1
+successfully contained fires: 19
+failed attempts: 31
+total #runs: 50
+amounts of burned cells: [4898, 6596, 4725, 5291, 5272, 5708, 5131, 5985, 8055, 5034, 4953, 5258, 4411, 5779, 5543, 6522, 5269, 4827, 4466]
+average: 5459.105263157895
+SD, SE: 870.2260175594769 199.64354045166374
+

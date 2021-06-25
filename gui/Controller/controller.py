@@ -1,19 +1,18 @@
-import pygame
 import time
 from Model.model import Model
-from View.view import View
 from Model import utils
 import os
 import numpy as np
 from matplotlib import pyplot as plt
 import math
 import statistics
+from numba import jit
+
 
 timeframe = 20
 class Controller:
-  def __init__(self, model: Model, view: View, NN_control = False, variant="xy", NN_number=None):
+  def __init__(self, model: Model, NN_control = False, variant="xy", NN_number=None, n_runs_per_NN=None):
     self.model = model
-    self.view = view
 
     # Initialization
     self.mouse_button_pressed = False                       # Mouse button assumed not to be pressed initially
@@ -22,21 +21,24 @@ class Controller:
     self.last_timestep_waypoint_collection = -1
 
     # NN INTEGRATION
-    self.NN_variant = variant                               # xy, angle, box
-    self.NN_control = NN_control
-    self.NN = None
-    if self.NN_control:
+    if NN_control:
+      self.NN_variant = variant                               # xy, angle, box
+      self.NN_number = NN_number
+      self.NN_control = NN_control
       self.NN = self.load_NN("CNN"+self.NN_variant + utils.experiment+str(NN_number))  # from json and h5 file
-    self.digging_threshold = utils.digging_threshold
-    self.n_failed = 0
-    self.n_success = 0
-    self.n_burned_cells = []
-    self.n_assignments = 0
-    self.fail_bit = 0
+      self.digging_threshold = utils.digging_threshold
+      self.n_failed = 0
+      self.n_success = 0
+      self.n_burned_cells = []
+      self.n_assignments = 0
+      self.fail_bit = 0
+      self.n_models = 10
+      self.next_model = False
+      self.n_runs_per_NN = n_runs_per_NN
 
 
-  def update(self, event):
-    """High-level of distribution of input events. Quit, mouse, keyboard events."""
+  """def update(self, event):
+    #High-level of distribution of input events. Quit, mouse, keyboard events.
     if event.type == pygame.QUIT:                           # Exit the program
       self.shut_down(event)
 
@@ -54,7 +56,7 @@ class Controller:
       self.last_clicked = (-1, 0)                           # Reset to allow clicking a square twice in a row
     elif event.type == pygame.KEYDOWN:
       # Keyboard button pressed
-      self.key_press(event)
+      self.key_press(event)"""
 
 
   def shut_down(self, event):
@@ -70,7 +72,7 @@ class Controller:
   def prepare_collecting_waypoints(self):
     """Clear old waypoints from view, order by angle, highlight first agent."""
     # print("Start collecting waypoints")
-    self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
+    #self.view.clear_waypoints([self.model.find_node(pos) for pos in self.model.waypoints])
     self.model.waypoints.clear()                            # clear the actual waypoint positions after
                                                             # deleting them on the view!
     self.collecting_waypoints = True
@@ -79,11 +81,11 @@ class Controller:
     self.model.highlight_agent(0)
 
 
-  def collect_waypoints(self, event):
-    """@:param event, left or right mouse button
+  """def collect_waypoints(self, event):
+    @:param event, left or right mouse button
     Selects the square where button was pressed.
     Left Mouse Button  -> dig
-    Right Mouse Button -> drive waypoint"""
+    Right Mouse Button -> drive waypoint
 
     if event.type == pygame.KEYDOWN:
       if event.key == pygame.K_LEFT:
@@ -110,16 +112,16 @@ class Controller:
       self.model.highlight_agent(None)
       return
 
-    self.model.highlight_agent(self.agent_no)
+    self.model.highlight_agent(self.agent_no)"""
 
 
-  def key_press(self, event):
-    """Governs data collection.
+  """def key_press(self, event):
+    Governs data collection.
     :param event: keyboard button press
     SPACE     -> start next waypoint collection
     RETURN    -> save data collection episode
     BACKSPACE -> discard data collection episode (e.g. when agent drove into fire)
-    """
+    
     if event.key == pygame.K_ESCAPE:
       self.model.DataSaver.save_training_run()
     if event.key == pygame.K_p:
@@ -150,7 +152,7 @@ class Controller:
       self.model.discard_episode()
       self.model.start_episode()                            # Return / ENTER to go to next episode
       self.model.reset_wind()
-      self.last_timestep_waypoint_collection = -1
+      self.last_timestep_waypoint_collection = -1"""
 
 
   # ALL NN STUFF STARTS HERE
@@ -166,8 +168,8 @@ class Controller:
             statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells)))
 
   def fail(self):
-    print("FAIL")
     self.n_failed += 1
+    print("model", self.NN_number, "fail", self.n_success, "/", self.n_success+self.n_failed, " successful")
     self.n_assignments = 0
     self.fail_bit = 1
     self.model.discard_episode()
@@ -177,8 +179,8 @@ class Controller:
 
 
   def success(self, burned_cells):
-    print("SUCCESS")
     self.n_success += 1
+    print("model", self.NN_number, "success", self.n_success, "/", self.n_success+self.n_failed, " successful")
     self.n_burned_cells.append(burned_cells)
     self.fail_bit = 0
     self.n_assignments = 0
@@ -187,10 +189,29 @@ class Controller:
     self.model.reset_wind()
     self.last_timestep_waypoint_collection = -1
 
+  def append_results_to_file(self):
+    print("writing to file")
+    file = open(".."+os.sep+"CNN"+os.sep+"results" + os.sep + self.NN_variant + os.sep + self.NN_variant + utils.experiment + ".txt", mode='a')
+    file.write(self.NN_variant + utils.experiment+ " model nr:" + str(self.NN_number)+"\n")
+    file.write(f"successfully contained fires: {self.n_success}\n")
+    file.write(f"failed attempts: {self.n_failed}\n")
+    file.write(f"total #runs: {self.n_failed + self.n_success}\n")
+    file.write(f"amounts of burned cells: {self.n_burned_cells}\n")
+    if len(self.n_burned_cells) > 2:
+      file.write(f"average: {sum(self.n_burned_cells) / len(self.n_burned_cells)}\n")
+      file.write(f"SD, SE: {statistics.stdev(self.n_burned_cells)} {statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells))}")
+
+    file.write("\n\n")
+
 
   def update_NN_no_gui(self):#, event):
     """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
     #if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+
+    if self.n_success + self.n_failed == self.n_runs_per_NN:
+      self.append_results_to_file()
+      self.next_model = True
+      return
 
     # check whether amount of waypoint assignments is over 15 (failed)
     if self.n_assignments == 15:
@@ -215,18 +236,19 @@ class Controller:
 
     # 2. check whether there is a way out for the fire
     if not self.fail_bit:
-      burned_cells = self.model.count_containment()
-      if burned_cells != -1:                                  # -1 -> a way out was found for the fire
-        self.success(burned_cells)
-        self.fail_bit = 1                                     # still set this to 1 such that no new wp are generated
-      else:
-        print("way out found, continuing...")
+      if self.model.firebreaks:                                 # do not compute anything when no firebreaks exist (yet)
+        burned_cells = count_containment(self.model.firebreaks, self.model.size)
+        if burned_cells != -1:                                  # -1 -> a way out was found for the fire
+          self.success(burned_cells)
+          self.fail_bit = 1                                     # still set this to 1 such that no new wp are generated
+      #else:
+        #print("way out found, continuing...")
 
     # 0. print the current results for every run, just to be sure
-    self.print_results_NN()
+    #self.print_results_NN()
 
     if self.model.reset_necessary:                          # update view when resetting env (hacky way)
-      self.view.update()
+      #self.view.update()
       self.model.reset_necessary = False
 
 
@@ -240,10 +262,13 @@ class Controller:
         new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
         print("pos: ", new_wp, "dig: ", digging)
         print(" ")
-        self.model.highlight_agent(agent)
-        if not 0 < new_wp[0] < utils.size or not 0 < new_wp[0] < utils.size:
-          new_wp = int(utils.size / 2), int(utils.size / 2)
-          print("Waypoint was outside the environment! Press backspace to discard episode!")
+        #self.model.highlight_agent(agent)
+        if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
+          # new_wp = int(utils.size / 2), int(utils.size / 2)
+          # self.model.highlight_agent(self.agent_no)
+          # self.model.select_square(new_wp, digging=digging)
+          # self.agent_no += 1
+          return -1  # waypoint outside of environment, FAIL!
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
         print("new agent", self.agent_no)
@@ -568,7 +593,7 @@ class Controller:
     NN_input = self.produce_input_NN()
     #print(NN_input)
 
-    print("predicting")
+    #print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
     #print(output)
     return output
@@ -608,3 +633,63 @@ class Controller:
     print("Loaded model from disk")
 
     return model
+
+
+@jit(nopython=True)
+def count_containment(firebreaks, size):
+  """Important for testing, counts the amount of potentially
+  burned cells when fire was contained."""
+  burned = [(int(size/2), int(size/2))]         # starting from the middle like the fire
+  new_burned = burned.copy()
+  previous_n = 0                                          # previous amount of potentially burned cells
+  last_check = 0
+
+  while len(burned) > previous_n:
+    if len(burned) - last_check > 200:                    # check regularly if the fire has an escape to
+      #start = time.time_ns()
+      if check_escape(firebreaks, new_burned):  # the bounds of the environment
+        #print("escape:", time.time_ns() - start)
+        return -1
+      #print("escape:", time.time_ns() - start)
+      last_check = len(burned)
+
+    previous_n = len(burned)
+    new_new_burned = []
+    for pos in new_burned:
+      neighbours = [(pos[0] + 1, pos[1]),(pos[0], pos[1] + 1),(pos[0] - 1, pos[1]),(pos[0], pos[1] - 1)]
+      for neighbour in neighbours:
+        if neighbour not in firebreaks and neighbour not in burned and neighbour not in new_new_burned:
+          new_new_burned.append(neighbour)
+    new_burned = new_new_burned
+    burned.extend(new_burned)
+
+  return len(burned) + len(firebreaks)
+
+
+@jit(nopython=True)
+def check_escape(firebreaks, new_burned):
+  #print("check escape")
+  for burning_cell in new_burned:
+    blocked_up = 0
+    blocked_down = 0
+    blocked_right = 0
+    blocked_left = 0
+    for firebreak in firebreaks:
+      if firebreak[1] == burning_cell[1]:                 # if y value is the same
+        if 0 < firebreak[0] < burning_cell[0]:            # firebreak between cell and left bound
+          blocked_left = 1
+        else:                                             # between cell and right bound
+          blocked_right = 1
+      if firebreak[0] == burning_cell[0]:
+        if 0 < firebreak[1] < burning_cell[1]:
+          blocked_up = 1
+        else:
+          blocked_down = 1
+                                                          # stop trying if a cell is "surrounded"
+      if blocked_up and blocked_down and blocked_left and blocked_right:
+        break
+
+    if not (blocked_up and blocked_down and blocked_left and blocked_right):
+      return 1                                            # escape found!
+
+  return 0

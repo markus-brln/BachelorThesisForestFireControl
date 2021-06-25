@@ -396,8 +396,8 @@ class Controller:
     radius = output[2]
     digging = output[3] > self.digging_threshold
 
-    delta_x = cos_x * radius * utils.timeframe
-    delta_y = sin_x * radius * utils.timeframe
+    delta_y = cos_x * radius * utils.timeframe
+    delta_x = sin_x * radius * utils.timeframe
 
     if not digging:
       delta_x = utils.timeframe * 2

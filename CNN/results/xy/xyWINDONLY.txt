@@ -1,0 +1,80 @@
+xyWINDONLY model nr:0
+successfully contained fires: 22
+failed attempts: 28
+total #runs: 50
+amounts of burned cells: [4586, 4887, 6260, 6354, 6365, 6119, 4918, 4702, 4896, 5798, 5253, 5377, 7819, 6283, 6607, 5428, 5791, 5861, 5094, 4070, 5267, 8848]
+average: 5753.772727272727
+SD, SE: 1083.3711465262222 230.97550451838956
+
+xyWINDONLY model nr:1
+successfully contained fires: 23
+failed attempts: 27
+total #runs: 50
+amounts of burned cells: [5302, 4277, 6633, 5203, 6818, 4917, 5557, 5972, 4998, 5209, 5915, 3753, 5910, 6244, 5432, 6296, 4671, 5087, 5466, 6333, 5010, 5697, 5468]
+average: 5485.565217391304
+SD, SE: 737.2759336717438 153.7326593079464
+
+xyWINDONLY model nr:2
+successfully contained fires: 15
+failed attempts: 35
+total #runs: 50
+amounts of burned cells: [5618, 4311, 6695, 4944, 6192, 8729, 5556, 4222, 7136, 5047, 5218, 6449, 7730, 5897, 6627]
+average: 6024.733333333334
+SD, SE: 1248.965941813276 322.4816195082053
+
+xyWINDONLY model nr:3
+successfully contained fires: 23
+failed attempts: 27
+total #runs: 50
+amounts of burned cells: [5479, 6017, 5515, 4703, 5589, 4178, 3781, 5801, 5274, 5778, 4821, 6441, 5723, 4290, 5614, 5649, 4959, 5038, 5311, 4048, 6409, 6959, 6202]
+average: 5373.0
+SD, SE: 810.5886749764026 169.01942260400523
+
+xyWINDONLY model nr:4
+successfully contained fires: 35
+failed attempts: 15
+total #runs: 50
+amounts of burned cells: [4210, 4961, 5776, 4358, 5108, 5421, 5244, 4671, 6246, 5581, 6270, 4733, 4403, 7042, 5684, 5460, 7301, 6136, 6455, 4397, 4640, 6654, 5637, 7201, 6226, 4285, 5128, 5540, 6489, 4879, 6165, 5787, 4661, 5439, 4938]
+average: 5517.885714285714
+SD, SE: 864.5414551836669 146.13417784753184
+
+xyWINDONLY model nr:5
+successfully contained fires: 34
+failed attempts: 16
+total #runs: 50
+amounts of burned cells: [7092, 7389, 5529, 5265, 5471, 5772, 5628, 5855, 5971, 5337, 8884, 5786, 6205, 6383, 5275, 5941, 5877, 5062, 3982, 5121, 7054, 6815, 4173, 5432, 6937, 5789, 7511, 5677, 5853, 5860, 5283, 7578, 5235, 6903]
+average: 5997.794117647059
+SD, SE: 997.3903761259138 171.05103834034892
+
+xyWINDONLY model nr:6
+successfully contained fires: 18
+failed attempts: 32
+total #runs: 50
+amounts of burned cells: [6401, 5970, 6636, 5445, 5586, 4990, 5746, 5825, 4550, 7132, 6177, 6427, 4601, 6201, 4780, 6046, 4624, 8704]
+average: 5880.055555555556
+SD, SE: 1034.481710083234 243.82967740443698
+
+xyWINDONLY model nr:7
+successfully contained fires: 17
+failed attempts: 33
+total #runs: 50
+amounts of burned cells: [6548, 6482, 5900, 8590, 5613, 5354, 5585, 5197, 5698, 3698, 4958, 5610, 4994, 6110, 5450, 5360, 4452]
+average: 5623.470588235294
+SD, SE: 1030.336541963781 249.89331720295954
+
+xyWINDONLY model nr:8
+successfully contained fires: 16
+failed attempts: 34
+total #runs: 50
+amounts of burned cells: [6117, 5069, 6535, 5841, 4745, 5598, 5559, 5389, 9362, 7622, 4602, 5638, 5761, 4336, 6238, 5208]
+average: 5851.25
+SD, SE: 1229.408068950257 307.35201723756427
+
+xyWINDONLY model nr:9
+successfully contained fires: 30
+failed attempts: 20
+total #runs: 50
+amounts of burned cells: [5311, 6154, 5375, 5194, 4702, 6827, 5201, 4725, 6360, 5357, 6179, 4351, 3879, 5914, 4771, 5798, 5418, 5759, 6016, 3940, 4533, 4643, 6378, 5707, 6225, 5709, 5023, 5970, 5098, 5233]
+average: 5391.666666666667
+SD, SE: 737.5754003926431 134.6622282186518
+

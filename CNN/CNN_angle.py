@@ -22,7 +22,7 @@ def load_data(out_variant):
 
 
 def build_model(input_shape):
-    """Architecture for the xy outputs. Takes a 6-channel image of the environment
+    """
     and outputs [cos(pos_angle), sin(pos_angle), radius, drive/dig] with x,y relative to the active agent's position."""
 
     downscaleInput = Input(shape=input_shape)
@@ -35,12 +35,11 @@ def build_model(input_shape):
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='relu')(downscaled)
     out = Dense(32, activation='relu')(out)
-    pos_out = Dense(3)(out)                                     # nothing specified, so linear output
-    dig_out = Dense(1)(out)
+    out = Dense(4)(out)                                     # nothing specified, so linear output
 
-    model = Model(inputs=downscaleInput, outputs=[pos_out, dig_out])
+    model = Model(inputs=downscaleInput, outputs=out)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
 
     model.compile(loss=['mse', 'binary_crossentropy'],
                   optimizer=adam,
@@ -160,12 +159,12 @@ if __name__ == "__main__":
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     out_variant = architecture_variants[1]
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-    experiment = experiments[0]                             # dictates model name
+    experiment = experiments[1]                             # dictates model name
 
     images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]
-    images = images[20:],
-    positions, dig_drive = outputs[20:][:3], outputs[20:][3]
+    images = images[20:]
+    outputs = outputs[20:]
 
     #for image, output in zip(images, outputs):
     #    print(output)
@@ -186,7 +185,7 @@ if __name__ == "__main__":
                     3: 0.5}
 
     history = model.fit([images],  # list of 2 inputs to model
-              [positions, dig_drive],
+              outputs,
               batch_size=64,
               epochs=100,
               shuffle=True,

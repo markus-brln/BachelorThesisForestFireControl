@@ -1,4 +1,4 @@
-/CNN/saved_models/*
+#/CNN/saved_models/*
 
 # not the large concatenated data files
 **.npy

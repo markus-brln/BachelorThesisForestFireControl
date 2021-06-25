@@ -198,7 +198,7 @@ class Model:
       print("invalid fire_step_multiplicator! exiting")
       exit()
 
-    for node_row in self.nodes:  # update states anyway for gui to catch new firebreaks
+    for node_row in self.nodes:                                 # update states anyway for gui to catch new firebreaks
       for node in node_row:
         node.update_state()
 
@@ -207,8 +207,9 @@ class Model:
       self.reset_necessary = True                           # view needs to be updated by controller... not a nice way but works
       return
 
-    for subscriber in self.subscribers:
-      subscriber.update(UpdateType.TIMESTEP_COMPLETE)
+    if self.time % utils.timeframe == 0:
+      for subscriber in self.subscribers:
+        subscriber.update(UpdateType.TIMESTEP_COMPLETE)
 
 
   def find_node(self, pos):
@@ -445,6 +446,8 @@ class Model:
     previous_n = 0                                          # previous amount of potentially burned cells
 
     while len(burned) > previous_n:
+      if len(burned) > 14000:
+        return -1
       previous_n = len(burned)
       new_new_burned = []
       for pos in new_burned:
@@ -455,7 +458,7 @@ class Model:
       new_burned = new_new_burned
       burned.extend(new_burned)
 
-    return len(burned)
+    return len(burned) + len(self.firebreaks)
 
 
   def shut_down(self):

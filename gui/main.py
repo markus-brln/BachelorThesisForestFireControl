@@ -28,7 +28,10 @@ def main():
       experiment = experiments[int(sys.argv[2])]
   else:
       experiment = experiments[1]
-  NN_number = 9
+  if len(sys.argv) > 3 and int(sys.argv[3]) < 10:
+    NN_number = int(sys.argv[3])
+  else:
+    NN_number = 9
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 

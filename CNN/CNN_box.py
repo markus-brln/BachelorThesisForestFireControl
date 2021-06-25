@@ -15,11 +15,15 @@ from NNutils import *
 # np.random.seed(123)
 
 
-def load_data(out_variant):
-  print("loading data")
-  images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+def load_data(out_variant, experiment):
+  print("loading data: images_" + out_variant + experiment + ".npy")
+  images = np.load("images_" + out_variant + experiment + ".npy", allow_pickle=True)
   # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
-  outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
+  outputs = np.load("outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
+
+  # images = np.load("images_" + out_variant + ".npy", allow_pickle=True)
+  # # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
+  # outputs = np.load("outputs_" + out_variant + ".npy", allow_pickle=True)
 
   print("input images: ", images.shape)
   print("CNN box - outputs: ", outputs.shape)
@@ -53,31 +57,33 @@ def loss(y_true, y_pred, weights):
   return loss
 
 def build_model(input_shape, weights):
-  """Architecture for the xy outputs. Takes a 6-channel image of the environment
-    and outputs [x, y, drive/dig] with x,y relative to the active agent's position."""
-
 
   downscaleInput = Input(shape=input_shape)
   downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
   downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(3, 3))(downscaled)
+  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Flatten()(downscaled)
-  out = Dense(64, activation='sigmoid')(downscaled)
-  box = Dense(61, activation='softmax', name='box')(out)
-  dig_drive = Dense(1, activation='sigmoid')(out)
+  # downscaled = Dropout(0.1)(downscaled)
+  # out = Dense(16, activation='sigmoid')(downscaled)
+  dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
+  box = Dense(64, activation='relu')(downscaled)
+  box = Dense(61, activation='softmax', name='box')(box)
+
+
 
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
-  adam = tf.keras.optimizers.Adam(learning_rate=0.005)
+  adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
   from functools import partial
   loss1 = partial(loss, weights=weights)
-  model.compile(loss=[loss1, 'mse'],  # kullback_leibler_divergence ## categorical_crossentropy
+  model.compile(loss=[loss1, 'binary_crossentropy'], ## categorical_crossentropy
                 optimizer=adam,
-                metrics=['categorical_accuracy', 'mse'])
-
+                metrics=['categorical_accuracy', 'mse']
+                )
   return model
 
 
@@ -166,31 +172,24 @@ def check_performance(test_data=None, model=None):
 
 
 def arrayIndex2WaypointPos(idx):
-  size = 5
   timeframe = 20
+  size = 5
   x = 0
   cnt = 0
-  wp = (0, 0)
+  wp = ()
   for y in range(-size, size + 1):
     for x in range(-x, x + 1):
-      cnt += 1
       if cnt == idx:
-        wp = (x, y)
-        # print(cnt, "wp", wp)
-        if (abs(x) + abs(y)) != 0:
-          scale = timeframe / (abs(x) + abs(y))
-        else:
-          scale = 1
-        x = round(scale * x)
-        y = round(scale * y)
-        wp = (x, y)
-    x += 1 if y < 0 else -1
-
+        ratio = (abs(x) + abs(y)) / size
+        timeframe *= ratio
+        scale = timeframe / (abs(x) + abs(y))
+        newx = (scale * x)
+        newy = (scale * y)
+        wp = (newx, newy)
+      x += 1 if y < 0 else -1
+      cnt += 1
+  # print(wp, "!")
   return wp
-
-
-# labels_dict : {ind_label: count_label}
-# mu : parameter to tune
 
 def create_class_weight(boxID):
   weights_dict = np.asarray(boxID)
@@ -198,22 +197,19 @@ def create_class_weight(boxID):
   for i in range(len(boxID)):
       if boxID[i] > 0:
           weights_dict[i] = total_val / boxID[i]
-          # weights_dict[i] /= 10
       else:
           weights_dict[i] = total_val
-          # weights_dict[i] /= total_val
-  # return np.asarray(weights_dict)
-  return 1
+  return np.asarray(weights_dict)
 
 if __name__ == "__main__":
   # predict()                          # predict with model loaded from file
   # exit()
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
-  experiments = ["BASIC", "STOCHASTIC", "WIND", "UNCERTAINTY", "UNCERTAINTY+WIND"]
-  experiment = experiments[0]                             # dictates model name
+  experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+  experiment = experiments[2]                             # dictates model name
 
-  images, outputs = load_data(out_variant)
+  images, outputs = load_data(out_variant, experiment)
   box = []
   dig_drive = []
   boxArr = []
@@ -224,6 +220,14 @@ if __name__ == "__main__":
     dig_drive.append(out[-1])
     boxArr.append(box)
 
+  zeros = 0
+  ones = 0
+  for i in range(len(dig_drive)):
+    if dig_drive[i] == 1:
+      ones += 1
+    elif (dig_drive[i] == 0):
+      zeros += 1
+  print("ratio:", zeros, ones, "tot", zeros + ones)
   boxes = np.asarray(boxArr, dtype=np.float16)
   boxID = [0] * 61
   for box in boxes:
@@ -234,7 +238,8 @@ if __name__ == "__main__":
 
   for p in range(len(boxID)):
     if boxID[p] != 0:
-      print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
+      # print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
+      p = len(boxID)
 
   dig_drive = np.asarray(dig_drive, dtype=np.float16)
   print(boxes.shape, dig_drive.shape)
@@ -257,7 +262,7 @@ if __name__ == "__main__":
   print(model.summary())
   # exit()
 
-  callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=8)
+  callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=8)
 
 
   # class_weight = {0: 0.7,
@@ -267,27 +272,40 @@ if __name__ == "__main__":
   history = model.fit(images,  # used to be list of 2 inputs to model
                       [box, dig_drive],
                       batch_size=64,  # 64
-                      epochs=40,  # 50
+                      epochs=25,  # 50
                       shuffle=True,
-                      callbacks=[callback],
+                      # callbacks=[callback],
                       # class_weight=class_weight,
                       validation_split=0.2)  # 0.2
 
 
-  # print("hist", history.history.keys())
-  train_accuracy = history.history['box_categorical_accuracy']
-  test_accuracy = history.history['val_box_categorical_accuracy']
-  epochs = range(1, len(train_accuracy) + 1)
+  # print("keys", history.history.keys())
+  # train_accuracy = history.history['box_categorical_accuracy']
+  # test_accuracy = history.history['val_box_categorical_accuracy']
+  # epochs = range(1, len(train_accuracy) + 1)
+  #
+  # plt.plot(epochs, train_accuracy, label='Training Accuracy')
+  # plt.plot(epochs, test_accuracy, label='Testing Accuracy')
+  # plt.xlabel('Epochs')
+  # plt.ylabel('Box Accuracy')
+  # plt.legend()
+  # plt.show()
+  #
+  # train_accuracy = history.history['box_mse']
+  # test_accuracy = history.history['val_box_mse']
+  # epochs = range(1, len(train_accuracy) + 1)
+  #
+  # plt.plot(epochs, train_accuracy, label='Training MSE')
+  # plt.plot(epochs, test_accuracy, label='Testing MSE')
+  # plt.xlabel('Epochs')
+  # plt.ylabel('Digging Error')
+  # plt.legend()
+  # plt.show()
 
-  plt.plot(epochs, train_accuracy, label='Training Accuracy')
-  plt.plot(epochs, test_accuracy, label='Testing Accuracy')
-  plt.xlabel('Epochs')
-  plt.ylabel('Accuracy')
-  plt.legend()
-  plt.show()
 
   save(model, "CNNbox" + experiment)  # utils
   # check_performance(test_data, model)
-  plot_history(history=history)
+  plot_history_box(history=history)
+  plot_history_dig(history=history)
 
   # predict(model=model, data=test_data)

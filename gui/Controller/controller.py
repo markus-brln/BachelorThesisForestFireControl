@@ -234,9 +234,6 @@ class Controller:
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
         print("new agent", self.agent_no)
-      # elif self.NN_variant == "box":
-      #   print("gaga", self.agent_no)
-      #   new_wp, digging = self.postprocess_output_NN_box(output[self.agent_no], self.model.agents[self.agent_no])
     else:
       for output in outputs:
         new_wp, digging = None, None
@@ -259,31 +256,31 @@ class Controller:
     self.model.highlight_agent(None)
 
   def arrayIndex2WaypointPos(self, idx):
+    timeframe = 20
     size = 5
     x = 0
     cnt = 0
-    wp = (0, 0)
+    wp = ()
     for y in range(-size, size + 1):
       for x in range(-x, x + 1):
-        cnt += 1
         if cnt == idx:
-          wp = (x, y)
-          print(cnt, "wp", wp)
-          if (abs(x) + abs(y)) != 0:
-            scale = utils.timeframe / (abs(x) + abs(y))
-          else:
-            scale = 1
-          x = round(scale * x)
-          y = round(scale * y)
-          wp = (x, y)
-      x += 1 if y < 0 else -1
-
+          ratio = (abs(x) + abs(y)) / size
+          timeframe *= ratio
+          scale = timeframe / (abs(x) + abs(y))
+          newx = (scale * x)
+          newy = (scale * y)
+          wp = (newx, newy)
+        x += 1 if y < 0 else -1
+        cnt += 1
+    # print(wp, "!")
     return wp
 
-  def waypointValid(self, wp):
+  def waypointValid(self, wp, agent):
     if (wp[0] >= -20 and wp[0] <= 20):
       if(wp[1] >= -20 and wp[1] <= 20):
-        return 1
+        if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
+          if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
+            return 1
     return 0
 
 
@@ -292,28 +289,27 @@ class Controller:
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
-    print("pay attention", max(output))
-    # digging = output[1] > self.digging_threshold
-    digging = 1
+    print("pay attention", max(output), "digging:", output[1])
+    digging = output[1] > self.digging_threshold
+    # digging = 0
     waypointIdx = 0
     for idx in range(len(output)):
-      # print("tits", len(output[0]))
       if output[idx] == max(output):
         waypointIdx = idx
 
     print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
     # print("indx:", waypointIdx, "wp", wp)
-    if self.waypointValid(wp):
+    if self.waypointValid(wp, agent):
       delta_x = wp[0]
       delta_y = wp[1]
       print("x", delta_x, "y", delta_y)
-      # if digging:
-      #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
-      #   delta_y = self.arrayIndex2WaypointPos(waypointIdx[1])
+      # if (abs(delta_x) + abs(delta_y)) > 15:
+      #   digging = 1
       print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
       output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
     else:
+      print("invalid waypoint position agent stops")
       output = agent.position[0], agent.position[1]
     return output, digging
 
@@ -551,7 +547,7 @@ class Controller:
 
     print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
-    print(output)
+    # print(output)
     return output
 
 

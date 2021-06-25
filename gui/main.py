@@ -27,7 +27,7 @@ def main():
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
   else:
-      experiment = experiments[1]
+      experiment = experiments[0]
   if len(sys.argv) > 3 and int(sys.argv[3]) < 10:
     NN_number = int(sys.argv[3])
   else:

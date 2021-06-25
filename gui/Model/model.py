@@ -438,16 +438,50 @@ class Model:
   def save_training_run(self):
     self.DataSaver.save_training_run()
 
+
+  def check_escape(self, firebreaks, new_burned, size):
+    print("check escape")
+    for burning_cell in new_burned:
+      blocked_up = 0
+      blocked_down = 0
+      blocked_right = 0
+      blocked_left = 0
+      for firebreak in firebreaks:
+        if firebreak[1] == burning_cell[1]:                 # if y value is the same
+          if 0 < firebreak[0] < burning_cell[0]:            # firebreak between cell and left bound
+            blocked_left = 1
+          else:                                             # between cell and right bound
+            blocked_right = 1
+        if firebreak[0] == burning_cell[0]:
+          if 0 < firebreak[1] < burning_cell[1]:
+            blocked_up = 1
+          else:
+            blocked_down = 1
+                                                            # stop trying if a cell is "surrounded"
+        if blocked_up and blocked_down and blocked_left and blocked_right:
+          break
+
+      if not (blocked_up and blocked_down and blocked_left and blocked_right):
+        return 1                                            # escape found!
+
+    return 0
+
+
   def count_containment(self):
     """Important for testing, counts the amount of potentially
     burned cells when fire was contained."""
+    print("count containment")
     burned = [(int(self.size/2), int(self.size/2))]         # starting from the middle like the fire
     new_burned = burned.copy()
     previous_n = 0                                          # previous amount of potentially burned cells
+    last_check = 0
 
     while len(burned) > previous_n:
-      if len(burned) > 14000:
-        return -1
+      if len(burned) - last_check > 400:                    # check regularly if the fire has an escape to
+        if self.check_escape(self.firebreaks, new_burned, self.size):  # the bounds of the environment
+          return -1
+        last_check = len(burned)
+
       previous_n = len(burned)
       new_new_burned = []
       for pos in new_burned:

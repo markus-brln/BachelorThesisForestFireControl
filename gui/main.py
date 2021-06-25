@@ -28,7 +28,7 @@ def main():
       experiment = experiments[int(sys.argv[2])]
   else:
       experiment = experiments[1]
-  NN_number = 9
+  NN_number = 0
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 
@@ -42,7 +42,8 @@ def main():
 
   if NN_control:
     while True:
-      controller.update_NN(pygame.event.wait())
+      controller.update_NN_no_gui()#pygame.event.wait())
+      #controller.update_NN(pygame.event.wait())
   else:
     while True:
       controller.update(pygame.event.wait())                # Let the controller take over

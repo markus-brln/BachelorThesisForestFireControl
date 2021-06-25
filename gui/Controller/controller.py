@@ -31,6 +31,8 @@ class Controller:
     self.n_failed = 0
     self.n_success = 0
     self.n_burned_cells = []
+    self.n_assignments = 0
+    self.fail_bit = 0
 
 
   def update(self, event):
@@ -152,65 +154,76 @@ class Controller:
 
 
   # ALL NN STUFF STARTS HERE
-  def update_NN(self, event):
+  def print_results_NN(self):
+    print("\n\nEND OF TESTING")
+    print("successfully contained fires: ", self.n_success)
+    print("failed attempts: ", self.n_failed)
+    print("total: ", self.n_failed + self.n_success)
+    print("amounts of burned cells:", self.n_burned_cells)
+    if len(self.n_burned_cells) > 2:
+      print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
+      print("SD, SE: ", statistics.stdev(self.n_burned_cells),
+            statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells)))
+
+  def fail(self):
+    print("FAIL")
+    self.n_failed += 1
+    self.n_assignments = 0
+    self.fail_bit = 1
+    self.model.discard_episode()
+    self.model.start_episode()
+    self.model.reset_wind()
+    self.last_timestep_waypoint_collection = -1
+
+
+  def success(self, burned_cells):
+    print("SUCCESS")
+    self.n_success += 1
+    self.n_burned_cells.append(burned_cells)
+    self.fail_bit = 0
+    self.n_assignments = 0
+    self.model.discard_episode()
+    self.model.start_episode()
+    self.model.reset_wind()
+    self.last_timestep_waypoint_collection = -1
+
+
+  def update_NN_no_gui(self):#, event):
     """Using SPACE, let NN assign waypoints to agents and progress the simulation."""
-    if event.type == pygame.QUIT:
-      print("\n\nEND OF TESTING")
-      print("successfully contained fires: ", self.n_success)
-      print("failed attempts: ", self.n_failed)
-      print("total: ", self.n_failed + self.n_success)
-      print("amounts of burned cells:", self.n_burned_cells)
-      if self.n_burned_cells:
-        print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
-        print("SD, SE: ", statistics.stdev(self.n_burned_cells),
-            statistics.stdev(self.n_burned_cells) /math.sqrt(len(self.n_burned_cells)))
-      exit()
+    #if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 
-    if len(self.model.agents) != utils.nr_of_agents:
-      self.model.discard_episode()
-      self.model.start_episode()
-      self.model.reset_wind()
-      self.last_timestep_waypoint_collection = -1
-      self.n_failed += 1
-    if not self.collecting_waypoints and event.type == pygame.KEYDOWN:
-      if event.key == pygame.K_BACKSPACE:                   # BACKSPACE to failed_episodes+=1 and go to next episode
-        self.model.discard_episode()
-        self.model.start_episode()
-        self.model.reset_wind()
-        self.last_timestep_waypoint_collection = -1
-        self.n_failed += 1
-      if event.key == pygame.K_RETURN:                      # ENTER to successful_episodes+=1, count containment, go to next episode
-        burned_cells = self.model.count_containment()
-        if burned_cells > 0:                                # protection against RETURN misclick
-          self.n_success += 1
-          self.n_burned_cells.append(burned_cells)
-        else:
-          print("You misclicked RETURN, run won't be counted")
-          self.model.counter -= 1
-        self.model.discard_episode()
-        self.model.start_episode()
-        self.model.reset_wind()
-        self.last_timestep_waypoint_collection = -1
-        print("successfully contained fires: ", self.n_success)
-        print("failed attempts: ", self.n_failed)
-        print("total: ", self.n_failed + self.n_success)
-        print("amounts of burned cells:", self.n_burned_cells)
-        if len(self.n_burned_cells) > 2:
-          print("average: ", sum(self.n_burned_cells) / len(self.n_burned_cells))
-          print("SD, SE: ", statistics.stdev(self.n_burned_cells),
-                statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells)))
+    # check whether amount of waypoint assignments is over 15 (failed)
+    if self.n_assignments == 15:
+      print("nr assignments fail")
+      self.fail()
+    self.n_assignments += 1
 
-
-
-    if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-      self.prepare_collecting_waypoints()
-      outputs = self.predict_NN()                           # waypoints from CNN
-      # print("controller - outputs: ", outputs)
-      self.set_waypoints_NN(outputs)
-
+    self.fail_bit = 0                                     # reset for this iteration
+    self.prepare_collecting_waypoints()
+    outputs = self.predict_NN()                           # waypoints from CNN
+    if self.set_waypoints_NN(outputs) == -1:
+      print("waypoint fail")
+      self.fail()
+    if not self.fail_bit:
       for _ in range(utils.timeframe):
         self.model.time_step()
-      return
+
+    # 1. check if agents are burned
+    if len(self.model.agents) != utils.nr_of_agents:
+      print("nr agents fail")
+      self.fail()
+
+    # 2. check whether there is a way out for the fire
+    if not self.fail_bit:
+      burned_cells = self.model.count_containment()
+      if burned_cells != -1:                                  # -1 -> a way out was found for the fire
+        self.success(burned_cells)
+        self.fail_bit = 1                                     # still set this to 1 such that no new wp are generated
+      else:
+        print("way out found, continuing...")
+
+    # 0. print the current results for every run, just to be sure
+    self.print_results_NN()
 
     if self.model.reset_necessary:                          # update view when resetting env (hacky way)
       self.view.update()
@@ -247,9 +260,15 @@ class Controller:
         else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
-        if not 0 < new_wp[0] < utils.size or not 0 < new_wp[0] < utils.size:
-          new_wp = int(utils.size / 2), int(utils.size / 2)
+
+        if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
+          #new_wp = int(utils.size / 2), int(utils.size / 2)
+          #self.model.highlight_agent(self.agent_no)
+          #self.model.select_square(new_wp, digging=digging)
+          #self.agent_no += 1
+          return -1                                         # waypoint outside of environment, FAIL!
+
         # print("pos: ", new_wp, "dig: ", digging)
         self.model.highlight_agent(self.agent_no)
         self.model.select_square(new_wp, digging=digging)
@@ -551,7 +570,7 @@ class Controller:
 
     print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
-    print(output)
+    #print(output)
     return output
 
 

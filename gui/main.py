@@ -52,6 +52,12 @@ def main():
 if __name__=="__main__":
   main()
 
-#TODO
+
 """
-"""
+conditions to fail:
+- agent in fire
+- 20 waypoint assignments done
+- agent waypoint outside of env
+
+conditions to win:
+- BFS+heuristics can't find a way out"""

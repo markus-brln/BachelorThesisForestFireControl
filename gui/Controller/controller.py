@@ -121,7 +121,7 @@ class Controller:
     if event.key == pygame.K_ESCAPE:
       self.model.DataSaver.save_training_run()
     if event.key == pygame.K_p:
-      print("hi")
+      print("produce_input_NN")
       env = self.produce_input_NN()
       print(env.shape)
       self.plot_binmap(env[0])

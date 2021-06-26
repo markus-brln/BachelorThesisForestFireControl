@@ -191,17 +191,19 @@ class Controller:
 
   def append_results_to_file(self):
     print("writing to file")
-    file = open(".."+os.sep+"CNN"+os.sep+"results" + os.sep + self.NN_variant + os.sep + self.NN_variant + utils.experiment + ".txt", mode='a')
-    file.write(self.NN_variant + utils.experiment+ " model nr:" + str(self.NN_number)+"\n")
-    file.write(f"successfully contained fires: {self.n_success}\n")
-    file.write(f"failed attempts: {self.n_failed}\n")
-    file.write(f"total #runs: {self.n_failed + self.n_success}\n")
-    file.write(f"amounts of burned cells: {self.n_burned_cells}\n")
-    if len(self.n_burned_cells) > 2:
-      file.write(f"average: {sum(self.n_burned_cells) / len(self.n_burned_cells)}\n")
-      file.write(f"SD, SE: {statistics.stdev(self.n_burned_cells)} {statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells))}")
+    file = open("results" + os.sep + self.NN_variant + os.sep + self.NN_variant + utils.experiment + ".txt", mode='a')
+    file.write(str(self.n_runs_per_NN) + "\n")
+    file.write(str(self.n_burned_cells) + "\n")
+    #file.write(self.NN_variant + utils.experiment+ " model nr:" + str(self.NN_number)+"\n")
+    #file.write(f"successfully contained fires: {self.n_success}\n")
+    #file.write(f"failed attempts: {self.n_failed}\n")
+    #file.write(f"total #runs: {self.n_failed + self.n_success}\n")
+    #file.write(f"amounts of burned cells: {self.n_burned_cells}\n")
+    #if len(self.n_burned_cells) > 2:
+      #file.write(f"average: {sum(self.n_burned_cells) / len(self.n_burned_cells)}\n")
+      #file.write(f"SD, SE: {statistics.stdev(self.n_burned_cells)} {statistics.stdev(self.n_burned_cells) / math.sqrt(len(self.n_burned_cells))}")
 
-    file.write("\n\n")
+    #file.write("\n\n")
 
 
   def update_NN_no_gui(self):#, event):

@@ -12,19 +12,18 @@ from Model import utils
 def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  variant = architecture_variants[1]
+  experiment = experiments[1]
+  n_NN_to_test = 10
+  n_runs_per_NN = 1
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]
-  else:
-      variant = architecture_variants[1]
 
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
-  else:
-      experiment = experiments[2]
 
-  n_NN_to_test = 10
-  n_runs_per_NN = 3
+
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 
@@ -33,8 +32,6 @@ def main():
 
   utils.configure_globals(experiment)
   model = Model(utils.size, utils.nr_of_agents, utils.agentRadius)            # Initialize Environment
-  #view = View(model, utils.block_size_in_pixels)                  # Start View
-  #controller = Controller(model, view, NN_control, variant, NN_number)
 
   if NN_control:
     for NN_nr in range(n_NN_to_test):

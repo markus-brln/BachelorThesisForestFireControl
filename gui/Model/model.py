@@ -198,16 +198,16 @@ class Model:
       print("invalid fire_step_multiplicator! exiting")
       exit()
 
-    for node_row in self.nodes:                                 # update states anyway for gui to catch new firebreaks
+    for node_row in self.nodes:                             # update states anyway for gui to catch new firebreaks
       for node in node_row:
         node.update_state()
 
-    if self.state == ModelState.FIRE_OUT_OF_CONTROL:             # do not safe the gathered data points of the episode
+    if self.state == ModelState.FIRE_OUT_OF_CONTROL:        # do not safe the gathered data points of the episode
       self.start_episode()
       self.reset_necessary = True                           # view needs to be updated by controller... not a nice way but works
       return
 
-    if self.time % utils.timeframe == 0:
+    if self.time % utils.timeframe == 0:                    # make updating faster
       for subscriber in self.subscribers:
         subscriber.update(UpdateType.TIMESTEP_COMPLETE)
 

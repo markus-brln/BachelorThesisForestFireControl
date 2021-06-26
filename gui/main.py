@@ -19,19 +19,17 @@ pygame.display.set_caption('Only you can prevent Forest Fires!')
 def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  variant = architecture_variants[0]
+  experiment = experiments[1]
+  NN_number = 0
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]
-  else:
-      variant = architecture_variants[0]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
-  else:
-      experiment = experiments[0]
   if len(sys.argv) > 3 and int(sys.argv[3]) < 10:
     NN_number = int(sys.argv[3])
-  else:
-    NN_number = 9
+
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 
@@ -61,6 +59,5 @@ conditions to fail:
 - agent in fire
 - 20 waypoint assignments done
 - agent waypoint outside of env
-
 conditions to win:
 - BFS+heuristics can't find a way out"""

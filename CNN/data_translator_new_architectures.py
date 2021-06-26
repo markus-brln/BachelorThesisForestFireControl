@@ -1,8 +1,11 @@
+#!/bin/python3
+
 import os
 import numpy as np
 import math
 import glob
 import matplotlib.pyplot as plt
+from numpy.lib.function_base import angle
 from NNutils import plot_np_image, plot_data
 import sys
 import time
@@ -65,10 +68,32 @@ def outputs_xy(data):
   #print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
-# Required for outputs_angle
-def cos_sin(x, y):
-    angle = math.atan2(y, x)
-    return math.cos(angle), math.sin(angle)
+
+def outputs_segments(data):
+  print("Constructing angle segments outputs")
+  agent_info = [data_point[3] for data_point in data]
+  agent_info = [j for sub in agent_info for j in sub]  # flatten the list
+
+  outputs = []  # [[x rel. to agent, y, drive/dig], ...]
+  for raw in agent_info:
+
+    agent_pos = raw[0]  # make things explicit, easy-to-understand
+    wp = raw[1]
+    dig_drive = raw[2]
+
+    delta_x = wp[0] - agent_pos[0]
+    delta_y = wp[1] - agent_pos[1]
+
+    angle = math.atan2(delta_y, delta_x)
+    segments = [0] * 16
+
+    segments[round(8 * angle / (2 * math.pi)) % 16] = 1
+
+    print(segments)
+    outputs.append(segments + [dig_drive])
+  
+  print(outputs[:10])
+  return np.asarray(outputs, dtype=np.float16)
 
 
 def outputs_angle(data):
@@ -90,23 +115,17 @@ def outputs_angle(data):
     delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
     delta_y = (wp[1] - agent_pos[1]) / max_dist
 
-    cos_position, sin_position = cos_sin(delta_x, delta_y)
+    angle = math.atan2(delta_y, delta_x)
+    cos_position = math.cos(angle)
+    sin_position = math.sin(angle)
+
     radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
     print("new agent")
     print("raw: ",raw)
-    print(f"sin: {sin_position}, x: {delta_x}")
-    print(f"cos: {cos_position}, y: {delta_y}")
+    print(f"angle: {angle}")
+    print(f"sin: {sin_position}, y: {delta_y}")
+    print(f"cos: {cos_position}, x: {delta_x}")
     print(f"radius: {radius}, dig: {drive_dig}")
-    if abs(cos_position * radius - delta_y) > 0.01:
-      print(f"invalid cos:")
-      print(f"cos: {cos_position}, radius: {radius}, y: {delta_y}")
-      print(f"cos * radius = {cos_position * radius}")
-      time.sleep(1)
-    if abs(sin_position * radius - delta_x) > 0.01:
-      print(f"invalid sin:")
-      print(f"sin: {sin_position}, radius: {radius}, x: {delta_x}")
-      print(f"sin * radius = {sin_position * radius}")
-      time.sleep(1)
     outputs.append([cos_position, sin_position, radius, drive_dig])
 
   # print(outputs)
@@ -205,6 +224,8 @@ def construct_output(data, NN_variant):
     output = outputs_angle(data)
   if NN_variant == "box":
     output = outputs_box(data)
+  if NN_variant == "segments":
+    output = outputs_segments(data)
 
   return output
 
@@ -375,21 +396,23 @@ def augmentData(data):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  filters_exp = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = filters_exp[2]
+  architecture_variants = ["xy", "angle", "box", "segments"]             # our 3 individual network output variants
+  experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
+    out_variant = architecture_variants[int(sys.argv[1])]
+  else:
+    out_variant = architecture_variants[2]
+  if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
+      experiment = experiments[int(sys.argv[2])]
+  else:
+      experiment = experiments[4]
   data = load_raw_data(file_filter=experiment)
-  data = data[:]
+  data = data[:300]
   # data = augmentData(data)
   # data = shift_augment(data)     # does not work yet
   print(len(data))
   #plot_data(data)
 
-  architecture_variants = ["xy", "angle", "box"]             # our 3 individual network output variants
-
-  if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
-    out_variant = architecture_variants[int(sys.argv[1])]
-  else:
-    out_variant = architecture_variants[2]
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 

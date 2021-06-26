@@ -341,6 +341,7 @@ class Controller:
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
+    print(output)
 
     # print(f"output: {output}")
     cos_x = output[0]

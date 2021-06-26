@@ -69,7 +69,7 @@ def build_model(input_shape, weights):
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Flatten()(downscaled)
   # downscaled = Dropout(0.1)(downscaled)
-  # out = Dense(16, activation='sigmoid')(downscaled)
+  out = Dense(16, activation='sigmoid')(downscaled)
   dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
   box = Dense(64, activation='relu')(downscaled)
   box = Dense(61, activation='softmax', name='box')(box)
@@ -78,11 +78,11 @@ def build_model(input_shape, weights):
 
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
   adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
-  from functools import partial
-  loss1 = partial(loss, weights=weights)
-  model.compile(loss=[loss1, 'binary_crossentropy'], ## categorical_crossentropy
+  # from functools import partial
+  # loss1 = partial(loss, weights=weights)
+  model.compile(loss=['categorical_crossentropy', 'mse'], ## categorical_crossentropy
                 optimizer=adam,
-                metrics=['categorical_accuracy', 'mse']
+                metrics='categorical_accuracy'
                 )
   return model
 

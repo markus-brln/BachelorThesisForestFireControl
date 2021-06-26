@@ -8,7 +8,6 @@ from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPool
 from NNutils import *
 #tf.random.set_seed(123)
 #np.random.seed(123)
-import sys
 
 def load_data(out_variant):
     print("loading data")
@@ -28,23 +27,25 @@ def build_model(input_shape):
 
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(3, 3), strides=(2,2), activation="relu", padding="same")(downscaled) # 
     downscaled = Conv2D(filters=64, kernel_size=(3, 3), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    out = Dense(48, activation='relu')(downscaled)
-    out = Dense(32, activation='relu')(out)
-    out = Dense(4)(out)                                     # nothing specified, so linear output
+    out = Dense(48, activation='sigmoid')(downscaled)
+    out = Dense(32, activation='sigmoid')(out)
+    seg_out = Dense(16, name='seg')(out)                                     # nothing specified, so linear output
+    dig_out = Dense(1, name='dig')(out)
 
-    model = Model(inputs=downscaleInput, outputs=out)
+    model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.005)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
 
-    model.compile(loss=['mse', 'binary_crossentropy'],
+    model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
                   optimizer=adam,
-                  metrics='mse')
+                  # metrics='mse'
+                  )
 
     return model
 
@@ -157,54 +158,40 @@ def plot_np_image(image):
 if __name__ == "__main__":
     # predict()                          # predict with model loaded from file
     # exit()
-    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    out_variant = architecture_variants[1]
+    out_variant = "segments"
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-    if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
-        experiment = experiments[int(sys.argv[1])]
-    else:
-        experiment = experiments[0]
-    if len(sys.argv) > 2 and int(sys.argv[2]) < 10:
-      NN_number = int(sys.argv[2])
-    else:
-      NN_number = 0
+    experiment = experiments[1]                             # dictates model name
 
-    print(f"experiment: {experiment}, NN_number: {NN_number}")
-
-    images, outputs = load_data(out_variant + experiment)
+    images, outputs = load_data(out_variant)
     test_data = [images[:20], outputs[:20]]
     images = images[20:]
     outputs = outputs[20:]
-
-    #for image, output in zip(images, outputs):
-    #    print(output)
-    #    print("x,y active: ", image[0][0][5], image[0][0][6])
-    #    plot_np_image(image)
-
-    #check_performance(test_data)
-    #exit()
+    segments = np.asarray([x[:16] for x in outputs])
+    dig = np.asarray([[x[16]] for x in outputs], dtype=np.float16)
+    print(segments.shape)
+    print(dig.shape)
 
     model = build_model(images[0].shape)
     print(model.summary())
     #exit()
 
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
-    class_weight = {0: 0.9,
-                    1: 0.9,
-                    2: 0.8,
-                    3: 0.5}
+    # callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+    # class_weight = {0: 0.9,
+    #                 1: 0.9,
+    #                 2: 0.8,
+    #                 3: 0.5}
+
 
     history = model.fit([images],  # list of 2 inputs to model
-              outputs,
+              [segments, dig],
               batch_size=64,
               epochs=100,
               shuffle=True,
-              callbacks=[callback],
+              # callbacks=[callback],
               #class_weight=class_weight,
               validation_split=0.2)
 
-    print(f"Saving as CNNangle{experiment}{NN_number}")
-    save(model, "CNNangle" + experiment + str(NN_number))  # utils
+    save(model, "CNNangle" + experiment)  # utils
     check_performance(test_data, model)
     plot_history(history=history)
     #predict(model=model, data=test_data)

@@ -6,6 +6,7 @@ import math
 import glob
 import matplotlib.pyplot as plt
 from numpy.lib.function_base import angle
+from numpy.lib.histograms import histogram
 from NNutils import plot_np_image, plot_data
 import sys
 import time
@@ -14,7 +15,6 @@ sep = os.path.sep
 timeframe = 20
 size = 255
 apd = 10                                                    # agent_point_diameter of inactive agents in CNN input
-
 
 
 def load_raw_data(file_filter):
@@ -44,32 +44,8 @@ def load_raw_data(file_filter):
   return data
 
 
-def outputs_xy(data):
-  print("Constructing xy outputs")
-  agent_info = [data_point[3] for data_point in data]
-  agent_info = [j for sub in agent_info for j in sub]       # flatten the list
-
-  outputs = []                                              # [[x rel. to agent, y, drive/dig], ...]
-  for raw in agent_info:
-    agent_pos = raw[0]                                      # make things explicit, easy-to-understand
-    wp = raw[1]
-    drive_dig = raw[2]
-
-    max_dist = timeframe
-    if drive_dig == 0:                                      # driving wp => 2 times the speed
-      max_dist = 2 * timeframe
-
-    delta_x = (wp[0] - agent_pos[0]) / max_dist             # normalized difference between agent position and wp
-    delta_y = (wp[1] - agent_pos[1]) / max_dist
-
-    outputs.append([delta_x, delta_y, drive_dig])
-
-  #print(outputs)
-  #print(agent_info)
-  return np.asarray(outputs, dtype=np.float16)
-
-
 def outputs_segments(data):
+  histogram = [0]*8
   print("Constructing angle segments outputs")
   agent_info = [data_point[3] for data_point in data]
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list
@@ -85,45 +61,15 @@ def outputs_segments(data):
     delta_y = wp[1] - agent_pos[1]
 
     angle = math.atan2(delta_y, delta_x)
-    segments = [0] * 16
+    segments = [0] * 8
 
-    segments[round(8 * angle / (2 * math.pi)) % 16] = 1
+    segments[round(8 * (angle + math.pi) / (2 * math.pi)) % 8] = 1
+    histogram[round(8 * (angle + math.pi) / (2 * math.pi)) % 8] += 1
 
     print(segments)
     outputs.append(segments + [dig_drive])
   
-  print(outputs[:10])
-  return np.asarray(outputs, dtype=np.float16)
-
-
-def outputs_angle(data):
-  print("Constructing angle outputs")
-  agent_info = [data_point[3] for data_point in data]
-  agent_info = [j for sub in agent_info for j in sub]  # flatten the list
-
-  outputs = []  # [[x rel. to agent, y, drive/dig], ...]
-  for raw in agent_info:
-
-    agent_pos = raw[0]  # make things explicit, easy-to-understand
-    wp = raw[1]
-    drive_dig = raw[2]
-
-    max_dist = timeframe
-    if drive_dig == 0:  # driving wp => 2 times the speed
-      max_dist = 2 * timeframe
-
-    delta_x = (wp[0] - agent_pos[0]) / max_dist  # normalized difference between agent position and wp
-    delta_y = (wp[1] - agent_pos[1]) / max_dist
-
-    angle = math.atan2(delta_y, delta_x)
-    cos_position = math.cos(angle)
-    sin_position = math.sin(angle)
-
-    radius = math.sqrt(delta_x ** 2 + delta_y ** 2)
-    outputs.append([cos_position, sin_position, radius, drive_dig])
-
-  # print(outputs)
-#   print(agent_info)
+  print(histogram)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -142,6 +88,7 @@ def waypoint2array(wp):
     if (arr[idx] == wp):
       to_ret = idx
   return to_ret
+
 
 def shrink2reachablewaypoint(wpX, wpY):
   '''
@@ -168,40 +115,6 @@ def shrink2reachablewaypoint(wpX, wpY):
       break
   wp = (wpX, wpY)
   return tuple(wp)
-
-def outputs_box(data):
-  '''
-  returns a list of two parts the first a 1D vector of size timeframe^2 + (timeframe+1)^2
-    with a 1 for the position of the correct waypoint location in format [0,0,0,1,...,0]
-    secondly a value of 0 for drive and 1 for dig for the type of waypoint for each agent
-  '''
-# TODO make this work
-  print("Constructing box output")
-  agent_info = [data_point[3] for data_point in data] ## list of agent location, waypoint and dig/drive
-  agent_info = [j for sub in agent_info for j in sub]  # flatten the list to be unique per agent
-  outputs = []
-  boxsize = 5
-  for agent in agent_info:
-    # box/grid of possible locations format [[0,0,1,0,..], dig/drive],[[0,1,...0], dig/drive...]
-    output = [0] * ((boxsize * boxsize) + ((boxsize + 1) * (boxsize + 1)))
-    # print("len", len(output))
-    xpos, ypos = agent[0]
-    waypoint = tuple(agent[1])
-    # print("agent: (", xpos, ",", ypos, ") wp: (", waypoint[0], ",", waypoint[1], ")")
-    drive_dig = agent[2]
-    deltaX = int((waypoint[0] - xpos) + 1)
-    deltaY = int((waypoint[1] - ypos) + 1)
-    # print("(", deltaX, deltaY, ")")
-    wp = shrink2reachablewaypoint(deltaX, deltaY)
-    arrPos = waypoint2array(wp)
-    if arrPos != -1:
-      output[arrPos] = 1
-    else:
-      print("Scale fail!")
-    list = output + [drive_dig]
-    # print(list)
-    outputs.append(list)
-  return np.asarray(outputs, dtype=np.float16)
 
 
 def construct_output(data, NN_variant):
@@ -314,79 +227,6 @@ def raw_to_IO(data, NN_variant):
 
   return images, outputs
 
-def augmentData(data):
-  print("!augmenting data!")
-  print("original", data[-1])
-  augmentedData = data.tolist()
-  print(len(augmentedData))
-  for data_point in data:
-    agent_positions = data_point[3]
-    for i in range(1, 3):
-      ''' x - 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0] - i, agent[0][1])
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
-      augmentedData.append(episode)
-      ''' x - 1, y - 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0] - i, agent[0][1] - i)
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
-      augmentedData.append(episode)
-      ''' y - 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0], agent[0][1] - i)
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
-      augmentedData.append(episode)
-      ''' x + 1, y - 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0] + i, agent[0][1] - i)
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
-      augmentedData.append(episode)
-      ''' x + 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0] + i, agent[0][1])
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
-      augmentedData.append(episode)
-      ''' x + 1, y + 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0] + i, agent[0][1] + i)
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), aug_positions]
-      augmentedData.append(episode)
-      ''' y + 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0], agent[0][1] + i)
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), list(aug_positions)]
-      augmentedData.append(episode)
-      ''' x - 1, y + 1 '''
-      aug_positions = []
-      for agent in agent_positions:
-        temp = agent.copy()
-        temp[0] = (agent[0][0] - i, agent[0][1] + i)
-        aug_positions.append(temp)
-        episode = [np.asarray(data_point[0]), np.asarray(data_point[1]), np.asarray(data_point[2]), list(aug_positions)]
-      augmentedData.append(episode)
-  return  np.asarray(augmentedData, dtype=object)
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
@@ -395,22 +235,17 @@ if __name__ == "__main__":
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
     out_variant = architecture_variants[int(sys.argv[1])]
   else:
-    out_variant = architecture_variants[2]
+    out_variant = architecture_variants[-1]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
   else:
-      experiment = experiments[4]
+      experiment = experiments[0]
   data = load_raw_data(file_filter=experiment)
   data = data[:300]
-  # data = augmentData(data)
-  # data = shift_augment(data)     # does not work yet
-  print(len(data))
-  #plot_data(data)
 
-  print(out_variant)
+  print(f"architecture: {out_variant}")
   images, outputs = raw_to_IO(data, out_variant)
 
-
   np.save(file="images_" + out_variant + experiment +".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
-  #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
   np.save(file="outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)
+

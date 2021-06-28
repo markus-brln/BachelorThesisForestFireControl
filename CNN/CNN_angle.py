@@ -197,7 +197,7 @@ if __name__ == "__main__":
     history = model.fit([images],  # list of 2 inputs to model
               outputs,
               batch_size=64,
-              epochs=100,
+              epochs=3,
               shuffle=True,
               callbacks=[callback],
               #class_weight=class_weight,

@@ -1,41 +1,65 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def barplot_with_error(data, labels, ylabel):
-    if len(data) != len(labels):
+def barplot_with_error(all_data, labels, ylabel):
+    """
+    Function making a barplot with arbitrary amounts of bars.
+
+    :param all_data: list of lists of data. Each sublist should contain the same amount of elements.
+    :param labels: of len(all_data[0])
+    :param ylabel: Text describing the y-axis.
+    """
+    if len(all_data[0]) != len(labels):
         print("data and labels must have the same length!")
         return
 
-    means = []
-    SDs = []
-    for array in data:
-        array = np.array(array)
-        means.append(np.mean(array))
-        SDs.append(np.std(array))
+    all_means = []
+    all_SDs = []
+    for data in all_data:
+        means = []
+        SDs = []
+        for array in data:
+            array = np.array(array)
+            means.append(np.mean(array))
+            SDs.append(np.std(array))
+        all_means.append(means)
+        all_SDs.append(SDs)
+
     x_pos = np.arange(len(labels))
 
+    architectures = ['xy', 'angle']
+    architecture_colors = ['blue', 'orange']
+
+    bar_width = 0.3
     fig, ax = plt.subplots()
-    ax.bar(x_pos, means,
-           yerr=SDs,
-           align='center',
-           alpha=0.5,
-           ecolor='black',
-           capsize=10)
+    for means, SDs, idx in zip(all_means, all_SDs, range(len(all_data))):
+        barlist = ax.bar(x_pos - (((len(all_data) - 1) / 2) - idx) * bar_width,
+               all_means[idx],
+               yerr=all_SDs[idx],
+               align='center',
+               alpha=0.8,
+               width=bar_width,
+               ecolor='black',
+               color=architecture_colors[idx],
+               capsize=10)
+
+
+    handles = [plt.Rectangle((0, 0), 1, 1, color=label) for label in architecture_colors]
+    ax.legend(handles, architectures)
     ax.set_ylabel(ylabel)
     ax.set_xticks(x_pos)
     ax.set_xticklabels(labels)
     ax.yaxis.grid(True)
 
-    # Save the figure and show
     plt.tight_layout()
-    #plt.savefig('bar_plot_with_error_bars.png')
+    #plt.savefig('bar_plot_containment_rate.png')
     plt.show()
 
 
 def parse_file(filename):
     print("parsing", filename)
     import ast
-    file = open(filename,mode='r')
+    file = open(filename, mode='r')
 
     all_burned = []
     n_successes = []
@@ -45,21 +69,28 @@ def parse_file(filename):
         if idx % 2 == 0:
             n_successes.append(len(ast.literal_eval(line)))
             all_burned.extend(ast.literal_eval(line))
-            print(len(ast.literal_eval(line)), sep=" ")
+            #print(len(ast.literal_eval(line)), sep=" ")
 
     return n_successes, all_burned
 
 
 if __name__ == "__main__":
-    files = ["xy/xySTOCHASTIC.txt","xy/xyUNCERTAINONLY.txt","xy/xyWINDONLY.txt","xy/xyUNCERTAIN+WIND.txt"]
+    files1 = ["xy/xySTOCHASTIC.txt", "xy/xyUNCERTAINONLY.txt", "xy/xyWINDONLY.txt", "xy/xyUNCERTAIN+WIND.txt"]
+    files2 = ["angle/angleSTOCHASTIC.txt", "angle/angleUNCERTAINONLY.txt", "angle/angleWINDONLY.txt", "angle/angleUNCERTAIN+WIND.txt"]
 
-    success_data = []
-    burned_data = []
-    for file in files:
-        n_successes, all_burned = parse_file(file)
-        success_data.append(n_successes)
-        burned_data.append(all_burned)
+    all_success = []
+    all_burned = []
+    file_lists = [files1, files2]
+    for file_list in file_lists:
+        success_data = []
+        burned_data = []
+        for file in file_list:
+            n_successes, burned_cells = parse_file(file)
+            success_data.append(n_successes)
+            burned_data.append(burned_cells)
+        all_success.append(success_data)
+        all_burned.append(burned_data)
 
     labels = ["STOCHASTIC", "UNCERTAIN", "WIND", "UNCERTAIN+WIND"]
-    barplot_with_error(success_data, labels, "Mean successfully contained fires out of 100")
-    barplot_with_error(burned_data, labels, "Mean amount of burned cells")
+    barplot_with_error(all_success, labels, "Mean successfully contained fires out of 100")
+    barplot_with_error(all_burned, labels, "Mean amount of burned cells")

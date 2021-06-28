@@ -401,10 +401,6 @@ class Controller:
     delta_y = cos_x * radius * utils.timeframe
     delta_x = sin_x * radius * utils.timeframe
 
-    if not digging:
-      delta_x = utils.timeframe * 2
-      delta_y = utils.timeframe * 2
-
     wanted_len = utils.timeframe                            # agents can dig 1 cell per timestep
     if not digging:
       wanted_len *= 2                                       # driving twice as fast

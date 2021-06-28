@@ -33,7 +33,7 @@ def main():
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
 
-  NN_control = True                                         # False -> gather data, True -> test NN
+  NN_control = False                                         # False -> gather data, True -> test NN
                                                             # Initialize Controller with model and view, NN stuff
 
   utils.configure_globals(experiment)

@@ -207,9 +207,9 @@ class Model:
       self.reset_necessary = True                           # view needs to be updated by controller... not a nice way but works
       return
 
-    if self.time % utils.timeframe == 0:                    # make updating faster
-      for subscriber in self.subscribers:
-        subscriber.update(UpdateType.TIMESTEP_COMPLETE)
+    #if self.time % utils.timeframe == 0:                    # make updating faster
+    for subscriber in self.subscribers:
+      subscriber.update(UpdateType.TIMESTEP_COMPLETE)
 
 
   def find_node(self, pos):

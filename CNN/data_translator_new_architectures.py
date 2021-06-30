@@ -376,7 +376,7 @@ def augmentData(data):
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
   filters_exp = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = filters_exp[2]
+  experiment = filters_exp[4]
   data = load_raw_data(file_filter=experiment)
   data = data[:]
   # data = augmentData(data)
@@ -393,7 +393,7 @@ if __name__ == "__main__":
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 
-
-  np.save(file="images_" + out_variant + experiment +".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  NN_number = 0
+  np.save(file="images_" + out_variant + experiment + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
   np.save(file="outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)

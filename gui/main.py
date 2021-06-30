@@ -23,11 +23,11 @@ def main():
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]
   else:
-      variant = architecture_variants[0]
+      variant = architecture_variants[2]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[2])]
   else:
-      experiment = experiments[0]
+      experiment = experiments[2]
 
   print(f"variant: {variant}")
   print(f"experiment: {experiment}")
@@ -38,7 +38,7 @@ def main():
   utils.configure_globals(experiment)
   model = Model(utils.size, utils.nr_of_agents, utils.agentRadius)            # Initialize Environment
   view = View(model, utils.block_size_in_pixels)                  # Start View
-  controller = Controller(model, view, NN_control, variant, NN_number)
+  controller = Controller(model, view, NN_control, variant, 0)
 
   if NN_control:
     while True:

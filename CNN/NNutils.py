@@ -136,8 +136,8 @@ def plot_history_dig(history):
   fig, axs = plt.subplots(2)
 
   # create accuracy sublpot
-  axs[0].plot(history.history['dig_accuracy'], label="train accuracy")
-  axs[0].plot(history.history['val_dig_accuracy'], label="validation accuracy")
+  axs[0].plot(history.history['dig_binary_accuracy'], label="train accuracy")
+  axs[0].plot(history.history['val_dig_binary_accuracy'], label="validation accuracy")
   axs[0].set_ylabel("dig_accuracy")
   axs[0].legend(loc="lower right")
   axs[0].set_title("dig_binary_accuracy")

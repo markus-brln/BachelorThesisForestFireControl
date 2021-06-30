@@ -57,19 +57,21 @@ def loss(y_true, y_pred, weights):
   return loss
 
 def build_model(input_shape, weights):
-
+  regu_factor = 0.0001
   downscaleInput = Input(shape=input_shape)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), kernel_regularizer=l2(regu_factor), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), kernel_regularizer=l2(regu_factor), strides=(1, 1), activation="relu", padding="same")(downscaled)
+  regu_factor = 0.001
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), kernel_regularizer=l2(regu_factor), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), kernel_regularizer=l2(regu_factor), strides=(2, 2), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  # regu_factor = 0.01
+  downscaled = Conv2D(filters=64, kernel_size=(2, 2), kernel_regularizer=l2(regu_factor), strides=(2, 2), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Flatten()(downscaled)
-  # downscaled = Dropout(0.1)(downscaled)
-  # out = Dense(16, activation='sigmoid')(downscaled)
+  # downscaled = Dropout(0.2)(downscaled)
+  out = Dense(16, activation='sigmoid')(downscaled)
   dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
   box = Dense(64, activation='relu')(downscaled)
   box = Dense(61, activation='softmax', name='box')(box)
@@ -80,9 +82,9 @@ def build_model(input_shape, weights):
   adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
   from functools import partial
   loss1 = partial(loss, weights=weights)
-  model.compile(loss=[loss1, 'binary_crossentropy'], ## categorical_crossentropy
+  model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
                 optimizer=adam,
-                metrics=['categorical_accuracy', 'mse']
+                metrics=['categorical_accuracy', 'binary_accuracy']
                 )
   return model
 
@@ -206,7 +208,7 @@ if __name__ == "__main__":
   # exit()
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
-  experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINTY", "UNCERTAINTY+WIND"]
+  experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   experiment = experiments[2]                             # dictates model name
 
   images, outputs = load_data(out_variant, experiment)
@@ -225,9 +227,11 @@ if __name__ == "__main__":
   for i in range(len(dig_drive)):
     if dig_drive[i] == 1:
       ones += 1
-    elif (dig_drive[i] == 0):
+    elif dig_drive[i] == 0:
       zeros += 1
-  print("ratio:", zeros, ones, "tot", zeros + ones)
+
+  print("drive:dig ratio: ", str(zeros) + ":" + str(ones), "out of", zeros + ones)
+
   boxes = np.asarray(boxArr, dtype=np.float16)
   boxID = [0] * 61
   for box in boxes:
@@ -238,11 +242,11 @@ if __name__ == "__main__":
 
   for p in range(len(boxID)):
     if boxID[p] != 0:
-      # print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
-      p = len(boxID)
+      print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
+      # p = len(boxID)
 
   dig_drive = np.asarray(dig_drive, dtype=np.float16)
-  print(boxes.shape, dig_drive.shape)
+  print(boxes.shape, dig_drive.shape, "shape")
   ## to finish for two things
   # split_point  = int(len(images)*0.2)
   test_data = [images[:20], boxes[:20], dig_drive[:20]]
@@ -272,7 +276,7 @@ if __name__ == "__main__":
   history = model.fit(images,  # used to be list of 2 inputs to model
                       [box, dig_drive],
                       batch_size=64,  # 64
-                      epochs=25,  # 50
+                      epochs=15,  # 50
                       shuffle=True,
                       # callbacks=[callback],
                       # class_weight=class_weight,
@@ -303,7 +307,7 @@ if __name__ == "__main__":
   # plt.show()
 
 
-  save(model, "CNNbox" + experiment)  # utils
+  save(model, "CNNbox" + experiment + str(0))  # utils
   # check_performance(test_data, model)
   plot_history_box(history=history)
   plot_history_dig(history=history)

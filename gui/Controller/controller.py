@@ -11,7 +11,7 @@ import statistics
 
 timeframe = 20
 class Controller:
-  def __init__(self, model: Model, view: View, NN_control = False, variant="xy", NN_number=None):
+  def __init__(self, model: Model, view: View, NN_control = False, variant="xy", NN_number=0):
     self.model = model
     self.view = view
 
@@ -305,7 +305,7 @@ class Controller:
     """
 
     print("pay attention", max(output), "digging:", output[1])
-    digging = output[1] > self.digging_threshold
+    digging = output[1] < self.digging_threshold
     # digging = 0
     waypointIdx = 0
     for idx in range(len(output)):

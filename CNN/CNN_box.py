@@ -31,21 +31,6 @@ def load_data(out_variant, experiment):
   return images, outputs
 
 
-def weighted_categorical_crossentropy(y_true, y_pred, weights):
-  '''
-    previous loss function
-  '''
-  nb_cl = len(weights)
-  final_mask = K.zeros_like(y_pred[:, 0])
-  y_pred_max = K.max(y_pred, axis=1)
-  y_pred_max = K.reshape(y_pred_max, (K.shape(y_pred)[0], 1))
-  y_pred_max_mat = K.cast(K.equal(y_pred, y_pred_max), K.floatx())
-  from itertools import product
-  for c_p, c_t in product(range(nb_cl), range(nb_cl)):
-      final_mask += (weights[c_t, c_p] * y_pred_max_mat[:, c_p] * y_true[:, c_t])
-  return K.categorical_crossentropy(y_pred, y_true) * final_mask
-
-
 def loss(y_true, y_pred, weights):
   # scale predictions so that the class probabilities of each sample sum to 1
   y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
@@ -56,11 +41,10 @@ def loss(y_true, y_pred, weights):
   loss = -K.sum(loss, -1)
   return loss
 
-def build_model(input_shape, weights):
-
+def build_model_box(input_shape, weights):
   downscaleInput = Input(shape=input_shape)
   downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2),  strides=(1, 1), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
   downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
@@ -68,8 +52,8 @@ def build_model(input_shape, weights):
   downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Flatten()(downscaled)
-  # downscaled = Dropout(0.1)(downscaled)
-  out = Dense(16, activation='sigmoid')(downscaled)
+  downscaled = Dropout(0.03)(downscaled)
+  out = Dense(8, activation='sigmoid')(downscaled)
   dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
   box = Dense(64, activation='relu')(downscaled)
   box = Dense(61, activation='softmax', name='box')(box)
@@ -78,13 +62,14 @@ def build_model(input_shape, weights):
 
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
   adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
-  # from functools import partial
-  # loss1 = partial(loss, weights=weights)
-  model.compile(loss=['categorical_crossentropy', 'mse'], ## categorical_crossentropy
+  from functools import partial
+  loss1 = partial(loss, weights=weights)
+  model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
                 optimizer=adam,
-                metrics='categorical_accuracy'
+                metrics=['categorical_accuracy', 'binary_crossentropy']
                 )
   return model
+
 
 
 def predict(model=None, data=None, n_examples=5):
@@ -206,8 +191,8 @@ if __name__ == "__main__":
   # exit()
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
-  experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINTY", "UNCERTAINTY+WIND"]
-  experiment = experiments[2]                             # dictates model name
+  experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  experiment = experiments[4]                             # dictates model name
 
   images, outputs = load_data(out_variant, experiment)
   box = []
@@ -225,9 +210,11 @@ if __name__ == "__main__":
   for i in range(len(dig_drive)):
     if dig_drive[i] == 1:
       ones += 1
-    elif (dig_drive[i] == 0):
+    elif dig_drive[i] == 0:
       zeros += 1
-  print("ratio:", zeros, ones, "tot", zeros + ones)
+
+  print("drive:dig ratio: ", str(zeros) + ":" + str(ones), "out of", zeros + ones)
+
   boxes = np.asarray(boxArr, dtype=np.float16)
   boxID = [0] * 61
   for box in boxes:
@@ -238,11 +225,11 @@ if __name__ == "__main__":
 
   for p in range(len(boxID)):
     if boxID[p] != 0:
-      # print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
-      p = len(boxID)
+      print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
+      # p = len(boxID)
 
   dig_drive = np.asarray(dig_drive, dtype=np.float16)
-  print(boxes.shape, dig_drive.shape)
+  print(boxes.shape, dig_drive.shape, "shape")
   ## to finish for two things
   # split_point  = int(len(images)*0.2)
   test_data = [images[:20], boxes[:20], dig_drive[:20]]
@@ -262,7 +249,7 @@ if __name__ == "__main__":
   print(model.summary())
   # exit()
 
-  callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=8)
+  callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=10)
 
 
   # class_weight = {0: 0.7,
@@ -272,7 +259,7 @@ if __name__ == "__main__":
   history = model.fit(images,  # used to be list of 2 inputs to model
                       [box, dig_drive],
                       batch_size=64,  # 64
-                      epochs=25,  # 50
+                      epochs=80,  # 50
                       shuffle=True,
                       # callbacks=[callback],
                       # class_weight=class_weight,
@@ -303,7 +290,7 @@ if __name__ == "__main__":
   # plt.show()
 
 
-  save(model, "CNNbox" + experiment)  # utils
+  save(model, "CNNbox" + experiment + str(0))  # utils
   # check_performance(test_data, model)
   plot_history_box(history=history)
   plot_history_dig(history=history)

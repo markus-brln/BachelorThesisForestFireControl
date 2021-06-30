@@ -91,7 +91,7 @@ def outputs_segments(data):
 
     print(segments)
     outputs.append(segments + [dig_drive])
-  
+
   print(outputs[:10])
   return np.asarray(outputs, dtype=np.float16)
 
@@ -394,23 +394,25 @@ if __name__ == "__main__":
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
     out_variant = architecture_variants[int(sys.argv[1])]
+
   else:
-    out_variant = architecture_variants[2]
+    out_variant = architecture_variants[3]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
-      experiment = experiments[int(sys.argv[2])]
+      experiment = experiments[int(sys.argv[4])]
   else:
-      experiment = experiments[4]
+      experiment = experiments[0]
   data = load_raw_data(file_filter=experiment)
-  data = data[:300]
-  # data = augmentData(data)
+  data = data[:]
+  if out_variant == 'box':
+    data = augmentData(data)
   # data = shift_augment(data)     # does not work yet
-  print(len(data))
+  # print("lenny", len(data))
   #plot_data(data)
 
   print(out_variant)
   images, outputs = raw_to_IO(data, out_variant)
 
-
-  np.save(file="images_" + out_variant + experiment +".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  NN_number = 0
+  np.save(file="images_" + out_variant + experiment + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
   np.save(file="outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)

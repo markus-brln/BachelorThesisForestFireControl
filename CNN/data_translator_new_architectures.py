@@ -403,8 +403,9 @@ if __name__ == "__main__":
       experiment = experiments[0]
   data = load_raw_data(file_filter=experiment)
   data = data[:]
-  if out_variant == 'box':
-    data = augmentData(data)
+  # if out_variant == 'box':
+    # data = augmentData(data)
+
   # data = shift_augment(data)     # does not work yet
   # print("lenny", len(data))
   #plot_data(data)

@@ -192,7 +192,7 @@ if __name__ == "__main__":
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = experiments[4]                             # dictates model name
+  experiment = experiments[3]                             # dictates model name
 
   images, outputs = load_data(out_variant, experiment)
   box = []
@@ -245,12 +245,11 @@ if __name__ == "__main__":
   # print("lengths class & boxID", len(class_weight), len(boxID))
   # print("shapes:", images[0].shape)  ##(256, 256, 7)
 
-  model = build_model(images[0].shape, class_weight)
+  model = build_model_box(images[0].shape, class_weight)
   print(model.summary())
   # exit()
 
-  callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=10)
-
+  callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
 
   # class_weight = {0: 0.7,
   #                 1: 0.9, # why y coords less precise??
@@ -261,7 +260,7 @@ if __name__ == "__main__":
                       batch_size=64,  # 64
                       epochs=80,  # 50
                       shuffle=True,
-                      # callbacks=[callback],
+                      callbacks=[callback],
                       # class_weight=class_weight,
                       validation_split=0.2)  # 0.2
 

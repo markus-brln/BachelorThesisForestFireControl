@@ -18,9 +18,9 @@ echo Overview of modules that are loaded
 module list
 
 echo starting data_translator
-for i in {0..4};
+for i in {0..5};
 do
-	python3 data_translator_new_architectures.py 0 $i
+	python3 data_translator_new_architectures.py 2 $i
 done
 
 

@@ -47,39 +47,42 @@ def build_model(input_shape, size = 16):
     return model
 
 if __name__ == "__main__":
-    # predict()                          # predict with model loaded from file
-    # exit()
     size = 16 ## Size of segments
 
+    ## experiment type
     out_variant = "segments"
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
     experiment = experiments[0]                             # dictates model name
 
+    ## Data processing
     images, outputs = load_data(out_variant, experiment)
     test_data = [images[:20], outputs[:20]]
     images = images[20:]
     outputs = outputs[20:]
     segments = np.asarray([x[:size] for x in outputs])
     dig = np.asarray([[x[size]] for x in outputs], dtype=np.float16)
-    print(segments.shape)
-    # exit()
 
+
+    ## Class weights, currently unused
+    class_weights = {idx: 0 for idx in range(size)}
+    for segment in segments:
+      class_weights[segment.argmax()] += 1
+    for idx in range(size):
+      class_weights[idx] /= len(segments)
+
+    ## Model initialization and training
     model = build_model(images[0].shape)
     print(model.summary())
 
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_seg_categorical_accuracy', restore_best_weights=True, patience=8)
-
-
     history = model.fit([images],  # list of 2 inputs to model
               [segments, dig],
               batch_size=25,
               epochs=100,
               shuffle=True,
               callbacks=[callback],
-              #class_weight=class_weight,
+              # class_weight=class_weights,
               validation_split=0.2)
 
     save(model, "CNNsegments" + experiment)  # utils
-    # check_performance(test_data, model)
     plot_history(history=history)
-    #predict(model=model, data=test_data)

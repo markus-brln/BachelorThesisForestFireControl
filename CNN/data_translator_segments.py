@@ -92,53 +92,6 @@ def waypoint2array(wp):
       to_ret = idx
   return to_ret
 
-
-def shrink2reachablewaypoint(wpX, wpY):
-  '''
-    fits waypoints into a range that the agent can reach given timeframe
-  '''
-  size = 4
-  timeframe = 20
-  boxsize = timeframe / size
-  roundError = 0.0
-  diff = timeframe - (abs(wpX) + abs(wpY))
-  if diff > size:
-    multi = timeframe/diff
-    tf = multi * boxsize
-    boxsize = tf/boxsize
-  while(float(abs(wpX) + abs(wpY)) > boxsize):
-    scale = boxsize / (abs(wpX) + abs(wpY))
-    wpX = (wpX * scale) - roundError
-    wpY = (wpY * scale) - roundError
-    wpX = round(wpX)
-    wpY = round(wpY)
-    roundError += 0.01
-    if(roundError >= 0.5):
-      # print("round", roundError)
-      break
-  wp = (wpX, wpY)
-  return tuple(wp)
-
-
-def construct_output(data, NN_variant):
-  """
-    3 different outputs based on architecture variant:
-  - x, y (normalized)
-  - angle, distance
-  - vector of L*L where L == side length of a box around agent, 1 where agent needs to go
-  """
-  output = []
-  if NN_variant == "xy":
-    output = outputs_xy(data)
-  if NN_variant == "angle":
-    output = outputs_angle(data)
-  if NN_variant == "box":
-    output = outputs_box(data)
-  if NN_variant == "segments":
-    output = outputs_segments(data)
-
-  return output
-
 def construct_input(data):
   """
   Translates the raw data generated from playing the simulation to NN-friendly I/O.
@@ -224,8 +177,8 @@ def construct_input(data):
   return np.asarray(all_images, dtype=np.float16)  # , np.asarray(active_agents_pos)
 
 
-def raw_to_IO(data, NN_variant):
-  outputs = construct_output(data, NN_variant)
+def raw_to_IO(data):
+  outputs = outputs_segments(data)
   images = construct_input(data)  # same input data for each architecture
 
   return images, outputs
@@ -233,22 +186,20 @@ def raw_to_IO(data, NN_variant):
 
 if __name__ == "__main__":
   print(os.path.realpath(__file__))
-  architecture_variants = ["xy", "angle", "box", "segments"]             # our 3 individual network output variants
+  out_variant = "segments"
+
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
-    out_variant = architecture_variants[int(sys.argv[1])]
-  else:
-    out_variant = architecture_variants[-1]
-  if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
-      experiment = experiments[int(sys.argv[2])]
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
+      experiment = experiments[int(sys.argv[1])]
   else:
       experiment = experiments[0]
+
   data = load_raw_data(file_filter=experiment)
   data = data[:250]
 
   print(f"architecture: {out_variant}")
-  images, outputs = raw_to_IO(data, out_variant)
+  images, outputs = raw_to_IO(data)
 
-  np.save(file="images_" + out_variant + experiment +".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+  np.save(file="images_" + out_variant + experiment + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   np.save(file="outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)
 

@@ -17,7 +17,7 @@ uncertain_spawn = 0
 experiment = None
 
 # OTHER GLOBALS
-block_size_in_pixels = int(880 / size)
+block_size_in_pixels = int(900 / size)
 digging_threshold = 0.5                                     # NN output > threshold -> agent will dig (new architecture)
 apd = 10                                                    # agent_point_diameter when constructing the CNN input image
 

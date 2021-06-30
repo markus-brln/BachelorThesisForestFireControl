@@ -234,13 +234,28 @@ class Controller:
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
         print("new agent", self.agent_no)
+    elif self.NN_variant == "segments":
+      positions, dig_drive = outputs
+      # print("len", len(positions), "agent no.", self.agent_no)
+      for agent, nnoutput in enumerate(zip(positions, dig_drive)):
+        new_wp, digging =  self.postprocess_output_NN_segments(nnoutput, self.model.agents[agent])
+        self.model.highlight_agent(agent)
+        self.model.select_square(new_wp, digging=digging)
     else:
+      output_1 = None
       for output in outputs:
         new_wp, digging = None, None
         if self.NN_variant == "xy":
           new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
         elif self.NN_variant == "angle":
           new_wp, digging = self.postprocess_output_NN_angle(output, self.model.agents[self.agent_no])
+        elif self.NN_variant == "segments":
+          if output_1 is None:
+            output_1 = output
+            continue
+          output = [output_1, output]
+          new_wp, digging = self.postprocess_output_NN_segments(output, self.model.agents[self.agent_no])
+          output_1 = None
         else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
@@ -337,6 +352,22 @@ class Controller:
     return output, digging
 
 
+  def postprocess_output_NN_segments(self, output, agent, size = 16):
+    """All operations needed to transform the raw normalized NN output
+    to pixel coords of the waypoints and a drive/dig (0/1) decision.
+    """
+    digging = output[1] > self.digging_threshold
+    output = output[0]
+
+    highest = output.argmax()
+    angle = (highest * 2 * math.pi) / size
+    delta_x = round(math.cos(angle) * utils.timeframe * 2)
+    delta_y = round(math.sin(angle) * utils.timeframe * 2)
+
+    output = agent.position[0] + delta_x, agent.position[1] + delta_y
+    return output, digging
+
+
   def postprocess_output_NN_angle(self, output, agent):
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
@@ -424,47 +455,6 @@ class Controller:
     axarr[1, 3].set_title("active agent y")
     print("max", np.max(channels[5]), np.max(channels[6]))
     plt.show()
-
-
-  def produce_input_NN_old(self):
-    """
-    construct inputs images like in the data_translator, plus active agent positions to concatenate
-    - [0] active fire (no burned cell or tree channels)
-    - [1] fire breaks
-    - [2] wind direction
-    - [3] wind speed
-    - [4] other agents
-    """
-    shape = (256, 256, 7)  # see doc comment
-    single_image = np.zeros(shape)
-
-    for fire_pixel in self.model.firepos:
-      single_image[fire_pixel[0]][fire_pixel[1]][0] = 1
-    for firebreak_pixel in self.model.firebreaks:
-      single_image[firebreak_pixel[0]][firebreak_pixel[1]][1] = 1
-
-    single_image[:, :, 2] = self.model.get_wind_dir_idx() / (utils.n_wind_dirs - 1)
-    single_image[:, :, 3] = self.model.wind_speed / (utils.n_wind_speed_levels - 1)
-
-    all_images = []
-    apd = 10  # agent_point_diameter
-    for active_agent in self.model.agents:
-      agent_image = np.copy(single_image)
-      agent_image[:, :, 5] = active_agent.position[0] / 255  # x, y position of active agent on channel 5,6
-      agent_image[:, :, 6] = active_agent.position[1] / 255
-
-      for other_agent in self.model.agents:
-        if other_agent != active_agent:
-          x, y = other_agent.position
-          agent_image[y - apd: y + apd, x - apd: x + apd, 4] = 1
-
-      print("current agent: ", active_agent.position)
-
-      # self.plot_np_image(agent_image)
-      all_images.append(agent_image)  # 1 picture per agent
-
-    return np.asarray(all_images)
-    # return [np.asarray(all_images), np.asarray(agent_positions)]   concat version
 
 
   def produce_input_NN(self):

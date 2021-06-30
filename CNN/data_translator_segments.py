@@ -7,6 +7,7 @@ import glob
 import matplotlib.pyplot as plt
 from numpy.lib.function_base import angle
 from numpy.lib.histograms import histogram
+from tensorflow.python.keras.layers.preprocessing.normalization import convert_to_ndarray
 from NNutils import plot_np_image, plot_data
 import sys
 import time
@@ -44,8 +45,8 @@ def load_raw_data(file_filter):
   return data
 
 
-def outputs_segments(data):
-  histogram = [0]*8
+def outputs_segments(data, size = 16):
+  histogram = [0]*size
   print("Constructing angle segments outputs")
   agent_info = [data_point[3] for data_point in data]
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list
@@ -61,12 +62,14 @@ def outputs_segments(data):
     delta_y = wp[1] - agent_pos[1]
 
     angle = math.atan2(delta_y, delta_x)
-    segments = [0] * 8
+    segments = [0] * size
 
-    segments[round(8 * (angle + math.pi) / (2 * math.pi)) % 8] = 1
-    histogram[round(8 * (angle + math.pi) / (2 * math.pi)) % 8] += 1
-
-    print(segments)
+    segments[round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)] = 1
+    converts_to = round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)
+    histogram[round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)] += 1
+    print(f"angle{angle}")
+    print(f"segments{segments}")
+    print(f"converted to{converts_to * 2 * math.pi / size}")
     outputs.append(segments + [dig_drive])
   
   print(histogram)
@@ -241,7 +244,7 @@ if __name__ == "__main__":
   else:
       experiment = experiments[0]
   data = load_raw_data(file_filter=experiment)
-  data = data[:300]
+  data = data[:250]
 
   print(f"architecture: {out_variant}")
   images, outputs = raw_to_IO(data, out_variant)

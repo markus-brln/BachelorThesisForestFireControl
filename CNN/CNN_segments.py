@@ -31,7 +31,7 @@ def build_model(input_shape, size = 16):
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
     out = Dense(48, activation='sigmoid')(downscaled)
-    seg_out = Dense(16, activation='sigmoid')(out)
+    seg_out = Dense(32, activation='sigmoid')(out)
     seg_out = Dense(size, name='seg', activation='sigmoid')(seg_out)                                     # nothing specified, so linear output
     dig_out = Dense(4, activation='sigmoid')(out)
     dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
@@ -85,4 +85,7 @@ if __name__ == "__main__":
               validation_split=0.2)
 
     save(model, "CNNsegments" + experiment)  # utils
+    print(f"saving as CNNsegments{experiment}")
     plot_history(history=history)
+    # predict()                          # predict with model loaded from file
+    # exit()

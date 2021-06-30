@@ -358,11 +358,13 @@ class Controller:
     """
     digging = output[1] > self.digging_threshold
     output = output[0]
+    print(output)
 
     highest = output.argmax()
     angle = (highest * 2 * math.pi) / size
-    delta_x = round(math.cos(angle) * utils.timeframe * 2)
-    delta_y = round(math.sin(angle) * utils.timeframe * 2)
+    delta_x = round(math.cos(angle) * utils.timeframe)
+    delta_y = round(math.sin(angle) * utils.timeframe)
+    print(f"Direction: {highest}, delta_x: {delta_x}, delta_y: {delta_y}")
 
     output = agent.position[0] + delta_x, agent.position[1] + delta_y
     return output, digging
@@ -534,6 +536,7 @@ class Controller:
 
     print("predicting")
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
+    print(output)
     # print(output)
     return output
 

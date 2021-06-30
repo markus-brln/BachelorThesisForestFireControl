@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Longer time because training all networks and translating all data
-#SBATCH --time=00:10:00 
+#SBATCH --time=00:25:00 
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
@@ -20,7 +20,7 @@ module list
 echo starting data_translator
 for i in {0..4};
 do
-  python3 data_translator_new_architectures.py 1 $i
+	python3 data_translator_new_architectures.py 0 $i
 done
 
 

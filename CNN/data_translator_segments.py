@@ -53,7 +53,6 @@ def outputs_segments(data, size = 16):
 
   outputs = []  # [[x rel. to agent, y, drive/dig], ...]
   for raw in agent_info:
-
     agent_pos = raw[0]  # make things explicit, easy-to-understand
     wp = raw[1]
     dig_drive = raw[2]
@@ -61,16 +60,24 @@ def outputs_segments(data, size = 16):
     delta_x = wp[0] - agent_pos[0]
     delta_y = wp[1] - agent_pos[1]
 
-    angle = math.atan2(delta_y, delta_x)
-    segments = [0] * size
+    angle = math.atan2(delta_y, delta_x) # Angle
+    segment = round(size * angle / (2 * math.pi)) % size # corresponding segment
 
-    segments[round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)] = 1
-    converts_to = round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)
-    histogram[round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)] += 1
-    print(f"angle{angle}")
-    print(f"segments{segments}")
-    print(f"converted to{converts_to * 2 * math.pi / size}")
+    segments = [0] * size
+    print(segment)
+    segments[segment] = 1
+    histogram[segment] += 1
+    print(segments)
+
     outputs.append(segments + [dig_drive])
+
+    # checking correctness
+    converts_to = segment * 2 * math.pi / size
+    print(f"angle\t{angle}")
+    print(f"segments\t{segments}")
+    print(f"converted to\t{converts_to}")
+    print(f"Old x:\t{delta_x},\tnew x:\t{math.cos(converts_to)}")
+    print(f"Old y:\t{delta_y},\tnew y:\t{math.sin(converts_to)}\n")
   
   print(histogram)
   return np.asarray(outputs, dtype=np.float16)

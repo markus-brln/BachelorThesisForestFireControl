@@ -249,13 +249,6 @@ class Controller:
           new_wp, digging = self.postprocess_output_NN_xy(output, self.model.agents[self.agent_no])
         elif self.NN_variant == "angle":
           new_wp, digging = self.postprocess_output_NN_angle(output, self.model.agents[self.agent_no])
-        elif self.NN_variant == "segments":
-          if output_1 is None:
-            output_1 = output
-            continue
-          output = [output_1, output]
-          new_wp, digging = self.postprocess_output_NN_segments(output, self.model.agents[self.agent_no])
-          output_1 = None
         else:
           print("implement postprocess_output_NN_...() for your variant")
           exit()
@@ -358,11 +351,13 @@ class Controller:
     """
     digging = output[1] > self.digging_threshold
     output = output[0]
+    print(output)
 
     highest = output.argmax()
     angle = (highest * 2 * math.pi) / size
-    delta_x = round(math.cos(angle) * utils.timeframe * 2)
-    delta_y = round(math.sin(angle) * utils.timeframe * 2)
+    delta_x = round(math.cos(angle) * utils.timeframe)
+    delta_y = round(math.sin(angle) * utils.timeframe)
+    print(f"Direction: {highest}, delta_x: {delta_x}, delta_y: {delta_y}")
 
     output = agent.position[0] + delta_x, agent.position[1] + delta_y
     return output, digging
@@ -533,7 +528,9 @@ class Controller:
     #print(NN_input)
 
     print("predicting")
+    # print(self.NN.summary())
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
+    print(output)
     # print(output)
     return output
 

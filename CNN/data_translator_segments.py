@@ -61,9 +61,10 @@ def outputs_segments(data, size = 16):
     delta_y = wp[1] - agent_pos[1]
 
     angle = math.atan2(delta_y, delta_x) # Angle
-    segment = round(size * (angle + math.pi) / (2 * math.pi) % size - size / 2)  # corresponding segment
+    segment = round(size * angle / (2 * math.pi)) % size # corresponding segment
 
     segments = [0] * size
+    print(segment)
     segments[segment] = 1
     histogram[segment] += 1
     print(segments)

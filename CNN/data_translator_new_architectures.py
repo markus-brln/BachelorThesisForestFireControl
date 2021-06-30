@@ -392,15 +392,16 @@ if __name__ == "__main__":
   print(os.path.realpath(__file__))
   architecture_variants = ["xy", "angle", "box", "segments"]             # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+
+  out_variant = architecture_variants[3]
+  experiment = experiments[0]
+
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
     out_variant = architecture_variants[int(sys.argv[1])]
 
-  else:
-    out_variant = architecture_variants[3]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
       experiment = experiments[int(sys.argv[4])]
-  else:
-      experiment = experiments[0]
+
   data = load_raw_data(file_filter=experiment)
   data = data[:]
   # if out_variant == 'box':

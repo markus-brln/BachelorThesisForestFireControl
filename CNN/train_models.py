@@ -186,9 +186,9 @@ def run_experiments(architecture_variant):
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
-        if not architecture_variant == 'box':
-            performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
-            performances.write("Experiment" + experiment + "\n")
+        #if not architecture_variant == 'box':
+        #    performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
+        #    performances.write("Experiment" + experiment + "\n")
 
         images, outputs = load_data(architecture_variant, experiment)
 

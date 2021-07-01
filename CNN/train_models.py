@@ -195,7 +195,6 @@ def run_experiments():
 
         for run in range(0, n_runs):
           if architecture_variant == 'box':
-            print("check!")
             images, outputs = load_data(architecture_variant, experiment)
             box = []
             dig_drive = []

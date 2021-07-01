@@ -192,10 +192,9 @@ def run_experiments():
         #performances.write("Experiment" + experiment + "\n")
 
         images, outputs = load_data(architecture_variant, experiment)
-
+        image_shape = images[0].shape
         for run in range(0, n_runs):
           if architecture_variant == 'box':
-            print("check!")
             images, outputs = load_data(architecture_variant, experiment)
             box = []
             dig_drive = []
@@ -213,9 +212,9 @@ def run_experiments():
               class_weight = create_class_weight(boxID)
               dig_drive = np.asarray(dig_drive, dtype=np.float16)
               print(experiment, "run:", run)
-              test_data = [images[:100], boxes[:100], dig_drive[:100]]
-              images, box, dig_drive = images[100:], boxes[100:], dig_drive[100:]
-              model = build_model_box(images[0].shape, class_weight)
+              test_data = [images[:20], boxes[:20], dig_drive[:20]]
+              images, box, dig_drive = images[20:], boxes[20:], dig_drive[20:]
+              model = build_model_box(image_shape, class_weight)
               callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
               model.fit(images,  # used to be list of 2 inputs to model
                         [box, dig_drive],
@@ -235,7 +234,6 @@ def run_experiments():
                         callbacks=[callback],
                         validation_split=0.2,
                         verbose=2)
-
             save(model, "CNN" + architecture_variant + experiment + str(run))
             #performances.write(str(check_performance(test_data, model)) + "\n")
 

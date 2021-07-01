@@ -15,7 +15,9 @@ module load matplotlib/3.1.1-foss-2019b-Python-3.7.4
 
 echo Overview of modules that are loaded
 echo starting CNN
-python train_models.py
+
+# the number behind again stands for the variant!
+python train_models.py 0
 
 
 # execute with:                                                                                                                              

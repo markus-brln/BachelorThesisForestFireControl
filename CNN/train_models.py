@@ -1,4 +1,5 @@
 import random
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,7 +14,7 @@ import tensorflow.keras.backend as K
 
 
 def load_data(out_variant, experiment):
-    directory = "/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
+    directory = ""#"/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
 
     print("loading data")
     images = np.load(directory +"images_" + out_variant + experiment + ".npy", allow_pickle=True)
@@ -172,7 +173,7 @@ def check_performance(test_data, model):
     return delta_0, delta_1, delta_2, delta_3
 
 
-def run_experiments():
+def run_experiments(architecture_variant):
     """Choose the architecture variant from the list below, make sure
     you have translated all experiment data files according to your
     architecture:
@@ -182,8 +183,6 @@ def run_experiments():
     start = time.time()
 
     n_runs = 30
-    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    architecture_variant = architecture_variants[0]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
@@ -196,11 +195,8 @@ def run_experiments():
         for run in range(0, n_runs):
             print(experiment, "run:", run)
             images, outputs = unison_shuffled_copies(images, outputs)
-            test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
-            images, outputs = images[100:], outputs[100:]
-
-
-
+            #test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
+            #images, outputs = images[100:], outputs[100:]
 
             model = build_model_xy(images[0].shape)
             #model = build_model_angle(images[0].shape)
@@ -231,8 +227,8 @@ def run_experiments():
                       verbose=2)
 
             save(model, "CNN" + architecture_variant + experiment + str(run))
-            if architecture_variant is not 'box':
-                performances.write(str(check_performance(test_data, model)) + "\n")
+            #if architecture_variant is not 'box':
+            #    performances.write(str(check_performance(test_data, model)) + "\n")
 
             print(f"model {exp * n_runs + run + 1}/{len(experiments) * n_runs}")
             end = time.time()
@@ -248,9 +244,14 @@ def run_experiments():
             print("estimated time left:")
             print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds), "\n\n")
 
-        performances.close()
+        #performances.close()
 
 
 if __name__ == "__main__":
-    run_experiments()
+    architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
+
+    if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
+        variant = architecture_variants[int(sys.argv[1])]
+
+    run_experiments(variant)
     exit()

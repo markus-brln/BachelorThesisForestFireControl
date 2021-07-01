@@ -13,7 +13,7 @@ import tensorflow.keras.backend as K
 
 
 def load_data(out_variant, experiment):
-    directory = "/home/f118885/data/thesis/" if getuser() == "f118885" else ""      # for when you do stuff on peregrine
+    directory = "/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
 
     print("loading data")
     images = np.load(directory +"images_" + out_variant + experiment + ".npy", allow_pickle=True)
@@ -231,7 +231,8 @@ def run_experiments():
                       verbose=2)
 
             save(model, "CNN" + architecture_variant + experiment + str(run))
-            performances.write(str(check_performance(test_data, model)) + "\n")
+            if architecture_variant is not 'box':
+                performances.write(str(check_performance(test_data, model)) + "\n")
 
             print(f"model {exp * n_runs + run + 1}/{len(experiments) * n_runs}")
             end = time.time()

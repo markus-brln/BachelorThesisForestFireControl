@@ -1,0 +1,50 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+starting CNN
+python: can't open file 'experiments.py': [Errno 2] No such file or directory
+
+
+###############################################################################
+Peregrine Cluster
+Job 20848727 for user 'f118885'
+Finished at: Thu Jul  1 08:56:35 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20848727
+Name                : train_models_job.sh
+User                : f118885
+Partition           : regular
+Nodes               : pg-node179
+Number of Nodes     : 1
+Cores               : 1
+State               : FAILED
+Submit              : 2021-07-01T08:56:30
+Start               : 2021-07-01T08:56:32
+End                 : 2021-07-01T08:56:35
+Reserved walltime   : 00:30:00
+Used walltime       : 00:00:03
+Used CPU time       : 00:00:01 (efficiency: 54.83%)
+% User (Computation): 67.66%
+% System (I/O)      : 32.28%
+Mem reserved        : 2000M/core
+Max Mem used        : 0.00  (pg-node179)
+Max Disk Write      : 0.00  (pg-node179)
+Max Disk Read       : 0.00  (pg-node179)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

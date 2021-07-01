@@ -1,0 +1,58 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+starting CNN
+2021-07-01 08:58:23.638006: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+Traceback (most recent call last):
+  File "train_models.py", line 254, in <module>
+    run_experiments()
+  File "train_models.py", line 194, in run_experiments
+    images, outputs = load_data(architecture_variant, experiment)
+  File "train_models.py", line 16, in load_data
+    directory = "/home/f118885/data/thesis/" if getuser() == "f118885" else ""      # for when you do stuff on peregrine
+NameError: name 'getuser' is not defined
+
+
+###############################################################################
+Peregrine Cluster
+Job 20848745 for user 'f118885'
+Finished at: Thu Jul  1 08:58:28 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20848745
+Name                : train_models_job.sh
+User                : f118885
+Partition           : regular
+Nodes               : pg-node156
+Number of Nodes     : 1
+Cores               : 1
+State               : FAILED
+Submit              : 2021-07-01T08:58:19
+Start               : 2021-07-01T08:58:20
+End                 : 2021-07-01T08:58:28
+Reserved walltime   : 00:30:00
+Used walltime       : 00:00:08
+Used CPU time       : 00:00:05 (efficiency: 64.08%)
+% User (Computation): 75.30%
+% System (I/O)      : 24.68%
+Mem reserved        : 2000M/core
+Max Mem used        : 180.05M (pg-node156)
+Max Disk Write      : 112.64K (pg-node156)
+Max Disk Read       : 3.20M (pg-node156)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

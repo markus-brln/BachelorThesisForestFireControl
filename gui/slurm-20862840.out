@@ -1,0 +1,64 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+
+Currently Loaded Modules:
+  1) GCCcore/8.3.0
+  2) zlib/1.2.11-GCCcore-8.3.0
+  3) binutils/2.32-GCCcore-8.3.0
+  4) bzip2/1.0.8-GCCcore-8.3.0
+  5) ncurses/6.1-GCCcore-8.3.0
+  6) libreadline/8.0-GCCcore-8.3.0
+  7) Tcl/8.6.9-GCCcore-8.3.0
+  8) SQLite/3.29.0-GCCcore-8.3.0
+  9) XZ/5.2.4-GCCcore-8.3.0
+ 10) GMP/6.1.2-GCCcore-8.3.0
+ 11) libffi/3.2.1-GCCcore-8.3.0
+ 12) Python/3.7.4-GCCcore-8.3.0
+ 13) GCC/8.3.0
+ 14) CUDA/10.1.243-GCC-8.3.0
+ 15) gcccuda/2019b
+ 16) numactl/2.0.12-GCCcore-8.3.0
+ 17) libxml2/2.9.9-GCCcore-8.3.0
+ 18) libpciaccess/0.14-GCCcore-8.3.0
+ 19) hwloc/1.11.12-GCCcore-8.3.0
+ 20) OpenBLAS/0.3.7-GCC-8.3.0
+ 21) gompic/2019b
+ 22) fosscuda/2019b
+ 23) Szip/2.1.1-GCCcore-8.3.0
+ 24) HDF5/1.10.5-gompic-2019b
+ 25) h5py/2.10.0-fosscuda-2019b-Python-3.7.4
+ 26) cuDNN/7.6.4.38-gcccuda-2019b
+ 27) NCCL/2.4.8-gcccuda-2019b
+ 28) TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4
+ 29) LLVM/8.0.1-GCCcore-8.3.0
+ 30) numba/0.47.0-fosscuda-2019b-Python-3.7.4
+ 31) OpenMPI/3.1.4-GCC-8.3.0
+ 32) gompi/2019b
+ 33) FFTW/3.3.8-gompi-2019b
+ 34) ScaLAPACK/2.0.2-gompi-2019b
+ 35) foss/2019b
+ 36) SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+ 37) libpng/1.6.37-GCCcore-8.3.0
+ 38) freetype/2.10.1-GCCcore-8.3.0
+ 39) expat/2.2.7-GCCcore-8.3.0
+ 40) util-linux/2.34-GCCcore-8.3.0
+ 41) fontconfig/2.13.1-GCCcore-8.3.0
+ 42) X11/20190717-GCCcore-8.3.0
+ 43) Tk/8.6.9-GCCcore-8.3.0
+ 44) Tkinter/3.7.4-GCCcore-8.3.0
+ 45) matplotlib/3.1.1-foss-2019b-Python-3.7.4
+
+ 
+
+starting main
+2021-07-01 15:33:28.721620: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-01 15:33:31.589281: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /software/software/matplotlib/3.1.1-foss-2019b-Python-3.7.4/lib:/software/software/Tkinter/3.7.4-GCCcore-8.3.0/lib:/software/software/Tk/8.6.9-GCCcore-8.3.0/lib:/software/software/X11/20190717-GCCcore-8.3.0/lib:/software/software/fontconfig/2.13.1-GCCcore-8.3.0/lib:/software/software/util-linux/2.34-GCCcore-8.3.0/lib:/software/software/expat/2.2.7-GCCcore-8.3.0/lib:/software/software/freetype/2.10.1-GCCcore-8.3.0/lib:/software/software/libpng/1.6.37-GCCcore-8.3.0/lib:/software/software/SciPy-bundle/2019.10-foss-2019b-Python-3.7.4/lib/python3.7/site-packages/numpy/core/lib:/software/software/SciPy-bundle/2019.10-foss-2019b-Python-3.7.4/lib:/software/software/ScaLAPACK/2.0.2-gompi-2019b/lib:/software/software/FFTW/3.3.8-gompi-2019b/lib:/software/software/OpenMPI/3.1.4-GCC-8.3.0/lib:/software/software/numba/0.47.0-fosscuda-2019b-Python-3.7.4/lib:/software/software/LLVM/8.0.1-GCCcore-8.3.0/lib:/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib:/software/software/NCCL/2.4.8-gcccuda-2019b/lib:/software/software/cuDNN/7.6.4.38-gcccuda-2019b/lib64:/software/software/HDF5/1.10.5-gompic-2019b/lib:/software/software/Szip/2.1.1-GCCcore-8.3.0/lib:/software/software/OpenBLAS/0.3.7-GCC-8.3.0/lib:/software/software/hwloc/1.11.12-GCCcore-8.3.0/lib:/software/software/libpciaccess/0.14-GCCcore-8.3.0/lib:/software/software/libxml2/2.9.9-GCCcore-8.3.0/lib:/software/software/numactl/2.0.12-GCCcore-8.3.0/lib:/software/software/CUDA/10.1.243-GCC-8.3.0/nvvm/lib64:/software/software/CUDA/10.1.243-GCC-8.3.0/extras/CUPTI/lib64:/software/software/CUDA/10.1.243-GCC-8.3.0/lib64:/software/software/Python/3.7.4-GCCcore-8.3.0/lib:/software/software/libffi/3.2.1-GCCcore-8.3.0/lib64:/software/software/libffi/3.2.1-GCCcore-8.3.0/lib:/software/software/GMP/6.1.2-GCCcore-8.3.0/lib:/software/software/XZ/5.2.4-GCCcore-8.3.0/lib:/software/software/SQLite/3.29.0-GCCcore-8.3.0/lib:/software/software/Tcl/8.6.9-GCCcore-8.3.0/lib:/software/software/libreadline/8.0-GCCcore-8.3.0/lib:/software/software/ncurses/6.1-GCCcore-8.3.0/lib:/software/software/bzip2/1.0.8-GCCcore-8.3.0/lib:/software/software/binutils/2.32-GCCcore-8.3.0/lib:/software/software/zlib/1.2.11-GCCcore-8.3.0/lib:/software/software/GCCcore/8.3.0/lib/gcc/x86_64-pc-linux-gnu/8.3.0:/software/software/GCCcore/8.3.0/lib64:/software/software/GCCcore/8.3.0/lib
+2021-07-01 15:33:31.589397: E tensorflow/stream_executor/cuda/cuda_driver.cc:351] failed call to cuInit: UNKNOWN ERROR (303)
+2021-07-01 15:33:31.589453: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (pg-node173): /proc/driver/nvidia/version does not exist
+2021-07-01 15:33:31.597369: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.

@@ -181,15 +181,15 @@ def run_experiments():
     import time
     start = time.time()
 
-    n_runs = 12
+    n_runs = 1
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[2]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
 
-        performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
-        performances.write("Experiment" + experiment + "\n")
+        #performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
+        #performances.write("Experiment" + experiment + "\n")
 
         images, outputs = load_data(architecture_variant, experiment)
 
@@ -220,7 +220,7 @@ def run_experiments():
               model.fit(images,  # used to be list of 2 inputs to model
                         [box, dig_drive],
                         batch_size=64,  # 64
-                        epochs=100,  # 50
+                        epochs=1,  # 50
                         shuffle=True,
                         callbacks=[callback],
                         validation_split=0.2,
@@ -237,7 +237,7 @@ def run_experiments():
                         verbose=2)
 
             save(model, "CNN" + architecture_variant + experiment + str(run))
-            performances.write(str(check_performance(test_data, model)) + "\n")
+            #performances.write(str(check_performance(test_data, model)) + "\n")
 
             print(f"model {exp * n_runs + run + 1}/{len(experiments) * n_runs}")
             end = time.time()
@@ -253,7 +253,7 @@ def run_experiments():
             print("estimated time left:")
             print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds), "\n\n")
 
-        performances.close()
+        #performances.close()
 
 
 if __name__ == "__main__":

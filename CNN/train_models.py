@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
-from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, \
-    Reshape, Activation
+from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
 from NNutils import *
 import tensorflow.keras.backend as K
 
@@ -14,10 +13,12 @@ import tensorflow.keras.backend as K
 
 
 def load_data(out_variant, experiment):
+    directory = "/home/f118885/data/thesis/" if getuser() == "f118885" else ""      # for when you do stuff on peregrine
+
     print("loading data")
-    images = np.load("images_" + out_variant + experiment + ".npy", allow_pickle=True)
+    images = np.load(directory +"images_" + out_variant + experiment + ".npy", allow_pickle=True)
     # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
-    outputs = np.load("outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
+    outputs = np.load(directory+"outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)
@@ -180,15 +181,15 @@ def run_experiments():
     import time
     start = time.time()
 
-    n_runs = 12
+    n_runs = 30
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    architecture_variant = architecture_variants[1]
+    architecture_variant = architecture_variants[0]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
-
-        performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
-        performances.write("Experiment" + experiment + "\n")
+        if not architecture_variant == 'box':
+            performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
+            performances.write("Experiment" + experiment + "\n")
 
         images, outputs = load_data(architecture_variant, experiment)
 
@@ -201,8 +202,8 @@ def run_experiments():
 
 
 
-            ##model = build_model_xy(images[0].shape)
-            model = build_model_angle(images[0].shape)
+            model = build_model_xy(images[0].shape)
+            #model = build_model_angle(images[0].shape)
             if architecture_variant == 'box':
                 box = []
                 dig_drive = []

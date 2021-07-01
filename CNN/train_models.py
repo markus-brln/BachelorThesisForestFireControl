@@ -181,7 +181,7 @@ def run_experiments():
     import time
     start = time.time()
 
-    n_runs = 1
+    n_runs = 30
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[0]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]

@@ -10,6 +10,8 @@ from NNutils import plot_np_image, plot_data
 import sys
 import time
 
+from getpass import getuser
+
 sep = os.path.sep
 timeframe = 20
 size = 255
@@ -392,17 +394,20 @@ if __name__ == "__main__":
   print(os.path.realpath(__file__))
   architecture_variants = ["xy", "angle", "box", "segments"]             # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+
+  out_variant = architecture_variants[1]
+  experiment = experiments[3]
+
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
     out_variant = architecture_variants[int(sys.argv[1])]
 
-  else:
-    out_variant = architecture_variants[3]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
-      experiment = experiments[int(sys.argv[4])]
-  else:
-      experiment = experiments[0]
+      experiment = experiments[int(sys.argv[2])]
+
+  print(f"architecture: {out_variant}, experiment: {experiment}")
+
   data = load_raw_data(file_filter=experiment)
-  data = data[:]
+  data = data[:50]
   # if out_variant == 'box':
     # data = augmentData(data)
 
@@ -414,6 +419,9 @@ if __name__ == "__main__":
   images, outputs = raw_to_IO(data, out_variant)
 
   NN_number = 0
-  np.save(file="images_" + out_variant + experiment + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
+
+  directory = "/home/f118885/data/thesis/" if getuser() == "f118885" else ""
+
+  np.save(file=directory + "images_" + out_variant + experiment + ".npy", arr=images, allow_pickle=True)   # save to here, so the CNN dir
   #np.save(file="concat_" + out_variant + ".npy", arr=concat, allow_pickle=True)
-  np.save(file="outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)
+  np.save(file=directory + "outputs_" + out_variant + experiment + ".npy", arr=outputs, allow_pickle=True)

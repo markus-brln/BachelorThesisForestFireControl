@@ -14,7 +14,7 @@ def load_data(out_variant, experiment):
   outputs = np.load("outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
 
   print("input images: ", images.shape)
-  print("CNN box - outputs: ", outputs.shape)
+  print("CNN segments - outputs: ", outputs.shape)
 
   return images, outputs
 
@@ -37,12 +37,11 @@ def build_model(input_shape, size = 16):
     dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
 
     model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
-    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
 
     model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
                   optimizer=adam,
-                  metrics='categorical_accuracy'
-                  )
+                  metrics=['categorical_accuracy'])
 
     return model
 
@@ -77,7 +76,7 @@ if __name__ == "__main__":
     callback = tf.keras.callbacks.EarlyStopping(monitor='val_seg_categorical_accuracy', restore_best_weights=True, patience=8)
     history = model.fit([images],  # list of 2 inputs to model
               [segments, dig],
-              batch_size=25,
+              batch_size=64,
               epochs=100,
               shuffle=True,
               callbacks=[callback],

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Longer time because training all networks and translating all data
-#SBATCH --time=01:15:00 
+#SBATCH --time=03:15:00 
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
 #SBATCH --partition=gpu
-#SBATCH --job-name=data_translator_job
+#SBATCH --job-name=network_training
 
 # Load the module for R
 module load Python/3.7.4-GCCcore-8.3.0

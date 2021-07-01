@@ -14,7 +14,7 @@ import tensorflow.keras.backend as K
 
 
 def load_data(out_variant, experiment):
-    directory = "/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
+    directory = ""#"/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
 
     print("loading data")
     images = np.load(directory +"images_" + out_variant + experiment + ".npy", allow_pickle=True)
@@ -182,7 +182,7 @@ def run_experiments(architecture_variant):
     import time
     start = time.time()
 
-    n_runs = 30
+    n_runs = 1
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
@@ -198,8 +198,8 @@ def run_experiments(architecture_variant):
             #test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
             #images, outputs = images[100:], outputs[100:]
 
-            model = build_model_xy(images[0].shape)
-            #model = build_model_angle(images[0].shape)
+            #model = build_model_xy(images[0].shape)
+            model = []#build_model_angle(images[0].shape)
             if architecture_variant == 'box':
                 box = []
                 dig_drive = []
@@ -221,10 +221,10 @@ def run_experiments(architecture_variant):
 
             callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
             model.fit(images, outputs,
-                      batch_size=64, epochs=100, shuffle=True,
+                      batch_size=64, epochs=1, shuffle=True,
                       callbacks=[callback],
                       validation_split=0.2,
-                      verbose=2)
+                      verbose=1)
 
             save(model, "CNN" + architecture_variant + experiment + str(run))
             #if architecture_variant is not 'box':

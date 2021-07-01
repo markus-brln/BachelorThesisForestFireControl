@@ -8,13 +8,15 @@ from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPool
     Reshape, Activation
 from NNutils import *
 import tensorflow.keras.backend as K
+from functools import partial
+
 
 # tf.random.set_seed(923)
 # np.random.seed(923)
 
 
 def load_data(out_variant, experiment):
-    print("loading data")
+    print("loading data:" + out_variant + experiment + ".npy")
     images = np.load("images_" + out_variant + experiment + ".npy", allow_pickle=True)
     # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
     outputs = np.load("outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
@@ -54,6 +56,7 @@ def create_class_weight(boxID):
   return np.asarray(weights_dict)
 
 
+
 def loss(y_true, y_pred, weights):
   # scale predictions so that the class probabilities of each sample sum to 1
   y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
@@ -65,33 +68,31 @@ def loss(y_true, y_pred, weights):
   return loss
 
 def build_model_box(input_shape, weights):
-  downscaleInput = Input(shape=input_shape)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2),  strides=(1, 1), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Flatten()(downscaled)
-  downscaled = Dropout(0.03)(downscaled)
-  out = Dense(8, activation='sigmoid')(downscaled)
-  dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
-  box = Dense(64, activation='relu')(downscaled)
-  box = Dense(61, activation='softmax', name='box')(box)
+    downscaleInput = Input(shape=input_shape)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2),  strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Flatten()(downscaled)
+    downscaled = Dropout(0.03)(downscaled)
+    out = Dense(8, activation='sigmoid')(downscaled)
+    dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
+    box = Dense(64, activation='relu')(downscaled)
+    box = Dense(61, activation='softmax', name='box')(box)
 
+    model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
+    loss1 = partial(loss, weights=weights)
+    model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
+                  optimizer=adam,
+                  metrics=['categorical_accuracy', 'binary_crossentropy']
+                  )
+    return model
 
-
-  model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
-  adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
-  from functools import partial
-  loss1 = partial(loss, weights=weights)
-  model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
-                optimizer=adam,
-                metrics=['categorical_accuracy', 'binary_crossentropy']
-                )
-  return model
 
 def build_model_xy(input_shape):
     """Architecture for the xy outputs. Takes a 6-channel image of the environment
@@ -182,7 +183,7 @@ def run_experiments():
 
     n_runs = 12
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-    architecture_variant = architecture_variants[1]
+    architecture_variant = architecture_variants[2]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
     for exp, experiment in enumerate(experiments):
@@ -193,41 +194,47 @@ def run_experiments():
         images, outputs = load_data(architecture_variant, experiment)
 
         for run in range(0, n_runs):
-            print(experiment, "run:", run)
-            images, outputs = unison_shuffled_copies(images, outputs)
-            test_data = [images[:100], outputs[:100]]  # take random test data away from dataset
-            images, outputs = images[100:], outputs[100:]
+          if architecture_variant == 'box':
+            print("check!")
+            images, outputs = load_data(architecture_variant, experiment)
+            box = []
+            dig_drive = []
+            boxArr = []
+            for out in outputs:
+              box = out[:-1]
+              dig_drive.append(out[-1])
+              boxArr.append(box)
+            boxes = np.asarray(boxArr, dtype=np.float16)
+            boxID = [0] * 61
+            for box in boxes:
+              for i in range(len(box)):
+                if box[i] == 1:
+                  boxID[i] += 1
+              class_weight = create_class_weight(boxID)
+              dig_drive = np.asarray(dig_drive, dtype=np.float16)
+              print(experiment, "run:", run)
+              test_data = [images[:100], boxes[:100], dig_drive[:100]]
+              images, box, dig_drive = images[100:], boxes[100:], dig_drive[100:]
+              model = build_model_box(images[0].shape, class_weight)
+              callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+              model.fit(images,  # used to be list of 2 inputs to model
+                        [box, dig_drive],
+                        batch_size=64,  # 64
+                        epochs=100,  # 50
+                        shuffle=True,
+                        callbacks=[callback],
+                        validation_split=0.2,
+                        verbose=2)  # 0.2
+            else:
+              ##model = build_model_xy(images[0].shape)
+              model = build_model_angle(images[0].shape)
 
-
-
-
-            ##model = build_model_xy(images[0].shape)
-            model = build_model_angle(images[0].shape)
-            if architecture_variant == 'box':
-                box = []
-                dig_drive = []
-                boxArr = []
-                for out in outputs:
-                    box = out[:-1]
-                    dig_drive.append(out[-1])
-                    boxArr.append(box)
-                boxes = np.asarray(boxArr, dtype=np.float16)
-                boxID = [0] * 61
-                for box in boxes:
-                    cnt = 0
-                    for i in range(len(box)):
-                        if box[i] == 1:
-                            boxID[i] += 1
-                class_weight = create_class_weight(boxID)
-                model = build_model_box(images[0].shape, class_weight)
-
-
-            callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-            model.fit(images, outputs,
-                      batch_size=64, epochs=100, shuffle=True,
-                      callbacks=[callback],
-                      validation_split=0.2,
-                      verbose=2)
+              callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+              model.fit(images, outputs,
+                        batch_size=64, epochs=100, shuffle=True,
+                        callbacks=[callback],
+                        validation_split=0.2,
+                        verbose=2)
 
             save(model, "CNN" + architecture_variant + experiment + str(run))
             performances.write(str(check_performance(test_data, model)) + "\n")

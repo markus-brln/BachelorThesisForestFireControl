@@ -58,8 +58,6 @@ def build_model_box(input_shape, weights):
   box = Dense(64, activation='relu')(downscaled)
   box = Dense(61, activation='softmax', name='box')(box)
 
-
-
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
   adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
   from functools import partial
@@ -205,15 +203,15 @@ if __name__ == "__main__":
     dig_drive.append(out[-1])
     boxArr.append(box)
 
-  zeros = 0
-  ones = 0
-  for i in range(len(dig_drive)):
-    if dig_drive[i] == 1:
-      ones += 1
-    elif dig_drive[i] == 0:
-      zeros += 1
-
-  print("drive:dig ratio: ", str(zeros) + ":" + str(ones), "out of", zeros + ones)
+  # zeros = 0
+  # ones = 0
+  # for i in range(len(dig_drive)):
+  #   if dig_drive[i] == 1:
+  #     ones += 1
+  #   elif dig_drive[i] == 0:
+  #     zeros += 1
+  #
+  # print("drive:dig ratio: ", str(zeros) + ":" + str(ones), "out of", zeros + ones)
 
   boxes = np.asarray(boxArr, dtype=np.float16)
   boxID = [0] * 61
@@ -223,23 +221,20 @@ if __name__ == "__main__":
       if box[i] == 1:
         boxID[i] += 1
 
-  for p in range(len(boxID)):
-    if boxID[p] != 0:
-      print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
-      # p = len(boxID)
+  # for p in range(len(boxID)):
+  #   if boxID[p] != 0:
+  #     print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
+  #     # p = len(boxID)
 
   dig_drive = np.asarray(dig_drive, dtype=np.float16)
   print(boxes.shape, dig_drive.shape, "shape")
-  ## to finish for two things
-  # split_point  = int(len(images)*0.2)
+
   test_data = [images[:20], boxes[:20], dig_drive[:20]]
   images, box, dig_drive = images[20:], boxes[20:], dig_drive[20:]
 
   # check_performance(test_data)
   # exit()
   ## https://stackoverflow.com/questions/44036971/multiple-outputs-in-keras
-
-  # random labels_dict
 
   class_weight = create_class_weight(boxID)
   # print("lengths class & boxID", len(class_weight), len(boxID))

@@ -14,7 +14,7 @@ import tensorflow.keras.backend as K
 
 
 def load_data(out_variant, experiment):
-    directory = ""#"/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
+    directory = "/home/f118885/data/thesis/" #if getuser() == "f118885" else ""      # for when you do stuff on peregrine
 
     print("loading data")
     images = np.load(directory +"images_" + out_variant + experiment + ".npy", allow_pickle=True)

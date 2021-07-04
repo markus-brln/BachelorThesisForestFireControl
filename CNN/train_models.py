@@ -93,7 +93,7 @@ def build_model_box(input_shape, weights):
     loss1 = partial(loss, weights=weights)
     model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
                   optimizer=adam,
-                  metrics=['categorical_accuracy', 'binary_crossentropy']
+                  # metrics=['categorical_accuracy', 'binary_crossentropy']
                   )
     return model
 

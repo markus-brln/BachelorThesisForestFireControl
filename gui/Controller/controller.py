@@ -398,8 +398,8 @@ class Controller:
     radius = output[2]
     digging = output[3] > self.digging_threshold
 
-    delta_y = cos_x * radius * utils.timeframe
-    delta_x = sin_x * radius * utils.timeframe
+    delta_x = cos_x * radius * utils.timeframe
+    delta_y = sin_x * radius * utils.timeframe
 
     wanted_len = utils.timeframe                            # agents can dig 1 cell per timestep
     if not digging:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --time=06:00:00
+#SBATCH --time=08:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=30G
@@ -20,7 +20,7 @@ module list
 
 # Run R using the code from mandelbrot.R
 echo starting main
-python main.py 1 4      # architecture, experiment
+python main.py 0 4      # CHANGE architecture, experiment
 
 
 # execute with:

@@ -11,15 +11,19 @@ import tensorflow.keras.backend as K
 from functools import partial
 
 
+from getpass import getuser
+
+
 # tf.random.set_seed(923)
 # np.random.seed(923)
 
 
 def load_data(out_variant, experiment):
-    print("loading data:" + out_variant + experiment + ".npy")
+    directory = "/home/f118885/data/thesis/" if getuser() == "f118885" else ""
+    print("loading data:" + directory + out_variant + experiment + ".npy")
     images = np.load("images_" + out_variant + experiment + ".npy", allow_pickle=True)
     # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
-    outputs = np.load("outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
+    outputs = np.load(directory + "outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
 
     print("input images: ", images.shape)
     print("outputs: ", outputs.shape)

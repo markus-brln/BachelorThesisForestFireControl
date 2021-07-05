@@ -202,7 +202,7 @@ if __name__ == "__main__":
       experiment = experiments[0]
 
   data = load_raw_data(file_filter=experiment)
-  data = data[:250]
+  data = data
 
   print(f"architecture: {out_variant}")
   images, outputs = raw_to_IO(data)

@@ -155,7 +155,8 @@ def build_model_angle(input_shape):
 
 
 def check_performance(test_data, model):
-    """Check average deviation of x,y,dig/drive outputs from desired
+    """ONLY FOR XY, ANGLE VARIANTS
+    Check average deviation of x,y,dig/drive outputs from desired
     test outputs, make density plot."""
 
     images, outputs = test_data

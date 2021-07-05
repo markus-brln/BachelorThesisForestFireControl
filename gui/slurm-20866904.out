@@ -1,0 +1,4780 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+
+Currently Loaded Modules:
+  1) GCCcore/8.3.0
+  2) zlib/1.2.11-GCCcore-8.3.0
+  3) binutils/2.32-GCCcore-8.3.0
+  4) bzip2/1.0.8-GCCcore-8.3.0
+  5) ncurses/6.1-GCCcore-8.3.0
+  6) libreadline/8.0-GCCcore-8.3.0
+  7) Tcl/8.6.9-GCCcore-8.3.0
+  8) SQLite/3.29.0-GCCcore-8.3.0
+  9) XZ/5.2.4-GCCcore-8.3.0
+ 10) GMP/6.1.2-GCCcore-8.3.0
+ 11) libffi/3.2.1-GCCcore-8.3.0
+ 12) Python/3.7.4-GCCcore-8.3.0
+ 13) GCC/8.3.0
+ 14) CUDA/10.1.243-GCC-8.3.0
+ 15) gcccuda/2019b
+ 16) numactl/2.0.12-GCCcore-8.3.0
+ 17) libxml2/2.9.9-GCCcore-8.3.0
+ 18) libpciaccess/0.14-GCCcore-8.3.0
+ 19) hwloc/1.11.12-GCCcore-8.3.0
+ 20) OpenBLAS/0.3.7-GCC-8.3.0
+ 21) gompic/2019b
+ 22) fosscuda/2019b
+ 23) Szip/2.1.1-GCCcore-8.3.0
+ 24) HDF5/1.10.5-gompic-2019b
+ 25) h5py/2.10.0-fosscuda-2019b-Python-3.7.4
+ 26) cuDNN/7.6.4.38-gcccuda-2019b
+ 27) NCCL/2.4.8-gcccuda-2019b
+ 28) TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4
+ 29) LLVM/8.0.1-GCCcore-8.3.0
+ 30) numba/0.47.0-fosscuda-2019b-Python-3.7.4
+ 31) OpenMPI/3.1.4-GCC-8.3.0
+ 32) gompi/2019b
+ 33) FFTW/3.3.8-gompi-2019b
+ 34) ScaLAPACK/2.0.2-gompi-2019b
+ 35) foss/2019b
+ 36) SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+ 37) libpng/1.6.37-GCCcore-8.3.0
+ 38) freetype/2.10.1-GCCcore-8.3.0
+ 39) expat/2.2.7-GCCcore-8.3.0
+ 40) util-linux/2.34-GCCcore-8.3.0
+ 41) fontconfig/2.13.1-GCCcore-8.3.0
+ 42) X11/20190717-GCCcore-8.3.0
+ 43) Tk/8.6.9-GCCcore-8.3.0
+ 44) Tkinter/3.7.4-GCCcore-8.3.0
+ 45) matplotlib/3.1.1-foss-2019b-Python-3.7.4
+
+ 
+
+starting main
+2021-07-01 19:23:14.204336: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-01 19:23:17.806916: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /software/software/matplotlib/3.1.1-foss-2019b-Python-3.7.4/lib:/software/software/Tkinter/3.7.4-GCCcore-8.3.0/lib:/software/software/Tk/8.6.9-GCCcore-8.3.0/lib:/software/software/X11/20190717-GCCcore-8.3.0/lib:/software/software/fontconfig/2.13.1-GCCcore-8.3.0/lib:/software/software/util-linux/2.34-GCCcore-8.3.0/lib:/software/software/expat/2.2.7-GCCcore-8.3.0/lib:/software/software/freetype/2.10.1-GCCcore-8.3.0/lib:/software/software/libpng/1.6.37-GCCcore-8.3.0/lib:/software/software/SciPy-bundle/2019.10-foss-2019b-Python-3.7.4/lib/python3.7/site-packages/numpy/core/lib:/software/software/SciPy-bundle/2019.10-foss-2019b-Python-3.7.4/lib:/software/software/ScaLAPACK/2.0.2-gompi-2019b/lib:/software/software/FFTW/3.3.8-gompi-2019b/lib:/software/software/OpenMPI/3.1.4-GCC-8.3.0/lib:/software/software/numba/0.47.0-fosscuda-2019b-Python-3.7.4/lib:/software/software/LLVM/8.0.1-GCCcore-8.3.0/lib:/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib:/software/software/NCCL/2.4.8-gcccuda-2019b/lib:/software/software/cuDNN/7.6.4.38-gcccuda-2019b/lib64:/software/software/HDF5/1.10.5-gompic-2019b/lib:/software/software/Szip/2.1.1-GCCcore-8.3.0/lib:/software/software/OpenBLAS/0.3.7-GCC-8.3.0/lib:/software/software/hwloc/1.11.12-GCCcore-8.3.0/lib:/software/software/libpciaccess/0.14-GCCcore-8.3.0/lib:/software/software/libxml2/2.9.9-GCCcore-8.3.0/lib:/software/software/numactl/2.0.12-GCCcore-8.3.0/lib:/software/software/CUDA/10.1.243-GCC-8.3.0/nvvm/lib64:/software/software/CUDA/10.1.243-GCC-8.3.0/extras/CUPTI/lib64:/software/software/CUDA/10.1.243-GCC-8.3.0/lib64:/software/software/Python/3.7.4-GCCcore-8.3.0/lib:/software/software/libffi/3.2.1-GCCcore-8.3.0/lib64:/software/software/libffi/3.2.1-GCCcore-8.3.0/lib:/software/software/GMP/6.1.2-GCCcore-8.3.0/lib:/software/software/XZ/5.2.4-GCCcore-8.3.0/lib:/software/software/SQLite/3.29.0-GCCcore-8.3.0/lib:/software/software/Tcl/8.6.9-GCCcore-8.3.0/lib:/software/software/libreadline/8.0-GCCcore-8.3.0/lib:/software/software/ncurses/6.1-GCCcore-8.3.0/lib:/software/software/bzip2/1.0.8-GCCcore-8.3.0/lib:/software/software/binutils/2.32-GCCcore-8.3.0/lib:/software/software/zlib/1.2.11-GCCcore-8.3.0/lib:/software/software/GCCcore/8.3.0/lib/gcc/x86_64-pc-linux-gnu/8.3.0:/software/software/GCCcore/8.3.0/lib64:/software/software/GCCcore/8.3.0/lib
+2021-07-01 19:23:17.807050: E tensorflow/stream_executor/cuda/cuda_driver.cc:351] failed call to cuInit: UNKNOWN ERROR (303)
+2021-07-01 19:23:17.807111: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (pg-node126): /proc/driver/nvidia/version does not exist
+2021-07-01 19:23:17.816146: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+/home/f118885/thesis/gui/Controller/controller.py:648: NumbaPendingDeprecationWarning: 
+Encountered the use of a type that is scheduled for deprecation: type 'reflected set' found for argument 'firebreaks' of function 'check_escape'.
+
+For more information visit http://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+
+File "Controller/controller.py", line 668:
+@jit(nopython=True)
+def check_escape(firebreaks, new_burned):
+^
+
+  if check_escape(firebreaks, new_burned):  # the bounds of the environment
+/software/software/numba/0.47.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/numba/ir_utils.py:2030: NumbaPendingDeprecationWarning: 
+Encountered the use of a type that is scheduled for deprecation: type 'reflected set' found for argument 'firebreaks' of function 'count_containment'.
+
+For more information visit http://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+
+File "Controller/controller.py", line 637:
+@jit(nopython=True)
+def count_containment(firebreaks, size):
+^
+
+  warnings.warn(NumbaPendingDeprecationWarning(msg, loc=loc))
+variant: angle
+experiment: UNCERTAIN+WIND
+loading model CNNangleUNCERTAIN+WIND0
+Loaded model from disk
+model 0 success 1 / 1  successful
+agent dies
+nr agents fail
+model 0 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 0 fail 1 / 3  successful
+model 0 success 2 / 4  successful
+model 0 success 3 / 5  successful
+model 0 success 4 / 6  successful
+agent dies
+nr agents fail
+model 0 fail 4 / 7  successful
+model 0 success 5 / 8  successful
+model 0 success 6 / 9  successful
+model 0 success 7 / 10  successful
+model 0 success 8 / 11  successful
+agent dies
+nr agents fail
+model 0 fail 8 / 12  successful
+agent dies
+agent dies
+nr agents fail
+model 0 fail 8 / 13  successful
+agent dies
+nr agents fail
+model 0 fail 8 / 14  successful
+model 0 success 9 / 15  successful
+agent dies
+nr agents fail
+model 0 fail 9 / 16  successful
+model 0 success 10 / 17  successful
+model 0 success 11 / 18  successful
+nr assignments fail
+model 0 fail 11 / 19  successful
+model 0 success 12 / 20  successful
+model 0 success 13 / 21  successful
+model 0 success 14 / 22  successful
+model 0 success 15 / 23  successful
+model 0 success 16 / 24  successful
+agent dies
+agent dies
+nr agents fail
+model 0 fail 16 / 25  successful
+model 0 success 17 / 26  successful
+model 0 success 18 / 27  successful
+agent dies
+nr agents fail
+model 0 fail 18 / 28  successful
+model 0 success 19 / 29  successful
+agent dies
+nr agents fail
+model 0 fail 19 / 30  successful
+agent dies
+nr agents fail
+model 0 fail 19 / 31  successful
+model 0 success 20 / 32  successful
+model 0 success 21 / 33  successful
+model 0 success 22 / 34  successful
+agent dies
+nr agents fail
+model 0 fail 22 / 35  successful
+model 0 success 23 / 36  successful
+agent dies
+nr agents fail
+model 0 fail 23 / 37  successful
+model 0 success 24 / 38  successful
+model 0 success 25 / 39  successful
+model 0 success 26 / 40  successful
+model 0 success 27 / 41  successful
+agent dies
+nr agents fail
+model 0 fail 27 / 42  successful
+agent dies
+nr agents fail
+model 0 fail 27 / 43  successful
+nr assignments fail
+model 0 fail 27 / 44  successful
+model 0 success 28 / 45  successful
+agent dies
+nr agents fail
+model 0 fail 28 / 46  successful
+model 0 success 29 / 47  successful
+model 0 success 30 / 48  successful
+agent dies
+nr agents fail
+model 0 fail 30 / 49  successful
+nr assignments fail
+model 0 fail 30 / 50  successful
+model 0 success 31 / 51  successful
+agent dies
+nr agents fail
+model 0 fail 31 / 52  successful
+model 0 success 32 / 53  successful
+model 0 success 33 / 54  successful
+model 0 success 34 / 55  successful
+model 0 success 35 / 56  successful
+model 0 success 36 / 57  successful
+model 0 success 37 / 58  successful
+model 0 success 38 / 59  successful
+model 0 success 39 / 60  successful
+agent dies
+nr agents fail
+model 0 fail 39 / 61  successful
+model 0 success 40 / 62  successful
+model 0 success 41 / 63  successful
+nr assignments fail
+model 0 fail 41 / 64  successful
+model 0 success 42 / 65  successful
+model 0 success 43 / 66  successful
+nr assignments fail
+model 0 fail 43 / 67  successful
+model 0 success 44 / 68  successful
+model 0 success 45 / 69  successful
+model 0 success 46 / 70  successful
+model 0 success 47 / 71  successful
+model 0 success 48 / 72  successful
+model 0 success 49 / 73  successful
+agent dies
+nr agents fail
+model 0 fail 49 / 74  successful
+model 0 success 50 / 75  successful
+model 0 success 51 / 76  successful
+model 0 success 52 / 77  successful
+agent dies
+nr agents fail
+model 0 fail 52 / 78  successful
+agent dies
+nr agents fail
+model 0 fail 52 / 79  successful
+model 0 success 53 / 80  successful
+nr assignments fail
+model 0 fail 53 / 81  successful
+model 0 success 54 / 82  successful
+model 0 success 55 / 83  successful
+model 0 success 56 / 84  successful
+model 0 success 57 / 85  successful
+model 0 success 58 / 86  successful
+model 0 success 59 / 87  successful
+model 0 success 60 / 88  successful
+model 0 success 61 / 89  successful
+agent dies
+nr agents fail
+model 0 fail 61 / 90  successful
+model 0 success 62 / 91  successful
+agent dies
+nr agents fail
+model 0 fail 62 / 92  successful
+model 0 success 63 / 93  successful
+model 0 success 64 / 94  successful
+agent dies
+nr agents fail
+model 0 fail 64 / 95  successful
+model 0 success 65 / 96  successful
+model 0 success 66 / 97  successful
+agent dies
+nr agents fail
+model 0 fail 66 / 98  successful
+model 0 success 67 / 99  successful
+model 0 success 68 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND1
+Loaded model from disk
+model 1 success 1 / 1  successful
+agent dies
+nr agents fail
+model 1 fail 1 / 2  successful
+model 1 success 2 / 3  successful
+model 1 success 3 / 4  successful
+model 1 success 4 / 5  successful
+nr assignments fail
+model 1 fail 4 / 6  successful
+model 1 success 5 / 7  successful
+model 1 success 6 / 8  successful
+agent dies
+nr agents fail
+model 1 fail 6 / 9  successful
+model 1 success 7 / 10  successful
+model 1 success 8 / 11  successful
+model 1 success 9 / 12  successful
+model 1 success 10 / 13  successful
+nr assignments fail
+model 1 fail 10 / 14  successful
+model 1 success 11 / 15  successful
+nr assignments fail
+model 1 fail 11 / 16  successful
+model 1 success 12 / 17  successful
+model 1 success 13 / 18  successful
+model 1 success 14 / 19  successful
+model 1 success 15 / 20  successful
+model 1 success 16 / 21  successful
+agent dies
+nr agents fail
+model 1 fail 16 / 22  successful
+model 1 success 17 / 23  successful
+nr assignments fail
+model 1 fail 17 / 24  successful
+model 1 success 18 / 25  successful
+model 1 success 19 / 26  successful
+model 1 success 20 / 27  successful
+agent dies
+nr agents fail
+model 1 fail 20 / 28  successful
+model 1 success 21 / 29  successful
+agent dies
+nr agents fail
+model 1 fail 21 / 30  successful
+agent dies
+nr agents fail
+model 1 fail 21 / 31  successful
+model 1 success 22 / 32  successful
+nr assignments fail
+model 1 fail 22 / 33  successful
+model 1 success 23 / 34  successful
+model 1 success 24 / 35  successful
+model 1 success 25 / 36  successful
+model 1 success 26 / 37  successful
+model 1 success 27 / 38  successful
+model 1 success 28 / 39  successful
+model 1 success 29 / 40  successful
+agent dies
+nr agents fail
+model 1 fail 29 / 41  successful
+model 1 success 30 / 42  successful
+model 1 success 31 / 43  successful
+model 1 success 32 / 44  successful
+agent dies
+nr agents fail
+model 1 fail 32 / 45  successful
+model 1 success 33 / 46  successful
+model 1 success 34 / 47  successful
+agent dies
+nr agents fail
+model 1 fail 34 / 48  successful
+model 1 success 35 / 49  successful
+model 1 success 36 / 50  successful
+model 1 success 37 / 51  successful
+model 1 success 38 / 52  successful
+agent dies
+nr agents fail
+model 1 fail 38 / 53  successful
+nr assignments fail
+model 1 fail 38 / 54  successful
+model 1 success 39 / 55  successful
+model 1 success 40 / 56  successful
+nr assignments fail
+model 1 fail 40 / 57  successful
+model 1 success 41 / 58  successful
+model 1 success 42 / 59  successful
+model 1 success 43 / 60  successful
+model 1 success 44 / 61  successful
+agent dies
+agent dies
+nr agents fail
+model 1 fail 44 / 62  successful
+model 1 success 45 / 63  successful
+model 1 success 46 / 64  successful
+model 1 success 47 / 65  successful
+nr assignments fail
+model 1 fail 47 / 66  successful
+agent dies
+nr agents fail
+model 1 fail 47 / 67  successful
+model 1 success 48 / 68  successful
+model 1 success 49 / 69  successful
+model 1 success 50 / 70  successful
+agent dies
+nr agents fail
+model 1 fail 50 / 71  successful
+agent dies
+nr agents fail
+model 1 fail 50 / 72  successful
+nr assignments fail
+model 1 fail 50 / 73  successful
+model 1 success 51 / 74  successful
+model 1 success 52 / 75  successful
+model 1 success 53 / 76  successful
+nr assignments fail
+model 1 fail 53 / 77  successful
+model 1 success 54 / 78  successful
+agent dies
+nr agents fail
+model 1 fail 54 / 79  successful
+agent dies
+nr agents fail
+model 1 fail 54 / 80  successful
+model 1 success 55 / 81  successful
+model 1 success 56 / 82  successful
+model 1 success 57 / 83  successful
+nr assignments fail
+model 1 fail 57 / 84  successful
+agent dies
+nr agents fail
+model 1 fail 57 / 85  successful
+model 1 success 58 / 86  successful
+model 1 success 59 / 87  successful
+nr assignments fail
+model 1 fail 59 / 88  successful
+model 1 success 60 / 89  successful
+model 1 success 61 / 90  successful
+model 1 success 62 / 91  successful
+model 1 success 63 / 92  successful
+model 1 success 64 / 93  successful
+nr assignments fail
+model 1 fail 64 / 94  successful
+nr assignments fail
+model 1 fail 64 / 95  successful
+model 1 success 65 / 96  successful
+nr assignments fail
+model 1 fail 65 / 97  successful
+model 1 success 66 / 98  successful
+model 1 success 67 / 99  successful
+model 1 success 68 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND2
+Loaded model from disk
+model 2 success 1 / 1  successful
+model 2 success 2 / 2  successful
+model 2 success 3 / 3  successful
+model 2 success 4 / 4  successful
+nr assignments fail
+model 2 fail 4 / 5  successful
+model 2 success 5 / 6  successful
+nr assignments fail
+model 2 fail 5 / 7  successful
+nr assignments fail
+model 2 fail 5 / 8  successful
+nr assignments fail
+model 2 fail 5 / 9  successful
+nr assignments fail
+model 2 fail 5 / 10  successful
+model 2 success 6 / 11  successful
+model 2 success 7 / 12  successful
+model 2 success 8 / 13  successful
+model 2 success 9 / 14  successful
+model 2 success 10 / 15  successful
+model 2 success 11 / 16  successful
+model 2 success 12 / 17  successful
+model 2 success 13 / 18  successful
+model 2 success 14 / 19  successful
+model 2 success 15 / 20  successful
+nr assignments fail
+model 2 fail 15 / 21  successful
+nr assignments fail
+model 2 fail 15 / 22  successful
+agent dies
+nr agents fail
+model 2 fail 15 / 23  successful
+model 2 success 16 / 24  successful
+nr assignments fail
+model 2 fail 16 / 25  successful
+model 2 success 17 / 26  successful
+agent dies
+nr agents fail
+model 2 fail 17 / 27  successful
+model 2 success 18 / 28  successful
+model 2 success 19 / 29  successful
+model 2 success 20 / 30  successful
+nr assignments fail
+model 2 fail 20 / 31  successful
+model 2 success 21 / 32  successful
+nr assignments fail
+model 2 fail 21 / 33  successful
+model 2 success 22 / 34  successful
+model 2 success 23 / 35  successful
+nr assignments fail
+model 2 fail 23 / 36  successful
+model 2 success 24 / 37  successful
+model 2 success 25 / 38  successful
+model 2 success 26 / 39  successful
+model 2 success 27 / 40  successful
+agent dies
+nr agents fail
+model 2 fail 27 / 41  successful
+model 2 success 28 / 42  successful
+model 2 success 29 / 43  successful
+model 2 success 30 / 44  successful
+nr assignments fail
+model 2 fail 30 / 45  successful
+model 2 success 31 / 46  successful
+model 2 success 32 / 47  successful
+model 2 success 33 / 48  successful
+model 2 success 34 / 49  successful
+model 2 success 35 / 50  successful
+nr assignments fail
+model 2 fail 35 / 51  successful
+model 2 success 36 / 52  successful
+model 2 success 37 / 53  successful
+model 2 success 38 / 54  successful
+model 2 success 39 / 55  successful
+model 2 success 40 / 56  successful
+model 2 success 41 / 57  successful
+agent dies
+nr agents fail
+model 2 fail 41 / 58  successful
+model 2 success 42 / 59  successful
+model 2 success 43 / 60  successful
+model 2 success 44 / 61  successful
+nr assignments fail
+model 2 fail 44 / 62  successful
+model 2 success 45 / 63  successful
+model 2 success 46 / 64  successful
+nr assignments fail
+model 2 fail 46 / 65  successful
+model 2 success 47 / 66  successful
+model 2 success 48 / 67  successful
+model 2 success 49 / 68  successful
+model 2 success 50 / 69  successful
+model 2 success 51 / 70  successful
+model 2 success 52 / 71  successful
+model 2 success 53 / 72  successful
+model 2 success 54 / 73  successful
+model 2 success 55 / 74  successful
+nr assignments fail
+model 2 fail 55 / 75  successful
+model 2 success 56 / 76  successful
+model 2 success 57 / 77  successful
+nr assignments fail
+model 2 fail 57 / 78  successful
+model 2 success 58 / 79  successful
+model 2 success 59 / 80  successful
+model 2 success 60 / 81  successful
+model 2 success 61 / 82  successful
+model 2 success 62 / 83  successful
+model 2 success 63 / 84  successful
+model 2 success 64 / 85  successful
+model 2 success 65 / 86  successful
+model 2 success 66 / 87  successful
+model 2 success 67 / 88  successful
+model 2 success 68 / 89  successful
+model 2 success 69 / 90  successful
+model 2 success 70 / 91  successful
+model 2 success 71 / 92  successful
+model 2 success 72 / 93  successful
+model 2 success 73 / 94  successful
+model 2 success 74 / 95  successful
+model 2 success 75 / 96  successful
+model 2 success 76 / 97  successful
+model 2 success 77 / 98  successful
+model 2 success 78 / 99  successful
+model 2 success 79 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND3
+Loaded model from disk
+model 3 success 1 / 1  successful
+agent dies
+nr agents fail
+model 3 fail 1 / 2  successful
+nr assignments fail
+model 3 fail 1 / 3  successful
+agent dies
+nr agents fail
+model 3 fail 1 / 4  successful
+model 3 success 2 / 5  successful
+nr assignments fail
+model 3 fail 2 / 6  successful
+model 3 success 3 / 7  successful
+model 3 success 4 / 8  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 9  successful
+model 3 success 5 / 10  successful
+nr assignments fail
+model 3 fail 5 / 11  successful
+nr assignments fail
+model 3 fail 5 / 12  successful
+model 3 success 6 / 13  successful
+nr assignments fail
+model 3 fail 6 / 14  successful
+model 3 success 7 / 15  successful
+agent dies
+nr agents fail
+model 3 fail 7 / 16  successful
+model 3 success 8 / 17  successful
+nr assignments fail
+model 3 fail 8 / 18  successful
+model 3 success 9 / 19  successful
+nr assignments fail
+model 3 fail 9 / 20  successful
+nr assignments fail
+model 3 fail 9 / 21  successful
+agent dies
+nr agents fail
+model 3 fail 9 / 22  successful
+model 3 success 10 / 23  successful
+model 3 success 11 / 24  successful
+nr assignments fail
+model 3 fail 11 / 25  successful
+model 3 success 12 / 26  successful
+model 3 success 13 / 27  successful
+nr assignments fail
+model 3 fail 13 / 28  successful
+nr assignments fail
+model 3 fail 13 / 29  successful
+model 3 success 14 / 30  successful
+model 3 success 15 / 31  successful
+model 3 success 16 / 32  successful
+model 3 success 17 / 33  successful
+agent dies
+nr agents fail
+model 3 fail 17 / 34  successful
+model 3 success 18 / 35  successful
+agent dies
+nr agents fail
+model 3 fail 18 / 36  successful
+model 3 success 19 / 37  successful
+model 3 success 20 / 38  successful
+nr assignments fail
+model 3 fail 20 / 39  successful
+agent dies
+nr agents fail
+model 3 fail 20 / 40  successful
+model 3 success 21 / 41  successful
+agent dies
+nr agents fail
+model 3 fail 21 / 42  successful
+model 3 success 22 / 43  successful
+model 3 success 23 / 44  successful
+model 3 success 24 / 45  successful
+model 3 success 25 / 46  successful
+nr assignments fail
+model 3 fail 25 / 47  successful
+nr assignments fail
+model 3 fail 25 / 48  successful
+model 3 success 26 / 49  successful
+model 3 success 27 / 50  successful
+model 3 success 28 / 51  successful
+nr assignments fail
+model 3 fail 28 / 52  successful
+model 3 success 29 / 53  successful
+model 3 success 30 / 54  successful
+nr assignments fail
+model 3 fail 30 / 55  successful
+model 3 success 31 / 56  successful
+model 3 success 32 / 57  successful
+model 3 success 33 / 58  successful
+agent dies
+nr agents fail
+model 3 fail 33 / 59  successful
+model 3 success 34 / 60  successful
+nr assignments fail
+model 3 fail 34 / 61  successful
+model 3 success 35 / 62  successful
+nr assignments fail
+model 3 fail 35 / 63  successful
+nr assignments fail
+model 3 fail 35 / 64  successful
+model 3 success 36 / 65  successful
+nr assignments fail
+model 3 fail 36 / 66  successful
+agent dies
+nr agents fail
+model 3 fail 36 / 67  successful
+nr assignments fail
+model 3 fail 36 / 68  successful
+nr assignments fail
+model 3 fail 36 / 69  successful
+model 3 success 37 / 70  successful
+model 3 success 38 / 71  successful
+model 3 success 39 / 72  successful
+nr assignments fail
+model 3 fail 39 / 73  successful
+model 3 success 40 / 74  successful
+model 3 success 41 / 75  successful
+nr assignments fail
+model 3 fail 41 / 76  successful
+nr assignments fail
+model 3 fail 41 / 77  successful
+model 3 success 42 / 78  successful
+model 3 success 43 / 79  successful
+model 3 success 44 / 80  successful
+nr assignments fail
+model 3 fail 44 / 81  successful
+model 3 success 45 / 82  successful
+model 3 success 46 / 83  successful
+model 3 success 47 / 84  successful
+model 3 success 48 / 85  successful
+model 3 success 49 / 86  successful
+nr assignments fail
+model 3 fail 49 / 87  successful
+model 3 success 50 / 88  successful
+model 3 success 51 / 89  successful
+model 3 success 52 / 90  successful
+model 3 success 53 / 91  successful
+agent dies
+nr agents fail
+model 3 fail 53 / 92  successful
+agent dies
+nr agents fail
+model 3 fail 53 / 93  successful
+agent dies
+nr agents fail
+model 3 fail 53 / 94  successful
+model 3 success 54 / 95  successful
+model 3 success 55 / 96  successful
+agent dies
+nr agents fail
+model 3 fail 55 / 97  successful
+nr assignments fail
+model 3 fail 55 / 98  successful
+model 3 success 56 / 99  successful
+nr assignments fail
+model 3 fail 56 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND4
+Loaded model from disk
+model 4 success 1 / 1  successful
+model 4 success 2 / 2  successful
+model 4 success 3 / 3  successful
+nr assignments fail
+model 4 fail 3 / 4  successful
+nr assignments fail
+model 4 fail 3 / 5  successful
+nr assignments fail
+model 4 fail 3 / 6  successful
+model 4 success 4 / 7  successful
+model 4 success 5 / 8  successful
+model 4 success 6 / 9  successful
+model 4 success 7 / 10  successful
+model 4 success 8 / 11  successful
+model 4 success 9 / 12  successful
+model 4 success 10 / 13  successful
+nr assignments fail
+model 4 fail 10 / 14  successful
+nr assignments fail
+model 4 fail 10 / 15  successful
+model 4 success 11 / 16  successful
+nr assignments fail
+model 4 fail 11 / 17  successful
+model 4 success 12 / 18  successful
+model 4 success 13 / 19  successful
+model 4 success 14 / 20  successful
+model 4 success 15 / 21  successful
+model 4 success 16 / 22  successful
+model 4 success 17 / 23  successful
+model 4 success 18 / 24  successful
+model 4 success 19 / 25  successful
+model 4 success 20 / 26  successful
+model 4 success 21 / 27  successful
+model 4 success 22 / 28  successful
+model 4 success 23 / 29  successful
+nr assignments fail
+model 4 fail 23 / 30  successful
+agent dies
+nr agents fail
+model 4 fail 23 / 31  successful
+model 4 success 24 / 32  successful
+model 4 success 25 / 33  successful
+nr assignments fail
+model 4 fail 25 / 34  successful
+agent dies
+nr agents fail
+model 4 fail 25 / 35  successful
+model 4 success 26 / 36  successful
+model 4 success 27 / 37  successful
+model 4 success 28 / 38  successful
+model 4 success 29 / 39  successful
+model 4 success 30 / 40  successful
+model 4 success 31 / 41  successful
+nr assignments fail
+model 4 fail 31 / 42  successful
+nr assignments fail
+model 4 fail 31 / 43  successful
+model 4 success 32 / 44  successful
+nr assignments fail
+model 4 fail 32 / 45  successful
+nr assignments fail
+model 4 fail 32 / 46  successful
+nr assignments fail
+model 4 fail 32 / 47  successful
+model 4 success 33 / 48  successful
+model 4 success 34 / 49  successful
+model 4 success 35 / 50  successful
+model 4 success 36 / 51  successful
+model 4 success 37 / 52  successful
+model 4 success 38 / 53  successful
+model 4 success 39 / 54  successful
+model 4 success 40 / 55  successful
+model 4 success 41 / 56  successful
+model 4 success 42 / 57  successful
+model 4 success 43 / 58  successful
+nr assignments fail
+model 4 fail 43 / 59  successful
+model 4 success 44 / 60  successful
+model 4 success 45 / 61  successful
+model 4 success 46 / 62  successful
+model 4 success 47 / 63  successful
+model 4 success 48 / 64  successful
+model 4 success 49 / 65  successful
+model 4 success 50 / 66  successful
+model 4 success 51 / 67  successful
+nr assignments fail
+model 4 fail 51 / 68  successful
+model 4 success 52 / 69  successful
+model 4 success 53 / 70  successful
+model 4 success 54 / 71  successful
+model 4 success 55 / 72  successful
+model 4 success 56 / 73  successful
+model 4 success 57 / 74  successful
+model 4 success 58 / 75  successful
+model 4 success 59 / 76  successful
+nr assignments fail
+model 4 fail 59 / 77  successful
+model 4 success 60 / 78  successful
+nr assignments fail
+model 4 fail 60 / 79  successful
+nr assignments fail
+model 4 fail 60 / 80  successful
+nr assignments fail
+model 4 fail 60 / 81  successful
+model 4 success 61 / 82  successful
+model 4 success 62 / 83  successful
+agent dies
+nr agents fail
+model 4 fail 62 / 84  successful
+nr assignments fail
+model 4 fail 62 / 85  successful
+model 4 success 63 / 86  successful
+nr assignments fail
+model 4 fail 63 / 87  successful
+nr assignments fail
+model 4 fail 63 / 88  successful
+model 4 success 64 / 89  successful
+model 4 success 65 / 90  successful
+model 4 success 66 / 91  successful
+model 4 success 67 / 92  successful
+model 4 success 68 / 93  successful
+model 4 success 69 / 94  successful
+nr assignments fail
+model 4 fail 69 / 95  successful
+model 4 success 70 / 96  successful
+model 4 success 71 / 97  successful
+nr assignments fail
+model 4 fail 71 / 98  successful
+nr assignments fail
+model 4 fail 71 / 99  successful
+nr assignments fail
+model 4 fail 71 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND5
+Loaded model from disk
+model 5 success 1 / 1  successful
+nr assignments fail
+model 5 fail 1 / 2  successful
+nr assignments fail
+model 5 fail 1 / 3  successful
+model 5 success 2 / 4  successful
+model 5 success 3 / 5  successful
+model 5 success 4 / 6  successful
+model 5 success 5 / 7  successful
+model 5 success 6 / 8  successful
+model 5 success 7 / 9  successful
+model 5 success 8 / 10  successful
+model 5 success 9 / 11  successful
+model 5 success 10 / 12  successful
+model 5 success 11 / 13  successful
+model 5 success 12 / 14  successful
+agent dies
+nr agents fail
+model 5 fail 12 / 15  successful
+model 5 success 13 / 16  successful
+model 5 success 14 / 17  successful
+model 5 success 15 / 18  successful
+model 5 success 16 / 19  successful
+model 5 success 17 / 20  successful
+model 5 success 18 / 21  successful
+agent dies
+nr agents fail
+model 5 fail 18 / 22  successful
+model 5 success 19 / 23  successful
+model 5 success 20 / 24  successful
+model 5 success 21 / 25  successful
+model 5 success 22 / 26  successful
+model 5 success 23 / 27  successful
+model 5 success 24 / 28  successful
+agent dies
+nr agents fail
+model 5 fail 24 / 29  successful
+model 5 success 25 / 30  successful
+agent dies
+nr agents fail
+model 5 fail 25 / 31  successful
+model 5 success 26 / 32  successful
+model 5 success 27 / 33  successful
+model 5 success 28 / 34  successful
+model 5 success 29 / 35  successful
+agent dies
+nr agents fail
+model 5 fail 29 / 36  successful
+model 5 success 30 / 37  successful
+model 5 success 31 / 38  successful
+model 5 success 32 / 39  successful
+model 5 success 33 / 40  successful
+model 5 success 34 / 41  successful
+model 5 success 35 / 42  successful
+model 5 success 36 / 43  successful
+model 5 success 37 / 44  successful
+model 5 success 38 / 45  successful
+model 5 success 39 / 46  successful
+model 5 success 40 / 47  successful
+nr assignments fail
+model 5 fail 40 / 48  successful
+model 5 success 41 / 49  successful
+model 5 success 42 / 50  successful
+model 5 success 43 / 51  successful
+nr assignments fail
+model 5 fail 43 / 52  successful
+model 5 success 44 / 53  successful
+model 5 success 45 / 54  successful
+model 5 success 46 / 55  successful
+model 5 success 47 / 56  successful
+model 5 success 48 / 57  successful
+model 5 success 49 / 58  successful
+model 5 success 50 / 59  successful
+agent dies
+nr agents fail
+model 5 fail 50 / 60  successful
+model 5 success 51 / 61  successful
+model 5 success 52 / 62  successful
+model 5 success 53 / 63  successful
+model 5 success 54 / 64  successful
+agent dies
+nr agents fail
+model 5 fail 54 / 65  successful
+model 5 success 55 / 66  successful
+agent dies
+nr agents fail
+model 5 fail 55 / 67  successful
+model 5 success 56 / 68  successful
+model 5 success 57 / 69  successful
+model 5 success 58 / 70  successful
+model 5 success 59 / 71  successful
+model 5 success 60 / 72  successful
+nr assignments fail
+model 5 fail 60 / 73  successful
+model 5 success 61 / 74  successful
+model 5 success 62 / 75  successful
+nr assignments fail
+model 5 fail 62 / 76  successful
+model 5 success 63 / 77  successful
+model 5 success 64 / 78  successful
+agent dies
+nr agents fail
+model 5 fail 64 / 79  successful
+model 5 success 65 / 80  successful
+model 5 success 66 / 81  successful
+model 5 success 67 / 82  successful
+agent dies
+nr agents fail
+model 5 fail 67 / 83  successful
+model 5 success 68 / 84  successful
+agent dies
+nr agents fail
+model 5 fail 68 / 85  successful
+model 5 success 69 / 86  successful
+model 5 success 70 / 87  successful
+model 5 success 71 / 88  successful
+model 5 success 72 / 89  successful
+nr assignments fail
+model 5 fail 72 / 90  successful
+model 5 success 73 / 91  successful
+model 5 success 74 / 92  successful
+model 5 success 75 / 93  successful
+model 5 success 76 / 94  successful
+nr assignments fail
+model 5 fail 76 / 95  successful
+model 5 success 77 / 96  successful
+model 5 success 78 / 97  successful
+model 5 success 79 / 98  successful
+model 5 success 80 / 99  successful
+model 5 success 81 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND6
+Loaded model from disk
+model 6 success 1 / 1  successful
+model 6 success 2 / 2  successful
+model 6 success 3 / 3  successful
+model 6 success 4 / 4  successful
+model 6 success 5 / 5  successful
+model 6 success 6 / 6  successful
+model 6 success 7 / 7  successful
+model 6 success 8 / 8  successful
+agent dies
+nr agents fail
+model 6 fail 8 / 9  successful
+model 6 success 9 / 10  successful
+model 6 success 10 / 11  successful
+model 6 success 11 / 12  successful
+agent dies
+nr agents fail
+model 6 fail 11 / 13  successful
+agent dies
+nr agents fail
+model 6 fail 11 / 14  successful
+model 6 success 12 / 15  successful
+agent dies
+nr agents fail
+model 6 fail 12 / 16  successful
+model 6 success 13 / 17  successful
+model 6 success 14 / 18  successful
+model 6 success 15 / 19  successful
+model 6 success 16 / 20  successful
+model 6 success 17 / 21  successful
+model 6 success 18 / 22  successful
+model 6 success 19 / 23  successful
+nr assignments fail
+model 6 fail 19 / 24  successful
+model 6 success 20 / 25  successful
+model 6 success 21 / 26  successful
+model 6 success 22 / 27  successful
+model 6 success 23 / 28  successful
+model 6 success 24 / 29  successful
+model 6 success 25 / 30  successful
+model 6 success 26 / 31  successful
+nr assignments fail
+model 6 fail 26 / 32  successful
+agent dies
+nr agents fail
+model 6 fail 26 / 33  successful
+model 6 success 27 / 34  successful
+nr assignments fail
+model 6 fail 27 / 35  successful
+agent dies
+nr agents fail
+model 6 fail 27 / 36  successful
+model 6 success 28 / 37  successful
+agent dies
+nr agents fail
+model 6 fail 28 / 38  successful
+model 6 success 29 / 39  successful
+agent dies
+nr agents fail
+model 6 fail 29 / 40  successful
+model 6 success 30 / 41  successful
+model 6 success 31 / 42  successful
+model 6 success 32 / 43  successful
+model 6 success 33 / 44  successful
+nr assignments fail
+model 6 fail 33 / 45  successful
+model 6 success 34 / 46  successful
+model 6 success 35 / 47  successful
+model 6 success 36 / 48  successful
+model 6 success 37 / 49  successful
+model 6 success 38 / 50  successful
+model 6 success 39 / 51  successful
+model 6 success 40 / 52  successful
+model 6 success 41 / 53  successful
+model 6 success 42 / 54  successful
+model 6 success 43 / 55  successful
+model 6 success 44 / 56  successful
+agent dies
+nr agents fail
+model 6 fail 44 / 57  successful
+model 6 success 45 / 58  successful
+agent dies
+agent dies
+nr agents fail
+model 6 fail 45 / 59  successful
+model 6 success 46 / 60  successful
+agent dies
+nr agents fail
+model 6 fail 46 / 61  successful
+model 6 success 47 / 62  successful
+model 6 success 48 / 63  successful
+model 6 success 49 / 64  successful
+model 6 success 50 / 65  successful
+model 6 success 51 / 66  successful
+model 6 success 52 / 67  successful
+agent dies
+nr agents fail
+model 6 fail 52 / 68  successful
+model 6 success 53 / 69  successful
+model 6 success 54 / 70  successful
+model 6 success 55 / 71  successful
+agent dies
+nr agents fail
+model 6 fail 55 / 72  successful
+model 6 success 56 / 73  successful
+agent dies
+nr agents fail
+model 6 fail 56 / 74  successful
+agent dies
+nr agents fail
+model 6 fail 56 / 75  successful
+model 6 success 57 / 76  successful
+model 6 success 58 / 77  successful
+model 6 success 59 / 78  successful
+model 6 success 60 / 79  successful
+model 6 success 61 / 80  successful
+agent dies
+nr agents fail
+model 6 fail 61 / 81  successful
+model 6 success 62 / 82  successful
+model 6 success 63 / 83  successful
+model 6 success 64 / 84  successful
+nr assignments fail
+model 6 fail 64 / 85  successful
+agent dies
+nr agents fail
+model 6 fail 64 / 86  successful
+agent dies
+nr agents fail
+model 6 fail 64 / 87  successful
+model 6 success 65 / 88  successful
+nr assignments fail
+model 6 fail 65 / 89  successful
+model 6 success 66 / 90  successful
+model 6 success 67 / 91  successful
+model 6 success 68 / 92  successful
+model 6 success 69 / 93  successful
+model 6 success 70 / 94  successful
+model 6 success 71 / 95  successful
+model 6 success 72 / 96  successful
+model 6 success 73 / 97  successful
+agent dies
+nr agents fail
+model 6 fail 73 / 98  successful
+model 6 success 74 / 99  successful
+model 6 success 75 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND7
+Loaded model from disk
+model 7 success 1 / 1  successful
+model 7 success 2 / 2  successful
+nr assignments fail
+model 7 fail 2 / 3  successful
+nr assignments fail
+model 7 fail 2 / 4  successful
+model 7 success 3 / 5  successful
+model 7 success 4 / 6  successful
+model 7 success 5 / 7  successful
+model 7 success 6 / 8  successful
+model 7 success 7 / 9  successful
+agent dies
+nr agents fail
+model 7 fail 7 / 10  successful
+nr assignments fail
+model 7 fail 7 / 11  successful
+nr assignments fail
+model 7 fail 7 / 12  successful
+nr assignments fail
+model 7 fail 7 / 13  successful
+nr assignments fail
+model 7 fail 7 / 14  successful
+nr assignments fail
+model 7 fail 7 / 15  successful
+model 7 success 8 / 16  successful
+nr assignments fail
+model 7 fail 8 / 17  successful
+nr assignments fail
+model 7 fail 8 / 18  successful
+nr assignments fail
+model 7 fail 8 / 19  successful
+nr assignments fail
+model 7 fail 8 / 20  successful
+nr assignments fail
+model 7 fail 8 / 21  successful
+model 7 success 9 / 22  successful
+nr assignments fail
+model 7 fail 9 / 23  successful
+model 7 success 10 / 24  successful
+model 7 success 11 / 25  successful
+model 7 success 12 / 26  successful
+agent dies
+nr agents fail
+model 7 fail 12 / 27  successful
+model 7 success 13 / 28  successful
+model 7 success 14 / 29  successful
+model 7 success 15 / 30  successful
+model 7 success 16 / 31  successful
+model 7 success 17 / 32  successful
+model 7 success 18 / 33  successful
+model 7 success 19 / 34  successful
+model 7 success 20 / 35  successful
+model 7 success 21 / 36  successful
+model 7 success 22 / 37  successful
+model 7 success 23 / 38  successful
+nr assignments fail
+model 7 fail 23 / 39  successful
+nr assignments fail
+model 7 fail 23 / 40  successful
+model 7 success 24 / 41  successful
+model 7 success 25 / 42  successful
+model 7 success 26 / 43  successful
+nr assignments fail
+model 7 fail 26 / 44  successful
+nr assignments fail
+model 7 fail 26 / 45  successful
+model 7 success 27 / 46  successful
+model 7 success 28 / 47  successful
+model 7 success 29 / 48  successful
+model 7 success 30 / 49  successful
+model 7 success 31 / 50  successful
+model 7 success 32 / 51  successful
+nr assignments fail
+model 7 fail 32 / 52  successful
+agent dies
+nr agents fail
+model 7 fail 32 / 53  successful
+agent dies
+nr agents fail
+model 7 fail 32 / 54  successful
+model 7 success 33 / 55  successful
+model 7 success 34 / 56  successful
+agent dies
+nr agents fail
+model 7 fail 34 / 57  successful
+model 7 success 35 / 58  successful
+model 7 success 36 / 59  successful
+model 7 success 37 / 60  successful
+model 7 success 38 / 61  successful
+nr assignments fail
+model 7 fail 38 / 62  successful
+nr assignments fail
+model 7 fail 38 / 63  successful
+agent dies
+nr agents fail
+model 7 fail 38 / 64  successful
+model 7 success 39 / 65  successful
+model 7 success 40 / 66  successful
+model 7 success 41 / 67  successful
+model 7 success 42 / 68  successful
+agent dies
+nr agents fail
+model 7 fail 42 / 69  successful
+model 7 success 43 / 70  successful
+model 7 success 44 / 71  successful
+model 7 success 45 / 72  successful
+model 7 success 46 / 73  successful
+nr assignments fail
+model 7 fail 46 / 74  successful
+model 7 success 47 / 75  successful
+nr assignments fail
+model 7 fail 47 / 76  successful
+model 7 success 48 / 77  successful
+nr assignments fail
+model 7 fail 48 / 78  successful
+model 7 success 49 / 79  successful
+model 7 success 50 / 80  successful
+model 7 success 51 / 81  successful
+model 7 success 52 / 82  successful
+nr assignments fail
+model 7 fail 52 / 83  successful
+model 7 success 53 / 84  successful
+model 7 success 54 / 85  successful
+model 7 success 55 / 86  successful
+model 7 success 56 / 87  successful
+agent dies
+nr agents fail
+model 7 fail 56 / 88  successful
+nr assignments fail
+model 7 fail 56 / 89  successful
+model 7 success 57 / 90  successful
+model 7 success 58 / 91  successful
+nr assignments fail
+model 7 fail 58 / 92  successful
+nr assignments fail
+model 7 fail 58 / 93  successful
+model 7 success 59 / 94  successful
+model 7 success 60 / 95  successful
+model 7 success 61 / 96  successful
+model 7 success 62 / 97  successful
+model 7 success 63 / 98  successful
+model 7 success 64 / 99  successful
+model 7 success 65 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND8
+Loaded model from disk
+model 8 success 1 / 1  successful
+model 8 success 2 / 2  successful
+agent dies
+nr agents fail
+model 8 fail 2 / 3  successful
+model 8 success 3 / 4  successful
+agent dies
+nr agents fail
+model 8 fail 3 / 5  successful
+model 8 success 4 / 6  successful
+model 8 success 5 / 7  successful
+agent dies
+nr agents fail
+model 8 fail 5 / 8  successful
+model 8 success 6 / 9  successful
+model 8 success 7 / 10  successful
+model 8 success 8 / 11  successful
+agent dies
+nr agents fail
+model 8 fail 8 / 12  successful
+model 8 success 9 / 13  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 14  successful
+model 8 success 10 / 15  successful
+model 8 success 11 / 16  successful
+agent dies
+nr agents fail
+model 8 fail 11 / 17  successful
+agent dies
+nr agents fail
+model 8 fail 11 / 18  successful
+model 8 success 12 / 19  successful
+nr assignments fail
+model 8 fail 12 / 20  successful
+agent dies
+nr agents fail
+model 8 fail 12 / 21  successful
+model 8 success 13 / 22  successful
+nr assignments fail
+model 8 fail 13 / 23  successful
+model 8 success 14 / 24  successful
+model 8 success 15 / 25  successful
+agent dies
+nr agents fail
+model 8 fail 15 / 26  successful
+model 8 success 16 / 27  successful
+model 8 success 17 / 28  successful
+model 8 success 18 / 29  successful
+model 8 success 19 / 30  successful
+model 8 success 20 / 31  successful
+model 8 success 21 / 32  successful
+agent dies
+nr agents fail
+model 8 fail 21 / 33  successful
+model 8 success 22 / 34  successful
+model 8 success 23 / 35  successful
+model 8 success 24 / 36  successful
+model 8 success 25 / 37  successful
+model 8 success 26 / 38  successful
+model 8 success 27 / 39  successful
+model 8 success 28 / 40  successful
+nr assignments fail
+model 8 fail 28 / 41  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 42  successful
+model 8 success 29 / 43  successful
+agent dies
+nr agents fail
+model 8 fail 29 / 44  successful
+model 8 success 30 / 45  successful
+agent dies
+nr agents fail
+model 8 fail 30 / 46  successful
+model 8 success 31 / 47  successful
+model 8 success 32 / 48  successful
+model 8 success 33 / 49  successful
+model 8 success 34 / 50  successful
+agent dies
+nr agents fail
+model 8 fail 34 / 51  successful
+agent dies
+nr agents fail
+model 8 fail 34 / 52  successful
+agent dies
+nr agents fail
+model 8 fail 34 / 53  successful
+model 8 success 35 / 54  successful
+model 8 success 36 / 55  successful
+model 8 success 37 / 56  successful
+model 8 success 38 / 57  successful
+model 8 success 39 / 58  successful
+model 8 success 40 / 59  successful
+model 8 success 41 / 60  successful
+model 8 success 42 / 61  successful
+nr assignments fail
+model 8 fail 42 / 62  successful
+agent dies
+nr agents fail
+model 8 fail 42 / 63  successful
+agent dies
+nr agents fail
+model 8 fail 42 / 64  successful
+agent dies
+nr agents fail
+model 8 fail 42 / 65  successful
+model 8 success 43 / 66  successful
+agent dies
+nr agents fail
+model 8 fail 43 / 67  successful
+model 8 success 44 / 68  successful
+model 8 success 45 / 69  successful
+agent dies
+nr agents fail
+model 8 fail 45 / 70  successful
+model 8 success 46 / 71  successful
+model 8 success 47 / 72  successful
+model 8 success 48 / 73  successful
+model 8 success 49 / 74  successful
+model 8 success 50 / 75  successful
+model 8 success 51 / 76  successful
+agent dies
+nr agents fail
+model 8 fail 51 / 77  successful
+model 8 success 52 / 78  successful
+agent dies
+nr agents fail
+model 8 fail 52 / 79  successful
+model 8 success 53 / 80  successful
+model 8 success 54 / 81  successful
+model 8 success 55 / 82  successful
+model 8 success 56 / 83  successful
+agent dies
+nr agents fail
+model 8 fail 56 / 84  successful
+model 8 success 57 / 85  successful
+agent dies
+nr agents fail
+model 8 fail 57 / 86  successful
+model 8 success 58 / 87  successful
+agent dies
+nr agents fail
+model 8 fail 58 / 88  successful
+model 8 success 59 / 89  successful
+model 8 success 60 / 90  successful
+agent dies
+nr agents fail
+model 8 fail 60 / 91  successful
+agent dies
+nr agents fail
+model 8 fail 60 / 92  successful
+agent dies
+nr agents fail
+model 8 fail 60 / 93  successful
+model 8 success 61 / 94  successful
+model 8 success 62 / 95  successful
+model 8 success 63 / 96  successful
+agent dies
+nr agents fail
+model 8 fail 63 / 97  successful
+agent dies
+nr agents fail
+model 8 fail 63 / 98  successful
+model 8 success 64 / 99  successful
+model 8 success 65 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND9
+Loaded model from disk
+nr assignments fail
+model 9 fail 0 / 1  successful
+model 9 success 1 / 2  successful
+model 9 success 2 / 3  successful
+agent dies
+nr agents fail
+model 9 fail 2 / 4  successful
+model 9 success 3 / 5  successful
+model 9 success 4 / 6  successful
+agent dies
+nr agents fail
+model 9 fail 4 / 7  successful
+model 9 success 5 / 8  successful
+model 9 success 6 / 9  successful
+nr assignments fail
+model 9 fail 6 / 10  successful
+model 9 success 7 / 11  successful
+agent dies
+nr agents fail
+model 9 fail 7 / 12  successful
+model 9 success 8 / 13  successful
+agent dies
+nr agents fail
+model 9 fail 8 / 14  successful
+model 9 success 9 / 15  successful
+model 9 success 10 / 16  successful
+model 9 success 11 / 17  successful
+model 9 success 12 / 18  successful
+model 9 success 13 / 19  successful
+model 9 success 14 / 20  successful
+agent dies
+nr agents fail
+model 9 fail 14 / 21  successful
+model 9 success 15 / 22  successful
+model 9 success 16 / 23  successful
+model 9 success 17 / 24  successful
+model 9 success 18 / 25  successful
+model 9 success 19 / 26  successful
+agent dies
+nr agents fail
+model 9 fail 19 / 27  successful
+model 9 success 20 / 28  successful
+model 9 success 21 / 29  successful
+model 9 success 22 / 30  successful
+model 9 success 23 / 31  successful
+model 9 success 24 / 32  successful
+model 9 success 25 / 33  successful
+model 9 success 26 / 34  successful
+model 9 success 27 / 35  successful
+model 9 success 28 / 36  successful
+model 9 success 29 / 37  successful
+model 9 success 30 / 38  successful
+model 9 success 31 / 39  successful
+model 9 success 32 / 40  successful
+model 9 success 33 / 41  successful
+model 9 success 34 / 42  successful
+model 9 success 35 / 43  successful
+model 9 success 36 / 44  successful
+nr assignments fail
+model 9 fail 36 / 45  successful
+model 9 success 37 / 46  successful
+model 9 success 38 / 47  successful
+nr assignments fail
+model 9 fail 38 / 48  successful
+model 9 success 39 / 49  successful
+model 9 success 40 / 50  successful
+model 9 success 41 / 51  successful
+agent dies
+nr agents fail
+model 9 fail 41 / 52  successful
+agent dies
+nr agents fail
+model 9 fail 41 / 53  successful
+model 9 success 42 / 54  successful
+model 9 success 43 / 55  successful
+agent dies
+nr agents fail
+model 9 fail 43 / 56  successful
+model 9 success 44 / 57  successful
+agent dies
+nr agents fail
+model 9 fail 44 / 58  successful
+model 9 success 45 / 59  successful
+model 9 success 46 / 60  successful
+model 9 success 47 / 61  successful
+model 9 success 48 / 62  successful
+model 9 success 49 / 63  successful
+model 9 success 50 / 64  successful
+model 9 success 51 / 65  successful
+nr assignments fail
+model 9 fail 51 / 66  successful
+nr assignments fail
+model 9 fail 51 / 67  successful
+model 9 success 52 / 68  successful
+model 9 success 53 / 69  successful
+model 9 success 54 / 70  successful
+model 9 success 55 / 71  successful
+nr assignments fail
+model 9 fail 55 / 72  successful
+model 9 success 56 / 73  successful
+model 9 success 57 / 74  successful
+model 9 success 58 / 75  successful
+model 9 success 59 / 76  successful
+model 9 success 60 / 77  successful
+model 9 success 61 / 78  successful
+model 9 success 62 / 79  successful
+model 9 success 63 / 80  successful
+model 9 success 64 / 81  successful
+model 9 success 65 / 82  successful
+nr assignments fail
+model 9 fail 65 / 83  successful
+model 9 success 66 / 84  successful
+model 9 success 67 / 85  successful
+model 9 success 68 / 86  successful
+model 9 success 69 / 87  successful
+model 9 success 70 / 88  successful
+model 9 success 71 / 89  successful
+model 9 success 72 / 90  successful
+model 9 success 73 / 91  successful
+model 9 success 74 / 92  successful
+agent dies
+nr agents fail
+model 9 fail 74 / 93  successful
+model 9 success 75 / 94  successful
+model 9 success 76 / 95  successful
+model 9 success 77 / 96  successful
+model 9 success 78 / 97  successful
+model 9 success 79 / 98  successful
+model 9 success 80 / 99  successful
+model 9 success 81 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND10
+Loaded model from disk
+model 10 success 1 / 1  successful
+model 10 success 2 / 2  successful
+model 10 success 3 / 3  successful
+model 10 success 4 / 4  successful
+model 10 success 5 / 5  successful
+model 10 success 6 / 6  successful
+model 10 success 7 / 7  successful
+model 10 success 8 / 8  successful
+model 10 success 9 / 9  successful
+nr assignments fail
+model 10 fail 9 / 10  successful
+model 10 success 10 / 11  successful
+model 10 success 11 / 12  successful
+model 10 success 12 / 13  successful
+model 10 success 13 / 14  successful
+model 10 success 14 / 15  successful
+agent dies
+nr agents fail
+model 10 fail 14 / 16  successful
+model 10 success 15 / 17  successful
+model 10 success 16 / 18  successful
+model 10 success 17 / 19  successful
+model 10 success 18 / 20  successful
+model 10 success 19 / 21  successful
+agent dies
+nr agents fail
+model 10 fail 19 / 22  successful
+model 10 success 20 / 23  successful
+agent dies
+nr agents fail
+model 10 fail 20 / 24  successful
+model 10 success 21 / 25  successful
+agent dies
+nr agents fail
+model 10 fail 21 / 26  successful
+model 10 success 22 / 27  successful
+model 10 success 23 / 28  successful
+model 10 success 24 / 29  successful
+model 10 success 25 / 30  successful
+model 10 success 26 / 31  successful
+agent dies
+nr agents fail
+model 10 fail 26 / 32  successful
+agent dies
+nr agents fail
+model 10 fail 26 / 33  successful
+model 10 success 27 / 34  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 27 / 35  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 27 / 36  successful
+agent dies
+nr agents fail
+model 10 fail 27 / 37  successful
+agent dies
+nr agents fail
+model 10 fail 27 / 38  successful
+agent dies
+nr agents fail
+model 10 fail 27 / 39  successful
+agent dies
+nr agents fail
+model 10 fail 27 / 40  successful
+model 10 success 28 / 41  successful
+model 10 success 29 / 42  successful
+model 10 success 30 / 43  successful
+agent dies
+nr agents fail
+model 10 fail 30 / 44  successful
+model 10 success 31 / 45  successful
+model 10 success 32 / 46  successful
+model 10 success 33 / 47  successful
+model 10 success 34 / 48  successful
+model 10 success 35 / 49  successful
+model 10 success 36 / 50  successful
+nr assignments fail
+model 10 fail 36 / 51  successful
+model 10 success 37 / 52  successful
+model 10 success 38 / 53  successful
+agent dies
+nr agents fail
+model 10 fail 38 / 54  successful
+nr assignments fail
+model 10 fail 38 / 55  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 38 / 56  successful
+model 10 success 39 / 57  successful
+model 10 success 40 / 58  successful
+model 10 success 41 / 59  successful
+model 10 success 42 / 60  successful
+model 10 success 43 / 61  successful
+model 10 success 44 / 62  successful
+model 10 success 45 / 63  successful
+agent dies
+nr agents fail
+model 10 fail 45 / 64  successful
+model 10 success 46 / 65  successful
+model 10 success 47 / 66  successful
+agent dies
+nr agents fail
+model 10 fail 47 / 67  successful
+model 10 success 48 / 68  successful
+model 10 success 49 / 69  successful
+model 10 success 50 / 70  successful
+model 10 success 51 / 71  successful
+model 10 success 52 / 72  successful
+model 10 success 53 / 73  successful
+model 10 success 54 / 74  successful
+nr assignments fail
+model 10 fail 54 / 75  successful
+model 10 success 55 / 76  successful
+model 10 success 56 / 77  successful
+agent dies
+nr agents fail
+model 10 fail 56 / 78  successful
+model 10 success 57 / 79  successful
+agent dies
+nr agents fail
+model 10 fail 57 / 80  successful
+agent dies
+nr agents fail
+model 10 fail 57 / 81  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 57 / 82  successful
+model 10 success 58 / 83  successful
+model 10 success 59 / 84  successful
+agent dies
+nr agents fail
+model 10 fail 59 / 85  successful
+model 10 success 60 / 86  successful
+model 10 success 61 / 87  successful
+model 10 success 62 / 88  successful
+model 10 success 63 / 89  successful
+agent dies
+nr agents fail
+model 10 fail 63 / 90  successful
+model 10 success 64 / 91  successful
+model 10 success 65 / 92  successful
+agent dies
+nr agents fail
+model 10 fail 65 / 93  successful
+model 10 success 66 / 94  successful
+model 10 success 67 / 95  successful
+model 10 success 68 / 96  successful
+model 10 success 69 / 97  successful
+model 10 success 70 / 98  successful
+model 10 success 71 / 99  successful
+model 10 success 72 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND11
+Loaded model from disk
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 1  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 2  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 3  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 4  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 5  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 6  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 7  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 8  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 9  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 10  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 11  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 12  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 13  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 14  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 15  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 16  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 17  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 18  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 19  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 20  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 21  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 22  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 23  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 24  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 25  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 26  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 27  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 28  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 29  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 30  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 31  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 32  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 33  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 34  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 35  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 36  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 37  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 38  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 39  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 40  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 41  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 42  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 43  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 44  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 45  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 46  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 47  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 48  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 49  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 50  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 51  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 52  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 53  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 54  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 55  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 56  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 57  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 58  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 59  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 60  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 61  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 62  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 63  successful
+agent dies
+agent dies
+nr agents fail
+model 11 fail 0 / 64  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 65  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 66  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 67  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 68  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 69  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 70  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 71  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 72  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 73  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 74  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 75  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 76  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 77  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 78  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 79  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 80  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 81  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 82  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 83  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 84  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 85  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 86  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 87  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 88  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 89  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 90  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 91  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 92  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 93  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 94  successful
+agent dies
+nr agents fail
+model 11 fail 0 / 95  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 96  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 97  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 98  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 99  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 11 fail 0 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND12
+Loaded model from disk
+nr assignments fail
+model 12 fail 0 / 1  successful
+model 12 success 1 / 2  successful
+model 12 success 2 / 3  successful
+model 12 success 3 / 4  successful
+model 12 success 4 / 5  successful
+model 12 success 5 / 6  successful
+model 12 success 6 / 7  successful
+model 12 success 7 / 8  successful
+model 12 success 8 / 9  successful
+nr assignments fail
+model 12 fail 8 / 10  successful
+model 12 success 9 / 11  successful
+agent dies
+nr agents fail
+model 12 fail 9 / 12  successful
+nr assignments fail
+model 12 fail 9 / 13  successful
+model 12 success 10 / 14  successful
+model 12 success 11 / 15  successful
+model 12 success 12 / 16  successful
+model 12 success 13 / 17  successful
+model 12 success 14 / 18  successful
+model 12 success 15 / 19  successful
+model 12 success 16 / 20  successful
+model 12 success 17 / 21  successful
+model 12 success 18 / 22  successful
+agent dies
+nr agents fail
+model 12 fail 18 / 23  successful
+model 12 success 19 / 24  successful
+model 12 success 20 / 25  successful
+model 12 success 21 / 26  successful
+model 12 success 22 / 27  successful
+model 12 success 23 / 28  successful
+model 12 success 24 / 29  successful
+model 12 success 25 / 30  successful
+model 12 success 26 / 31  successful
+model 12 success 27 / 32  successful
+model 12 success 28 / 33  successful
+model 12 success 29 / 34  successful
+model 12 success 30 / 35  successful
+model 12 success 31 / 36  successful
+model 12 success 32 / 37  successful
+model 12 success 33 / 38  successful
+nr assignments fail
+model 12 fail 33 / 39  successful
+nr assignments fail
+model 12 fail 33 / 40  successful
+nr assignments fail
+model 12 fail 33 / 41  successful
+model 12 success 34 / 42  successful
+model 12 success 35 / 43  successful
+nr assignments fail
+model 12 fail 35 / 44  successful
+model 12 success 36 / 45  successful
+nr assignments fail
+model 12 fail 36 / 46  successful
+model 12 success 37 / 47  successful
+model 12 success 38 / 48  successful
+model 12 success 39 / 49  successful
+model 12 success 40 / 50  successful
+model 12 success 41 / 51  successful
+model 12 success 42 / 52  successful
+model 12 success 43 / 53  successful
+agent dies
+nr agents fail
+model 12 fail 43 / 54  successful
+agent dies
+nr agents fail
+model 12 fail 43 / 55  successful
+nr assignments fail
+model 12 fail 43 / 56  successful
+model 12 success 44 / 57  successful
+model 12 success 45 / 58  successful
+model 12 success 46 / 59  successful
+model 12 success 47 / 60  successful
+model 12 success 48 / 61  successful
+model 12 success 49 / 62  successful
+model 12 success 50 / 63  successful
+model 12 success 51 / 64  successful
+model 12 success 52 / 65  successful
+model 12 success 53 / 66  successful
+model 12 success 54 / 67  successful
+model 12 success 55 / 68  successful
+model 12 success 56 / 69  successful
+model 12 success 57 / 70  successful
+model 12 success 58 / 71  successful
+model 12 success 59 / 72  successful
+model 12 success 60 / 73  successful
+model 12 success 61 / 74  successful
+nr assignments fail
+model 12 fail 61 / 75  successful
+model 12 success 62 / 76  successful
+nr assignments fail
+model 12 fail 62 / 77  successful
+model 12 success 63 / 78  successful
+model 12 success 64 / 79  successful
+model 12 success 65 / 80  successful
+model 12 success 66 / 81  successful
+model 12 success 67 / 82  successful
+model 12 success 68 / 83  successful
+model 12 success 69 / 84  successful
+model 12 success 70 / 85  successful
+model 12 success 71 / 86  successful
+agent dies
+nr agents fail
+model 12 fail 71 / 87  successful
+model 12 success 72 / 88  successful
+model 12 success 73 / 89  successful
+nr assignments fail
+model 12 fail 73 / 90  successful
+model 12 success 74 / 91  successful
+model 12 success 75 / 92  successful
+model 12 success 76 / 93  successful
+model 12 success 77 / 94  successful
+model 12 success 78 / 95  successful
+model 12 success 79 / 96  successful
+model 12 success 80 / 97  successful
+nr assignments fail
+model 12 fail 80 / 98  successful
+model 12 success 81 / 99  successful
+model 12 success 82 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND13
+Loaded model from disk
+model 13 success 1 / 1  successful
+model 13 success 2 / 2  successful
+model 13 success 3 / 3  successful
+model 13 success 4 / 4  successful
+agent dies
+nr agents fail
+model 13 fail 4 / 5  successful
+model 13 success 5 / 6  successful
+model 13 success 6 / 7  successful
+model 13 success 7 / 8  successful
+model 13 success 8 / 9  successful
+agent dies
+nr agents fail
+model 13 fail 8 / 10  successful
+agent dies
+nr agents fail
+model 13 fail 8 / 11  successful
+model 13 success 9 / 12  successful
+model 13 success 10 / 13  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 14  successful
+model 13 success 11 / 15  successful
+nr assignments fail
+model 13 fail 11 / 16  successful
+agent dies
+nr agents fail
+model 13 fail 11 / 17  successful
+agent dies
+nr agents fail
+model 13 fail 11 / 18  successful
+nr assignments fail
+model 13 fail 11 / 19  successful
+model 13 success 12 / 20  successful
+model 13 success 13 / 21  successful
+model 13 success 14 / 22  successful
+model 13 success 15 / 23  successful
+agent dies
+nr agents fail
+model 13 fail 15 / 24  successful
+model 13 success 16 / 25  successful
+model 13 success 17 / 26  successful
+model 13 success 18 / 27  successful
+model 13 success 19 / 28  successful
+nr assignments fail
+model 13 fail 19 / 29  successful
+agent dies
+nr agents fail
+model 13 fail 19 / 30  successful
+nr assignments fail
+model 13 fail 19 / 31  successful
+nr assignments fail
+model 13 fail 19 / 32  successful
+agent dies
+nr agents fail
+model 13 fail 19 / 33  successful
+agent dies
+nr agents fail
+model 13 fail 19 / 34  successful
+model 13 success 20 / 35  successful
+agent dies
+nr agents fail
+model 13 fail 20 / 36  successful
+model 13 success 21 / 37  successful
+agent dies
+nr agents fail
+model 13 fail 21 / 38  successful
+model 13 success 22 / 39  successful
+model 13 success 23 / 40  successful
+model 13 success 24 / 41  successful
+model 13 success 25 / 42  successful
+nr assignments fail
+model 13 fail 25 / 43  successful
+agent dies
+nr agents fail
+model 13 fail 25 / 44  successful
+model 13 success 26 / 45  successful
+agent dies
+nr agents fail
+model 13 fail 26 / 46  successful
+nr assignments fail
+model 13 fail 26 / 47  successful
+model 13 success 27 / 48  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 27 / 49  successful
+model 13 success 28 / 50  successful
+agent dies
+nr agents fail
+model 13 fail 28 / 51  successful
+model 13 success 29 / 52  successful
+model 13 success 30 / 53  successful
+model 13 success 31 / 54  successful
+model 13 success 32 / 55  successful
+agent dies
+nr agents fail
+model 13 fail 32 / 56  successful
+agent dies
+nr agents fail
+model 13 fail 32 / 57  successful
+model 13 success 33 / 58  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 33 / 59  successful
+agent dies
+nr agents fail
+model 13 fail 33 / 60  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 33 / 61  successful
+agent dies
+nr agents fail
+model 13 fail 33 / 62  successful
+agent dies
+nr agents fail
+model 13 fail 33 / 63  successful
+model 13 success 34 / 64  successful
+agent dies
+nr agents fail
+model 13 fail 34 / 65  successful
+model 13 success 35 / 66  successful
+model 13 success 36 / 67  successful
+model 13 success 37 / 68  successful
+model 13 success 38 / 69  successful
+nr assignments fail
+model 13 fail 38 / 70  successful
+model 13 success 39 / 71  successful
+model 13 success 40 / 72  successful
+agent dies
+nr agents fail
+model 13 fail 40 / 73  successful
+agent dies
+nr agents fail
+model 13 fail 40 / 74  successful
+agent dies
+nr agents fail
+model 13 fail 40 / 75  successful
+model 13 success 41 / 76  successful
+agent dies
+nr agents fail
+model 13 fail 41 / 77  successful
+nr assignments fail
+model 13 fail 41 / 78  successful
+model 13 success 42 / 79  successful
+agent dies
+nr agents fail
+model 13 fail 42 / 80  successful
+agent dies
+nr agents fail
+model 13 fail 42 / 81  successful
+model 13 success 43 / 82  successful
+model 13 success 44 / 83  successful
+model 13 success 45 / 84  successful
+model 13 success 46 / 85  successful
+model 13 success 47 / 86  successful
+agent dies
+nr agents fail
+model 13 fail 47 / 87  successful
+agent dies
+nr agents fail
+model 13 fail 47 / 88  successful
+agent dies
+nr agents fail
+model 13 fail 47 / 89  successful
+model 13 success 48 / 90  successful
+agent dies
+nr agents fail
+model 13 fail 48 / 91  successful
+model 13 success 49 / 92  successful
+nr assignments fail
+model 13 fail 49 / 93  successful
+agent dies
+nr agents fail
+model 13 fail 49 / 94  successful
+agent dies
+nr agents fail
+model 13 fail 49 / 95  successful
+model 13 success 50 / 96  successful
+model 13 success 51 / 97  successful
+agent dies
+nr agents fail
+model 13 fail 51 / 98  successful
+model 13 success 52 / 99  successful
+model 13 success 53 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND14
+Loaded model from disk
+model 14 success 1 / 1  successful
+model 14 success 2 / 2  successful
+model 14 success 3 / 3  successful
+model 14 success 4 / 4  successful
+model 14 success 5 / 5  successful
+model 14 success 6 / 6  successful
+model 14 success 7 / 7  successful
+model 14 success 8 / 8  successful
+model 14 success 9 / 9  successful
+agent dies
+nr agents fail
+model 14 fail 9 / 10  successful
+agent dies
+nr agents fail
+model 14 fail 9 / 11  successful
+model 14 success 10 / 12  successful
+nr assignments fail
+model 14 fail 10 / 13  successful
+model 14 success 11 / 14  successful
+model 14 success 12 / 15  successful
+model 14 success 13 / 16  successful
+agent dies
+agent dies
+nr agents fail
+model 14 fail 13 / 17  successful
+model 14 success 14 / 18  successful
+model 14 success 15 / 19  successful
+model 14 success 16 / 20  successful
+model 14 success 17 / 21  successful
+agent dies
+nr agents fail
+model 14 fail 17 / 22  successful
+agent dies
+nr agents fail
+model 14 fail 17 / 23  successful
+model 14 success 18 / 24  successful
+model 14 success 19 / 25  successful
+agent dies
+nr agents fail
+model 14 fail 19 / 26  successful
+model 14 success 20 / 27  successful
+model 14 success 21 / 28  successful
+model 14 success 22 / 29  successful
+model 14 success 23 / 30  successful
+model 14 success 24 / 31  successful
+model 14 success 25 / 32  successful
+model 14 success 26 / 33  successful
+nr assignments fail
+model 14 fail 26 / 34  successful
+model 14 success 27 / 35  successful
+model 14 success 28 / 36  successful
+nr assignments fail
+model 14 fail 28 / 37  successful
+model 14 success 29 / 38  successful
+model 14 success 30 / 39  successful
+nr assignments fail
+model 14 fail 30 / 40  successful
+model 14 success 31 / 41  successful
+model 14 success 32 / 42  successful
+model 14 success 33 / 43  successful
+model 14 success 34 / 44  successful
+model 14 success 35 / 45  successful
+agent dies
+nr agents fail
+model 14 fail 35 / 46  successful
+model 14 success 36 / 47  successful
+model 14 success 37 / 48  successful
+model 14 success 38 / 49  successful
+agent dies
+nr agents fail
+model 14 fail 38 / 50  successful
+model 14 success 39 / 51  successful
+agent dies
+nr agents fail
+model 14 fail 39 / 52  successful
+model 14 success 40 / 53  successful
+model 14 success 41 / 54  successful
+nr assignments fail
+model 14 fail 41 / 55  successful
+nr assignments fail
+model 14 fail 41 / 56  successful
+agent dies
+nr agents fail
+model 14 fail 41 / 57  successful
+model 14 success 42 / 58  successful
+model 14 success 43 / 59  successful
+model 14 success 44 / 60  successful
+model 14 success 45 / 61  successful
+nr assignments fail
+model 14 fail 45 / 62  successful
+agent dies
+nr agents fail
+model 14 fail 45 / 63  successful
+agent dies
+nr agents fail
+model 14 fail 45 / 64  successful
+model 14 success 46 / 65  successful
+nr assignments fail
+model 14 fail 46 / 66  successful
+nr assignments fail
+model 14 fail 46 / 67  successful
+model 14 success 47 / 68  successful
+model 14 success 48 / 69  successful
+model 14 success 49 / 70  successful
+model 14 success 50 / 71  successful
+model 14 success 51 / 72  successful
+nr assignments fail
+model 14 fail 51 / 73  successful
+model 14 success 52 / 74  successful
+model 14 success 53 / 75  successful
+agent dies
+nr agents fail
+model 14 fail 53 / 76  successful
+agent dies
+nr agents fail
+model 14 fail 53 / 77  successful
+model 14 success 54 / 78  successful
+model 14 success 55 / 79  successful
+agent dies
+nr agents fail
+model 14 fail 55 / 80  successful
+model 14 success 56 / 81  successful
+model 14 success 57 / 82  successful
+model 14 success 58 / 83  successful
+model 14 success 59 / 84  successful
+model 14 success 60 / 85  successful
+model 14 success 61 / 86  successful
+model 14 success 62 / 87  successful
+model 14 success 63 / 88  successful
+model 14 success 64 / 89  successful
+agent dies
+nr agents fail
+model 14 fail 64 / 90  successful
+model 14 success 65 / 91  successful
+model 14 success 66 / 92  successful
+model 14 success 67 / 93  successful
+model 14 success 68 / 94  successful
+model 14 success 69 / 95  successful
+model 14 success 70 / 96  successful
+model 14 success 71 / 97  successful
+model 14 success 72 / 98  successful
+model 14 success 73 / 99  successful
+model 14 success 74 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND15
+Loaded model from disk
+model 15 success 1 / 1  successful
+model 15 success 2 / 2  successful
+model 15 success 3 / 3  successful
+model 15 success 4 / 4  successful
+model 15 success 5 / 5  successful
+nr assignments fail
+model 15 fail 5 / 6  successful
+agent dies
+nr agents fail
+model 15 fail 5 / 7  successful
+model 15 success 6 / 8  successful
+model 15 success 7 / 9  successful
+model 15 success 8 / 10  successful
+model 15 success 9 / 11  successful
+model 15 success 10 / 12  successful
+model 15 success 11 / 13  successful
+agent dies
+nr agents fail
+model 15 fail 11 / 14  successful
+nr assignments fail
+model 15 fail 11 / 15  successful
+model 15 success 12 / 16  successful
+nr assignments fail
+model 15 fail 12 / 17  successful
+model 15 success 13 / 18  successful
+nr assignments fail
+model 15 fail 13 / 19  successful
+agent dies
+nr agents fail
+model 15 fail 13 / 20  successful
+model 15 success 14 / 21  successful
+nr assignments fail
+model 15 fail 14 / 22  successful
+model 15 success 15 / 23  successful
+nr assignments fail
+model 15 fail 15 / 24  successful
+model 15 success 16 / 25  successful
+agent dies
+nr agents fail
+model 15 fail 16 / 26  successful
+model 15 success 17 / 27  successful
+model 15 success 18 / 28  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 29  successful
+model 15 success 19 / 30  successful
+model 15 success 20 / 31  successful
+model 15 success 21 / 32  successful
+agent dies
+nr agents fail
+model 15 fail 21 / 33  successful
+model 15 success 22 / 34  successful
+model 15 success 23 / 35  successful
+nr assignments fail
+model 15 fail 23 / 36  successful
+model 15 success 24 / 37  successful
+model 15 success 25 / 38  successful
+model 15 success 26 / 39  successful
+model 15 success 27 / 40  successful
+model 15 success 28 / 41  successful
+model 15 success 29 / 42  successful
+model 15 success 30 / 43  successful
+model 15 success 31 / 44  successful
+nr assignments fail
+model 15 fail 31 / 45  successful
+model 15 success 32 / 46  successful
+model 15 success 33 / 47  successful
+model 15 success 34 / 48  successful
+model 15 success 35 / 49  successful
+model 15 success 36 / 50  successful
+model 15 success 37 / 51  successful
+agent dies
+nr agents fail
+model 15 fail 37 / 52  successful
+model 15 success 38 / 53  successful
+model 15 success 39 / 54  successful
+agent dies
+nr agents fail
+model 15 fail 39 / 55  successful
+model 15 success 40 / 56  successful
+model 15 success 41 / 57  successful
+model 15 success 42 / 58  successful
+model 15 success 43 / 59  successful
+agent dies
+nr agents fail
+model 15 fail 43 / 60  successful
+agent dies
+agent dies
+nr agents fail
+model 15 fail 43 / 61  successful
+model 15 success 44 / 62  successful
+nr assignments fail
+model 15 fail 44 / 63  successful
+model 15 success 45 / 64  successful
+agent dies
+nr agents fail
+model 15 fail 45 / 65  successful
+model 15 success 46 / 66  successful
+model 15 success 47 / 67  successful
+nr assignments fail
+model 15 fail 47 / 68  successful
+model 15 success 48 / 69  successful
+model 15 success 49 / 70  successful
+nr assignments fail
+model 15 fail 49 / 71  successful
+model 15 success 50 / 72  successful
+model 15 success 51 / 73  successful
+model 15 success 52 / 74  successful
+model 15 success 53 / 75  successful
+agent dies
+nr agents fail
+model 15 fail 53 / 76  successful
+nr assignments fail
+model 15 fail 53 / 77  successful
+nr assignments fail
+model 15 fail 53 / 78  successful
+agent dies
+nr agents fail
+model 15 fail 53 / 79  successful
+model 15 success 54 / 80  successful
+nr assignments fail
+model 15 fail 54 / 81  successful
+model 15 success 55 / 82  successful
+model 15 success 56 / 83  successful
+agent dies
+nr agents fail
+model 15 fail 56 / 84  successful
+model 15 success 57 / 85  successful
+nr assignments fail
+model 15 fail 57 / 86  successful
+agent dies
+nr agents fail
+model 15 fail 57 / 87  successful
+model 15 success 58 / 88  successful
+agent dies
+nr agents fail
+model 15 fail 58 / 89  successful
+agent dies
+nr agents fail
+model 15 fail 58 / 90  successful
+model 15 success 59 / 91  successful
+model 15 success 60 / 92  successful
+model 15 success 61 / 93  successful
+model 15 success 62 / 94  successful
+model 15 success 63 / 95  successful
+nr assignments fail
+model 15 fail 63 / 96  successful
+model 15 success 64 / 97  successful
+model 15 success 65 / 98  successful
+agent dies
+nr agents fail
+model 15 fail 65 / 99  successful
+model 15 success 66 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND16
+Loaded model from disk
+nr assignments fail
+model 16 fail 0 / 1  successful
+model 16 success 1 / 2  successful
+model 16 success 2 / 3  successful
+model 16 success 3 / 4  successful
+model 16 success 4 / 5  successful
+model 16 success 5 / 6  successful
+model 16 success 6 / 7  successful
+model 16 success 7 / 8  successful
+model 16 success 8 / 9  successful
+model 16 success 9 / 10  successful
+agent dies
+nr agents fail
+model 16 fail 9 / 11  successful
+model 16 success 10 / 12  successful
+model 16 success 11 / 13  successful
+model 16 success 12 / 14  successful
+nr assignments fail
+model 16 fail 12 / 15  successful
+model 16 success 13 / 16  successful
+model 16 success 14 / 17  successful
+model 16 success 15 / 18  successful
+nr assignments fail
+model 16 fail 15 / 19  successful
+model 16 success 16 / 20  successful
+model 16 success 17 / 21  successful
+model 16 success 18 / 22  successful
+model 16 success 19 / 23  successful
+model 16 success 20 / 24  successful
+model 16 success 21 / 25  successful
+model 16 success 22 / 26  successful
+model 16 success 23 / 27  successful
+model 16 success 24 / 28  successful
+model 16 success 25 / 29  successful
+model 16 success 26 / 30  successful
+model 16 success 27 / 31  successful
+model 16 success 28 / 32  successful
+model 16 success 29 / 33  successful
+model 16 success 30 / 34  successful
+model 16 success 31 / 35  successful
+model 16 success 32 / 36  successful
+model 16 success 33 / 37  successful
+model 16 success 34 / 38  successful
+model 16 success 35 / 39  successful
+model 16 success 36 / 40  successful
+agent dies
+nr agents fail
+model 16 fail 36 / 41  successful
+model 16 success 37 / 42  successful
+model 16 success 38 / 43  successful
+agent dies
+nr agents fail
+model 16 fail 38 / 44  successful
+model 16 success 39 / 45  successful
+model 16 success 40 / 46  successful
+model 16 success 41 / 47  successful
+model 16 success 42 / 48  successful
+model 16 success 43 / 49  successful
+model 16 success 44 / 50  successful
+model 16 success 45 / 51  successful
+model 16 success 46 / 52  successful
+model 16 success 47 / 53  successful
+model 16 success 48 / 54  successful
+model 16 success 49 / 55  successful
+model 16 success 50 / 56  successful
+model 16 success 51 / 57  successful
+model 16 success 52 / 58  successful
+model 16 success 53 / 59  successful
+model 16 success 54 / 60  successful
+model 16 success 55 / 61  successful
+model 16 success 56 / 62  successful
+model 16 success 57 / 63  successful
+model 16 success 58 / 64  successful
+model 16 success 59 / 65  successful
+model 16 success 60 / 66  successful
+model 16 success 61 / 67  successful
+model 16 success 62 / 68  successful
+model 16 success 63 / 69  successful
+model 16 success 64 / 70  successful
+model 16 success 65 / 71  successful
+model 16 success 66 / 72  successful
+model 16 success 67 / 73  successful
+model 16 success 68 / 74  successful
+model 16 success 69 / 75  successful
+model 16 success 70 / 76  successful
+model 16 success 71 / 77  successful
+model 16 success 72 / 78  successful
+model 16 success 73 / 79  successful
+nr assignments fail
+model 16 fail 73 / 80  successful
+model 16 success 74 / 81  successful
+model 16 success 75 / 82  successful
+model 16 success 76 / 83  successful
+agent dies
+nr agents fail
+model 16 fail 76 / 84  successful
+model 16 success 77 / 85  successful
+nr assignments fail
+model 16 fail 77 / 86  successful
+model 16 success 78 / 87  successful
+nr assignments fail
+model 16 fail 78 / 88  successful
+model 16 success 79 / 89  successful
+model 16 success 80 / 90  successful
+model 16 success 81 / 91  successful
+model 16 success 82 / 92  successful
+nr assignments fail
+model 16 fail 82 / 93  successful
+model 16 success 83 / 94  successful
+agent dies
+nr agents fail
+model 16 fail 83 / 95  successful
+model 16 success 84 / 96  successful
+agent dies
+nr agents fail
+model 16 fail 84 / 97  successful
+model 16 success 85 / 98  successful
+agent dies
+nr agents fail
+model 16 fail 85 / 99  successful
+nr assignments fail
+model 16 fail 85 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND17
+Loaded model from disk
+model 17 success 1 / 1  successful
+model 17 success 2 / 2  successful
+agent dies
+nr agents fail
+model 17 fail 2 / 3  successful
+model 17 success 3 / 4  successful
+model 17 success 4 / 5  successful
+model 17 success 5 / 6  successful
+model 17 success 6 / 7  successful
+model 17 success 7 / 8  successful
+model 17 success 8 / 9  successful
+model 17 success 9 / 10  successful
+model 17 success 10 / 11  successful
+agent dies
+nr agents fail
+model 17 fail 10 / 12  successful
+model 17 success 11 / 13  successful
+model 17 success 12 / 14  successful
+model 17 success 13 / 15  successful
+model 17 success 14 / 16  successful
+model 17 success 15 / 17  successful
+model 17 success 16 / 18  successful
+agent dies
+nr agents fail
+model 17 fail 16 / 19  successful
+nr assignments fail
+model 17 fail 16 / 20  successful
+model 17 success 17 / 21  successful
+model 17 success 18 / 22  successful
+model 17 success 19 / 23  successful
+model 17 success 20 / 24  successful
+model 17 success 21 / 25  successful
+model 17 success 22 / 26  successful
+model 17 success 23 / 27  successful
+agent dies
+nr agents fail
+model 17 fail 23 / 28  successful
+agent dies
+nr agents fail
+model 17 fail 23 / 29  successful
+model 17 success 24 / 30  successful
+model 17 success 25 / 31  successful
+agent dies
+nr agents fail
+model 17 fail 25 / 32  successful
+nr assignments fail
+model 17 fail 25 / 33  successful
+nr assignments fail
+model 17 fail 25 / 34  successful
+model 17 success 26 / 35  successful
+agent dies
+nr agents fail
+model 17 fail 26 / 36  successful
+model 17 success 27 / 37  successful
+model 17 success 28 / 38  successful
+model 17 success 29 / 39  successful
+agent dies
+nr agents fail
+model 17 fail 29 / 40  successful
+model 17 success 30 / 41  successful
+model 17 success 31 / 42  successful
+agent dies
+nr agents fail
+model 17 fail 31 / 43  successful
+model 17 success 32 / 44  successful
+agent dies
+nr agents fail
+model 17 fail 32 / 45  successful
+model 17 success 33 / 46  successful
+model 17 success 34 / 47  successful
+model 17 success 35 / 48  successful
+agent dies
+nr agents fail
+model 17 fail 35 / 49  successful
+model 17 success 36 / 50  successful
+model 17 success 37 / 51  successful
+model 17 success 38 / 52  successful
+agent dies
+nr agents fail
+model 17 fail 38 / 53  successful
+model 17 success 39 / 54  successful
+model 17 success 40 / 55  successful
+model 17 success 41 / 56  successful
+model 17 success 42 / 57  successful
+model 17 success 43 / 58  successful
+model 17 success 44 / 59  successful
+agent dies
+nr agents fail
+model 17 fail 44 / 60  successful
+model 17 success 45 / 61  successful
+model 17 success 46 / 62  successful
+model 17 success 47 / 63  successful
+model 17 success 48 / 64  successful
+model 17 success 49 / 65  successful
+agent dies
+nr agents fail
+model 17 fail 49 / 66  successful
+model 17 success 50 / 67  successful
+model 17 success 51 / 68  successful
+model 17 success 52 / 69  successful
+model 17 success 53 / 70  successful
+agent dies
+agent dies
+nr agents fail
+model 17 fail 53 / 71  successful
+model 17 success 54 / 72  successful
+model 17 success 55 / 73  successful
+model 17 success 56 / 74  successful
+agent dies
+nr agents fail
+model 17 fail 56 / 75  successful
+model 17 success 57 / 76  successful
+model 17 success 58 / 77  successful
+model 17 success 59 / 78  successful
+model 17 success 60 / 79  successful
+agent dies
+nr agents fail
+model 17 fail 60 / 80  successful
+model 17 success 61 / 81  successful
+model 17 success 62 / 82  successful
+agent dies
+nr agents fail
+model 17 fail 62 / 83  successful
+model 17 success 63 / 84  successful
+model 17 success 64 / 85  successful
+agent dies
+nr agents fail
+model 17 fail 64 / 86  successful
+model 17 success 65 / 87  successful
+model 17 success 66 / 88  successful
+agent dies
+nr agents fail
+model 17 fail 66 / 89  successful
+model 17 success 67 / 90  successful
+model 17 success 68 / 91  successful
+agent dies
+nr agents fail
+model 17 fail 68 / 92  successful
+model 17 success 69 / 93  successful
+agent dies
+nr agents fail
+model 17 fail 69 / 94  successful
+nr assignments fail
+model 17 fail 69 / 95  successful
+agent dies
+nr agents fail
+model 17 fail 69 / 96  successful
+agent dies
+agent dies
+nr agents fail
+model 17 fail 69 / 97  successful
+model 17 success 70 / 98  successful
+model 17 success 71 / 99  successful
+agent dies
+nr agents fail
+model 17 fail 71 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND18
+Loaded model from disk
+model 18 success 1 / 1  successful
+model 18 success 2 / 2  successful
+model 18 success 3 / 3  successful
+agent dies
+nr agents fail
+model 18 fail 3 / 4  successful
+nr assignments fail
+model 18 fail 3 / 5  successful
+model 18 success 4 / 6  successful
+model 18 success 5 / 7  successful
+model 18 success 6 / 8  successful
+model 18 success 7 / 9  successful
+model 18 success 8 / 10  successful
+nr assignments fail
+model 18 fail 8 / 11  successful
+model 18 success 9 / 12  successful
+model 18 success 10 / 13  successful
+model 18 success 11 / 14  successful
+model 18 success 12 / 15  successful
+model 18 success 13 / 16  successful
+agent dies
+nr agents fail
+model 18 fail 13 / 17  successful
+nr assignments fail
+model 18 fail 13 / 18  successful
+nr assignments fail
+model 18 fail 13 / 19  successful
+nr assignments fail
+model 18 fail 13 / 20  successful
+model 18 success 14 / 21  successful
+model 18 success 15 / 22  successful
+model 18 success 16 / 23  successful
+nr assignments fail
+model 18 fail 16 / 24  successful
+model 18 success 17 / 25  successful
+model 18 success 18 / 26  successful
+model 18 success 19 / 27  successful
+model 18 success 20 / 28  successful
+model 18 success 21 / 29  successful
+model 18 success 22 / 30  successful
+nr assignments fail
+model 18 fail 22 / 31  successful
+nr assignments fail
+model 18 fail 22 / 32  successful
+model 18 success 23 / 33  successful
+model 18 success 24 / 34  successful
+model 18 success 25 / 35  successful
+model 18 success 26 / 36  successful
+model 18 success 27 / 37  successful
+model 18 success 28 / 38  successful
+model 18 success 29 / 39  successful
+model 18 success 30 / 40  successful
+agent dies
+nr agents fail
+model 18 fail 30 / 41  successful
+model 18 success 31 / 42  successful
+model 18 success 32 / 43  successful
+model 18 success 33 / 44  successful
+model 18 success 34 / 45  successful
+model 18 success 35 / 46  successful
+model 18 success 36 / 47  successful
+nr assignments fail
+model 18 fail 36 / 48  successful
+model 18 success 37 / 49  successful
+nr assignments fail
+model 18 fail 37 / 50  successful
+agent dies
+nr agents fail
+model 18 fail 37 / 51  successful
+model 18 success 38 / 52  successful
+agent dies
+nr agents fail
+model 18 fail 38 / 53  successful
+model 18 success 39 / 54  successful
+model 18 success 40 / 55  successful
+model 18 success 41 / 56  successful
+model 18 success 42 / 57  successful
+model 18 success 43 / 58  successful
+model 18 success 44 / 59  successful
+model 18 success 45 / 60  successful
+agent dies
+nr agents fail
+model 18 fail 45 / 61  successful
+nr assignments fail
+model 18 fail 45 / 62  successful
+model 18 success 46 / 63  successful
+model 18 success 47 / 64  successful
+model 18 success 48 / 65  successful
+agent dies
+nr agents fail
+model 18 fail 48 / 66  successful
+model 18 success 49 / 67  successful
+nr assignments fail
+model 18 fail 49 / 68  successful
+model 18 success 50 / 69  successful
+model 18 success 51 / 70  successful
+nr assignments fail
+model 18 fail 51 / 71  successful
+model 18 success 52 / 72  successful
+nr assignments fail
+model 18 fail 52 / 73  successful
+model 18 success 53 / 74  successful
+model 18 success 54 / 75  successful
+nr assignments fail
+model 18 fail 54 / 76  successful
+model 18 success 55 / 77  successful
+nr assignments fail
+model 18 fail 55 / 78  successful
+agent dies
+nr agents fail
+model 18 fail 55 / 79  successful
+agent dies
+nr agents fail
+model 18 fail 55 / 80  successful
+model 18 success 56 / 81  successful
+model 18 success 57 / 82  successful
+agent dies
+agent dies
+nr agents fail
+model 18 fail 57 / 83  successful
+model 18 success 58 / 84  successful
+model 18 success 59 / 85  successful
+model 18 success 60 / 86  successful
+model 18 success 61 / 87  successful
+agent dies
+nr agents fail
+model 18 fail 61 / 88  successful
+model 18 success 62 / 89  successful
+model 18 success 63 / 90  successful
+model 18 success 64 / 91  successful
+model 18 success 65 / 92  successful
+model 18 success 66 / 93  successful
+model 18 success 67 / 94  successful
+nr assignments fail
+model 18 fail 67 / 95  successful
+model 18 success 68 / 96  successful
+nr assignments fail
+model 18 fail 68 / 97  successful
+nr assignments fail
+model 18 fail 68 / 98  successful
+model 18 success 69 / 99  successful
+nr assignments fail
+model 18 fail 69 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND19
+Loaded model from disk
+model 19 success 1 / 1  successful
+model 19 success 2 / 2  successful
+model 19 success 3 / 3  successful
+model 19 success 4 / 4  successful
+model 19 success 5 / 5  successful
+model 19 success 6 / 6  successful
+model 19 success 7 / 7  successful
+model 19 success 8 / 8  successful
+model 19 success 9 / 9  successful
+model 19 success 10 / 10  successful
+nr assignments fail
+model 19 fail 10 / 11  successful
+model 19 success 11 / 12  successful
+model 19 success 12 / 13  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 14  successful
+model 19 success 13 / 15  successful
+nr assignments fail
+model 19 fail 13 / 16  successful
+nr assignments fail
+model 19 fail 13 / 17  successful
+model 19 success 14 / 18  successful
+model 19 success 15 / 19  successful
+agent dies
+nr agents fail
+model 19 fail 15 / 20  successful
+model 19 success 16 / 21  successful
+model 19 success 17 / 22  successful
+model 19 success 18 / 23  successful
+model 19 success 19 / 24  successful
+model 19 success 20 / 25  successful
+model 19 success 21 / 26  successful
+model 19 success 22 / 27  successful
+nr assignments fail
+model 19 fail 22 / 28  successful
+model 19 success 23 / 29  successful
+nr assignments fail
+model 19 fail 23 / 30  successful
+model 19 success 24 / 31  successful
+model 19 success 25 / 32  successful
+model 19 success 26 / 33  successful
+model 19 success 27 / 34  successful
+model 19 success 28 / 35  successful
+model 19 success 29 / 36  successful
+model 19 success 30 / 37  successful
+model 19 success 31 / 38  successful
+model 19 success 32 / 39  successful
+model 19 success 33 / 40  successful
+model 19 success 34 / 41  successful
+model 19 success 35 / 42  successful
+model 19 success 36 / 43  successful
+model 19 success 37 / 44  successful
+nr assignments fail
+model 19 fail 37 / 45  successful
+agent dies
+nr agents fail
+model 19 fail 37 / 46  successful
+model 19 success 38 / 47  successful
+model 19 success 39 / 48  successful
+model 19 success 40 / 49  successful
+model 19 success 41 / 50  successful
+model 19 success 42 / 51  successful
+agent dies
+nr agents fail
+model 19 fail 42 / 52  successful
+agent dies
+nr agents fail
+model 19 fail 42 / 53  successful
+model 19 success 43 / 54  successful
+nr assignments fail
+model 19 fail 43 / 55  successful
+model 19 success 44 / 56  successful
+model 19 success 45 / 57  successful
+model 19 success 46 / 58  successful
+model 19 success 47 / 59  successful
+agent dies
+nr agents fail
+model 19 fail 47 / 60  successful
+agent dies
+nr agents fail
+model 19 fail 47 / 61  successful
+model 19 success 48 / 62  successful
+agent dies
+nr agents fail
+model 19 fail 48 / 63  successful
+model 19 success 49 / 64  successful
+model 19 success 50 / 65  successful
+agent dies
+nr agents fail
+model 19 fail 50 / 66  successful
+model 19 success 51 / 67  successful
+model 19 success 52 / 68  successful
+model 19 success 53 / 69  successful
+model 19 success 54 / 70  successful
+model 19 success 55 / 71  successful
+agent dies
+nr agents fail
+model 19 fail 55 / 72  successful
+nr assignments fail
+model 19 fail 55 / 73  successful
+agent dies
+nr agents fail
+model 19 fail 55 / 74  successful
+model 19 success 56 / 75  successful
+model 19 success 57 / 76  successful
+nr assignments fail
+model 19 fail 57 / 77  successful
+model 19 success 58 / 78  successful
+model 19 success 59 / 79  successful
+model 19 success 60 / 80  successful
+model 19 success 61 / 81  successful
+model 19 success 62 / 82  successful
+agent dies
+nr agents fail
+model 19 fail 62 / 83  successful
+model 19 success 63 / 84  successful
+model 19 success 64 / 85  successful
+model 19 success 65 / 86  successful
+model 19 success 66 / 87  successful
+model 19 success 67 / 88  successful
+model 19 success 68 / 89  successful
+agent dies
+nr agents fail
+model 19 fail 68 / 90  successful
+model 19 success 69 / 91  successful
+model 19 success 70 / 92  successful
+model 19 success 71 / 93  successful
+model 19 success 72 / 94  successful
+nr assignments fail
+model 19 fail 72 / 95  successful
+agent dies
+nr agents fail
+model 19 fail 72 / 96  successful
+nr assignments fail
+model 19 fail 72 / 97  successful
+agent dies
+nr agents fail
+model 19 fail 72 / 98  successful
+agent dies
+nr agents fail
+model 19 fail 72 / 99  successful
+model 19 success 73 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND20
+Loaded model from disk
+model 20 success 1 / 1  successful
+model 20 success 2 / 2  successful
+nr assignments fail
+model 20 fail 2 / 3  successful
+model 20 success 3 / 4  successful
+model 20 success 4 / 5  successful
+model 20 success 5 / 6  successful
+nr assignments fail
+model 20 fail 5 / 7  successful
+model 20 success 6 / 8  successful
+nr assignments fail
+model 20 fail 6 / 9  successful
+model 20 success 7 / 10  successful
+model 20 success 8 / 11  successful
+model 20 success 9 / 12  successful
+model 20 success 10 / 13  successful
+agent dies
+nr agents fail
+model 20 fail 10 / 14  successful
+model 20 success 11 / 15  successful
+agent dies
+nr agents fail
+model 20 fail 11 / 16  successful
+nr assignments fail
+model 20 fail 11 / 17  successful
+model 20 success 12 / 18  successful
+model 20 success 13 / 19  successful
+agent dies
+nr agents fail
+model 20 fail 13 / 20  successful
+agent dies
+nr agents fail
+model 20 fail 13 / 21  successful
+model 20 success 14 / 22  successful
+model 20 success 15 / 23  successful
+model 20 success 16 / 24  successful
+model 20 success 17 / 25  successful
+model 20 success 18 / 26  successful
+model 20 success 19 / 27  successful
+model 20 success 20 / 28  successful
+nr assignments fail
+model 20 fail 20 / 29  successful
+agent dies
+nr agents fail
+model 20 fail 20 / 30  successful
+model 20 success 21 / 31  successful
+model 20 success 22 / 32  successful
+model 20 success 23 / 33  successful
+agent dies
+nr agents fail
+model 20 fail 23 / 34  successful
+model 20 success 24 / 35  successful
+nr assignments fail
+model 20 fail 24 / 36  successful
+nr assignments fail
+model 20 fail 24 / 37  successful
+model 20 success 25 / 38  successful
+agent dies
+nr agents fail
+model 20 fail 25 / 39  successful
+model 20 success 26 / 40  successful
+model 20 success 27 / 41  successful
+model 20 success 28 / 42  successful
+model 20 success 29 / 43  successful
+model 20 success 30 / 44  successful
+nr assignments fail
+model 20 fail 30 / 45  successful
+agent dies
+nr agents fail
+model 20 fail 30 / 46  successful
+model 20 success 31 / 47  successful
+model 20 success 32 / 48  successful
+model 20 success 33 / 49  successful
+nr assignments fail
+model 20 fail 33 / 50  successful
+model 20 success 34 / 51  successful
+model 20 success 35 / 52  successful
+model 20 success 36 / 53  successful
+model 20 success 37 / 54  successful
+model 20 success 38 / 55  successful
+model 20 success 39 / 56  successful
+model 20 success 40 / 57  successful
+nr assignments fail
+model 20 fail 40 / 58  successful
+model 20 success 41 / 59  successful
+model 20 success 42 / 60  successful
+model 20 success 43 / 61  successful
+agent dies
+nr agents fail
+model 20 fail 43 / 62  successful
+model 20 success 44 / 63  successful
+model 20 success 45 / 64  successful
+model 20 success 46 / 65  successful
+agent dies
+nr agents fail
+model 20 fail 46 / 66  successful
+agent dies
+nr agents fail
+model 20 fail 46 / 67  successful
+model 20 success 47 / 68  successful
+model 20 success 48 / 69  successful
+model 20 success 49 / 70  successful
+model 20 success 50 / 71  successful
+agent dies
+nr agents fail
+model 20 fail 50 / 72  successful
+model 20 success 51 / 73  successful
+model 20 success 52 / 74  successful
+model 20 success 53 / 75  successful
+model 20 success 54 / 76  successful
+agent dies
+nr agents fail
+model 20 fail 54 / 77  successful
+nr assignments fail
+model 20 fail 54 / 78  successful
+model 20 success 55 / 79  successful
+model 20 success 56 / 80  successful
+model 20 success 57 / 81  successful
+model 20 success 58 / 82  successful
+nr assignments fail
+model 20 fail 58 / 83  successful
+model 20 success 59 / 84  successful
+model 20 success 60 / 85  successful
+model 20 success 61 / 86  successful
+model 20 success 62 / 87  successful
+model 20 success 63 / 88  successful
+nr assignments fail
+model 20 fail 63 / 89  successful
+model 20 success 64 / 90  successful
+model 20 success 65 / 91  successful
+nr assignments fail
+model 20 fail 65 / 92  successful
+model 20 success 66 / 93  successful
+agent dies
+agent dies
+nr agents fail
+model 20 fail 66 / 94  successful
+model 20 success 67 / 95  successful
+model 20 success 68 / 96  successful
+model 20 success 69 / 97  successful
+model 20 success 70 / 98  successful
+model 20 success 71 / 99  successful
+agent dies
+agent dies
+nr agents fail
+model 20 fail 71 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND21
+Loaded model from disk
+model 21 success 1 / 1  successful
+model 21 success 2 / 2  successful
+model 21 success 3 / 3  successful
+model 21 success 4 / 4  successful
+model 21 success 5 / 5  successful
+agent dies
+nr agents fail
+model 21 fail 5 / 6  successful
+model 21 success 6 / 7  successful
+agent dies
+nr agents fail
+model 21 fail 6 / 8  successful
+model 21 success 7 / 9  successful
+model 21 success 8 / 10  successful
+model 21 success 9 / 11  successful
+model 21 success 10 / 12  successful
+nr assignments fail
+model 21 fail 10 / 13  successful
+agent dies
+nr agents fail
+model 21 fail 10 / 14  successful
+agent dies
+nr agents fail
+model 21 fail 10 / 15  successful
+model 21 success 11 / 16  successful
+agent dies
+agent dies
+nr agents fail
+model 21 fail 11 / 17  successful
+model 21 success 12 / 18  successful
+model 21 success 13 / 19  successful
+model 21 success 14 / 20  successful
+model 21 success 15 / 21  successful
+model 21 success 16 / 22  successful
+model 21 success 17 / 23  successful
+agent dies
+nr agents fail
+model 21 fail 17 / 24  successful
+model 21 success 18 / 25  successful
+model 21 success 19 / 26  successful
+model 21 success 20 / 27  successful
+model 21 success 21 / 28  successful
+model 21 success 22 / 29  successful
+model 21 success 23 / 30  successful
+model 21 success 24 / 31  successful
+nr assignments fail
+model 21 fail 24 / 32  successful
+model 21 success 25 / 33  successful
+agent dies
+agent dies
+nr agents fail
+model 21 fail 25 / 34  successful
+agent dies
+nr agents fail
+model 21 fail 25 / 35  successful
+model 21 success 26 / 36  successful
+model 21 success 27 / 37  successful
+model 21 success 28 / 38  successful
+model 21 success 29 / 39  successful
+model 21 success 30 / 40  successful
+model 21 success 31 / 41  successful
+model 21 success 32 / 42  successful
+model 21 success 33 / 43  successful
+model 21 success 34 / 44  successful
+model 21 success 35 / 45  successful
+model 21 success 36 / 46  successful
+model 21 success 37 / 47  successful
+model 21 success 38 / 48  successful
+model 21 success 39 / 49  successful
+model 21 success 40 / 50  successful
+model 21 success 41 / 51  successful
+model 21 success 42 / 52  successful
+model 21 success 43 / 53  successful
+model 21 success 44 / 54  successful
+model 21 success 45 / 55  successful
+model 21 success 46 / 56  successful
+nr assignments fail
+model 21 fail 46 / 57  successful
+model 21 success 47 / 58  successful
+model 21 success 48 / 59  successful
+agent dies
+nr agents fail
+model 21 fail 48 / 60  successful
+nr assignments fail
+model 21 fail 48 / 61  successful
+model 21 success 49 / 62  successful
+model 21 success 50 / 63  successful
+model 21 success 51 / 64  successful
+model 21 success 52 / 65  successful
+model 21 success 53 / 66  successful
+model 21 success 54 / 67  successful
+nr assignments fail
+model 21 fail 54 / 68  successful
+model 21 success 55 / 69  successful
+model 21 success 56 / 70  successful
+model 21 success 57 / 71  successful
+agent dies
+nr agents fail
+model 21 fail 57 / 72  successful
+agent dies
+nr agents fail
+model 21 fail 57 / 73  successful
+agent dies
+nr agents fail
+model 21 fail 57 / 74  successful
+agent dies
+nr agents fail
+model 21 fail 57 / 75  successful
+model 21 success 58 / 76  successful
+model 21 success 59 / 77  successful
+model 21 success 60 / 78  successful
+model 21 success 61 / 79  successful
+model 21 success 62 / 80  successful
+model 21 success 63 / 81  successful
+model 21 success 64 / 82  successful
+model 21 success 65 / 83  successful
+model 21 success 66 / 84  successful
+model 21 success 67 / 85  successful
+model 21 success 68 / 86  successful
+model 21 success 69 / 87  successful
+model 21 success 70 / 88  successful
+nr assignments fail
+model 21 fail 70 / 89  successful
+model 21 success 71 / 90  successful
+model 21 success 72 / 91  successful
+model 21 success 73 / 92  successful
+model 21 success 74 / 93  successful
+model 21 success 75 / 94  successful
+model 21 success 76 / 95  successful
+model 21 success 77 / 96  successful
+model 21 success 78 / 97  successful
+model 21 success 79 / 98  successful
+model 21 success 80 / 99  successful
+model 21 success 81 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND22
+Loaded model from disk
+model 22 success 1 / 1  successful
+model 22 success 2 / 2  successful
+model 22 success 3 / 3  successful
+model 22 success 4 / 4  successful
+model 22 success 5 / 5  successful
+model 22 success 6 / 6  successful
+model 22 success 7 / 7  successful
+agent dies
+nr agents fail
+model 22 fail 7 / 8  successful
+model 22 success 8 / 9  successful
+nr assignments fail
+model 22 fail 8 / 10  successful
+model 22 success 9 / 11  successful
+model 22 success 10 / 12  successful
+model 22 success 11 / 13  successful
+model 22 success 12 / 14  successful
+model 22 success 13 / 15  successful
+nr assignments fail
+model 22 fail 13 / 16  successful
+model 22 success 14 / 17  successful
+model 22 success 15 / 18  successful
+nr assignments fail
+model 22 fail 15 / 19  successful
+model 22 success 16 / 20  successful
+model 22 success 17 / 21  successful
+model 22 success 18 / 22  successful
+agent dies
+nr agents fail
+model 22 fail 18 / 23  successful
+model 22 success 19 / 24  successful
+model 22 success 20 / 25  successful
+model 22 success 21 / 26  successful
+model 22 success 22 / 27  successful
+model 22 success 23 / 28  successful
+model 22 success 24 / 29  successful
+model 22 success 25 / 30  successful
+model 22 success 26 / 31  successful
+model 22 success 27 / 32  successful
+model 22 success 28 / 33  successful
+nr assignments fail
+model 22 fail 28 / 34  successful
+model 22 success 29 / 35  successful
+model 22 success 30 / 36  successful
+nr assignments fail
+model 22 fail 30 / 37  successful
+nr assignments fail
+model 22 fail 30 / 38  successful
+model 22 success 31 / 39  successful
+nr assignments fail
+model 22 fail 31 / 40  successful
+nr assignments fail
+model 22 fail 31 / 41  successful
+model 22 success 32 / 42  successful
+model 22 success 33 / 43  successful
+model 22 success 34 / 44  successful
+nr assignments fail
+model 22 fail 34 / 45  successful
+model 22 success 35 / 46  successful
+model 22 success 36 / 47  successful
+model 22 success 37 / 48  successful
+nr assignments fail
+model 22 fail 37 / 49  successful
+agent dies
+nr agents fail
+model 22 fail 37 / 50  successful
+model 22 success 38 / 51  successful
+model 22 success 39 / 52  successful
+model 22 success 40 / 53  successful
+model 22 success 41 / 54  successful
+model 22 success 42 / 55  successful
+model 22 success 43 / 56  successful
+model 22 success 44 / 57  successful
+nr assignments fail
+model 22 fail 44 / 58  successful
+model 22 success 45 / 59  successful
+model 22 success 46 / 60  successful
+model 22 success 47 / 61  successful
+model 22 success 48 / 62  successful
+model 22 success 49 / 63  successful
+nr assignments fail
+model 22 fail 49 / 64  successful
+model 22 success 50 / 65  successful
+model 22 success 51 / 66  successful
+model 22 success 52 / 67  successful
+model 22 success 53 / 68  successful
+model 22 success 54 / 69  successful
+model 22 success 55 / 70  successful
+model 22 success 56 / 71  successful
+model 22 success 57 / 72  successful
+model 22 success 58 / 73  successful
+model 22 success 59 / 74  successful
+nr assignments fail
+model 22 fail 59 / 75  successful
+agent dies
+nr agents fail
+model 22 fail 59 / 76  successful
+model 22 success 60 / 77  successful
+nr assignments fail
+model 22 fail 60 / 78  successful
+model 22 success 61 / 79  successful
+nr assignments fail
+model 22 fail 61 / 80  successful
+model 22 success 62 / 81  successful
+nr assignments fail
+model 22 fail 62 / 82  successful
+model 22 success 63 / 83  successful
+model 22 success 64 / 84  successful
+agent dies
+nr agents fail
+model 22 fail 64 / 85  successful
+nr assignments fail
+model 22 fail 64 / 86  successful
+model 22 success 65 / 87  successful
+model 22 success 66 / 88  successful
+model 22 success 67 / 89  successful
+model 22 success 68 / 90  successful
+model 22 success 69 / 91  successful
+model 22 success 70 / 92  successful
+model 22 success 71 / 93  successful
+agent dies
+nr agents fail
+model 22 fail 71 / 94  successful
+nr assignments fail
+model 22 fail 71 / 95  successful
+model 22 success 72 / 96  successful
+agent dies
+nr agents fail
+model 22 fail 72 / 97  successful
+agent dies
+nr agents fail
+model 22 fail 72 / 98  successful
+model 22 success 73 / 99  successful
+model 22 success 74 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND23
+Loaded model from disk
+agent dies
+nr agents fail
+model 23 fail 0 / 1  successful
+model 23 success 1 / 2  successful
+model 23 success 2 / 3  successful
+model 23 success 3 / 4  successful
+model 23 success 4 / 5  successful
+model 23 success 5 / 6  successful
+model 23 success 6 / 7  successful
+model 23 success 7 / 8  successful
+agent dies
+nr agents fail
+model 23 fail 7 / 9  successful
+model 23 success 8 / 10  successful
+model 23 success 9 / 11  successful
+agent dies
+agent dies
+nr agents fail
+model 23 fail 9 / 12  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 13  successful
+model 23 success 10 / 14  successful
+model 23 success 11 / 15  successful
+agent dies
+nr agents fail
+model 23 fail 11 / 16  successful
+model 23 success 12 / 17  successful
+agent dies
+agent dies
+nr agents fail
+model 23 fail 12 / 18  successful
+nr assignments fail
+model 23 fail 12 / 19  successful
+model 23 success 13 / 20  successful
+nr assignments fail
+model 23 fail 13 / 21  successful
+agent dies
+nr agents fail
+model 23 fail 13 / 22  successful
+nr assignments fail
+model 23 fail 13 / 23  successful
+model 23 success 14 / 24  successful
+model 23 success 15 / 25  successful
+model 23 success 16 / 26  successful
+model 23 success 17 / 27  successful
+agent dies
+nr agents fail
+model 23 fail 17 / 28  successful
+agent dies
+nr agents fail
+model 23 fail 17 / 29  successful
+agent dies
+nr agents fail
+model 23 fail 17 / 30  successful
+agent dies
+nr agents fail
+model 23 fail 17 / 31  successful
+model 23 success 18 / 32  successful
+model 23 success 19 / 33  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 34  successful
+model 23 success 20 / 35  successful
+model 23 success 21 / 36  successful
+model 23 success 22 / 37  successful
+model 23 success 23 / 38  successful
+agent dies
+nr agents fail
+model 23 fail 23 / 39  successful
+agent dies
+nr agents fail
+model 23 fail 23 / 40  successful
+agent dies
+nr agents fail
+model 23 fail 23 / 41  successful
+agent dies
+nr agents fail
+model 23 fail 23 / 42  successful
+agent dies
+agent dies
+nr agents fail
+model 23 fail 23 / 43  successful
+model 23 success 24 / 44  successful
+model 23 success 25 / 45  successful
+nr assignments fail
+model 23 fail 25 / 46  successful
+model 23 success 26 / 47  successful
+model 23 success 27 / 48  successful
+agent dies
+nr agents fail
+model 23 fail 27 / 49  successful
+model 23 success 28 / 50  successful
+agent dies
+nr agents fail
+model 23 fail 28 / 51  successful
+model 23 success 29 / 52  successful
+agent dies
+nr agents fail
+model 23 fail 29 / 53  successful
+model 23 success 30 / 54  successful
+agent dies
+nr agents fail
+model 23 fail 30 / 55  successful
+model 23 success 31 / 56  successful
+model 23 success 32 / 57  successful
+agent dies
+nr agents fail
+model 23 fail 32 / 58  successful
+agent dies
+nr agents fail
+model 23 fail 32 / 59  successful
+model 23 success 33 / 60  successful
+agent dies
+nr agents fail
+model 23 fail 33 / 61  successful
+model 23 success 34 / 62  successful
+model 23 success 35 / 63  successful
+model 23 success 36 / 64  successful
+model 23 success 37 / 65  successful
+model 23 success 38 / 66  successful
+model 23 success 39 / 67  successful
+agent dies
+nr agents fail
+model 23 fail 39 / 68  successful
+model 23 success 40 / 69  successful
+model 23 success 41 / 70  successful
+model 23 success 42 / 71  successful
+agent dies
+nr agents fail
+model 23 fail 42 / 72  successful
+model 23 success 43 / 73  successful
+agent dies
+nr agents fail
+model 23 fail 43 / 74  successful
+model 23 success 44 / 75  successful
+nr assignments fail
+model 23 fail 44 / 76  successful
+model 23 success 45 / 77  successful
+agent dies
+nr agents fail
+model 23 fail 45 / 78  successful
+model 23 success 46 / 79  successful
+nr assignments fail
+model 23 fail 46 / 80  successful
+agent dies
+nr agents fail
+model 23 fail 46 / 81  successful
+agent dies
+nr agents fail
+model 23 fail 46 / 82  successful
+model 23 success 47 / 83  successful
+agent dies
+nr agents fail
+model 23 fail 47 / 84  successful
+model 23 success 48 / 85  successful
+model 23 success 49 / 86  successful
+agent dies
+nr agents fail
+model 23 fail 49 / 87  successful
+agent dies
+nr agents fail
+model 23 fail 49 / 88  successful
+model 23 success 50 / 89  successful
+model 23 success 51 / 90  successful
+model 23 success 52 / 91  successful
+model 23 success 53 / 92  successful
+model 23 success 54 / 93  successful
+model 23 success 55 / 94  successful
+model 23 success 56 / 95  successful
+model 23 success 57 / 96  successful
+model 23 success 58 / 97  successful
+agent dies
+agent dies
+nr agents fail
+model 23 fail 58 / 98  successful
+model 23 success 59 / 99  successful
+model 23 success 60 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND24
+Loaded model from disk
+nr assignments fail
+model 24 fail 0 / 1  successful
+nr assignments fail
+model 24 fail 0 / 2  successful
+model 24 success 1 / 3  successful
+nr assignments fail
+model 24 fail 1 / 4  successful
+model 24 success 2 / 5  successful
+model 24 success 3 / 6  successful
+model 24 success 4 / 7  successful
+agent dies
+nr agents fail
+model 24 fail 4 / 8  successful
+agent dies
+nr agents fail
+model 24 fail 4 / 9  successful
+model 24 success 5 / 10  successful
+agent dies
+nr agents fail
+model 24 fail 5 / 11  successful
+agent dies
+nr agents fail
+model 24 fail 5 / 12  successful
+agent dies
+nr agents fail
+model 24 fail 5 / 13  successful
+nr assignments fail
+model 24 fail 5 / 14  successful
+model 24 success 6 / 15  successful
+model 24 success 7 / 16  successful
+model 24 success 8 / 17  successful
+nr assignments fail
+model 24 fail 8 / 18  successful
+model 24 success 9 / 19  successful
+model 24 success 10 / 20  successful
+model 24 success 11 / 21  successful
+model 24 success 12 / 22  successful
+model 24 success 13 / 23  successful
+model 24 success 14 / 24  successful
+nr assignments fail
+model 24 fail 14 / 25  successful
+agent dies
+nr agents fail
+model 24 fail 14 / 26  successful
+model 24 success 15 / 27  successful
+model 24 success 16 / 28  successful
+model 24 success 17 / 29  successful
+model 24 success 18 / 30  successful
+model 24 success 19 / 31  successful
+model 24 success 20 / 32  successful
+agent dies
+nr agents fail
+model 24 fail 20 / 33  successful
+model 24 success 21 / 34  successful
+model 24 success 22 / 35  successful
+model 24 success 23 / 36  successful
+agent dies
+nr agents fail
+model 24 fail 23 / 37  successful
+model 24 success 24 / 38  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 39  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 40  successful
+model 24 success 25 / 41  successful
+model 24 success 26 / 42  successful
+agent dies
+nr agents fail
+model 24 fail 26 / 43  successful
+model 24 success 27 / 44  successful
+agent dies
+nr agents fail
+model 24 fail 27 / 45  successful
+model 24 success 28 / 46  successful
+model 24 success 29 / 47  successful
+model 24 success 30 / 48  successful
+nr assignments fail
+model 24 fail 30 / 49  successful
+model 24 success 31 / 50  successful
+model 24 success 32 / 51  successful
+nr assignments fail
+model 24 fail 32 / 52  successful
+model 24 success 33 / 53  successful
+nr assignments fail
+model 24 fail 33 / 54  successful
+model 24 success 34 / 55  successful
+model 24 success 35 / 56  successful
+model 24 success 36 / 57  successful
+model 24 success 37 / 58  successful
+model 24 success 38 / 59  successful
+agent dies
+nr agents fail
+model 24 fail 38 / 60  successful
+model 24 success 39 / 61  successful
+model 24 success 40 / 62  successful
+model 24 success 41 / 63  successful
+model 24 success 42 / 64  successful
+model 24 success 43 / 65  successful
+model 24 success 44 / 66  successful
+model 24 success 45 / 67  successful
+nr assignments fail
+model 24 fail 45 / 68  successful
+agent dies
+nr agents fail
+model 24 fail 45 / 69  successful
+model 24 success 46 / 70  successful
+model 24 success 47 / 71  successful
+model 24 success 48 / 72  successful
+model 24 success 49 / 73  successful
+model 24 success 50 / 74  successful
+model 24 success 51 / 75  successful
+model 24 success 52 / 76  successful
+model 24 success 53 / 77  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 53 / 78  successful
+model 24 success 54 / 79  successful
+agent dies
+nr agents fail
+model 24 fail 54 / 80  successful
+model 24 success 55 / 81  successful
+model 24 success 56 / 82  successful
+model 24 success 57 / 83  successful
+agent dies
+nr agents fail
+model 24 fail 57 / 84  successful
+model 24 success 58 / 85  successful
+agent dies
+nr agents fail
+model 24 fail 58 / 86  successful
+model 24 success 59 / 87  successful
+model 24 success 60 / 88  successful
+model 24 success 61 / 89  successful
+model 24 success 62 / 90  successful
+model 24 success 63 / 91  successful
+agent dies
+nr agents fail
+model 24 fail 63 / 92  successful
+model 24 success 64 / 93  successful
+model 24 success 65 / 94  successful
+model 24 success 66 / 95  successful
+nr assignments fail
+model 24 fail 66 / 96  successful
+model 24 success 67 / 97  successful
+model 24 success 68 / 98  successful
+model 24 success 69 / 99  successful
+agent dies
+nr agents fail
+model 24 fail 69 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND25
+Loaded model from disk
+model 25 success 1 / 1  successful
+agent dies
+nr agents fail
+model 25 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 25 fail 1 / 3  successful
+nr assignments fail
+model 25 fail 1 / 4  successful
+model 25 success 2 / 5  successful
+agent dies
+nr agents fail
+model 25 fail 2 / 6  successful
+model 25 success 3 / 7  successful
+model 25 success 4 / 8  successful
+agent dies
+nr agents fail
+model 25 fail 4 / 9  successful
+agent dies
+nr agents fail
+model 25 fail 4 / 10  successful
+agent dies
+nr agents fail
+model 25 fail 4 / 11  successful
+model 25 success 5 / 12  successful
+agent dies
+nr agents fail
+model 25 fail 5 / 13  successful
+model 25 success 6 / 14  successful
+model 25 success 7 / 15  successful
+agent dies
+nr agents fail
+model 25 fail 7 / 16  successful
+model 25 success 8 / 17  successful
+agent dies
+nr agents fail
+model 25 fail 8 / 18  successful
+agent dies
+nr agents fail
+model 25 fail 8 / 19  successful
+model 25 success 9 / 20  successful
+model 25 success 10 / 21  successful
+model 25 success 11 / 22  successful
+agent dies
+nr agents fail
+model 25 fail 11 / 23  successful
+nr assignments fail
+model 25 fail 11 / 24  successful
+model 25 success 12 / 25  successful
+model 25 success 13 / 26  successful
+model 25 success 14 / 27  successful
+model 25 success 15 / 28  successful
+model 25 success 16 / 29  successful
+nr assignments fail
+model 25 fail 16 / 30  successful
+model 25 success 17 / 31  successful
+model 25 success 18 / 32  successful
+nr assignments fail
+model 25 fail 18 / 33  successful
+model 25 success 19 / 34  successful
+model 25 success 20 / 35  successful
+agent dies
+nr agents fail
+model 25 fail 20 / 36  successful
+agent dies
+nr agents fail
+model 25 fail 20 / 37  successful
+nr assignments fail
+model 25 fail 20 / 38  successful
+agent dies
+nr agents fail
+model 25 fail 20 / 39  successful
+model 25 success 21 / 40  successful
+agent dies
+nr agents fail
+model 25 fail 21 / 41  successful
+model 25 success 22 / 42  successful
+agent dies
+nr agents fail
+model 25 fail 22 / 43  successful
+model 25 success 23 / 44  successful
+agent dies
+nr agents fail
+model 25 fail 23 / 45  successful
+model 25 success 24 / 46  successful
+nr assignments fail
+model 25 fail 24 / 47  successful
+model 25 success 25 / 48  successful
+nr assignments fail
+model 25 fail 25 / 49  successful
+model 25 success 26 / 50  successful
+model 25 success 27 / 51  successful
+model 25 success 28 / 52  successful
+nr assignments fail
+model 25 fail 28 / 53  successful
+nr assignments fail
+model 25 fail 28 / 54  successful
+model 25 success 29 / 55  successful
+nr assignments fail
+model 25 fail 29 / 56  successful
+model 25 success 30 / 57  successful
+model 25 success 31 / 58  successful
+model 25 success 32 / 59  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 60  successful
+model 25 success 33 / 61  successful
+agent dies
+nr agents fail
+model 25 fail 33 / 62  successful
+model 25 success 34 / 63  successful
+model 25 success 35 / 64  successful
+model 25 success 36 / 65  successful
+agent dies
+nr agents fail
+model 25 fail 36 / 66  successful
+model 25 success 37 / 67  successful
+agent dies
+nr agents fail
+model 25 fail 37 / 68  successful
+model 25 success 38 / 69  successful
+model 25 success 39 / 70  successful
+agent dies
+nr agents fail
+model 25 fail 39 / 71  successful
+model 25 success 40 / 72  successful
+model 25 success 41 / 73  successful
+agent dies
+nr agents fail
+model 25 fail 41 / 74  successful
+model 25 success 42 / 75  successful
+agent dies
+nr agents fail
+model 25 fail 42 / 76  successful
+model 25 success 43 / 77  successful
+agent dies
+nr agents fail
+model 25 fail 43 / 78  successful
+model 25 success 44 / 79  successful
+model 25 success 45 / 80  successful
+agent dies
+nr agents fail
+model 25 fail 45 / 81  successful
+model 25 success 46 / 82  successful
+model 25 success 47 / 83  successful
+model 25 success 48 / 84  successful
+model 25 success 49 / 85  successful
+nr assignments fail
+model 25 fail 49 / 86  successful
+model 25 success 50 / 87  successful
+model 25 success 51 / 88  successful
+model 25 success 52 / 89  successful
+model 25 success 53 / 90  successful
+model 25 success 54 / 91  successful
+model 25 success 55 / 92  successful
+agent dies
+nr agents fail
+model 25 fail 55 / 93  successful
+model 25 success 56 / 94  successful
+model 25 success 57 / 95  successful
+model 25 success 58 / 96  successful
+agent dies
+nr agents fail
+model 25 fail 58 / 97  successful
+model 25 success 59 / 98  successful
+model 25 success 60 / 99  successful
+nr assignments fail
+model 25 fail 60 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND26
+Loaded model from disk
+model 26 success 1 / 1  successful
+model 26 success 2 / 2  successful
+model 26 success 3 / 3  successful
+model 26 success 4 / 4  successful
+model 26 success 5 / 5  successful
+model 26 success 6 / 6  successful
+model 26 success 7 / 7  successful
+agent dies
+nr agents fail
+model 26 fail 7 / 8  successful
+nr assignments fail
+model 26 fail 7 / 9  successful
+model 26 success 8 / 10  successful
+model 26 success 9 / 11  successful
+agent dies
+nr agents fail
+model 26 fail 9 / 12  successful
+agent dies
+nr agents fail
+model 26 fail 9 / 13  successful
+agent dies
+nr agents fail
+model 26 fail 9 / 14  successful
+agent dies
+nr agents fail
+model 26 fail 9 / 15  successful
+agent dies
+nr agents fail
+model 26 fail 9 / 16  successful
+nr assignments fail
+model 26 fail 9 / 17  successful
+model 26 success 10 / 18  successful
+model 26 success 11 / 19  successful
+agent dies
+nr agents fail
+model 26 fail 11 / 20  successful
+agent dies
+nr agents fail
+model 26 fail 11 / 21  successful
+model 26 success 12 / 22  successful
+agent dies
+nr agents fail
+model 26 fail 12 / 23  successful
+agent dies
+nr agents fail
+model 26 fail 12 / 24  successful
+model 26 success 13 / 25  successful
+model 26 success 14 / 26  successful
+agent dies
+nr agents fail
+model 26 fail 14 / 27  successful
+agent dies
+nr agents fail
+model 26 fail 14 / 28  successful
+model 26 success 15 / 29  successful
+agent dies
+nr agents fail
+model 26 fail 15 / 30  successful
+model 26 success 16 / 31  successful
+agent dies
+nr agents fail
+model 26 fail 16 / 32  successful
+agent dies
+nr agents fail
+model 26 fail 16 / 33  successful
+model 26 success 17 / 34  successful
+model 26 success 18 / 35  successful
+model 26 success 19 / 36  successful
+model 26 success 20 / 37  successful
+model 26 success 21 / 38  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 39  successful
+model 26 success 22 / 40  successful
+model 26 success 23 / 41  successful
+nr assignments fail
+model 26 fail 23 / 42  successful
+nr assignments fail
+model 26 fail 23 / 43  successful
+model 26 success 24 / 44  successful
+model 26 success 25 / 45  successful
+model 26 success 26 / 46  successful
+model 26 success 27 / 47  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 48  successful
+model 26 success 28 / 49  successful
+model 26 success 29 / 50  successful
+model 26 success 30 / 51  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 52  successful
+model 26 success 31 / 53  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 26 fail 31 / 54  successful
+model 26 success 32 / 55  successful
+agent dies
+nr agents fail
+model 26 fail 32 / 56  successful
+agent dies
+nr agents fail
+model 26 fail 32 / 57  successful
+model 26 success 33 / 58  successful
+model 26 success 34 / 59  successful
+model 26 success 35 / 60  successful
+model 26 success 36 / 61  successful
+agent dies
+nr agents fail
+model 26 fail 36 / 62  successful
+model 26 success 37 / 63  successful
+agent dies
+nr agents fail
+model 26 fail 37 / 64  successful
+model 26 success 38 / 65  successful
+agent dies
+nr agents fail
+model 26 fail 38 / 66  successful
+model 26 success 39 / 67  successful
+model 26 success 40 / 68  successful
+model 26 success 41 / 69  successful
+agent dies
+nr agents fail
+model 26 fail 41 / 70  successful
+model 26 success 42 / 71  successful
+model 26 success 43 / 72  successful
+model 26 success 44 / 73  successful
+model 26 success 45 / 74  successful
+model 26 success 46 / 75  successful
+model 26 success 47 / 76  successful
+model 26 success 48 / 77  successful
+agent dies
+nr agents fail
+model 26 fail 48 / 78  successful
+model 26 success 49 / 79  successful
+model 26 success 50 / 80  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 26 fail 50 / 81  successful
+model 26 success 51 / 82  successful
+model 26 success 52 / 83  successful
+agent dies
+nr agents fail
+model 26 fail 52 / 84  successful
+agent dies
+nr agents fail
+model 26 fail 52 / 85  successful
+model 26 success 53 / 86  successful
+nr assignments fail
+model 26 fail 53 / 87  successful
+agent dies
+nr agents fail
+model 26 fail 53 / 88  successful
+model 26 success 54 / 89  successful
+model 26 success 55 / 90  successful
+model 26 success 56 / 91  successful
+agent dies
+nr agents fail
+model 26 fail 56 / 92  successful
+model 26 success 57 / 93  successful
+model 26 success 58 / 94  successful
+model 26 success 59 / 95  successful
+model 26 success 60 / 96  successful
+model 26 success 61 / 97  successful
+nr assignments fail
+model 26 fail 61 / 98  successful
+agent dies
+nr agents fail
+model 26 fail 61 / 99  successful
+model 26 success 62 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND27
+Loaded model from disk
+agent dies
+nr agents fail
+model 27 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 27 fail 0 / 2  successful
+model 27 success 1 / 3  successful
+model 27 success 2 / 4  successful
+agent dies
+nr agents fail
+model 27 fail 2 / 5  successful
+agent dies
+nr agents fail
+model 27 fail 2 / 6  successful
+model 27 success 3 / 7  successful
+agent dies
+nr agents fail
+model 27 fail 3 / 8  successful
+model 27 success 4 / 9  successful
+model 27 success 5 / 10  successful
+model 27 success 6 / 11  successful
+model 27 success 7 / 12  successful
+model 27 success 8 / 13  successful
+model 27 success 9 / 14  successful
+model 27 success 10 / 15  successful
+model 27 success 11 / 16  successful
+model 27 success 12 / 17  successful
+model 27 success 13 / 18  successful
+model 27 success 14 / 19  successful
+nr assignments fail
+model 27 fail 14 / 20  successful
+model 27 success 15 / 21  successful
+nr assignments fail
+model 27 fail 15 / 22  successful
+nr assignments fail
+model 27 fail 15 / 23  successful
+model 27 success 16 / 24  successful
+agent dies
+nr agents fail
+model 27 fail 16 / 25  successful
+model 27 success 17 / 26  successful
+model 27 success 18 / 27  successful
+model 27 success 19 / 28  successful
+nr assignments fail
+model 27 fail 19 / 29  successful
+model 27 success 20 / 30  successful
+model 27 success 21 / 31  successful
+model 27 success 22 / 32  successful
+model 27 success 23 / 33  successful
+model 27 success 24 / 34  successful
+model 27 success 25 / 35  successful
+nr assignments fail
+model 27 fail 25 / 36  successful
+model 27 success 26 / 37  successful
+model 27 success 27 / 38  successful
+model 27 success 28 / 39  successful
+model 27 success 29 / 40  successful
+model 27 success 30 / 41  successful
+model 27 success 31 / 42  successful
+model 27 success 32 / 43  successful
+model 27 success 33 / 44  successful
+model 27 success 34 / 45  successful
+nr assignments fail
+model 27 fail 34 / 46  successful
+agent dies
+nr agents fail
+model 27 fail 34 / 47  successful
+model 27 success 35 / 48  successful
+nr assignments fail
+model 27 fail 35 / 49  successful
+nr assignments fail
+model 27 fail 35 / 50  successful
+model 27 success 36 / 51  successful
+model 27 success 37 / 52  successful
+nr assignments fail
+model 27 fail 37 / 53  successful
+model 27 success 38 / 54  successful
+model 27 success 39 / 55  successful
+model 27 success 40 / 56  successful
+model 27 success 41 / 57  successful
+nr assignments fail
+model 27 fail 41 / 58  successful
+model 27 success 42 / 59  successful
+agent dies
+nr agents fail
+model 27 fail 42 / 60  successful
+model 27 success 43 / 61  successful
+model 27 success 44 / 62  successful
+model 27 success 45 / 63  successful
+agent dies
+agent dies
+nr agents fail
+model 27 fail 45 / 64  successful
+model 27 success 46 / 65  successful
+model 27 success 47 / 66  successful
+model 27 success 48 / 67  successful
+model 27 success 49 / 68  successful
+model 27 success 50 / 69  successful
+model 27 success 51 / 70  successful
+model 27 success 52 / 71  successful
+nr assignments fail
+model 27 fail 52 / 72  successful
+model 27 success 53 / 73  successful
+model 27 success 54 / 74  successful
+model 27 success 55 / 75  successful
+nr assignments fail
+model 27 fail 55 / 76  successful
+agent dies
+nr agents fail
+model 27 fail 55 / 77  successful
+model 27 success 56 / 78  successful
+model 27 success 57 / 79  successful
+model 27 success 58 / 80  successful
+nr assignments fail
+model 27 fail 58 / 81  successful
+model 27 success 59 / 82  successful
+model 27 success 60 / 83  successful
+model 27 success 61 / 84  successful
+model 27 success 62 / 85  successful
+agent dies
+nr agents fail
+model 27 fail 62 / 86  successful
+model 27 success 63 / 87  successful
+model 27 success 64 / 88  successful
+model 27 success 65 / 89  successful
+nr assignments fail
+model 27 fail 65 / 90  successful
+nr assignments fail
+model 27 fail 65 / 91  successful
+nr assignments fail
+model 27 fail 65 / 92  successful
+model 27 success 66 / 93  successful
+model 27 success 67 / 94  successful
+nr assignments fail
+model 27 fail 67 / 95  successful
+agent dies
+nr agents fail
+model 27 fail 67 / 96  successful
+model 27 success 68 / 97  successful
+model 27 success 69 / 98  successful
+model 27 success 70 / 99  successful
+nr assignments fail
+model 27 fail 70 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND28
+Loaded model from disk
+model 28 success 1 / 1  successful
+agent dies
+nr agents fail
+model 28 fail 1 / 2  successful
+model 28 success 2 / 3  successful
+model 28 success 3 / 4  successful
+model 28 success 4 / 5  successful
+nr assignments fail
+model 28 fail 4 / 6  successful
+model 28 success 5 / 7  successful
+model 28 success 6 / 8  successful
+model 28 success 7 / 9  successful
+model 28 success 8 / 10  successful
+model 28 success 9 / 11  successful
+nr assignments fail
+model 28 fail 9 / 12  successful
+model 28 success 10 / 13  successful
+model 28 success 11 / 14  successful
+model 28 success 12 / 15  successful
+model 28 success 13 / 16  successful
+model 28 success 14 / 17  successful
+model 28 success 15 / 18  successful
+model 28 success 16 / 19  successful
+model 28 success 17 / 20  successful
+nr assignments fail
+model 28 fail 17 / 21  successful
+model 28 success 18 / 22  successful
+model 28 success 19 / 23  successful
+model 28 success 20 / 24  successful
+nr assignments fail
+model 28 fail 20 / 25  successful
+model 28 success 21 / 26  successful
+model 28 success 22 / 27  successful
+model 28 success 23 / 28  successful
+model 28 success 24 / 29  successful
+model 28 success 25 / 30  successful
+nr assignments fail
+model 28 fail 25 / 31  successful
+model 28 success 26 / 32  successful
+agent dies
+nr agents fail
+model 28 fail 26 / 33  successful
+model 28 success 27 / 34  successful
+model 28 success 28 / 35  successful
+agent dies
+nr agents fail
+model 28 fail 28 / 36  successful
+model 28 success 29 / 37  successful
+model 28 success 30 / 38  successful
+nr assignments fail
+model 28 fail 30 / 39  successful
+model 28 success 31 / 40  successful
+nr assignments fail
+model 28 fail 31 / 41  successful
+model 28 success 32 / 42  successful
+model 28 success 33 / 43  successful
+model 28 success 34 / 44  successful
+model 28 success 35 / 45  successful
+model 28 success 36 / 46  successful
+model 28 success 37 / 47  successful
+model 28 success 38 / 48  successful
+model 28 success 39 / 49  successful
+model 28 success 40 / 50  successful
+model 28 success 41 / 51  successful
+model 28 success 42 / 52  successful
+model 28 success 43 / 53  successful
+model 28 success 44 / 54  successful
+nr assignments fail
+model 28 fail 44 / 55  successful
+model 28 success 45 / 56  successful
+nr assignments fail
+model 28 fail 45 / 57  successful
+model 28 success 46 / 58  successful
+model 28 success 47 / 59  successful
+model 28 success 48 / 60  successful
+model 28 success 49 / 61  successful
+model 28 success 50 / 62  successful
+nr assignments fail
+model 28 fail 50 / 63  successful
+model 28 success 51 / 64  successful
+model 28 success 52 / 65  successful
+agent dies
+nr agents fail
+model 28 fail 52 / 66  successful
+nr assignments fail
+model 28 fail 52 / 67  successful
+nr assignments fail
+model 28 fail 52 / 68  successful
+model 28 success 53 / 69  successful
+model 28 success 54 / 70  successful
+nr assignments fail
+model 28 fail 54 / 71  successful
+model 28 success 55 / 72  successful
+model 28 success 56 / 73  successful
+nr assignments fail
+model 28 fail 56 / 74  successful
+model 28 success 57 / 75  successful
+model 28 success 58 / 76  successful
+model 28 success 59 / 77  successful
+nr assignments fail
+model 28 fail 59 / 78  successful
+model 28 success 60 / 79  successful
+agent dies
+nr agents fail
+model 28 fail 60 / 80  successful
+nr assignments fail
+model 28 fail 60 / 81  successful
+model 28 success 61 / 82  successful
+model 28 success 62 / 83  successful
+model 28 success 63 / 84  successful
+nr assignments fail
+model 28 fail 63 / 85  successful
+model 28 success 64 / 86  successful
+model 28 success 65 / 87  successful
+model 28 success 66 / 88  successful
+model 28 success 67 / 89  successful
+model 28 success 68 / 90  successful
+agent dies
+nr agents fail
+model 28 fail 68 / 91  successful
+model 28 success 69 / 92  successful
+model 28 success 70 / 93  successful
+model 28 success 71 / 94  successful
+model 28 success 72 / 95  successful
+agent dies
+nr agents fail
+model 28 fail 72 / 96  successful
+model 28 success 73 / 97  successful
+model 28 success 74 / 98  successful
+model 28 success 75 / 99  successful
+model 28 success 76 / 100  successful
+writing to file
+loading model CNNangleUNCERTAIN+WIND29
+Loaded model from disk
+model 29 success 1 / 1  successful
+model 29 success 2 / 2  successful
+nr assignments fail
+model 29 fail 2 / 3  successful
+model 29 success 3 / 4  successful
+model 29 success 4 / 5  successful
+nr assignments fail
+model 29 fail 4 / 6  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 7  successful
+model 29 success 5 / 8  successful
+nr assignments fail
+model 29 fail 5 / 9  successful
+model 29 success 6 / 10  successful
+nr assignments fail
+model 29 fail 6 / 11  successful
+agent dies
+nr agents fail
+model 29 fail 6 / 12  successful
+model 29 success 7 / 13  successful
+model 29 success 8 / 14  successful
+agent dies
+nr agents fail
+model 29 fail 8 / 15  successful
+model 29 success 9 / 16  successful
+model 29 success 10 / 17  successful
+nr assignments fail
+model 29 fail 10 / 18  successful
+model 29 success 11 / 19  successful
+model 29 success 12 / 20  successful
+model 29 success 13 / 21  successful
+model 29 success 14 / 22  successful
+nr assignments fail
+model 29 fail 14 / 23  successful
+model 29 success 15 / 24  successful
+model 29 success 16 / 25  successful
+model 29 success 17 / 26  successful
+nr assignments fail
+model 29 fail 17 / 27  successful
+model 29 success 18 / 28  successful
+model 29 success 19 / 29  successful
+model 29 success 20 / 30  successful
+model 29 success 21 / 31  successful
+model 29 success 22 / 32  successful
+agent dies
+nr agents fail
+model 29 fail 22 / 33  successful
+model 29 success 23 / 34  successful
+model 29 success 24 / 35  successful
+model 29 success 25 / 36  successful
+model 29 success 26 / 37  successful
+agent dies
+nr agents fail
+model 29 fail 26 / 38  successful
+model 29 success 27 / 39  successful
+model 29 success 28 / 40  successful
+model 29 success 29 / 41  successful
+model 29 success 30 / 42  successful
+model 29 success 31 / 43  successful
+model 29 success 32 / 44  successful
+model 29 success 33 / 45  successful
+agent dies
+nr agents fail
+model 29 fail 33 / 46  successful
+model 29 success 34 / 47  successful
+model 29 success 35 / 48  successful
+nr assignments fail
+model 29 fail 35 / 49  successful
+model 29 success 36 / 50  successful
+model 29 success 37 / 51  successful
+model 29 success 38 / 52  successful
+model 29 success 39 / 53  successful
+model 29 success 40 / 54  successful
+model 29 success 41 / 55  successful
+model 29 success 42 / 56  successful
+model 29 success 43 / 57  successful
+model 29 success 44 / 58  successful
+model 29 success 45 / 59  successful
+nr assignments fail
+model 29 fail 45 / 60  successful
+model 29 success 46 / 61  successful
+model 29 success 47 / 62  successful
+model 29 success 48 / 63  successful
+model 29 success 49 / 64  successful
+model 29 success 50 / 65  successful
+model 29 success 51 / 66  successful
+model 29 success 52 / 67  successful
+model 29 success 53 / 68  successful
+model 29 success 54 / 69  successful
+model 29 success 55 / 70  successful
+model 29 success 56 / 71  successful
+model 29 success 57 / 72  successful
+model 29 success 58 / 73  successful
+agent dies
+nr agents fail
+model 29 fail 58 / 74  successful
+model 29 success 59 / 75  successful
+model 29 success 60 / 76  successful
+nr assignments fail
+model 29 fail 60 / 77  successful
+model 29 success 61 / 78  successful
+model 29 success 62 / 79  successful
+agent dies
+nr agents fail
+model 29 fail 62 / 80  successful
+model 29 success 63 / 81  successful
+model 29 success 64 / 82  successful
+model 29 success 65 / 83  successful
+model 29 success 66 / 84  successful
+agent dies
+nr agents fail
+model 29 fail 66 / 85  successful
+model 29 success 67 / 86  successful
+model 29 success 68 / 87  successful
+model 29 success 69 / 88  successful
+model 29 success 70 / 89  successful
+model 29 success 71 / 90  successful
+model 29 success 72 / 91  successful
+model 29 success 73 / 92  successful
+agent dies
+nr agents fail
+model 29 fail 73 / 93  successful
+nr assignments fail
+model 29 fail 73 / 94  successful
+agent dies
+nr agents fail
+model 29 fail 73 / 95  successful
+model 29 success 74 / 96  successful
+model 29 success 75 / 97  successful
+model 29 success 76 / 98  successful
+nr assignments fail
+model 29 fail 76 / 99  successful
+model 29 success 77 / 100  successful
+writing to file
+
+
+###############################################################################
+Peregrine Cluster
+Job 20866904 for user 'f118885'
+Finished at: Fri Jul  2 02:06:28 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20866904
+Name                : data_translator_job
+User                : f118885
+Partition           : regular
+Nodes               : pg-node126
+Number of Nodes     : 1
+Cores               : 1
+State               : COMPLETED
+Submit              : 2021-07-01T19:22:11
+Start               : 2021-07-01T19:23:06
+End                 : 2021-07-02T02:06:28
+Reserved walltime   : 08:00:00
+Used walltime       : 06:43:22
+Used CPU time       : 06:43:05 (efficiency: 99.93%)
+% User (Computation): 99.88%
+% System (I/O)      :  0.12%
+Mem reserved        : 30G/node
+Max Mem used        : 2.00G (pg-node126)
+Max Disk Write      : 174.08K (pg-node126)
+Max Disk Read       : 4.84M (pg-node126)
+Hints and tips      :
+ 1) You requested much more memory than your program used.
+    Please reduce the requested amount of memory.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/peregrine/additional_information/job_hints
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

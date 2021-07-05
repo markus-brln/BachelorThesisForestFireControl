@@ -62,3 +62,49 @@ starting main
 2021-07-01 15:34:04.774314: E tensorflow/stream_executor/cuda/cuda_driver.cc:351] failed call to cuInit: UNKNOWN ERROR (303)
 2021-07-01 15:34:04.774372: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (pg-node155): /proc/driver/nvidia/version does not exist
 2021-07-01 15:34:04.782348: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+slurmstepd: error: *** JOB 20862847 ON pg-node155 CANCELLED AT 2021-07-01T21:34:12 DUE TO TIME LIMIT ***
+
+
+###############################################################################
+Peregrine Cluster
+Job 20862847 for user 'f118885'
+Finished at: Thu Jul  1 21:34:13 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20862847
+Name                : data_translator_job
+User                : f118885
+Partition           : regular
+Nodes               : pg-node155
+Number of Nodes     : 1
+Cores               : 1
+State               : CANCELLED,TIMEOUT
+Submit              : 2021-07-01T15:33:30
+Start               : 2021-07-01T15:33:56
+End                 : 2021-07-01T21:34:13
+Reserved walltime   : 06:00:00
+Used walltime       : 06:00:17
+Used CPU time       : 05:59:45 (efficiency: 99.85%)
+% User (Computation): 99.89%
+% System (I/O)      :  0.11%
+Mem reserved        : 30G/node
+Max Mem used        : 1.94G (pg-node155)
+Max Disk Write      : 174.08K (pg-node155)
+Max Disk Read       : 4.84M (pg-node155)
+Hints and tips      :
+ 1) You requested much more memory than your program used.
+    Please reduce the requested amount of memory.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/peregrine/additional_information/job_hints
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

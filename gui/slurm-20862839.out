@@ -62,3 +62,3951 @@ starting main
 2021-07-01 15:33:12.409264: E tensorflow/stream_executor/cuda/cuda_driver.cc:351] failed call to cuInit: UNKNOWN ERROR (303)
 2021-07-01 15:33:12.409328: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (pg-node166): /proc/driver/nvidia/version does not exist
 2021-07-01 15:33:12.418840: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+/home/f118885/thesis/gui/Controller/controller.py:648: NumbaPendingDeprecationWarning: 
+Encountered the use of a type that is scheduled for deprecation: type 'reflected set' found for argument 'firebreaks' of function 'check_escape'.
+
+For more information visit http://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+
+File "Controller/controller.py", line 668:
+@jit(nopython=True)
+def check_escape(firebreaks, new_burned):
+^
+
+  if check_escape(firebreaks, new_burned):  # the bounds of the environment
+/software/software/numba/0.47.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/numba/ir_utils.py:2030: NumbaPendingDeprecationWarning: 
+Encountered the use of a type that is scheduled for deprecation: type 'reflected set' found for argument 'firebreaks' of function 'count_containment'.
+
+For more information visit http://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+
+File "Controller/controller.py", line 637:
+@jit(nopython=True)
+def count_containment(firebreaks, size):
+^
+
+  warnings.warn(NumbaPendingDeprecationWarning(msg, loc=loc))
+variant: xy
+experiment: STOCHASTIC
+loading model CNNxySTOCHASTIC0
+Loaded model from disk
+agent dies
+nr agents fail
+model 0 fail 0 / 1  successful
+model 0 success 1 / 2  successful
+model 0 success 2 / 3  successful
+model 0 success 3 / 4  successful
+model 0 success 4 / 5  successful
+model 0 success 5 / 6  successful
+agent dies
+nr agents fail
+model 0 fail 5 / 7  successful
+model 0 success 6 / 8  successful
+model 0 success 7 / 9  successful
+model 0 success 8 / 10  successful
+model 0 success 9 / 11  successful
+agent dies
+nr agents fail
+model 0 fail 9 / 12  successful
+agent dies
+nr agents fail
+model 0 fail 9 / 13  successful
+agent dies
+nr agents fail
+model 0 fail 9 / 14  successful
+model 0 success 10 / 15  successful
+model 0 success 11 / 16  successful
+agent dies
+nr agents fail
+model 0 fail 11 / 17  successful
+model 0 success 12 / 18  successful
+model 0 success 13 / 19  successful
+model 0 success 14 / 20  successful
+model 0 success 15 / 21  successful
+model 0 success 16 / 22  successful
+model 0 success 17 / 23  successful
+agent dies
+nr agents fail
+model 0 fail 17 / 24  successful
+model 0 success 18 / 25  successful
+agent dies
+nr agents fail
+model 0 fail 18 / 26  successful
+agent dies
+nr agents fail
+model 0 fail 18 / 27  successful
+model 0 success 19 / 28  successful
+agent dies
+agent dies
+nr agents fail
+model 0 fail 19 / 29  successful
+model 0 success 20 / 30  successful
+agent dies
+nr agents fail
+model 0 fail 20 / 31  successful
+model 0 success 21 / 32  successful
+agent dies
+nr agents fail
+model 0 fail 21 / 33  successful
+model 0 success 22 / 34  successful
+model 0 success 23 / 35  successful
+model 0 success 24 / 36  successful
+agent dies
+nr agents fail
+model 0 fail 24 / 37  successful
+model 0 success 25 / 38  successful
+agent dies
+nr agents fail
+model 0 fail 25 / 39  successful
+model 0 success 26 / 40  successful
+model 0 success 27 / 41  successful
+model 0 success 28 / 42  successful
+model 0 success 29 / 43  successful
+model 0 success 30 / 44  successful
+model 0 success 31 / 45  successful
+model 0 success 32 / 46  successful
+agent dies
+nr agents fail
+model 0 fail 32 / 47  successful
+model 0 success 33 / 48  successful
+agent dies
+nr agents fail
+model 0 fail 33 / 49  successful
+model 0 success 34 / 50  successful
+agent dies
+nr agents fail
+model 0 fail 34 / 51  successful
+model 0 success 35 / 52  successful
+model 0 success 36 / 53  successful
+model 0 success 37 / 54  successful
+model 0 success 38 / 55  successful
+model 0 success 39 / 56  successful
+agent dies
+nr agents fail
+model 0 fail 39 / 57  successful
+model 0 success 40 / 58  successful
+model 0 success 41 / 59  successful
+agent dies
+nr agents fail
+model 0 fail 41 / 60  successful
+agent dies
+nr agents fail
+model 0 fail 41 / 61  successful
+model 0 success 42 / 62  successful
+agent dies
+nr agents fail
+model 0 fail 42 / 63  successful
+agent dies
+nr agents fail
+model 0 fail 42 / 64  successful
+model 0 success 43 / 65  successful
+model 0 success 44 / 66  successful
+model 0 success 45 / 67  successful
+model 0 success 46 / 68  successful
+agent dies
+nr agents fail
+model 0 fail 46 / 69  successful
+agent dies
+nr agents fail
+model 0 fail 46 / 70  successful
+agent dies
+nr agents fail
+model 0 fail 46 / 71  successful
+model 0 success 47 / 72  successful
+model 0 success 48 / 73  successful
+model 0 success 49 / 74  successful
+model 0 success 50 / 75  successful
+model 0 success 51 / 76  successful
+agent dies
+nr agents fail
+model 0 fail 51 / 77  successful
+model 0 success 52 / 78  successful
+model 0 success 53 / 79  successful
+model 0 success 54 / 80  successful
+model 0 success 55 / 81  successful
+model 0 success 56 / 82  successful
+model 0 success 57 / 83  successful
+model 0 success 58 / 84  successful
+agent dies
+nr agents fail
+model 0 fail 58 / 85  successful
+model 0 success 59 / 86  successful
+model 0 success 60 / 87  successful
+model 0 success 61 / 88  successful
+model 0 success 62 / 89  successful
+model 0 success 63 / 90  successful
+model 0 success 64 / 91  successful
+model 0 success 65 / 92  successful
+agent dies
+nr agents fail
+model 0 fail 65 / 93  successful
+model 0 success 66 / 94  successful
+model 0 success 67 / 95  successful
+model 0 success 68 / 96  successful
+model 0 success 69 / 97  successful
+model 0 success 70 / 98  successful
+agent dies
+nr agents fail
+model 0 fail 70 / 99  successful
+model 0 success 71 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC1
+Loaded model from disk
+model 1 success 1 / 1  successful
+model 1 success 2 / 2  successful
+model 1 success 3 / 3  successful
+model 1 success 4 / 4  successful
+model 1 success 5 / 5  successful
+model 1 success 6 / 6  successful
+model 1 success 7 / 7  successful
+model 1 success 8 / 8  successful
+model 1 success 9 / 9  successful
+model 1 success 10 / 10  successful
+model 1 success 11 / 11  successful
+model 1 success 12 / 12  successful
+model 1 success 13 / 13  successful
+model 1 success 14 / 14  successful
+model 1 success 15 / 15  successful
+model 1 success 16 / 16  successful
+model 1 success 17 / 17  successful
+model 1 success 18 / 18  successful
+model 1 success 19 / 19  successful
+model 1 success 20 / 20  successful
+model 1 success 21 / 21  successful
+model 1 success 22 / 22  successful
+model 1 success 23 / 23  successful
+model 1 success 24 / 24  successful
+model 1 success 25 / 25  successful
+model 1 success 26 / 26  successful
+model 1 success 27 / 27  successful
+model 1 success 28 / 28  successful
+model 1 success 29 / 29  successful
+model 1 success 30 / 30  successful
+model 1 success 31 / 31  successful
+model 1 success 32 / 32  successful
+model 1 success 33 / 33  successful
+model 1 success 34 / 34  successful
+model 1 success 35 / 35  successful
+model 1 success 36 / 36  successful
+model 1 success 37 / 37  successful
+model 1 success 38 / 38  successful
+model 1 success 39 / 39  successful
+model 1 success 40 / 40  successful
+model 1 success 41 / 41  successful
+model 1 success 42 / 42  successful
+model 1 success 43 / 43  successful
+model 1 success 44 / 44  successful
+model 1 success 45 / 45  successful
+model 1 success 46 / 46  successful
+model 1 success 47 / 47  successful
+model 1 success 48 / 48  successful
+model 1 success 49 / 49  successful
+model 1 success 50 / 50  successful
+model 1 success 51 / 51  successful
+model 1 success 52 / 52  successful
+model 1 success 53 / 53  successful
+model 1 success 54 / 54  successful
+model 1 success 55 / 55  successful
+model 1 success 56 / 56  successful
+model 1 success 57 / 57  successful
+agent dies
+nr agents fail
+model 1 fail 57 / 58  successful
+model 1 success 58 / 59  successful
+model 1 success 59 / 60  successful
+model 1 success 60 / 61  successful
+model 1 success 61 / 62  successful
+model 1 success 62 / 63  successful
+model 1 success 63 / 64  successful
+model 1 success 64 / 65  successful
+model 1 success 65 / 66  successful
+model 1 success 66 / 67  successful
+model 1 success 67 / 68  successful
+model 1 success 68 / 69  successful
+model 1 success 69 / 70  successful
+model 1 success 70 / 71  successful
+model 1 success 71 / 72  successful
+model 1 success 72 / 73  successful
+model 1 success 73 / 74  successful
+model 1 success 74 / 75  successful
+model 1 success 75 / 76  successful
+model 1 success 76 / 77  successful
+model 1 success 77 / 78  successful
+model 1 success 78 / 79  successful
+model 1 success 79 / 80  successful
+model 1 success 80 / 81  successful
+model 1 success 81 / 82  successful
+model 1 success 82 / 83  successful
+model 1 success 83 / 84  successful
+model 1 success 84 / 85  successful
+model 1 success 85 / 86  successful
+model 1 success 86 / 87  successful
+model 1 success 87 / 88  successful
+model 1 success 88 / 89  successful
+model 1 success 89 / 90  successful
+model 1 success 90 / 91  successful
+model 1 success 91 / 92  successful
+model 1 success 92 / 93  successful
+model 1 success 93 / 94  successful
+agent dies
+nr agents fail
+model 1 fail 93 / 95  successful
+model 1 success 94 / 96  successful
+model 1 success 95 / 97  successful
+model 1 success 96 / 98  successful
+model 1 success 97 / 99  successful
+model 1 success 98 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC2
+Loaded model from disk
+agent dies
+nr agents fail
+model 2 fail 0 / 1  successful
+model 2 success 1 / 2  successful
+model 2 success 2 / 3  successful
+agent dies
+nr agents fail
+model 2 fail 2 / 4  successful
+model 2 success 3 / 5  successful
+agent dies
+nr agents fail
+model 2 fail 3 / 6  successful
+model 2 success 4 / 7  successful
+model 2 success 5 / 8  successful
+model 2 success 6 / 9  successful
+model 2 success 7 / 10  successful
+model 2 success 8 / 11  successful
+model 2 success 9 / 12  successful
+model 2 success 10 / 13  successful
+agent dies
+nr agents fail
+model 2 fail 10 / 14  successful
+model 2 success 11 / 15  successful
+model 2 success 12 / 16  successful
+agent dies
+nr agents fail
+model 2 fail 12 / 17  successful
+model 2 success 13 / 18  successful
+model 2 success 14 / 19  successful
+model 2 success 15 / 20  successful
+agent dies
+nr agents fail
+model 2 fail 15 / 21  successful
+model 2 success 16 / 22  successful
+model 2 success 17 / 23  successful
+model 2 success 18 / 24  successful
+agent dies
+nr agents fail
+model 2 fail 18 / 25  successful
+agent dies
+nr agents fail
+model 2 fail 18 / 26  successful
+agent dies
+nr agents fail
+model 2 fail 18 / 27  successful
+agent dies
+agent dies
+nr agents fail
+model 2 fail 18 / 28  successful
+model 2 success 19 / 29  successful
+model 2 success 20 / 30  successful
+model 2 success 21 / 31  successful
+agent dies
+nr agents fail
+model 2 fail 21 / 32  successful
+model 2 success 22 / 33  successful
+nr assignments fail
+model 2 fail 22 / 34  successful
+model 2 success 23 / 35  successful
+agent dies
+nr agents fail
+model 2 fail 23 / 36  successful
+agent dies
+agent dies
+nr agents fail
+model 2 fail 23 / 37  successful
+agent dies
+nr agents fail
+model 2 fail 23 / 38  successful
+agent dies
+nr agents fail
+model 2 fail 23 / 39  successful
+agent dies
+nr agents fail
+model 2 fail 23 / 40  successful
+nr assignments fail
+model 2 fail 23 / 41  successful
+agent dies
+nr agents fail
+model 2 fail 23 / 42  successful
+model 2 success 24 / 43  successful
+agent dies
+nr agents fail
+model 2 fail 24 / 44  successful
+model 2 success 25 / 45  successful
+model 2 success 26 / 46  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 47  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 48  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 49  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 50  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 51  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 52  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 53  successful
+model 2 success 27 / 54  successful
+model 2 success 28 / 55  successful
+model 2 success 29 / 56  successful
+model 2 success 30 / 57  successful
+model 2 success 31 / 58  successful
+model 2 success 32 / 59  successful
+agent dies
+nr agents fail
+model 2 fail 32 / 60  successful
+model 2 success 33 / 61  successful
+agent dies
+nr agents fail
+model 2 fail 33 / 62  successful
+model 2 success 34 / 63  successful
+model 2 success 35 / 64  successful
+agent dies
+nr agents fail
+model 2 fail 35 / 65  successful
+nr assignments fail
+model 2 fail 35 / 66  successful
+model 2 success 36 / 67  successful
+model 2 success 37 / 68  successful
+model 2 success 38 / 69  successful
+model 2 success 39 / 70  successful
+agent dies
+nr agents fail
+model 2 fail 39 / 71  successful
+agent dies
+nr agents fail
+model 2 fail 39 / 72  successful
+model 2 success 40 / 73  successful
+agent dies
+nr agents fail
+model 2 fail 40 / 74  successful
+model 2 success 41 / 75  successful
+agent dies
+nr agents fail
+model 2 fail 41 / 76  successful
+model 2 success 42 / 77  successful
+model 2 success 43 / 78  successful
+agent dies
+nr agents fail
+model 2 fail 43 / 79  successful
+agent dies
+agent dies
+nr agents fail
+model 2 fail 43 / 80  successful
+model 2 success 44 / 81  successful
+agent dies
+nr agents fail
+model 2 fail 44 / 82  successful
+model 2 success 45 / 83  successful
+agent dies
+agent dies
+nr agents fail
+model 2 fail 45 / 84  successful
+agent dies
+nr agents fail
+model 2 fail 45 / 85  successful
+agent dies
+nr agents fail
+model 2 fail 45 / 86  successful
+model 2 success 46 / 87  successful
+agent dies
+nr agents fail
+model 2 fail 46 / 88  successful
+agent dies
+nr agents fail
+model 2 fail 46 / 89  successful
+agent dies
+nr agents fail
+model 2 fail 46 / 90  successful
+agent dies
+nr agents fail
+model 2 fail 46 / 91  successful
+agent dies
+nr agents fail
+model 2 fail 46 / 92  successful
+model 2 success 47 / 93  successful
+model 2 success 48 / 94  successful
+model 2 success 49 / 95  successful
+agent dies
+nr agents fail
+model 2 fail 49 / 96  successful
+model 2 success 50 / 97  successful
+agent dies
+nr agents fail
+model 2 fail 50 / 98  successful
+agent dies
+nr agents fail
+model 2 fail 50 / 99  successful
+model 2 success 51 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC3
+Loaded model from disk
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 1  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 2  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 3  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 4  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 5  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 6  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 7  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 8  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 9  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 10  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 11  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 12  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 13  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 14  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 15  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 16  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 17  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 18  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 19  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 20  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 21  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 22  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 23  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 24  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 25  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 26  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 27  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 28  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 29  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 30  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 31  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 32  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 33  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 34  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 35  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 36  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 37  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 38  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 39  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 40  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 41  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 42  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 43  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 44  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 45  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 46  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 47  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 48  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 49  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 50  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 51  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 52  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 53  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 54  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 55  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 56  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 57  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 58  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 59  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 60  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 61  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 62  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 63  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 64  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 65  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 66  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 67  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 68  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 69  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 70  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 71  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 72  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 73  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 74  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 75  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 76  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 77  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 78  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 79  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 80  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 81  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 82  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 83  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 84  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 85  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 86  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 87  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 88  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 89  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 90  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 91  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 92  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 93  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 94  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 95  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 96  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 97  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 98  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 99  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 3 fail 0 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC4
+Loaded model from disk
+model 4 success 1 / 1  successful
+model 4 success 2 / 2  successful
+model 4 success 3 / 3  successful
+model 4 success 4 / 4  successful
+model 4 success 5 / 5  successful
+model 4 success 6 / 6  successful
+model 4 success 7 / 7  successful
+model 4 success 8 / 8  successful
+model 4 success 9 / 9  successful
+model 4 success 10 / 10  successful
+model 4 success 11 / 11  successful
+model 4 success 12 / 12  successful
+model 4 success 13 / 13  successful
+model 4 success 14 / 14  successful
+model 4 success 15 / 15  successful
+model 4 success 16 / 16  successful
+model 4 success 17 / 17  successful
+model 4 success 18 / 18  successful
+model 4 success 19 / 19  successful
+model 4 success 20 / 20  successful
+model 4 success 21 / 21  successful
+model 4 success 22 / 22  successful
+model 4 success 23 / 23  successful
+model 4 success 24 / 24  successful
+model 4 success 25 / 25  successful
+model 4 success 26 / 26  successful
+model 4 success 27 / 27  successful
+model 4 success 28 / 28  successful
+model 4 success 29 / 29  successful
+model 4 success 30 / 30  successful
+model 4 success 31 / 31  successful
+model 4 success 32 / 32  successful
+model 4 success 33 / 33  successful
+model 4 success 34 / 34  successful
+model 4 success 35 / 35  successful
+model 4 success 36 / 36  successful
+model 4 success 37 / 37  successful
+model 4 success 38 / 38  successful
+model 4 success 39 / 39  successful
+model 4 success 40 / 40  successful
+model 4 success 41 / 41  successful
+model 4 success 42 / 42  successful
+model 4 success 43 / 43  successful
+model 4 success 44 / 44  successful
+model 4 success 45 / 45  successful
+model 4 success 46 / 46  successful
+model 4 success 47 / 47  successful
+model 4 success 48 / 48  successful
+model 4 success 49 / 49  successful
+model 4 success 50 / 50  successful
+model 4 success 51 / 51  successful
+model 4 success 52 / 52  successful
+model 4 success 53 / 53  successful
+model 4 success 54 / 54  successful
+model 4 success 55 / 55  successful
+model 4 success 56 / 56  successful
+model 4 success 57 / 57  successful
+model 4 success 58 / 58  successful
+model 4 success 59 / 59  successful
+model 4 success 60 / 60  successful
+model 4 success 61 / 61  successful
+agent dies
+nr agents fail
+model 4 fail 61 / 62  successful
+model 4 success 62 / 63  successful
+model 4 success 63 / 64  successful
+model 4 success 64 / 65  successful
+model 4 success 65 / 66  successful
+model 4 success 66 / 67  successful
+model 4 success 67 / 68  successful
+model 4 success 68 / 69  successful
+model 4 success 69 / 70  successful
+model 4 success 70 / 71  successful
+model 4 success 71 / 72  successful
+model 4 success 72 / 73  successful
+model 4 success 73 / 74  successful
+model 4 success 74 / 75  successful
+model 4 success 75 / 76  successful
+model 4 success 76 / 77  successful
+model 4 success 77 / 78  successful
+model 4 success 78 / 79  successful
+model 4 success 79 / 80  successful
+model 4 success 80 / 81  successful
+model 4 success 81 / 82  successful
+model 4 success 82 / 83  successful
+model 4 success 83 / 84  successful
+model 4 success 84 / 85  successful
+model 4 success 85 / 86  successful
+model 4 success 86 / 87  successful
+model 4 success 87 / 88  successful
+model 4 success 88 / 89  successful
+model 4 success 89 / 90  successful
+model 4 success 90 / 91  successful
+model 4 success 91 / 92  successful
+model 4 success 92 / 93  successful
+model 4 success 93 / 94  successful
+model 4 success 94 / 95  successful
+model 4 success 95 / 96  successful
+model 4 success 96 / 97  successful
+model 4 success 97 / 98  successful
+model 4 success 98 / 99  successful
+model 4 success 99 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC5
+Loaded model from disk
+model 5 success 1 / 1  successful
+model 5 success 2 / 2  successful
+model 5 success 3 / 3  successful
+model 5 success 4 / 4  successful
+model 5 success 5 / 5  successful
+agent dies
+nr agents fail
+model 5 fail 5 / 6  successful
+agent dies
+nr agents fail
+model 5 fail 5 / 7  successful
+model 5 success 6 / 8  successful
+model 5 success 7 / 9  successful
+model 5 success 8 / 10  successful
+model 5 success 9 / 11  successful
+model 5 success 10 / 12  successful
+agent dies
+nr agents fail
+model 5 fail 10 / 13  successful
+model 5 success 11 / 14  successful
+model 5 success 12 / 15  successful
+model 5 success 13 / 16  successful
+model 5 success 14 / 17  successful
+model 5 success 15 / 18  successful
+model 5 success 16 / 19  successful
+model 5 success 17 / 20  successful
+model 5 success 18 / 21  successful
+model 5 success 19 / 22  successful
+model 5 success 20 / 23  successful
+model 5 success 21 / 24  successful
+model 5 success 22 / 25  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 5 fail 22 / 26  successful
+model 5 success 23 / 27  successful
+model 5 success 24 / 28  successful
+model 5 success 25 / 29  successful
+model 5 success 26 / 30  successful
+model 5 success 27 / 31  successful
+model 5 success 28 / 32  successful
+model 5 success 29 / 33  successful
+model 5 success 30 / 34  successful
+model 5 success 31 / 35  successful
+model 5 success 32 / 36  successful
+model 5 success 33 / 37  successful
+model 5 success 34 / 38  successful
+model 5 success 35 / 39  successful
+model 5 success 36 / 40  successful
+model 5 success 37 / 41  successful
+model 5 success 38 / 42  successful
+model 5 success 39 / 43  successful
+model 5 success 40 / 44  successful
+model 5 success 41 / 45  successful
+model 5 success 42 / 46  successful
+model 5 success 43 / 47  successful
+agent dies
+nr agents fail
+model 5 fail 43 / 48  successful
+model 5 success 44 / 49  successful
+model 5 success 45 / 50  successful
+model 5 success 46 / 51  successful
+model 5 success 47 / 52  successful
+model 5 success 48 / 53  successful
+model 5 success 49 / 54  successful
+model 5 success 50 / 55  successful
+model 5 success 51 / 56  successful
+model 5 success 52 / 57  successful
+model 5 success 53 / 58  successful
+model 5 success 54 / 59  successful
+model 5 success 55 / 60  successful
+model 5 success 56 / 61  successful
+model 5 success 57 / 62  successful
+model 5 success 58 / 63  successful
+model 5 success 59 / 64  successful
+model 5 success 60 / 65  successful
+model 5 success 61 / 66  successful
+model 5 success 62 / 67  successful
+model 5 success 63 / 68  successful
+model 5 success 64 / 69  successful
+model 5 success 65 / 70  successful
+model 5 success 66 / 71  successful
+model 5 success 67 / 72  successful
+model 5 success 68 / 73  successful
+model 5 success 69 / 74  successful
+model 5 success 70 / 75  successful
+model 5 success 71 / 76  successful
+model 5 success 72 / 77  successful
+model 5 success 73 / 78  successful
+model 5 success 74 / 79  successful
+model 5 success 75 / 80  successful
+model 5 success 76 / 81  successful
+model 5 success 77 / 82  successful
+model 5 success 78 / 83  successful
+model 5 success 79 / 84  successful
+model 5 success 80 / 85  successful
+model 5 success 81 / 86  successful
+model 5 success 82 / 87  successful
+agent dies
+nr agents fail
+model 5 fail 82 / 88  successful
+agent dies
+nr agents fail
+model 5 fail 82 / 89  successful
+model 5 success 83 / 90  successful
+model 5 success 84 / 91  successful
+model 5 success 85 / 92  successful
+model 5 success 86 / 93  successful
+model 5 success 87 / 94  successful
+model 5 success 88 / 95  successful
+model 5 success 89 / 96  successful
+model 5 success 90 / 97  successful
+model 5 success 91 / 98  successful
+model 5 success 92 / 99  successful
+model 5 success 93 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC6
+Loaded model from disk
+model 6 success 1 / 1  successful
+model 6 success 2 / 2  successful
+model 6 success 3 / 3  successful
+model 6 success 4 / 4  successful
+model 6 success 5 / 5  successful
+model 6 success 6 / 6  successful
+model 6 success 7 / 7  successful
+model 6 success 8 / 8  successful
+model 6 success 9 / 9  successful
+model 6 success 10 / 10  successful
+model 6 success 11 / 11  successful
+model 6 success 12 / 12  successful
+model 6 success 13 / 13  successful
+model 6 success 14 / 14  successful
+model 6 success 15 / 15  successful
+model 6 success 16 / 16  successful
+model 6 success 17 / 17  successful
+model 6 success 18 / 18  successful
+model 6 success 19 / 19  successful
+model 6 success 20 / 20  successful
+model 6 success 21 / 21  successful
+model 6 success 22 / 22  successful
+model 6 success 23 / 23  successful
+model 6 success 24 / 24  successful
+model 6 success 25 / 25  successful
+model 6 success 26 / 26  successful
+model 6 success 27 / 27  successful
+model 6 success 28 / 28  successful
+model 6 success 29 / 29  successful
+model 6 success 30 / 30  successful
+model 6 success 31 / 31  successful
+model 6 success 32 / 32  successful
+model 6 success 33 / 33  successful
+model 6 success 34 / 34  successful
+model 6 success 35 / 35  successful
+model 6 success 36 / 36  successful
+model 6 success 37 / 37  successful
+model 6 success 38 / 38  successful
+model 6 success 39 / 39  successful
+model 6 success 40 / 40  successful
+model 6 success 41 / 41  successful
+model 6 success 42 / 42  successful
+model 6 success 43 / 43  successful
+model 6 success 44 / 44  successful
+model 6 success 45 / 45  successful
+model 6 success 46 / 46  successful
+model 6 success 47 / 47  successful
+model 6 success 48 / 48  successful
+model 6 success 49 / 49  successful
+model 6 success 50 / 50  successful
+model 6 success 51 / 51  successful
+model 6 success 52 / 52  successful
+model 6 success 53 / 53  successful
+model 6 success 54 / 54  successful
+model 6 success 55 / 55  successful
+model 6 success 56 / 56  successful
+model 6 success 57 / 57  successful
+model 6 success 58 / 58  successful
+model 6 success 59 / 59  successful
+model 6 success 60 / 60  successful
+model 6 success 61 / 61  successful
+model 6 success 62 / 62  successful
+model 6 success 63 / 63  successful
+model 6 success 64 / 64  successful
+model 6 success 65 / 65  successful
+model 6 success 66 / 66  successful
+model 6 success 67 / 67  successful
+model 6 success 68 / 68  successful
+model 6 success 69 / 69  successful
+model 6 success 70 / 70  successful
+model 6 success 71 / 71  successful
+agent dies
+nr agents fail
+model 6 fail 71 / 72  successful
+model 6 success 72 / 73  successful
+model 6 success 73 / 74  successful
+model 6 success 74 / 75  successful
+model 6 success 75 / 76  successful
+model 6 success 76 / 77  successful
+model 6 success 77 / 78  successful
+model 6 success 78 / 79  successful
+model 6 success 79 / 80  successful
+model 6 success 80 / 81  successful
+model 6 success 81 / 82  successful
+model 6 success 82 / 83  successful
+model 6 success 83 / 84  successful
+model 6 success 84 / 85  successful
+model 6 success 85 / 86  successful
+model 6 success 86 / 87  successful
+model 6 success 87 / 88  successful
+model 6 success 88 / 89  successful
+model 6 success 89 / 90  successful
+model 6 success 90 / 91  successful
+model 6 success 91 / 92  successful
+model 6 success 92 / 93  successful
+model 6 success 93 / 94  successful
+model 6 success 94 / 95  successful
+model 6 success 95 / 96  successful
+model 6 success 96 / 97  successful
+model 6 success 97 / 98  successful
+model 6 success 98 / 99  successful
+model 6 success 99 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC7
+Loaded model from disk
+model 7 success 1 / 1  successful
+model 7 success 2 / 2  successful
+model 7 success 3 / 3  successful
+model 7 success 4 / 4  successful
+model 7 success 5 / 5  successful
+model 7 success 6 / 6  successful
+model 7 success 7 / 7  successful
+model 7 success 8 / 8  successful
+model 7 success 9 / 9  successful
+model 7 success 10 / 10  successful
+model 7 success 11 / 11  successful
+model 7 success 12 / 12  successful
+model 7 success 13 / 13  successful
+model 7 success 14 / 14  successful
+model 7 success 15 / 15  successful
+model 7 success 16 / 16  successful
+model 7 success 17 / 17  successful
+model 7 success 18 / 18  successful
+model 7 success 19 / 19  successful
+model 7 success 20 / 20  successful
+model 7 success 21 / 21  successful
+model 7 success 22 / 22  successful
+model 7 success 23 / 23  successful
+model 7 success 24 / 24  successful
+model 7 success 25 / 25  successful
+model 7 success 26 / 26  successful
+model 7 success 27 / 27  successful
+model 7 success 28 / 28  successful
+model 7 success 29 / 29  successful
+model 7 success 30 / 30  successful
+model 7 success 31 / 31  successful
+model 7 success 32 / 32  successful
+model 7 success 33 / 33  successful
+model 7 success 34 / 34  successful
+model 7 success 35 / 35  successful
+model 7 success 36 / 36  successful
+model 7 success 37 / 37  successful
+model 7 success 38 / 38  successful
+model 7 success 39 / 39  successful
+model 7 success 40 / 40  successful
+model 7 success 41 / 41  successful
+model 7 success 42 / 42  successful
+model 7 success 43 / 43  successful
+model 7 success 44 / 44  successful
+model 7 success 45 / 45  successful
+model 7 success 46 / 46  successful
+model 7 success 47 / 47  successful
+model 7 success 48 / 48  successful
+model 7 success 49 / 49  successful
+model 7 success 50 / 50  successful
+model 7 success 51 / 51  successful
+model 7 success 52 / 52  successful
+model 7 success 53 / 53  successful
+model 7 success 54 / 54  successful
+model 7 success 55 / 55  successful
+model 7 success 56 / 56  successful
+model 7 success 57 / 57  successful
+model 7 success 58 / 58  successful
+model 7 success 59 / 59  successful
+model 7 success 60 / 60  successful
+model 7 success 61 / 61  successful
+model 7 success 62 / 62  successful
+model 7 success 63 / 63  successful
+model 7 success 64 / 64  successful
+model 7 success 65 / 65  successful
+model 7 success 66 / 66  successful
+model 7 success 67 / 67  successful
+model 7 success 68 / 68  successful
+model 7 success 69 / 69  successful
+model 7 success 70 / 70  successful
+model 7 success 71 / 71  successful
+model 7 success 72 / 72  successful
+model 7 success 73 / 73  successful
+model 7 success 74 / 74  successful
+model 7 success 75 / 75  successful
+model 7 success 76 / 76  successful
+model 7 success 77 / 77  successful
+model 7 success 78 / 78  successful
+model 7 success 79 / 79  successful
+model 7 success 80 / 80  successful
+model 7 success 81 / 81  successful
+model 7 success 82 / 82  successful
+model 7 success 83 / 83  successful
+model 7 success 84 / 84  successful
+model 7 success 85 / 85  successful
+model 7 success 86 / 86  successful
+model 7 success 87 / 87  successful
+model 7 success 88 / 88  successful
+model 7 success 89 / 89  successful
+model 7 success 90 / 90  successful
+model 7 success 91 / 91  successful
+model 7 success 92 / 92  successful
+model 7 success 93 / 93  successful
+model 7 success 94 / 94  successful
+model 7 success 95 / 95  successful
+model 7 success 96 / 96  successful
+model 7 success 97 / 97  successful
+model 7 success 98 / 98  successful
+model 7 success 99 / 99  successful
+model 7 success 100 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC8
+Loaded model from disk
+model 8 success 1 / 1  successful
+agent dies
+nr agents fail
+model 8 fail 1 / 2  successful
+model 8 success 2 / 3  successful
+model 8 success 3 / 4  successful
+model 8 success 4 / 5  successful
+model 8 success 5 / 6  successful
+model 8 success 6 / 7  successful
+model 8 success 7 / 8  successful
+model 8 success 8 / 9  successful
+model 8 success 9 / 10  successful
+model 8 success 10 / 11  successful
+model 8 success 11 / 12  successful
+model 8 success 12 / 13  successful
+model 8 success 13 / 14  successful
+model 8 success 14 / 15  successful
+model 8 success 15 / 16  successful
+model 8 success 16 / 17  successful
+model 8 success 17 / 18  successful
+model 8 success 18 / 19  successful
+model 8 success 19 / 20  successful
+model 8 success 20 / 21  successful
+model 8 success 21 / 22  successful
+model 8 success 22 / 23  successful
+model 8 success 23 / 24  successful
+model 8 success 24 / 25  successful
+model 8 success 25 / 26  successful
+model 8 success 26 / 27  successful
+model 8 success 27 / 28  successful
+model 8 success 28 / 29  successful
+model 8 success 29 / 30  successful
+model 8 success 30 / 31  successful
+model 8 success 31 / 32  successful
+model 8 success 32 / 33  successful
+model 8 success 33 / 34  successful
+model 8 success 34 / 35  successful
+model 8 success 35 / 36  successful
+model 8 success 36 / 37  successful
+model 8 success 37 / 38  successful
+model 8 success 38 / 39  successful
+model 8 success 39 / 40  successful
+model 8 success 40 / 41  successful
+model 8 success 41 / 42  successful
+model 8 success 42 / 43  successful
+model 8 success 43 / 44  successful
+model 8 success 44 / 45  successful
+model 8 success 45 / 46  successful
+model 8 success 46 / 47  successful
+agent dies
+nr agents fail
+model 8 fail 46 / 48  successful
+model 8 success 47 / 49  successful
+model 8 success 48 / 50  successful
+model 8 success 49 / 51  successful
+model 8 success 50 / 52  successful
+model 8 success 51 / 53  successful
+model 8 success 52 / 54  successful
+model 8 success 53 / 55  successful
+model 8 success 54 / 56  successful
+model 8 success 55 / 57  successful
+model 8 success 56 / 58  successful
+model 8 success 57 / 59  successful
+model 8 success 58 / 60  successful
+model 8 success 59 / 61  successful
+model 8 success 60 / 62  successful
+model 8 success 61 / 63  successful
+model 8 success 62 / 64  successful
+model 8 success 63 / 65  successful
+model 8 success 64 / 66  successful
+model 8 success 65 / 67  successful
+model 8 success 66 / 68  successful
+model 8 success 67 / 69  successful
+model 8 success 68 / 70  successful
+model 8 success 69 / 71  successful
+model 8 success 70 / 72  successful
+model 8 success 71 / 73  successful
+model 8 success 72 / 74  successful
+model 8 success 73 / 75  successful
+model 8 success 74 / 76  successful
+model 8 success 75 / 77  successful
+model 8 success 76 / 78  successful
+model 8 success 77 / 79  successful
+model 8 success 78 / 80  successful
+model 8 success 79 / 81  successful
+model 8 success 80 / 82  successful
+model 8 success 81 / 83  successful
+model 8 success 82 / 84  successful
+model 8 success 83 / 85  successful
+model 8 success 84 / 86  successful
+model 8 success 85 / 87  successful
+model 8 success 86 / 88  successful
+model 8 success 87 / 89  successful
+model 8 success 88 / 90  successful
+model 8 success 89 / 91  successful
+model 8 success 90 / 92  successful
+model 8 success 91 / 93  successful
+model 8 success 92 / 94  successful
+model 8 success 93 / 95  successful
+model 8 success 94 / 96  successful
+model 8 success 95 / 97  successful
+model 8 success 96 / 98  successful
+model 8 success 97 / 99  successful
+model 8 success 98 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC9
+Loaded model from disk
+model 9 success 1 / 1  successful
+model 9 success 2 / 2  successful
+model 9 success 3 / 3  successful
+model 9 success 4 / 4  successful
+model 9 success 5 / 5  successful
+model 9 success 6 / 6  successful
+model 9 success 7 / 7  successful
+model 9 success 8 / 8  successful
+model 9 success 9 / 9  successful
+model 9 success 10 / 10  successful
+model 9 success 11 / 11  successful
+model 9 success 12 / 12  successful
+model 9 success 13 / 13  successful
+model 9 success 14 / 14  successful
+model 9 success 15 / 15  successful
+model 9 success 16 / 16  successful
+model 9 success 17 / 17  successful
+model 9 success 18 / 18  successful
+model 9 success 19 / 19  successful
+model 9 success 20 / 20  successful
+model 9 success 21 / 21  successful
+model 9 success 22 / 22  successful
+model 9 success 23 / 23  successful
+model 9 success 24 / 24  successful
+model 9 success 25 / 25  successful
+model 9 success 26 / 26  successful
+model 9 success 27 / 27  successful
+model 9 success 28 / 28  successful
+model 9 success 29 / 29  successful
+model 9 success 30 / 30  successful
+model 9 success 31 / 31  successful
+model 9 success 32 / 32  successful
+model 9 success 33 / 33  successful
+model 9 success 34 / 34  successful
+model 9 success 35 / 35  successful
+model 9 success 36 / 36  successful
+model 9 success 37 / 37  successful
+model 9 success 38 / 38  successful
+model 9 success 39 / 39  successful
+model 9 success 40 / 40  successful
+model 9 success 41 / 41  successful
+model 9 success 42 / 42  successful
+model 9 success 43 / 43  successful
+model 9 success 44 / 44  successful
+model 9 success 45 / 45  successful
+model 9 success 46 / 46  successful
+model 9 success 47 / 47  successful
+model 9 success 48 / 48  successful
+model 9 success 49 / 49  successful
+model 9 success 50 / 50  successful
+model 9 success 51 / 51  successful
+model 9 success 52 / 52  successful
+model 9 success 53 / 53  successful
+model 9 success 54 / 54  successful
+model 9 success 55 / 55  successful
+agent dies
+nr agents fail
+model 9 fail 55 / 56  successful
+model 9 success 56 / 57  successful
+model 9 success 57 / 58  successful
+model 9 success 58 / 59  successful
+model 9 success 59 / 60  successful
+model 9 success 60 / 61  successful
+model 9 success 61 / 62  successful
+model 9 success 62 / 63  successful
+model 9 success 63 / 64  successful
+model 9 success 64 / 65  successful
+model 9 success 65 / 66  successful
+model 9 success 66 / 67  successful
+model 9 success 67 / 68  successful
+model 9 success 68 / 69  successful
+model 9 success 69 / 70  successful
+model 9 success 70 / 71  successful
+model 9 success 71 / 72  successful
+model 9 success 72 / 73  successful
+model 9 success 73 / 74  successful
+model 9 success 74 / 75  successful
+model 9 success 75 / 76  successful
+model 9 success 76 / 77  successful
+model 9 success 77 / 78  successful
+model 9 success 78 / 79  successful
+model 9 success 79 / 80  successful
+model 9 success 80 / 81  successful
+model 9 success 81 / 82  successful
+model 9 success 82 / 83  successful
+model 9 success 83 / 84  successful
+model 9 success 84 / 85  successful
+model 9 success 85 / 86  successful
+model 9 success 86 / 87  successful
+model 9 success 87 / 88  successful
+model 9 success 88 / 89  successful
+model 9 success 89 / 90  successful
+model 9 success 90 / 91  successful
+model 9 success 91 / 92  successful
+model 9 success 92 / 93  successful
+model 9 success 93 / 94  successful
+model 9 success 94 / 95  successful
+model 9 success 95 / 96  successful
+model 9 success 96 / 97  successful
+model 9 success 97 / 98  successful
+model 9 success 98 / 99  successful
+model 9 success 99 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC10
+Loaded model from disk
+model 10 success 1 / 1  successful
+model 10 success 2 / 2  successful
+model 10 success 3 / 3  successful
+model 10 success 4 / 4  successful
+model 10 success 5 / 5  successful
+model 10 success 6 / 6  successful
+model 10 success 7 / 7  successful
+model 10 success 8 / 8  successful
+model 10 success 9 / 9  successful
+model 10 success 10 / 10  successful
+model 10 success 11 / 11  successful
+model 10 success 12 / 12  successful
+model 10 success 13 / 13  successful
+model 10 success 14 / 14  successful
+model 10 success 15 / 15  successful
+model 10 success 16 / 16  successful
+model 10 success 17 / 17  successful
+model 10 success 18 / 18  successful
+model 10 success 19 / 19  successful
+model 10 success 20 / 20  successful
+model 10 success 21 / 21  successful
+model 10 success 22 / 22  successful
+model 10 success 23 / 23  successful
+nr assignments fail
+model 10 fail 23 / 24  successful
+model 10 success 24 / 25  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 10 fail 24 / 26  successful
+model 10 success 25 / 27  successful
+model 10 success 26 / 28  successful
+model 10 success 27 / 29  successful
+model 10 success 28 / 30  successful
+model 10 success 29 / 31  successful
+model 10 success 30 / 32  successful
+nr assignments fail
+model 10 fail 30 / 33  successful
+model 10 success 31 / 34  successful
+model 10 success 32 / 35  successful
+model 10 success 33 / 36  successful
+model 10 success 34 / 37  successful
+model 10 success 35 / 38  successful
+model 10 success 36 / 39  successful
+model 10 success 37 / 40  successful
+model 10 success 38 / 41  successful
+model 10 success 39 / 42  successful
+model 10 success 40 / 43  successful
+model 10 success 41 / 44  successful
+model 10 success 42 / 45  successful
+model 10 success 43 / 46  successful
+model 10 success 44 / 47  successful
+model 10 success 45 / 48  successful
+nr assignments fail
+model 10 fail 45 / 49  successful
+model 10 success 46 / 50  successful
+model 10 success 47 / 51  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 10 fail 47 / 52  successful
+model 10 success 48 / 53  successful
+model 10 success 49 / 54  successful
+model 10 success 50 / 55  successful
+model 10 success 51 / 56  successful
+model 10 success 52 / 57  successful
+model 10 success 53 / 58  successful
+model 10 success 54 / 59  successful
+model 10 success 55 / 60  successful
+model 10 success 56 / 61  successful
+model 10 success 57 / 62  successful
+model 10 success 58 / 63  successful
+model 10 success 59 / 64  successful
+model 10 success 60 / 65  successful
+model 10 success 61 / 66  successful
+model 10 success 62 / 67  successful
+model 10 success 63 / 68  successful
+model 10 success 64 / 69  successful
+model 10 success 65 / 70  successful
+model 10 success 66 / 71  successful
+model 10 success 67 / 72  successful
+model 10 success 68 / 73  successful
+model 10 success 69 / 74  successful
+model 10 success 70 / 75  successful
+model 10 success 71 / 76  successful
+model 10 success 72 / 77  successful
+model 10 success 73 / 78  successful
+model 10 success 74 / 79  successful
+model 10 success 75 / 80  successful
+model 10 success 76 / 81  successful
+model 10 success 77 / 82  successful
+model 10 success 78 / 83  successful
+model 10 success 79 / 84  successful
+model 10 success 80 / 85  successful
+model 10 success 81 / 86  successful
+model 10 success 82 / 87  successful
+model 10 success 83 / 88  successful
+model 10 success 84 / 89  successful
+model 10 success 85 / 90  successful
+model 10 success 86 / 91  successful
+model 10 success 87 / 92  successful
+model 10 success 88 / 93  successful
+model 10 success 89 / 94  successful
+nr assignments fail
+model 10 fail 89 / 95  successful
+model 10 success 90 / 96  successful
+model 10 success 91 / 97  successful
+model 10 success 92 / 98  successful
+model 10 success 93 / 99  successful
+model 10 success 94 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC11
+Loaded model from disk
+model 11 success 1 / 1  successful
+model 11 success 2 / 2  successful
+model 11 success 3 / 3  successful
+model 11 success 4 / 4  successful
+model 11 success 5 / 5  successful
+model 11 success 6 / 6  successful
+model 11 success 7 / 7  successful
+model 11 success 8 / 8  successful
+model 11 success 9 / 9  successful
+model 11 success 10 / 10  successful
+model 11 success 11 / 11  successful
+model 11 success 12 / 12  successful
+model 11 success 13 / 13  successful
+model 11 success 14 / 14  successful
+model 11 success 15 / 15  successful
+model 11 success 16 / 16  successful
+model 11 success 17 / 17  successful
+model 11 success 18 / 18  successful
+model 11 success 19 / 19  successful
+model 11 success 20 / 20  successful
+model 11 success 21 / 21  successful
+model 11 success 22 / 22  successful
+model 11 success 23 / 23  successful
+model 11 success 24 / 24  successful
+model 11 success 25 / 25  successful
+model 11 success 26 / 26  successful
+model 11 success 27 / 27  successful
+model 11 success 28 / 28  successful
+model 11 success 29 / 29  successful
+model 11 success 30 / 30  successful
+model 11 success 31 / 31  successful
+model 11 success 32 / 32  successful
+model 11 success 33 / 33  successful
+model 11 success 34 / 34  successful
+model 11 success 35 / 35  successful
+model 11 success 36 / 36  successful
+model 11 success 37 / 37  successful
+model 11 success 38 / 38  successful
+model 11 success 39 / 39  successful
+model 11 success 40 / 40  successful
+model 11 success 41 / 41  successful
+model 11 success 42 / 42  successful
+model 11 success 43 / 43  successful
+model 11 success 44 / 44  successful
+model 11 success 45 / 45  successful
+model 11 success 46 / 46  successful
+model 11 success 47 / 47  successful
+model 11 success 48 / 48  successful
+model 11 success 49 / 49  successful
+model 11 success 50 / 50  successful
+model 11 success 51 / 51  successful
+model 11 success 52 / 52  successful
+model 11 success 53 / 53  successful
+model 11 success 54 / 54  successful
+model 11 success 55 / 55  successful
+model 11 success 56 / 56  successful
+model 11 success 57 / 57  successful
+model 11 success 58 / 58  successful
+model 11 success 59 / 59  successful
+model 11 success 60 / 60  successful
+model 11 success 61 / 61  successful
+model 11 success 62 / 62  successful
+model 11 success 63 / 63  successful
+model 11 success 64 / 64  successful
+model 11 success 65 / 65  successful
+model 11 success 66 / 66  successful
+model 11 success 67 / 67  successful
+model 11 success 68 / 68  successful
+model 11 success 69 / 69  successful
+model 11 success 70 / 70  successful
+model 11 success 71 / 71  successful
+model 11 success 72 / 72  successful
+model 11 success 73 / 73  successful
+model 11 success 74 / 74  successful
+model 11 success 75 / 75  successful
+model 11 success 76 / 76  successful
+model 11 success 77 / 77  successful
+model 11 success 78 / 78  successful
+model 11 success 79 / 79  successful
+model 11 success 80 / 80  successful
+model 11 success 81 / 81  successful
+model 11 success 82 / 82  successful
+model 11 success 83 / 83  successful
+model 11 success 84 / 84  successful
+model 11 success 85 / 85  successful
+model 11 success 86 / 86  successful
+model 11 success 87 / 87  successful
+model 11 success 88 / 88  successful
+model 11 success 89 / 89  successful
+model 11 success 90 / 90  successful
+model 11 success 91 / 91  successful
+model 11 success 92 / 92  successful
+model 11 success 93 / 93  successful
+model 11 success 94 / 94  successful
+model 11 success 95 / 95  successful
+model 11 success 96 / 96  successful
+model 11 success 97 / 97  successful
+model 11 success 98 / 98  successful
+model 11 success 99 / 99  successful
+model 11 success 100 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC12
+Loaded model from disk
+model 12 success 1 / 1  successful
+model 12 success 2 / 2  successful
+model 12 success 3 / 3  successful
+model 12 success 4 / 4  successful
+model 12 success 5 / 5  successful
+model 12 success 6 / 6  successful
+model 12 success 7 / 7  successful
+model 12 success 8 / 8  successful
+model 12 success 9 / 9  successful
+model 12 success 10 / 10  successful
+model 12 success 11 / 11  successful
+model 12 success 12 / 12  successful
+model 12 success 13 / 13  successful
+model 12 success 14 / 14  successful
+model 12 success 15 / 15  successful
+model 12 success 16 / 16  successful
+model 12 success 17 / 17  successful
+model 12 success 18 / 18  successful
+model 12 success 19 / 19  successful
+model 12 success 20 / 20  successful
+model 12 success 21 / 21  successful
+model 12 success 22 / 22  successful
+model 12 success 23 / 23  successful
+model 12 success 24 / 24  successful
+model 12 success 25 / 25  successful
+model 12 success 26 / 26  successful
+model 12 success 27 / 27  successful
+model 12 success 28 / 28  successful
+model 12 success 29 / 29  successful
+model 12 success 30 / 30  successful
+model 12 success 31 / 31  successful
+model 12 success 32 / 32  successful
+model 12 success 33 / 33  successful
+model 12 success 34 / 34  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 12 fail 34 / 35  successful
+model 12 success 35 / 36  successful
+model 12 success 36 / 37  successful
+model 12 success 37 / 38  successful
+model 12 success 38 / 39  successful
+model 12 success 39 / 40  successful
+model 12 success 40 / 41  successful
+model 12 success 41 / 42  successful
+model 12 success 42 / 43  successful
+model 12 success 43 / 44  successful
+model 12 success 44 / 45  successful
+model 12 success 45 / 46  successful
+model 12 success 46 / 47  successful
+model 12 success 47 / 48  successful
+model 12 success 48 / 49  successful
+model 12 success 49 / 50  successful
+agent dies
+nr agents fail
+model 12 fail 49 / 51  successful
+model 12 success 50 / 52  successful
+model 12 success 51 / 53  successful
+model 12 success 52 / 54  successful
+model 12 success 53 / 55  successful
+model 12 success 54 / 56  successful
+model 12 success 55 / 57  successful
+model 12 success 56 / 58  successful
+model 12 success 57 / 59  successful
+model 12 success 58 / 60  successful
+model 12 success 59 / 61  successful
+model 12 success 60 / 62  successful
+model 12 success 61 / 63  successful
+model 12 success 62 / 64  successful
+model 12 success 63 / 65  successful
+model 12 success 64 / 66  successful
+model 12 success 65 / 67  successful
+model 12 success 66 / 68  successful
+model 12 success 67 / 69  successful
+model 12 success 68 / 70  successful
+model 12 success 69 / 71  successful
+model 12 success 70 / 72  successful
+model 12 success 71 / 73  successful
+model 12 success 72 / 74  successful
+model 12 success 73 / 75  successful
+model 12 success 74 / 76  successful
+model 12 success 75 / 77  successful
+model 12 success 76 / 78  successful
+model 12 success 77 / 79  successful
+model 12 success 78 / 80  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 12 fail 78 / 81  successful
+model 12 success 79 / 82  successful
+model 12 success 80 / 83  successful
+model 12 success 81 / 84  successful
+model 12 success 82 / 85  successful
+model 12 success 83 / 86  successful
+model 12 success 84 / 87  successful
+model 12 success 85 / 88  successful
+model 12 success 86 / 89  successful
+model 12 success 87 / 90  successful
+model 12 success 88 / 91  successful
+model 12 success 89 / 92  successful
+model 12 success 90 / 93  successful
+model 12 success 91 / 94  successful
+model 12 success 92 / 95  successful
+model 12 success 93 / 96  successful
+model 12 success 94 / 97  successful
+model 12 success 95 / 98  successful
+model 12 success 96 / 99  successful
+model 12 success 97 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC13
+Loaded model from disk
+model 13 success 1 / 1  successful
+model 13 success 2 / 2  successful
+model 13 success 3 / 3  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 3 / 4  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 5  successful
+model 13 success 4 / 6  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 4 / 7  successful
+model 13 success 5 / 8  successful
+agent dies
+nr agents fail
+model 13 fail 5 / 9  successful
+model 13 success 6 / 10  successful
+model 13 success 7 / 11  successful
+model 13 success 8 / 12  successful
+model 13 success 9 / 13  successful
+agent dies
+nr agents fail
+model 13 fail 9 / 14  successful
+model 13 success 10 / 15  successful
+model 13 success 11 / 16  successful
+agent dies
+nr agents fail
+model 13 fail 11 / 17  successful
+agent dies
+nr agents fail
+model 13 fail 11 / 18  successful
+model 13 success 12 / 19  successful
+agent dies
+nr agents fail
+model 13 fail 12 / 20  successful
+model 13 success 13 / 21  successful
+model 13 success 14 / 22  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 23  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 24  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 25  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 26  successful
+model 13 success 15 / 27  successful
+model 13 success 16 / 28  successful
+model 13 success 17 / 29  successful
+model 13 success 18 / 30  successful
+model 13 success 19 / 31  successful
+model 13 success 20 / 32  successful
+model 13 success 21 / 33  successful
+agent dies
+nr agents fail
+model 13 fail 21 / 34  successful
+model 13 success 22 / 35  successful
+model 13 success 23 / 36  successful
+model 13 success 24 / 37  successful
+model 13 success 25 / 38  successful
+model 13 success 26 / 39  successful
+agent dies
+nr agents fail
+model 13 fail 26 / 40  successful
+model 13 success 27 / 41  successful
+model 13 success 28 / 42  successful
+agent dies
+nr agents fail
+model 13 fail 28 / 43  successful
+model 13 success 29 / 44  successful
+agent dies
+nr agents fail
+model 13 fail 29 / 45  successful
+agent dies
+nr agents fail
+model 13 fail 29 / 46  successful
+model 13 success 30 / 47  successful
+model 13 success 31 / 48  successful
+model 13 success 32 / 49  successful
+model 13 success 33 / 50  successful
+agent dies
+nr agents fail
+model 13 fail 33 / 51  successful
+model 13 success 34 / 52  successful
+model 13 success 35 / 53  successful
+model 13 success 36 / 54  successful
+model 13 success 37 / 55  successful
+model 13 success 38 / 56  successful
+model 13 success 39 / 57  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 39 / 58  successful
+model 13 success 40 / 59  successful
+model 13 success 41 / 60  successful
+model 13 success 42 / 61  successful
+model 13 success 43 / 62  successful
+model 13 success 44 / 63  successful
+model 13 success 45 / 64  successful
+model 13 success 46 / 65  successful
+agent dies
+nr agents fail
+model 13 fail 46 / 66  successful
+model 13 success 47 / 67  successful
+model 13 success 48 / 68  successful
+model 13 success 49 / 69  successful
+model 13 success 50 / 70  successful
+model 13 success 51 / 71  successful
+model 13 success 52 / 72  successful
+model 13 success 53 / 73  successful
+model 13 success 54 / 74  successful
+model 13 success 55 / 75  successful
+model 13 success 56 / 76  successful
+agent dies
+nr agents fail
+model 13 fail 56 / 77  successful
+model 13 success 57 / 78  successful
+model 13 success 58 / 79  successful
+model 13 success 59 / 80  successful
+model 13 success 60 / 81  successful
+model 13 success 61 / 82  successful
+model 13 success 62 / 83  successful
+agent dies
+nr agents fail
+model 13 fail 62 / 84  successful
+model 13 success 63 / 85  successful
+model 13 success 64 / 86  successful
+model 13 success 65 / 87  successful
+agent dies
+nr agents fail
+model 13 fail 65 / 88  successful
+model 13 success 66 / 89  successful
+agent dies
+nr agents fail
+model 13 fail 66 / 90  successful
+model 13 success 67 / 91  successful
+agent dies
+nr agents fail
+model 13 fail 67 / 92  successful
+model 13 success 68 / 93  successful
+model 13 success 69 / 94  successful
+agent dies
+nr agents fail
+model 13 fail 69 / 95  successful
+model 13 success 70 / 96  successful
+model 13 success 71 / 97  successful
+model 13 success 72 / 98  successful
+model 13 success 73 / 99  successful
+model 13 success 74 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC14
+Loaded model from disk
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 1  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 2  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 3  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 4  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 5  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 6  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 7  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 8  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 9  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 10  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 11  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 12  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 13  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 14  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 15  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 16  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 17  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 18  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 19  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 20  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 21  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 22  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 23  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 24  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 25  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 26  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 27  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 28  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 29  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 30  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 31  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 32  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 33  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 34  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 35  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 36  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 37  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 38  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 39  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 40  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 41  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 42  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 43  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 44  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 45  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 46  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 47  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 48  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 49  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 50  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 51  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 52  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 53  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 54  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 55  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 56  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 57  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 58  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 59  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 60  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 61  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 62  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 63  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 64  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 65  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 66  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 67  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 68  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 69  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 70  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 71  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 72  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 73  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 74  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 75  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 76  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 77  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 78  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 79  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 80  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 81  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 82  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 83  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 84  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 85  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 86  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 87  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 88  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 89  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 90  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 91  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 92  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 93  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 94  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 95  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 96  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 97  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 98  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 99  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 14 fail 0 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC15
+Loaded model from disk
+model 15 success 1 / 1  successful
+model 15 success 2 / 2  successful
+model 15 success 3 / 3  successful
+model 15 success 4 / 4  successful
+model 15 success 5 / 5  successful
+model 15 success 6 / 6  successful
+model 15 success 7 / 7  successful
+model 15 success 8 / 8  successful
+model 15 success 9 / 9  successful
+model 15 success 10 / 10  successful
+model 15 success 11 / 11  successful
+model 15 success 12 / 12  successful
+model 15 success 13 / 13  successful
+model 15 success 14 / 14  successful
+model 15 success 15 / 15  successful
+model 15 success 16 / 16  successful
+model 15 success 17 / 17  successful
+model 15 success 18 / 18  successful
+model 15 success 19 / 19  successful
+model 15 success 20 / 20  successful
+model 15 success 21 / 21  successful
+model 15 success 22 / 22  successful
+model 15 success 23 / 23  successful
+model 15 success 24 / 24  successful
+model 15 success 25 / 25  successful
+model 15 success 26 / 26  successful
+model 15 success 27 / 27  successful
+model 15 success 28 / 28  successful
+model 15 success 29 / 29  successful
+model 15 success 30 / 30  successful
+model 15 success 31 / 31  successful
+model 15 success 32 / 32  successful
+model 15 success 33 / 33  successful
+model 15 success 34 / 34  successful
+model 15 success 35 / 35  successful
+model 15 success 36 / 36  successful
+model 15 success 37 / 37  successful
+model 15 success 38 / 38  successful
+model 15 success 39 / 39  successful
+model 15 success 40 / 40  successful
+model 15 success 41 / 41  successful
+model 15 success 42 / 42  successful
+model 15 success 43 / 43  successful
+model 15 success 44 / 44  successful
+model 15 success 45 / 45  successful
+model 15 success 46 / 46  successful
+model 15 success 47 / 47  successful
+model 15 success 48 / 48  successful
+model 15 success 49 / 49  successful
+model 15 success 50 / 50  successful
+model 15 success 51 / 51  successful
+model 15 success 52 / 52  successful
+model 15 success 53 / 53  successful
+model 15 success 54 / 54  successful
+model 15 success 55 / 55  successful
+model 15 success 56 / 56  successful
+model 15 success 57 / 57  successful
+model 15 success 58 / 58  successful
+model 15 success 59 / 59  successful
+model 15 success 60 / 60  successful
+model 15 success 61 / 61  successful
+model 15 success 62 / 62  successful
+model 15 success 63 / 63  successful
+model 15 success 64 / 64  successful
+model 15 success 65 / 65  successful
+model 15 success 66 / 66  successful
+model 15 success 67 / 67  successful
+model 15 success 68 / 68  successful
+model 15 success 69 / 69  successful
+model 15 success 70 / 70  successful
+model 15 success 71 / 71  successful
+model 15 success 72 / 72  successful
+model 15 success 73 / 73  successful
+model 15 success 74 / 74  successful
+model 15 success 75 / 75  successful
+model 15 success 76 / 76  successful
+model 15 success 77 / 77  successful
+model 15 success 78 / 78  successful
+model 15 success 79 / 79  successful
+model 15 success 80 / 80  successful
+model 15 success 81 / 81  successful
+model 15 success 82 / 82  successful
+model 15 success 83 / 83  successful
+model 15 success 84 / 84  successful
+model 15 success 85 / 85  successful
+model 15 success 86 / 86  successful
+model 15 success 87 / 87  successful
+model 15 success 88 / 88  successful
+model 15 success 89 / 89  successful
+model 15 success 90 / 90  successful
+model 15 success 91 / 91  successful
+model 15 success 92 / 92  successful
+model 15 success 93 / 93  successful
+model 15 success 94 / 94  successful
+model 15 success 95 / 95  successful
+model 15 success 96 / 96  successful
+model 15 success 97 / 97  successful
+model 15 success 98 / 98  successful
+model 15 success 99 / 99  successful
+model 15 success 100 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC16
+Loaded model from disk
+agent dies
+nr agents fail
+model 16 fail 0 / 1  successful
+model 16 success 1 / 2  successful
+model 16 success 2 / 3  successful
+model 16 success 3 / 4  successful
+model 16 success 4 / 5  successful
+model 16 success 5 / 6  successful
+model 16 success 6 / 7  successful
+model 16 success 7 / 8  successful
+model 16 success 8 / 9  successful
+model 16 success 9 / 10  successful
+model 16 success 10 / 11  successful
+model 16 success 11 / 12  successful
+model 16 success 12 / 13  successful
+model 16 success 13 / 14  successful
+model 16 success 14 / 15  successful
+model 16 success 15 / 16  successful
+model 16 success 16 / 17  successful
+model 16 success 17 / 18  successful
+model 16 success 18 / 19  successful
+model 16 success 19 / 20  successful
+model 16 success 20 / 21  successful
+model 16 success 21 / 22  successful
+model 16 success 22 / 23  successful
+model 16 success 23 / 24  successful
+model 16 success 24 / 25  successful
+model 16 success 25 / 26  successful
+model 16 success 26 / 27  successful
+model 16 success 27 / 28  successful
+model 16 success 28 / 29  successful
+model 16 success 29 / 30  successful
+model 16 success 30 / 31  successful
+model 16 success 31 / 32  successful
+model 16 success 32 / 33  successful
+model 16 success 33 / 34  successful
+model 16 success 34 / 35  successful
+model 16 success 35 / 36  successful
+model 16 success 36 / 37  successful
+model 16 success 37 / 38  successful
+model 16 success 38 / 39  successful
+model 16 success 39 / 40  successful
+model 16 success 40 / 41  successful
+model 16 success 41 / 42  successful
+model 16 success 42 / 43  successful
+model 16 success 43 / 44  successful
+model 16 success 44 / 45  successful
+model 16 success 45 / 46  successful
+model 16 success 46 / 47  successful
+model 16 success 47 / 48  successful
+model 16 success 48 / 49  successful
+model 16 success 49 / 50  successful
+model 16 success 50 / 51  successful
+model 16 success 51 / 52  successful
+model 16 success 52 / 53  successful
+agent dies
+nr agents fail
+model 16 fail 52 / 54  successful
+model 16 success 53 / 55  successful
+model 16 success 54 / 56  successful
+model 16 success 55 / 57  successful
+model 16 success 56 / 58  successful
+model 16 success 57 / 59  successful
+model 16 success 58 / 60  successful
+model 16 success 59 / 61  successful
+model 16 success 60 / 62  successful
+model 16 success 61 / 63  successful
+model 16 success 62 / 64  successful
+model 16 success 63 / 65  successful
+model 16 success 64 / 66  successful
+model 16 success 65 / 67  successful
+model 16 success 66 / 68  successful
+model 16 success 67 / 69  successful
+model 16 success 68 / 70  successful
+model 16 success 69 / 71  successful
+model 16 success 70 / 72  successful
+model 16 success 71 / 73  successful
+model 16 success 72 / 74  successful
+model 16 success 73 / 75  successful
+model 16 success 74 / 76  successful
+model 16 success 75 / 77  successful
+model 16 success 76 / 78  successful
+model 16 success 77 / 79  successful
+model 16 success 78 / 80  successful
+model 16 success 79 / 81  successful
+model 16 success 80 / 82  successful
+model 16 success 81 / 83  successful
+model 16 success 82 / 84  successful
+model 16 success 83 / 85  successful
+model 16 success 84 / 86  successful
+model 16 success 85 / 87  successful
+model 16 success 86 / 88  successful
+model 16 success 87 / 89  successful
+model 16 success 88 / 90  successful
+model 16 success 89 / 91  successful
+model 16 success 90 / 92  successful
+model 16 success 91 / 93  successful
+model 16 success 92 / 94  successful
+model 16 success 93 / 95  successful
+model 16 success 94 / 96  successful
+model 16 success 95 / 97  successful
+model 16 success 96 / 98  successful
+model 16 success 97 / 99  successful
+model 16 success 98 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC17
+Loaded model from disk
+model 17 success 1 / 1  successful
+model 17 success 2 / 2  successful
+model 17 success 3 / 3  successful
+model 17 success 4 / 4  successful
+model 17 success 5 / 5  successful
+model 17 success 6 / 6  successful
+model 17 success 7 / 7  successful
+model 17 success 8 / 8  successful
+model 17 success 9 / 9  successful
+model 17 success 10 / 10  successful
+model 17 success 11 / 11  successful
+model 17 success 12 / 12  successful
+model 17 success 13 / 13  successful
+model 17 success 14 / 14  successful
+model 17 success 15 / 15  successful
+model 17 success 16 / 16  successful
+model 17 success 17 / 17  successful
+model 17 success 18 / 18  successful
+model 17 success 19 / 19  successful
+model 17 success 20 / 20  successful
+model 17 success 21 / 21  successful
+model 17 success 22 / 22  successful
+model 17 success 23 / 23  successful
+model 17 success 24 / 24  successful
+model 17 success 25 / 25  successful
+model 17 success 26 / 26  successful
+model 17 success 27 / 27  successful
+model 17 success 28 / 28  successful
+model 17 success 29 / 29  successful
+model 17 success 30 / 30  successful
+model 17 success 31 / 31  successful
+model 17 success 32 / 32  successful
+model 17 success 33 / 33  successful
+model 17 success 34 / 34  successful
+model 17 success 35 / 35  successful
+model 17 success 36 / 36  successful
+model 17 success 37 / 37  successful
+model 17 success 38 / 38  successful
+model 17 success 39 / 39  successful
+model 17 success 40 / 40  successful
+model 17 success 41 / 41  successful
+model 17 success 42 / 42  successful
+model 17 success 43 / 43  successful
+model 17 success 44 / 44  successful
+model 17 success 45 / 45  successful
+model 17 success 46 / 46  successful
+model 17 success 47 / 47  successful
+model 17 success 48 / 48  successful
+model 17 success 49 / 49  successful
+model 17 success 50 / 50  successful
+model 17 success 51 / 51  successful
+model 17 success 52 / 52  successful
+model 17 success 53 / 53  successful
+model 17 success 54 / 54  successful
+model 17 success 55 / 55  successful
+model 17 success 56 / 56  successful
+model 17 success 57 / 57  successful
+model 17 success 58 / 58  successful
+model 17 success 59 / 59  successful
+model 17 success 60 / 60  successful
+model 17 success 61 / 61  successful
+model 17 success 62 / 62  successful
+model 17 success 63 / 63  successful
+model 17 success 64 / 64  successful
+model 17 success 65 / 65  successful
+model 17 success 66 / 66  successful
+model 17 success 67 / 67  successful
+model 17 success 68 / 68  successful
+model 17 success 69 / 69  successful
+model 17 success 70 / 70  successful
+model 17 success 71 / 71  successful
+model 17 success 72 / 72  successful
+model 17 success 73 / 73  successful
+model 17 success 74 / 74  successful
+model 17 success 75 / 75  successful
+model 17 success 76 / 76  successful
+model 17 success 77 / 77  successful
+model 17 success 78 / 78  successful
+model 17 success 79 / 79  successful
+model 17 success 80 / 80  successful
+model 17 success 81 / 81  successful
+model 17 success 82 / 82  successful
+model 17 success 83 / 83  successful
+model 17 success 84 / 84  successful
+model 17 success 85 / 85  successful
+model 17 success 86 / 86  successful
+model 17 success 87 / 87  successful
+model 17 success 88 / 88  successful
+model 17 success 89 / 89  successful
+model 17 success 90 / 90  successful
+model 17 success 91 / 91  successful
+model 17 success 92 / 92  successful
+model 17 success 93 / 93  successful
+model 17 success 94 / 94  successful
+model 17 success 95 / 95  successful
+model 17 success 96 / 96  successful
+model 17 success 97 / 97  successful
+model 17 success 98 / 98  successful
+model 17 success 99 / 99  successful
+model 17 success 100 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC18
+Loaded model from disk
+model 18 success 1 / 1  successful
+model 18 success 2 / 2  successful
+model 18 success 3 / 3  successful
+model 18 success 4 / 4  successful
+model 18 success 5 / 5  successful
+model 18 success 6 / 6  successful
+model 18 success 7 / 7  successful
+model 18 success 8 / 8  successful
+model 18 success 9 / 9  successful
+model 18 success 10 / 10  successful
+model 18 success 11 / 11  successful
+model 18 success 12 / 12  successful
+model 18 success 13 / 13  successful
+model 18 success 14 / 14  successful
+model 18 success 15 / 15  successful
+model 18 success 16 / 16  successful
+model 18 success 17 / 17  successful
+model 18 success 18 / 18  successful
+model 18 success 19 / 19  successful
+model 18 success 20 / 20  successful
+model 18 success 21 / 21  successful
+model 18 success 22 / 22  successful
+model 18 success 23 / 23  successful
+model 18 success 24 / 24  successful
+model 18 success 25 / 25  successful
+model 18 success 26 / 26  successful
+model 18 success 27 / 27  successful
+model 18 success 28 / 28  successful
+model 18 success 29 / 29  successful
+model 18 success 30 / 30  successful
+model 18 success 31 / 31  successful
+model 18 success 32 / 32  successful
+model 18 success 33 / 33  successful
+model 18 success 34 / 34  successful
+model 18 success 35 / 35  successful
+model 18 success 36 / 36  successful
+model 18 success 37 / 37  successful
+model 18 success 38 / 38  successful
+model 18 success 39 / 39  successful
+model 18 success 40 / 40  successful
+model 18 success 41 / 41  successful
+model 18 success 42 / 42  successful
+model 18 success 43 / 43  successful
+model 18 success 44 / 44  successful
+model 18 success 45 / 45  successful
+model 18 success 46 / 46  successful
+model 18 success 47 / 47  successful
+model 18 success 48 / 48  successful
+model 18 success 49 / 49  successful
+model 18 success 50 / 50  successful
+model 18 success 51 / 51  successful
+model 18 success 52 / 52  successful
+model 18 success 53 / 53  successful
+model 18 success 54 / 54  successful
+model 18 success 55 / 55  successful
+model 18 success 56 / 56  successful
+model 18 success 57 / 57  successful
+model 18 success 58 / 58  successful
+model 18 success 59 / 59  successful
+model 18 success 60 / 60  successful
+model 18 success 61 / 61  successful
+model 18 success 62 / 62  successful
+model 18 success 63 / 63  successful
+model 18 success 64 / 64  successful
+model 18 success 65 / 65  successful
+model 18 success 66 / 66  successful
+model 18 success 67 / 67  successful
+model 18 success 68 / 68  successful
+model 18 success 69 / 69  successful
+model 18 success 70 / 70  successful
+model 18 success 71 / 71  successful
+model 18 success 72 / 72  successful
+model 18 success 73 / 73  successful
+model 18 success 74 / 74  successful
+model 18 success 75 / 75  successful
+model 18 success 76 / 76  successful
+model 18 success 77 / 77  successful
+model 18 success 78 / 78  successful
+model 18 success 79 / 79  successful
+model 18 success 80 / 80  successful
+model 18 success 81 / 81  successful
+model 18 success 82 / 82  successful
+model 18 success 83 / 83  successful
+model 18 success 84 / 84  successful
+model 18 success 85 / 85  successful
+model 18 success 86 / 86  successful
+model 18 success 87 / 87  successful
+model 18 success 88 / 88  successful
+model 18 success 89 / 89  successful
+nr assignments fail
+model 18 fail 89 / 90  successful
+model 18 success 90 / 91  successful
+model 18 success 91 / 92  successful
+model 18 success 92 / 93  successful
+model 18 success 93 / 94  successful
+model 18 success 94 / 95  successful
+model 18 success 95 / 96  successful
+model 18 success 96 / 97  successful
+model 18 success 97 / 98  successful
+model 18 success 98 / 99  successful
+model 18 success 99 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC19
+Loaded model from disk
+model 19 success 1 / 1  successful
+model 19 success 2 / 2  successful
+model 19 success 3 / 3  successful
+model 19 success 4 / 4  successful
+model 19 success 5 / 5  successful
+model 19 success 6 / 6  successful
+model 19 success 7 / 7  successful
+model 19 success 8 / 8  successful
+model 19 success 9 / 9  successful
+model 19 success 10 / 10  successful
+model 19 success 11 / 11  successful
+model 19 success 12 / 12  successful
+model 19 success 13 / 13  successful
+model 19 success 14 / 14  successful
+model 19 success 15 / 15  successful
+model 19 success 16 / 16  successful
+model 19 success 17 / 17  successful
+model 19 success 18 / 18  successful
+model 19 success 19 / 19  successful
+model 19 success 20 / 20  successful
+model 19 success 21 / 21  successful
+model 19 success 22 / 22  successful
+model 19 success 23 / 23  successful
+model 19 success 24 / 24  successful
+model 19 success 25 / 25  successful
+model 19 success 26 / 26  successful
+model 19 success 27 / 27  successful
+model 19 success 28 / 28  successful
+model 19 success 29 / 29  successful
+model 19 success 30 / 30  successful
+model 19 success 31 / 31  successful
+model 19 success 32 / 32  successful
+model 19 success 33 / 33  successful
+model 19 success 34 / 34  successful
+model 19 success 35 / 35  successful
+model 19 success 36 / 36  successful
+model 19 success 37 / 37  successful
+model 19 success 38 / 38  successful
+model 19 success 39 / 39  successful
+model 19 success 40 / 40  successful
+model 19 success 41 / 41  successful
+model 19 success 42 / 42  successful
+model 19 success 43 / 43  successful
+model 19 success 44 / 44  successful
+model 19 success 45 / 45  successful
+model 19 success 46 / 46  successful
+model 19 success 47 / 47  successful
+model 19 success 48 / 48  successful
+model 19 success 49 / 49  successful
+model 19 success 50 / 50  successful
+model 19 success 51 / 51  successful
+model 19 success 52 / 52  successful
+model 19 success 53 / 53  successful
+model 19 success 54 / 54  successful
+model 19 success 55 / 55  successful
+model 19 success 56 / 56  successful
+model 19 success 57 / 57  successful
+model 19 success 58 / 58  successful
+model 19 success 59 / 59  successful
+model 19 success 60 / 60  successful
+model 19 success 61 / 61  successful
+model 19 success 62 / 62  successful
+model 19 success 63 / 63  successful
+model 19 success 64 / 64  successful
+model 19 success 65 / 65  successful
+model 19 success 66 / 66  successful
+model 19 success 67 / 67  successful
+model 19 success 68 / 68  successful
+model 19 success 69 / 69  successful
+model 19 success 70 / 70  successful
+model 19 success 71 / 71  successful
+model 19 success 72 / 72  successful
+model 19 success 73 / 73  successful
+model 19 success 74 / 74  successful
+model 19 success 75 / 75  successful
+model 19 success 76 / 76  successful
+model 19 success 77 / 77  successful
+model 19 success 78 / 78  successful
+model 19 success 79 / 79  successful
+model 19 success 80 / 80  successful
+model 19 success 81 / 81  successful
+model 19 success 82 / 82  successful
+model 19 success 83 / 83  successful
+model 19 success 84 / 84  successful
+model 19 success 85 / 85  successful
+model 19 success 86 / 86  successful
+model 19 success 87 / 87  successful
+model 19 success 88 / 88  successful
+model 19 success 89 / 89  successful
+model 19 success 90 / 90  successful
+model 19 success 91 / 91  successful
+model 19 success 92 / 92  successful
+model 19 success 93 / 93  successful
+model 19 success 94 / 94  successful
+nr assignments fail
+model 19 fail 94 / 95  successful
+model 19 success 95 / 96  successful
+model 19 success 96 / 97  successful
+model 19 success 97 / 98  successful
+model 19 success 98 / 99  successful
+model 19 success 99 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC20
+Loaded model from disk
+model 20 success 1 / 1  successful
+model 20 success 2 / 2  successful
+model 20 success 3 / 3  successful
+model 20 success 4 / 4  successful
+model 20 success 5 / 5  successful
+model 20 success 6 / 6  successful
+model 20 success 7 / 7  successful
+model 20 success 8 / 8  successful
+model 20 success 9 / 9  successful
+model 20 success 10 / 10  successful
+model 20 success 11 / 11  successful
+model 20 success 12 / 12  successful
+model 20 success 13 / 13  successful
+model 20 success 14 / 14  successful
+model 20 success 15 / 15  successful
+model 20 success 16 / 16  successful
+model 20 success 17 / 17  successful
+model 20 success 18 / 18  successful
+model 20 success 19 / 19  successful
+model 20 success 20 / 20  successful
+model 20 success 21 / 21  successful
+model 20 success 22 / 22  successful
+model 20 success 23 / 23  successful
+agent dies
+nr agents fail
+model 20 fail 23 / 24  successful
+agent dies
+nr agents fail
+model 20 fail 23 / 25  successful
+model 20 success 24 / 26  successful
+model 20 success 25 / 27  successful
+model 20 success 26 / 28  successful
+model 20 success 27 / 29  successful
+model 20 success 28 / 30  successful
+model 20 success 29 / 31  successful
+model 20 success 30 / 32  successful
+model 20 success 31 / 33  successful
+model 20 success 32 / 34  successful
+model 20 success 33 / 35  successful
+model 20 success 34 / 36  successful
+model 20 success 35 / 37  successful
+model 20 success 36 / 38  successful
+model 20 success 37 / 39  successful
+model 20 success 38 / 40  successful
+model 20 success 39 / 41  successful
+model 20 success 40 / 42  successful
+model 20 success 41 / 43  successful
+model 20 success 42 / 44  successful
+model 20 success 43 / 45  successful
+model 20 success 44 / 46  successful
+model 20 success 45 / 47  successful
+model 20 success 46 / 48  successful
+model 20 success 47 / 49  successful
+model 20 success 48 / 50  successful
+model 20 success 49 / 51  successful
+model 20 success 50 / 52  successful
+model 20 success 51 / 53  successful
+model 20 success 52 / 54  successful
+model 20 success 53 / 55  successful
+model 20 success 54 / 56  successful
+model 20 success 55 / 57  successful
+model 20 success 56 / 58  successful
+model 20 success 57 / 59  successful
+model 20 success 58 / 60  successful
+model 20 success 59 / 61  successful
+model 20 success 60 / 62  successful
+model 20 success 61 / 63  successful
+agent dies
+agent dies
+nr agents fail
+model 20 fail 61 / 64  successful
+model 20 success 62 / 65  successful
+model 20 success 63 / 66  successful
+model 20 success 64 / 67  successful
+model 20 success 65 / 68  successful
+model 20 success 66 / 69  successful
+model 20 success 67 / 70  successful
+model 20 success 68 / 71  successful
+model 20 success 69 / 72  successful
+model 20 success 70 / 73  successful
+model 20 success 71 / 74  successful
+model 20 success 72 / 75  successful
+model 20 success 73 / 76  successful
+model 20 success 74 / 77  successful
+model 20 success 75 / 78  successful
+model 20 success 76 / 79  successful
+model 20 success 77 / 80  successful
+model 20 success 78 / 81  successful
+model 20 success 79 / 82  successful
+model 20 success 80 / 83  successful
+model 20 success 81 / 84  successful
+model 20 success 82 / 85  successful
+model 20 success 83 / 86  successful
+model 20 success 84 / 87  successful
+model 20 success 85 / 88  successful
+model 20 success 86 / 89  successful
+model 20 success 87 / 90  successful
+model 20 success 88 / 91  successful
+model 20 success 89 / 92  successful
+model 20 success 90 / 93  successful
+model 20 success 91 / 94  successful
+model 20 success 92 / 95  successful
+model 20 success 93 / 96  successful
+agent dies
+nr agents fail
+model 20 fail 93 / 97  successful
+model 20 success 94 / 98  successful
+model 20 success 95 / 99  successful
+model 20 success 96 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC21
+Loaded model from disk
+model 21 success 1 / 1  successful
+model 21 success 2 / 2  successful
+model 21 success 3 / 3  successful
+model 21 success 4 / 4  successful
+model 21 success 5 / 5  successful
+model 21 success 6 / 6  successful
+model 21 success 7 / 7  successful
+model 21 success 8 / 8  successful
+model 21 success 9 / 9  successful
+model 21 success 10 / 10  successful
+model 21 success 11 / 11  successful
+model 21 success 12 / 12  successful
+model 21 success 13 / 13  successful
+model 21 success 14 / 14  successful
+model 21 success 15 / 15  successful
+model 21 success 16 / 16  successful
+model 21 success 17 / 17  successful
+model 21 success 18 / 18  successful
+model 21 success 19 / 19  successful
+model 21 success 20 / 20  successful
+model 21 success 21 / 21  successful
+model 21 success 22 / 22  successful
+model 21 success 23 / 23  successful
+model 21 success 24 / 24  successful
+model 21 success 25 / 25  successful
+model 21 success 26 / 26  successful
+model 21 success 27 / 27  successful
+model 21 success 28 / 28  successful
+model 21 success 29 / 29  successful
+model 21 success 30 / 30  successful
+model 21 success 31 / 31  successful
+model 21 success 32 / 32  successful
+model 21 success 33 / 33  successful
+model 21 success 34 / 34  successful
+model 21 success 35 / 35  successful
+model 21 success 36 / 36  successful
+model 21 success 37 / 37  successful
+model 21 success 38 / 38  successful
+model 21 success 39 / 39  successful
+model 21 success 40 / 40  successful
+model 21 success 41 / 41  successful
+model 21 success 42 / 42  successful
+model 21 success 43 / 43  successful
+model 21 success 44 / 44  successful
+model 21 success 45 / 45  successful
+model 21 success 46 / 46  successful
+model 21 success 47 / 47  successful
+model 21 success 48 / 48  successful
+model 21 success 49 / 49  successful
+model 21 success 50 / 50  successful
+model 21 success 51 / 51  successful
+model 21 success 52 / 52  successful
+model 21 success 53 / 53  successful
+model 21 success 54 / 54  successful
+model 21 success 55 / 55  successful
+model 21 success 56 / 56  successful
+model 21 success 57 / 57  successful
+model 21 success 58 / 58  successful
+model 21 success 59 / 59  successful
+model 21 success 60 / 60  successful
+model 21 success 61 / 61  successful
+model 21 success 62 / 62  successful
+model 21 success 63 / 63  successful
+model 21 success 64 / 64  successful
+model 21 success 65 / 65  successful
+model 21 success 66 / 66  successful
+model 21 success 67 / 67  successful
+model 21 success 68 / 68  successful
+model 21 success 69 / 69  successful
+model 21 success 70 / 70  successful
+model 21 success 71 / 71  successful
+model 21 success 72 / 72  successful
+model 21 success 73 / 73  successful
+model 21 success 74 / 74  successful
+model 21 success 75 / 75  successful
+model 21 success 76 / 76  successful
+model 21 success 77 / 77  successful
+model 21 success 78 / 78  successful
+model 21 success 79 / 79  successful
+model 21 success 80 / 80  successful
+model 21 success 81 / 81  successful
+model 21 success 82 / 82  successful
+model 21 success 83 / 83  successful
+model 21 success 84 / 84  successful
+model 21 success 85 / 85  successful
+model 21 success 86 / 86  successful
+model 21 success 87 / 87  successful
+model 21 success 88 / 88  successful
+model 21 success 89 / 89  successful
+model 21 success 90 / 90  successful
+model 21 success 91 / 91  successful
+model 21 success 92 / 92  successful
+model 21 success 93 / 93  successful
+model 21 success 94 / 94  successful
+model 21 success 95 / 95  successful
+model 21 success 96 / 96  successful
+model 21 success 97 / 97  successful
+model 21 success 98 / 98  successful
+model 21 success 99 / 99  successful
+model 21 success 100 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC22
+Loaded model from disk
+agent dies
+nr agents fail
+model 22 fail 0 / 1  successful
+model 22 success 1 / 2  successful
+model 22 success 2 / 3  successful
+model 22 success 3 / 4  successful
+model 22 success 4 / 5  successful
+agent dies
+nr agents fail
+model 22 fail 4 / 6  successful
+model 22 success 5 / 7  successful
+model 22 success 6 / 8  successful
+model 22 success 7 / 9  successful
+model 22 success 8 / 10  successful
+agent dies
+nr agents fail
+model 22 fail 8 / 11  successful
+model 22 success 9 / 12  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 13  successful
+model 22 success 10 / 14  successful
+model 22 success 11 / 15  successful
+model 22 success 12 / 16  successful
+agent dies
+nr agents fail
+model 22 fail 12 / 17  successful
+model 22 success 13 / 18  successful
+model 22 success 14 / 19  successful
+model 22 success 15 / 20  successful
+model 22 success 16 / 21  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 22  successful
+model 22 success 17 / 23  successful
+model 22 success 18 / 24  successful
+model 22 success 19 / 25  successful
+model 22 success 20 / 26  successful
+model 22 success 21 / 27  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 21 / 28  successful
+model 22 success 22 / 29  successful
+agent dies
+nr agents fail
+model 22 fail 22 / 30  successful
+model 22 success 23 / 31  successful
+agent dies
+nr agents fail
+model 22 fail 23 / 32  successful
+model 22 success 24 / 33  successful
+model 22 success 25 / 34  successful
+agent dies
+nr agents fail
+model 22 fail 25 / 35  successful
+agent dies
+nr agents fail
+model 22 fail 25 / 36  successful
+agent dies
+nr agents fail
+model 22 fail 25 / 37  successful
+model 22 success 26 / 38  successful
+model 22 success 27 / 39  successful
+agent dies
+nr agents fail
+model 22 fail 27 / 40  successful
+model 22 success 28 / 41  successful
+model 22 success 29 / 42  successful
+agent dies
+nr agents fail
+model 22 fail 29 / 43  successful
+agent dies
+nr agents fail
+model 22 fail 29 / 44  successful
+agent dies
+nr agents fail
+model 22 fail 29 / 45  successful
+model 22 success 30 / 46  successful
+agent dies
+nr agents fail
+model 22 fail 30 / 47  successful
+agent dies
+nr agents fail
+model 22 fail 30 / 48  successful
+agent dies
+nr agents fail
+model 22 fail 30 / 49  successful
+model 22 success 31 / 50  successful
+model 22 success 32 / 51  successful
+model 22 success 33 / 52  successful
+agent dies
+nr agents fail
+model 22 fail 33 / 53  successful
+model 22 success 34 / 54  successful
+model 22 success 35 / 55  successful
+agent dies
+nr agents fail
+model 22 fail 35 / 56  successful
+model 22 success 36 / 57  successful
+model 22 success 37 / 58  successful
+model 22 success 38 / 59  successful
+model 22 success 39 / 60  successful
+agent dies
+nr agents fail
+model 22 fail 39 / 61  successful
+model 22 success 40 / 62  successful
+agent dies
+nr agents fail
+model 22 fail 40 / 63  successful
+agent dies
+nr agents fail
+model 22 fail 40 / 64  successful
+model 22 success 41 / 65  successful
+model 22 success 42 / 66  successful
+model 22 success 43 / 67  successful
+model 22 success 44 / 68  successful
+agent dies
+nr agents fail
+model 22 fail 44 / 69  successful
+agent dies
+nr agents fail
+model 22 fail 44 / 70  successful
+model 22 success 45 / 71  successful
+model 22 success 46 / 72  successful
+model 22 success 47 / 73  successful
+model 22 success 48 / 74  successful
+agent dies
+nr agents fail
+model 22 fail 48 / 75  successful
+model 22 success 49 / 76  successful
+model 22 success 50 / 77  successful
+model 22 success 51 / 78  successful
+model 22 success 52 / 79  successful
+model 22 success 53 / 80  successful
+model 22 success 54 / 81  successful
+model 22 success 55 / 82  successful
+model 22 success 56 / 83  successful
+model 22 success 57 / 84  successful
+agent dies
+nr agents fail
+model 22 fail 57 / 85  successful
+model 22 success 58 / 86  successful
+model 22 success 59 / 87  successful
+model 22 success 60 / 88  successful
+model 22 success 61 / 89  successful
+model 22 success 62 / 90  successful
+model 22 success 63 / 91  successful
+model 22 success 64 / 92  successful
+model 22 success 65 / 93  successful
+model 22 success 66 / 94  successful
+model 22 success 67 / 95  successful
+model 22 success 68 / 96  successful
+model 22 success 69 / 97  successful
+agent dies
+nr agents fail
+model 22 fail 69 / 98  successful
+agent dies
+nr agents fail
+model 22 fail 69 / 99  successful
+model 22 success 70 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC23
+Loaded model from disk
+model 23 success 1 / 1  successful
+model 23 success 2 / 2  successful
+model 23 success 3 / 3  successful
+model 23 success 4 / 4  successful
+model 23 success 5 / 5  successful
+model 23 success 6 / 6  successful
+model 23 success 7 / 7  successful
+model 23 success 8 / 8  successful
+model 23 success 9 / 9  successful
+model 23 success 10 / 10  successful
+model 23 success 11 / 11  successful
+model 23 success 12 / 12  successful
+model 23 success 13 / 13  successful
+model 23 success 14 / 14  successful
+model 23 success 15 / 15  successful
+model 23 success 16 / 16  successful
+model 23 success 17 / 17  successful
+model 23 success 18 / 18  successful
+model 23 success 19 / 19  successful
+model 23 success 20 / 20  successful
+model 23 success 21 / 21  successful
+model 23 success 22 / 22  successful
+model 23 success 23 / 23  successful
+model 23 success 24 / 24  successful
+model 23 success 25 / 25  successful
+model 23 success 26 / 26  successful
+model 23 success 27 / 27  successful
+model 23 success 28 / 28  successful
+model 23 success 29 / 29  successful
+model 23 success 30 / 30  successful
+model 23 success 31 / 31  successful
+model 23 success 32 / 32  successful
+model 23 success 33 / 33  successful
+model 23 success 34 / 34  successful
+model 23 success 35 / 35  successful
+model 23 success 36 / 36  successful
+model 23 success 37 / 37  successful
+model 23 success 38 / 38  successful
+model 23 success 39 / 39  successful
+model 23 success 40 / 40  successful
+model 23 success 41 / 41  successful
+model 23 success 42 / 42  successful
+model 23 success 43 / 43  successful
+model 23 success 44 / 44  successful
+model 23 success 45 / 45  successful
+model 23 success 46 / 46  successful
+agent dies
+nr agents fail
+model 23 fail 46 / 47  successful
+model 23 success 47 / 48  successful
+model 23 success 48 / 49  successful
+model 23 success 49 / 50  successful
+model 23 success 50 / 51  successful
+model 23 success 51 / 52  successful
+model 23 success 52 / 53  successful
+agent dies
+nr agents fail
+model 23 fail 52 / 54  successful
+agent dies
+nr agents fail
+model 23 fail 52 / 55  successful
+agent dies
+nr agents fail
+model 23 fail 52 / 56  successful
+model 23 success 53 / 57  successful
+model 23 success 54 / 58  successful
+model 23 success 55 / 59  successful
+model 23 success 56 / 60  successful
+model 23 success 57 / 61  successful
+model 23 success 58 / 62  successful
+model 23 success 59 / 63  successful
+model 23 success 60 / 64  successful
+model 23 success 61 / 65  successful
+model 23 success 62 / 66  successful
+model 23 success 63 / 67  successful
+model 23 success 64 / 68  successful
+model 23 success 65 / 69  successful
+model 23 success 66 / 70  successful
+model 23 success 67 / 71  successful
+model 23 success 68 / 72  successful
+model 23 success 69 / 73  successful
+model 23 success 70 / 74  successful
+model 23 success 71 / 75  successful
+model 23 success 72 / 76  successful
+model 23 success 73 / 77  successful
+model 23 success 74 / 78  successful
+model 23 success 75 / 79  successful
+model 23 success 76 / 80  successful
+model 23 success 77 / 81  successful
+agent dies
+nr agents fail
+model 23 fail 77 / 82  successful
+model 23 success 78 / 83  successful
+model 23 success 79 / 84  successful
+model 23 success 80 / 85  successful
+model 23 success 81 / 86  successful
+model 23 success 82 / 87  successful
+model 23 success 83 / 88  successful
+model 23 success 84 / 89  successful
+agent dies
+nr agents fail
+model 23 fail 84 / 90  successful
+model 23 success 85 / 91  successful
+model 23 success 86 / 92  successful
+model 23 success 87 / 93  successful
+agent dies
+agent dies
+nr agents fail
+model 23 fail 87 / 94  successful
+model 23 success 88 / 95  successful
+agent dies
+nr agents fail
+model 23 fail 88 / 96  successful
+model 23 success 89 / 97  successful
+model 23 success 90 / 98  successful
+model 23 success 91 / 99  successful
+model 23 success 92 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC24
+Loaded model from disk
+model 24 success 1 / 1  successful
+model 24 success 2 / 2  successful
+model 24 success 3 / 3  successful
+model 24 success 4 / 4  successful
+model 24 success 5 / 5  successful
+model 24 success 6 / 6  successful
+model 24 success 7 / 7  successful
+model 24 success 8 / 8  successful
+model 24 success 9 / 9  successful
+model 24 success 10 / 10  successful
+model 24 success 11 / 11  successful
+model 24 success 12 / 12  successful
+model 24 success 13 / 13  successful
+model 24 success 14 / 14  successful
+model 24 success 15 / 15  successful
+model 24 success 16 / 16  successful
+model 24 success 17 / 17  successful
+model 24 success 18 / 18  successful
+model 24 success 19 / 19  successful
+model 24 success 20 / 20  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 24 fail 20 / 21  successful
+model 24 success 21 / 22  successful
+agent dies
+nr agents fail
+model 24 fail 21 / 23  successful
+model 24 success 22 / 24  successful
+model 24 success 23 / 25  successful
+model 24 success 24 / 26  successful
+model 24 success 25 / 27  successful
+model 24 success 26 / 28  successful
+model 24 success 27 / 29  successful
+model 24 success 28 / 30  successful
+model 24 success 29 / 31  successful
+model 24 success 30 / 32  successful
+nr assignments fail
+model 24 fail 30 / 33  successful
+model 24 success 31 / 34  successful
+model 24 success 32 / 35  successful
+model 24 success 33 / 36  successful
+model 24 success 34 / 37  successful
+model 24 success 35 / 38  successful
+model 24 success 36 / 39  successful
+model 24 success 37 / 40  successful
+model 24 success 38 / 41  successful
+model 24 success 39 / 42  successful
+model 24 success 40 / 43  successful
+model 24 success 41 / 44  successful
+model 24 success 42 / 45  successful
+model 24 success 43 / 46  successful
+model 24 success 44 / 47  successful
+model 24 success 45 / 48  successful
+model 24 success 46 / 49  successful
+model 24 success 47 / 50  successful
+model 24 success 48 / 51  successful
+model 24 success 49 / 52  successful
+model 24 success 50 / 53  successful
+model 24 success 51 / 54  successful
+model 24 success 52 / 55  successful
+model 24 success 53 / 56  successful
+model 24 success 54 / 57  successful
+model 24 success 55 / 58  successful
+model 24 success 56 / 59  successful
+model 24 success 57 / 60  successful
+model 24 success 58 / 61  successful
+model 24 success 59 / 62  successful
+model 24 success 60 / 63  successful
+model 24 success 61 / 64  successful
+model 24 success 62 / 65  successful
+model 24 success 63 / 66  successful
+model 24 success 64 / 67  successful
+model 24 success 65 / 68  successful
+model 24 success 66 / 69  successful
+model 24 success 67 / 70  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 24 fail 67 / 71  successful
+model 24 success 68 / 72  successful
+model 24 success 69 / 73  successful
+model 24 success 70 / 74  successful
+model 24 success 71 / 75  successful
+model 24 success 72 / 76  successful
+model 24 success 73 / 77  successful
+model 24 success 74 / 78  successful
+model 24 success 75 / 79  successful
+model 24 success 76 / 80  successful
+model 24 success 77 / 81  successful
+model 24 success 78 / 82  successful
+model 24 success 79 / 83  successful
+model 24 success 80 / 84  successful
+model 24 success 81 / 85  successful
+model 24 success 82 / 86  successful
+model 24 success 83 / 87  successful
+model 24 success 84 / 88  successful
+model 24 success 85 / 89  successful
+model 24 success 86 / 90  successful
+model 24 success 87 / 91  successful
+model 24 success 88 / 92  successful
+model 24 success 89 / 93  successful
+model 24 success 90 / 94  successful
+model 24 success 91 / 95  successful
+model 24 success 92 / 96  successful
+model 24 success 93 / 97  successful
+model 24 success 94 / 98  successful
+model 24 success 95 / 99  successful
+model 24 success 96 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC25
+Loaded model from disk
+model 25 success 1 / 1  successful
+model 25 success 2 / 2  successful
+model 25 success 3 / 3  successful
+model 25 success 4 / 4  successful
+model 25 success 5 / 5  successful
+model 25 success 6 / 6  successful
+model 25 success 7 / 7  successful
+model 25 success 8 / 8  successful
+agent dies
+nr agents fail
+model 25 fail 8 / 9  successful
+model 25 success 9 / 10  successful
+model 25 success 10 / 11  successful
+model 25 success 11 / 12  successful
+model 25 success 12 / 13  successful
+model 25 success 13 / 14  successful
+model 25 success 14 / 15  successful
+model 25 success 15 / 16  successful
+model 25 success 16 / 17  successful
+model 25 success 17 / 18  successful
+model 25 success 18 / 19  successful
+model 25 success 19 / 20  successful
+model 25 success 20 / 21  successful
+model 25 success 21 / 22  successful
+model 25 success 22 / 23  successful
+agent dies
+nr agents fail
+model 25 fail 22 / 24  successful
+model 25 success 23 / 25  successful
+model 25 success 24 / 26  successful
+model 25 success 25 / 27  successful
+model 25 success 26 / 28  successful
+model 25 success 27 / 29  successful
+model 25 success 28 / 30  successful
+model 25 success 29 / 31  successful
+model 25 success 30 / 32  successful
+model 25 success 31 / 33  successful
+model 25 success 32 / 34  successful
+model 25 success 33 / 35  successful
+agent dies
+nr agents fail
+model 25 fail 33 / 36  successful
+model 25 success 34 / 37  successful
+model 25 success 35 / 38  successful
+model 25 success 36 / 39  successful
+agent dies
+nr agents fail
+model 25 fail 36 / 40  successful
+agent dies
+nr agents fail
+model 25 fail 36 / 41  successful
+model 25 success 37 / 42  successful
+model 25 success 38 / 43  successful
+model 25 success 39 / 44  successful
+model 25 success 40 / 45  successful
+model 25 success 41 / 46  successful
+model 25 success 42 / 47  successful
+agent dies
+nr agents fail
+model 25 fail 42 / 48  successful
+model 25 success 43 / 49  successful
+model 25 success 44 / 50  successful
+model 25 success 45 / 51  successful
+model 25 success 46 / 52  successful
+model 25 success 47 / 53  successful
+agent dies
+nr agents fail
+model 25 fail 47 / 54  successful
+model 25 success 48 / 55  successful
+model 25 success 49 / 56  successful
+agent dies
+nr agents fail
+model 25 fail 49 / 57  successful
+model 25 success 50 / 58  successful
+agent dies
+nr agents fail
+model 25 fail 50 / 59  successful
+model 25 success 51 / 60  successful
+model 25 success 52 / 61  successful
+agent dies
+nr agents fail
+model 25 fail 52 / 62  successful
+model 25 success 53 / 63  successful
+model 25 success 54 / 64  successful
+model 25 success 55 / 65  successful
+model 25 success 56 / 66  successful
+model 25 success 57 / 67  successful
+model 25 success 58 / 68  successful
+model 25 success 59 / 69  successful
+model 25 success 60 / 70  successful
+model 25 success 61 / 71  successful
+model 25 success 62 / 72  successful
+model 25 success 63 / 73  successful
+model 25 success 64 / 74  successful
+model 25 success 65 / 75  successful
+model 25 success 66 / 76  successful
+model 25 success 67 / 77  successful
+model 25 success 68 / 78  successful
+model 25 success 69 / 79  successful
+model 25 success 70 / 80  successful
+agent dies
+nr agents fail
+model 25 fail 70 / 81  successful
+model 25 success 71 / 82  successful
+model 25 success 72 / 83  successful
+model 25 success 73 / 84  successful
+model 25 success 74 / 85  successful
+model 25 success 75 / 86  successful
+model 25 success 76 / 87  successful
+model 25 success 77 / 88  successful
+model 25 success 78 / 89  successful
+Waypoint was outside the environment! Press backspace to discard episode!
+waypoint fail
+model 25 fail 78 / 90  successful
+model 25 success 79 / 91  successful
+model 25 success 80 / 92  successful
+model 25 success 81 / 93  successful
+model 25 success 82 / 94  successful
+model 25 success 83 / 95  successful
+model 25 success 84 / 96  successful
+model 25 success 85 / 97  successful
+model 25 success 86 / 98  successful
+model 25 success 87 / 99  successful
+model 25 success 88 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC26
+Loaded model from disk
+model 26 success 1 / 1  successful
+model 26 success 2 / 2  successful
+model 26 success 3 / 3  successful
+model 26 success 4 / 4  successful
+model 26 success 5 / 5  successful
+model 26 success 6 / 6  successful
+model 26 success 7 / 7  successful
+model 26 success 8 / 8  successful
+model 26 success 9 / 9  successful
+model 26 success 10 / 10  successful
+model 26 success 11 / 11  successful
+model 26 success 12 / 12  successful
+model 26 success 13 / 13  successful
+model 26 success 14 / 14  successful
+model 26 success 15 / 15  successful
+model 26 success 16 / 16  successful
+model 26 success 17 / 17  successful
+model 26 success 18 / 18  successful
+model 26 success 19 / 19  successful
+model 26 success 20 / 20  successful
+model 26 success 21 / 21  successful
+model 26 success 22 / 22  successful
+model 26 success 23 / 23  successful
+model 26 success 24 / 24  successful
+model 26 success 25 / 25  successful
+model 26 success 26 / 26  successful
+model 26 success 27 / 27  successful
+model 26 success 28 / 28  successful
+model 26 success 29 / 29  successful
+model 26 success 30 / 30  successful
+model 26 success 31 / 31  successful
+model 26 success 32 / 32  successful
+model 26 success 33 / 33  successful
+model 26 success 34 / 34  successful
+model 26 success 35 / 35  successful
+model 26 success 36 / 36  successful
+model 26 success 37 / 37  successful
+model 26 success 38 / 38  successful
+model 26 success 39 / 39  successful
+model 26 success 40 / 40  successful
+model 26 success 41 / 41  successful
+model 26 success 42 / 42  successful
+model 26 success 43 / 43  successful
+model 26 success 44 / 44  successful
+model 26 success 45 / 45  successful
+model 26 success 46 / 46  successful
+model 26 success 47 / 47  successful
+model 26 success 48 / 48  successful
+model 26 success 49 / 49  successful
+model 26 success 50 / 50  successful
+model 26 success 51 / 51  successful
+model 26 success 52 / 52  successful
+model 26 success 53 / 53  successful
+model 26 success 54 / 54  successful
+model 26 success 55 / 55  successful
+model 26 success 56 / 56  successful
+model 26 success 57 / 57  successful
+model 26 success 58 / 58  successful
+model 26 success 59 / 59  successful
+model 26 success 60 / 60  successful
+model 26 success 61 / 61  successful
+model 26 success 62 / 62  successful
+model 26 success 63 / 63  successful
+model 26 success 64 / 64  successful
+model 26 success 65 / 65  successful
+model 26 success 66 / 66  successful
+model 26 success 67 / 67  successful
+model 26 success 68 / 68  successful
+model 26 success 69 / 69  successful
+model 26 success 70 / 70  successful
+model 26 success 71 / 71  successful
+model 26 success 72 / 72  successful
+model 26 success 73 / 73  successful
+model 26 success 74 / 74  successful
+model 26 success 75 / 75  successful
+model 26 success 76 / 76  successful
+model 26 success 77 / 77  successful
+model 26 success 78 / 78  successful
+model 26 success 79 / 79  successful
+model 26 success 80 / 80  successful
+model 26 success 81 / 81  successful
+model 26 success 82 / 82  successful
+model 26 success 83 / 83  successful
+model 26 success 84 / 84  successful
+model 26 success 85 / 85  successful
+model 26 success 86 / 86  successful
+model 26 success 87 / 87  successful
+model 26 success 88 / 88  successful
+model 26 success 89 / 89  successful
+model 26 success 90 / 90  successful
+model 26 success 91 / 91  successful
+model 26 success 92 / 92  successful
+model 26 success 93 / 93  successful
+model 26 success 94 / 94  successful
+model 26 success 95 / 95  successful
+model 26 success 96 / 96  successful
+model 26 success 97 / 97  successful
+model 26 success 98 / 98  successful
+model 26 success 99 / 99  successful
+model 26 success 100 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC27
+Loaded model from disk
+model 27 success 1 / 1  successful
+model 27 success 2 / 2  successful
+model 27 success 3 / 3  successful
+model 27 success 4 / 4  successful
+model 27 success 5 / 5  successful
+model 27 success 6 / 6  successful
+model 27 success 7 / 7  successful
+model 27 success 8 / 8  successful
+model 27 success 9 / 9  successful
+model 27 success 10 / 10  successful
+model 27 success 11 / 11  successful
+model 27 success 12 / 12  successful
+model 27 success 13 / 13  successful
+model 27 success 14 / 14  successful
+model 27 success 15 / 15  successful
+model 27 success 16 / 16  successful
+model 27 success 17 / 17  successful
+model 27 success 18 / 18  successful
+model 27 success 19 / 19  successful
+model 27 success 20 / 20  successful
+model 27 success 21 / 21  successful
+model 27 success 22 / 22  successful
+model 27 success 23 / 23  successful
+model 27 success 24 / 24  successful
+model 27 success 25 / 25  successful
+model 27 success 26 / 26  successful
+model 27 success 27 / 27  successful
+model 27 success 28 / 28  successful
+model 27 success 29 / 29  successful
+model 27 success 30 / 30  successful
+model 27 success 31 / 31  successful
+model 27 success 32 / 32  successful
+model 27 success 33 / 33  successful
+model 27 success 34 / 34  successful
+model 27 success 35 / 35  successful
+nr assignments fail
+model 27 fail 35 / 36  successful
+model 27 success 36 / 37  successful
+model 27 success 37 / 38  successful
+model 27 success 38 / 39  successful
+model 27 success 39 / 40  successful
+model 27 success 40 / 41  successful
+model 27 success 41 / 42  successful
+model 27 success 42 / 43  successful
+model 27 success 43 / 44  successful
+model 27 success 44 / 45  successful
+model 27 success 45 / 46  successful
+model 27 success 46 / 47  successful
+model 27 success 47 / 48  successful
+model 27 success 48 / 49  successful
+model 27 success 49 / 50  successful
+model 27 success 50 / 51  successful
+model 27 success 51 / 52  successful
+model 27 success 52 / 53  successful
+model 27 success 53 / 54  successful
+model 27 success 54 / 55  successful
+model 27 success 55 / 56  successful
+model 27 success 56 / 57  successful
+model 27 success 57 / 58  successful
+model 27 success 58 / 59  successful
+model 27 success 59 / 60  successful
+model 27 success 60 / 61  successful
+model 27 success 61 / 62  successful
+model 27 success 62 / 63  successful
+model 27 success 63 / 64  successful
+model 27 success 64 / 65  successful
+model 27 success 65 / 66  successful
+model 27 success 66 / 67  successful
+model 27 success 67 / 68  successful
+model 27 success 68 / 69  successful
+model 27 success 69 / 70  successful
+model 27 success 70 / 71  successful
+model 27 success 71 / 72  successful
+model 27 success 72 / 73  successful
+model 27 success 73 / 74  successful
+model 27 success 74 / 75  successful
+model 27 success 75 / 76  successful
+model 27 success 76 / 77  successful
+model 27 success 77 / 78  successful
+model 27 success 78 / 79  successful
+model 27 success 79 / 80  successful
+model 27 success 80 / 81  successful
+model 27 success 81 / 82  successful
+model 27 success 82 / 83  successful
+model 27 success 83 / 84  successful
+model 27 success 84 / 85  successful
+model 27 success 85 / 86  successful
+model 27 success 86 / 87  successful
+model 27 success 87 / 88  successful
+model 27 success 88 / 89  successful
+model 27 success 89 / 90  successful
+model 27 success 90 / 91  successful
+model 27 success 91 / 92  successful
+model 27 success 92 / 93  successful
+model 27 success 93 / 94  successful
+agent dies
+nr agents fail
+model 27 fail 93 / 95  successful
+model 27 success 94 / 96  successful
+model 27 success 95 / 97  successful
+model 27 success 96 / 98  successful
+model 27 success 97 / 99  successful
+model 27 success 98 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC28
+Loaded model from disk
+model 28 success 1 / 1  successful
+model 28 success 2 / 2  successful
+model 28 success 3 / 3  successful
+model 28 success 4 / 4  successful
+model 28 success 5 / 5  successful
+model 28 success 6 / 6  successful
+model 28 success 7 / 7  successful
+model 28 success 8 / 8  successful
+model 28 success 9 / 9  successful
+model 28 success 10 / 10  successful
+model 28 success 11 / 11  successful
+model 28 success 12 / 12  successful
+model 28 success 13 / 13  successful
+model 28 success 14 / 14  successful
+model 28 success 15 / 15  successful
+model 28 success 16 / 16  successful
+nr assignments fail
+model 28 fail 16 / 17  successful
+model 28 success 17 / 18  successful
+model 28 success 18 / 19  successful
+model 28 success 19 / 20  successful
+model 28 success 20 / 21  successful
+model 28 success 21 / 22  successful
+model 28 success 22 / 23  successful
+model 28 success 23 / 24  successful
+model 28 success 24 / 25  successful
+model 28 success 25 / 26  successful
+model 28 success 26 / 27  successful
+model 28 success 27 / 28  successful
+model 28 success 28 / 29  successful
+model 28 success 29 / 30  successful
+model 28 success 30 / 31  successful
+model 28 success 31 / 32  successful
+model 28 success 32 / 33  successful
+model 28 success 33 / 34  successful
+model 28 success 34 / 35  successful
+model 28 success 35 / 36  successful
+model 28 success 36 / 37  successful
+model 28 success 37 / 38  successful
+model 28 success 38 / 39  successful
+model 28 success 39 / 40  successful
+model 28 success 40 / 41  successful
+model 28 success 41 / 42  successful
+model 28 success 42 / 43  successful
+model 28 success 43 / 44  successful
+model 28 success 44 / 45  successful
+model 28 success 45 / 46  successful
+model 28 success 46 / 47  successful
+model 28 success 47 / 48  successful
+model 28 success 48 / 49  successful
+model 28 success 49 / 50  successful
+model 28 success 50 / 51  successful
+model 28 success 51 / 52  successful
+model 28 success 52 / 53  successful
+model 28 success 53 / 54  successful
+model 28 success 54 / 55  successful
+model 28 success 55 / 56  successful
+model 28 success 56 / 57  successful
+model 28 success 57 / 58  successful
+model 28 success 58 / 59  successful
+model 28 success 59 / 60  successful
+model 28 success 60 / 61  successful
+model 28 success 61 / 62  successful
+model 28 success 62 / 63  successful
+model 28 success 63 / 64  successful
+model 28 success 64 / 65  successful
+model 28 success 65 / 66  successful
+model 28 success 66 / 67  successful
+model 28 success 67 / 68  successful
+model 28 success 68 / 69  successful
+model 28 success 69 / 70  successful
+model 28 success 70 / 71  successful
+model 28 success 71 / 72  successful
+model 28 success 72 / 73  successful
+model 28 success 73 / 74  successful
+model 28 success 74 / 75  successful
+model 28 success 75 / 76  successful
+model 28 success 76 / 77  successful
+model 28 success 77 / 78  successful
+model 28 success 78 / 79  successful
+model 28 success 79 / 80  successful
+model 28 success 80 / 81  successful
+model 28 success 81 / 82  successful
+model 28 success 82 / 83  successful
+model 28 success 83 / 84  successful
+model 28 success 84 / 85  successful
+model 28 success 85 / 86  successful
+model 28 success 86 / 87  successful
+model 28 success 87 / 88  successful
+model 28 success 88 / 89  successful
+model 28 success 89 / 90  successful
+model 28 success 90 / 91  successful
+model 28 success 91 / 92  successful
+model 28 success 92 / 93  successful
+model 28 success 93 / 94  successful
+model 28 success 94 / 95  successful
+model 28 success 95 / 96  successful
+model 28 success 96 / 97  successful
+model 28 success 97 / 98  successful
+model 28 success 98 / 99  successful
+model 28 success 99 / 100  successful
+writing to file
+loading model CNNxySTOCHASTIC29
+Loaded model from disk
+model 29 success 1 / 1  successful
+model 29 success 2 / 2  successful
+model 29 success 3 / 3  successful
+model 29 success 4 / 4  successful
+model 29 success 5 / 5  successful
+model 29 success 6 / 6  successful
+model 29 success 7 / 7  successful
+model 29 success 8 / 8  successful
+model 29 success 9 / 9  successful
+model 29 success 10 / 10  successful
+model 29 success 11 / 11  successful
+model 29 success 12 / 12  successful
+model 29 success 13 / 13  successful
+model 29 success 14 / 14  successful
+model 29 success 15 / 15  successful
+model 29 success 16 / 16  successful
+model 29 success 17 / 17  successful
+model 29 success 18 / 18  successful
+agent dies
+nr agents fail
+model 29 fail 18 / 19  successful
+model 29 success 19 / 20  successful
+model 29 success 20 / 21  successful
+model 29 success 21 / 22  successful
+model 29 success 22 / 23  successful
+model 29 success 23 / 24  successful
+model 29 success 24 / 25  successful
+model 29 success 25 / 26  successful
+model 29 success 26 / 27  successful
+model 29 success 27 / 28  successful
+model 29 success 28 / 29  successful
+model 29 success 29 / 30  successful
+model 29 success 30 / 31  successful
+model 29 success 31 / 32  successful
+model 29 success 32 / 33  successful
+model 29 success 33 / 34  successful
+model 29 success 34 / 35  successful
+model 29 success 35 / 36  successful
+model 29 success 36 / 37  successful
+model 29 success 37 / 38  successful
+model 29 success 38 / 39  successful
+model 29 success 39 / 40  successful
+model 29 success 40 / 41  successful
+model 29 success 41 / 42  successful
+model 29 success 42 / 43  successful
+model 29 success 43 / 44  successful
+model 29 success 44 / 45  successful
+model 29 success 45 / 46  successful
+model 29 success 46 / 47  successful
+model 29 success 47 / 48  successful
+model 29 success 48 / 49  successful
+model 29 success 49 / 50  successful
+model 29 success 50 / 51  successful
+model 29 success 51 / 52  successful
+model 29 success 52 / 53  successful
+model 29 success 53 / 54  successful
+model 29 success 54 / 55  successful
+model 29 success 55 / 56  successful
+model 29 success 56 / 57  successful
+model 29 success 57 / 58  successful
+model 29 success 58 / 59  successful
+model 29 success 59 / 60  successful
+model 29 success 60 / 61  successful
+model 29 success 61 / 62  successful
+model 29 success 62 / 63  successful
+model 29 success 63 / 64  successful
+model 29 success 64 / 65  successful
+model 29 success 65 / 66  successful
+model 29 success 66 / 67  successful
+model 29 success 67 / 68  successful
+model 29 success 68 / 69  successful
+model 29 success 69 / 70  successful
+model 29 success 70 / 71  successful
+model 29 success 71 / 72  successful
+model 29 success 72 / 73  successful
+model 29 success 73 / 74  successful
+model 29 success 74 / 75  successful
+model 29 success 75 / 76  successful
+model 29 success 76 / 77  successful
+model 29 success 77 / 78  successful
+agent dies
+nr agents fail
+model 29 fail 77 / 79  successful
+model 29 success 78 / 80  successful
+model 29 success 79 / 81  successful
+model 29 success 80 / 82  successful
+model 29 success 81 / 83  successful
+model 29 success 82 / 84  successful
+model 29 success 83 / 85  successful
+model 29 success 84 / 86  successful
+model 29 success 85 / 87  successful
+agent dies
+nr agents fail
+model 29 fail 85 / 88  successful
+model 29 success 86 / 89  successful
+model 29 success 87 / 90  successful
+model 29 success 88 / 91  successful
+model 29 success 89 / 92  successful
+model 29 success 90 / 93  successful
+model 29 success 91 / 94  successful
+model 29 success 92 / 95  successful
+model 29 success 93 / 96  successful
+model 29 success 94 / 97  successful
+model 29 success 95 / 98  successful
+model 29 success 96 / 99  successful
+model 29 success 97 / 100  successful
+writing to file
+
+
+###############################################################################
+Peregrine Cluster
+Job 20862839 for user 'f118885'
+Finished at: Thu Jul  1 20:21:54 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20862839
+Name                : data_translator_job
+User                : f118885
+Partition           : regular
+Nodes               : pg-node166
+Number of Nodes     : 1
+Cores               : 1
+State               : COMPLETED
+Submit              : 2021-07-01T15:33:00
+Start               : 2021-07-01T15:33:01
+End                 : 2021-07-01T20:21:54
+Reserved walltime   : 06:00:00
+Used walltime       : 04:48:53
+Used CPU time       : 04:48:35 (efficiency: 99.90%)
+% User (Computation): 99.83%
+% System (I/O)      :  0.17%
+Mem reserved        : 30G/node
+Max Mem used        : 1.97G (pg-node166)
+Max Disk Write      : 174.08K (pg-node166)
+Max Disk Read       : 4.85M (pg-node166)
+Hints and tips      :
+ 1) You requested much more memory than your program used.
+    Please reduce the requested amount of memory.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/peregrine/additional_information/job_hints
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

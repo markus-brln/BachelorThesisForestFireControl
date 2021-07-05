@@ -8,7 +8,7 @@ from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPool
     Reshape, Activation
 from NNutils import *
 import tensorflow.keras.backend as K
-from functools import partial
+#from functools import partial
 
 
 from getpass import getuser
@@ -60,16 +60,22 @@ def create_class_weight(boxID):
   return np.asarray(weights_dict)
 
 
+def weighted_loss(weights):
+    """Nested loss function to achieve custom loss + class weights.
+    https://medium.com/@Bloomore/how-to-write-a-custom-loss-function-with-additional-arguments-in-keras-5f193929f7a0
+    requires special treatment when loading a model, see the link."""
+    def my_loss(y_true, y_pred):
+      # scale predictions so that the class probabilities of each sample sum to 1
+      y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+      # clipping to remove divide by zero errors
+      y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+      # results of loss func
+      loss = y_true * K.log(y_pred) * weights
+      loss = -K.sum(loss, -1)
+      return loss
 
-def loss(y_true, y_pred, weights):
-  # scale predictions so that the class probabilities of each sample sum to 1
-  y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
-  # clipping to remove divide by zero errors
-  y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
-  # results of loss func
-  loss = y_true * K.log(y_pred) * weights
-  loss = -K.sum(loss, -1)
-  return loss
+    return my_loss
+
 
 def build_model_box(input_shape, weights):
     downscaleInput = Input(shape=input_shape)
@@ -90,7 +96,7 @@ def build_model_box(input_shape, weights):
 
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
     adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
-    loss1 = partial(loss, weights=weights)
+    loss1 = weighted_loss(weights=weights)
     model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
                   optimizer=adam,
                   # metrics=['categorical_accuracy', 'binary_crossentropy']
@@ -191,7 +197,7 @@ def run_experiments():
     architecture_variant = architecture_variants[2]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
-    for exp, experiment in enumerate(experiments[0:1]):
+    for exp, experiment in enumerate(experiments):
 
         #performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
         #performances.write("Experiment" + experiment + "\n")
@@ -199,36 +205,38 @@ def run_experiments():
         images, outputs = load_data(architecture_variant, experiment)
         image_shape = images[0].shape
         for run in range(0, n_runs):
-          if architecture_variant == 'box':
-            images, outputs = load_data(architecture_variant, experiment)
-            box = []
-            dig_drive = []
-            boxArr = []
-            for out in outputs:
-              box = out[:-1]
-              dig_drive.append(out[-1])
-              boxArr.append(box)
-            boxes = np.asarray(boxArr, dtype=np.float16)
-            boxID = [0] * 61
-            for box in boxes:
-              for i in range(len(box)):
-                if box[i] == 1:
-                  boxID[i] += 1
-              class_weight = create_class_weight(boxID)
-              dig_drive = np.asarray(dig_drive, dtype=np.float16)
-              print(experiment, "run:", run)
-              test_data = [images[:20], boxes[:20], dig_drive[:20]]
-              images, box, dig_drive = images[20:], boxes[20:], dig_drive[20:]
-              model = build_model_box(image_shape, class_weight)
-              callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-              model.fit(images,  # used to be list of 2 inputs to model
-                        [box, dig_drive],
-                        batch_size=64,  # 64
-                        epochs=100,  # 50
-                        shuffle=True,
-                        callbacks=[callback],
-                        validation_split=0.2,
-                        verbose=2)  # 0.2
+            if architecture_variant == 'box':
+                images, outputs = load_data(architecture_variant, experiment)
+                box = []
+                dig_drive = []
+                boxArr = []
+                class_weight = []
+                for out in outputs:
+                    box = out[:-1]
+                    dig_drive.append(out[-1])
+                    boxArr.append(box)
+                boxes = np.asarray(boxArr, dtype=np.float16)
+                boxID = [0] * 61
+                for box in boxes:
+                    for i in range(len(box)):
+                        if box[i] == 1:
+                            boxID[i] += 1
+                    class_weight = create_class_weight(boxID)
+                    dig_drive = np.asarray(dig_drive, dtype=np.float16)
+
+                print(experiment, "run:", run)
+                test_data = [images[:20], boxes[:20], dig_drive[:20]]
+                images, box, dig_drive = images[20:], boxes[20:], dig_drive[20:]
+                model = build_model_box(image_shape, class_weight)
+                callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+                model.fit(images,  # used to be list of 2 inputs to model
+                          [box, dig_drive],
+                          batch_size=64,  # 64
+                          epochs=100,  # 50
+                          shuffle=True,
+                          callbacks=[callback],
+                          validation_split=0.2)
+                          #verbose=0)  # 0.2
             else:
               ##model = build_model_xy(images[0].shape)
               model = build_model_angle(images[0].shape)

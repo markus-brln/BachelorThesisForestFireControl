@@ -10,14 +10,15 @@
 #SBATCH --cpus-per-task=2                                                                                                     
 
 module load Python/3.7.4-GCCcore-8.3.0
-module load TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4
+module load TensorFlow/2.3.1-fosscuda-2019b-Python-3.7.4
 module load matplotlib/3.1.1-foss-2019b-Python-3.7.4
+
 
 echo Overview of modules that are loaded
 echo starting CNN
 
 # the number behind again stands for the variant!
-python train_models.py 0
+python train_models.py 2
 
 
 # execute with:                                                                                                                              

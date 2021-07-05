@@ -1,0 +1,105 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+starting CNN
+2021-07-04 16:05:36.076219: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-04 16:05:40.037524: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2021-07-04 16:05:40.062886: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
+coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
+2021-07-04 16:05:40.062950: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-04 16:05:40.065896: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2021-07-04 16:05:40.068433: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2021-07-04 16:05:40.069091: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2021-07-04 16:05:40.071444: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2021-07-04 16:05:40.072600: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2021-07-04 16:05:40.077407: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2021-07-04 16:05:40.078869: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1697] Adding visible gpu devices: 0
+2021-07-04 16:05:40.082730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
+coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
+2021-07-04 16:05:40.082780: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-04 16:05:40.082820: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2021-07-04 16:05:40.082860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2021-07-04 16:05:40.082898: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2021-07-04 16:05:40.082937: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2021-07-04 16:05:40.082975: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2021-07-04 16:05:40.083023: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2021-07-04 16:05:40.084536: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1697] Adding visible gpu devices: 0
+2021-07-04 16:05:40.084589: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-04 16:05:40.489726: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1096] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-04 16:05:40.489820: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102]      0 
+2021-07-04 16:05:40.489842: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] 0:   N 
+2021-07-04 16:05:40.492095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1241] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10749 MB memory) -> physical GPU (device: 0, name: Tesla K40m, pci bus id: 0000:03:00.0, compute capability: 3.5)
+2021-07-04 16:05:40.492503: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
+loading data:/home/f118885/data/thesis/boxSTOCHASTIC.npy
+input images:  (1435, 256, 256, 7)
+outputs:  (1435, 62)
+loading data:/home/f118885/data/thesis/boxSTOCHASTIC.npy
+input images:  (1435, 256, 256, 7)
+outputs:  (1435, 62)
+STOCHASTIC run: 0
+Traceback (most recent call last):
+  File "train_models.py", line 262, in <module>
+    run_experiments()
+  File "train_models.py", line 221, in run_experiments
+    model = build_model_box(image_shape, class_weight)
+  File "train_models.py", line 95, in build_model_box
+    optimizer=adam,
+  File "/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/tensorflow_core/python/training/tracking/base.py", line 457, in _method_wrapper
+    result = method(self, *args, **kwargs)
+  File "/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training.py", line 446, in compile
+    self._compile_weights_loss_and_weighted_metrics()
+  File "/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/tensorflow_core/python/training/tracking/base.py", line 457, in _method_wrapper
+    result = method(self, *args, **kwargs)
+  File "/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training.py", line 1592, in _compile_weights_loss_and_weighted_metrics
+    self.total_loss = self._prepare_total_loss(masks)
+  File "/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training.py", line 1673, in _prepare_total_loss
+    output_loss = loss_fn(y_true, y_pred, sample_weight=sample_weight)
+TypeError: loss() got an unexpected keyword argument 'sample_weight'
+
+
+###############################################################################
+Peregrine Cluster
+Job 20895316 for user 'f118885'
+Finished at: Sun Jul  4 16:05:42 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20895316
+Name                : CNN_job
+User                : f118885
+Partition           : gpu
+Nodes               : pg-gpu02
+Number of Nodes     : 1
+Cores               : 12
+State               : FAILED
+Submit              : 2021-07-04T16:05:32
+Start               : 2021-07-04T16:05:33
+End                 : 2021-07-04T16:05:42
+Reserved walltime   : 03:30:00
+Used walltime       : 00:00:09
+Used CPU time       : 00:00:07 (efficiency:  7.02%)
+% User (Computation): 54.38%
+% System (I/O)      : 45.62%
+Mem reserved        : 40G/node
+Max Mem used        : 1.97G (pg-gpu02)
+Max Disk Write      : 112.64K (pg-gpu02)
+Max Disk Read       : 3.21M (pg-gpu02)
+Average GPU usage   : 26.5% (pg-gpu02)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

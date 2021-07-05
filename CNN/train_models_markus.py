@@ -192,12 +192,12 @@ def run_experiments():
     import time
     start = time.time()
 
-    n_runs = 1
+    n_runs = 30
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[2]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
-    for exp, experiment in enumerate(experiments):
+    for exp, experiment in enumerate(experiments[0:1]):
 
         #performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
         #performances.write("Experiment" + experiment + "\n")

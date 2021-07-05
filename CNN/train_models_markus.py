@@ -223,7 +223,6 @@ def run_experiments():
                 class_weight = create_class_weight(boxID)
                 dig_drive = np.asarray(dig_drive, dtype=np.float16)
 
-
                 model = build_model_box(image_shape, class_weight)
                 callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True)
                 model.fit(images,  # used to be list of 2 inputs to model

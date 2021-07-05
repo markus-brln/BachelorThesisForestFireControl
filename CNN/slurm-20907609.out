@@ -1,0 +1,51 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+starting CNN
+python: can't open file 'CNN_segments': [Errno 2] No such file or directory
+
+
+###############################################################################
+Peregrine Cluster
+Job 20907609 for user 'f118885'
+Finished at: Mon Jul  5 13:27:55 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20907609
+Name                : CNN_job
+User                : f118885
+Partition           : gpu
+Nodes               : pg-gpu20
+Number of Nodes     : 1
+Cores               : 12
+State               : FAILED
+Submit              : 2021-07-05T13:27:49
+Start               : 2021-07-05T13:27:50
+End                 : 2021-07-05T13:27:55
+Reserved walltime   : 01:30:00
+Used walltime       : 00:00:05
+Used CPU time       : 00:00:01 (efficiency:  3.29%)
+% User (Computation): 64.06%
+% System (I/O)      : 35.94%
+Mem reserved        : 25G/node
+Max Mem used        : 0.00  (pg-gpu20)
+Max Disk Write      : 0.00  (pg-gpu20)
+Max Disk Read       : 0.00  (pg-gpu20)
+Average GPU usage   : No GPU metrics available (pg-gpu20)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

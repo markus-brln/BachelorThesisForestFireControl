@@ -417,7 +417,7 @@ if __name__ == "__main__":
   print(f"architecture: {out_variant}, experiment: {experiment}")
 
   data = load_raw_data(file_filter=experiment)
-  data = data[:25]
+  data = data
   # if out_variant == 'box':
     # data = augmentData(data)
 

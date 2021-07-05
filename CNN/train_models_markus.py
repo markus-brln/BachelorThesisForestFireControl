@@ -197,7 +197,7 @@ def run_experiments():
     architecture_variant = architecture_variants[2]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
-    for exp, experiment in enumerate(experiments[0:1]):
+    for exp, experiment in enumerate(experiments[3:4]):
 
         #performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
         #performances.write("Experiment" + experiment + "\n")

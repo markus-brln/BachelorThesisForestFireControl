@@ -42,7 +42,7 @@ def build_model(input_shape, size = 16):
     dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
 
     model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
-    adam = tf.keras.optimizers.Adam(learning_rate=0.003)    # initial learning rate faster
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
 
     model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
                   optimizer=adam,

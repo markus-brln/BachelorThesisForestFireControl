@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "/var/spool/slurmd/job20907391/slurm_script", line 4, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+
+
+###############################################################################
+Peregrine Cluster
+Job 20907391 for user 'f118885'
+Finished at: Mon Jul  5 13:03:50 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20907391
+Name                : data_translator_segments.py
+User                : f118885
+Partition           : regular
+Nodes               : pg-node094
+Number of Nodes     : 1
+Cores               : 1
+State               : FAILED
+Submit              : 2021-07-05T13:03:20
+Start               : 2021-07-05T13:03:49
+End                 : 2021-07-05T13:03:50
+Reserved walltime   : 00:30:00
+Used walltime       : 00:00:01
+Used CPU time       : --
+% User (Computation): 59.46%
+% System (I/O)      : 40.54%
+Mem reserved        : 2000M/core
+Max Mem used        : 0.00  (pg-node094)
+Max Disk Write      : 0.00  (pg-node094)
+Max Disk Read       : 0.00  (pg-node094)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

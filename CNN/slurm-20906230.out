@@ -1,0 +1,1185 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+starting CNN
+2021-07-05 11:39:10.556745: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+--------------------------------------------------------------------------
+[[3071,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: pg-gpu20
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+2021-07-05 11:39:45.369615: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2021-07-05 11:39:45.379512: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:45.379840: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:02:00.0 name: GRID V100D-32Q computeCapability: 7.0
+coreClock: 1.38GHz coreCount: 80 deviceMemorySize: 32.00GiB deviceMemoryBandwidth: 836.37GiB/s
+2021-07-05 11:39:45.379892: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-07-05 11:39:45.384514: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-07-05 11:39:45.387943: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2021-07-05 11:39:45.389414: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2021-07-05 11:39:45.392875: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2021-07-05 11:39:45.394826: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2021-07-05 11:39:45.400646: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2021-07-05 11:39:45.400850: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:45.401207: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:45.401413: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2021-07-05 11:39:45.404608: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:45.404851: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:02:00.0 name: GRID V100D-32Q computeCapability: 7.0
+coreClock: 1.38GHz coreCount: 80 deviceMemorySize: 32.00GiB deviceMemoryBandwidth: 836.37GiB/s
+2021-07-05 11:39:45.404893: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-07-05 11:39:45.404925: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-07-05 11:39:45.404947: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2021-07-05 11:39:45.404999: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2021-07-05 11:39:45.405023: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2021-07-05 11:39:45.405043: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2021-07-05 11:39:45.405063: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2021-07-05 11:39:45.405156: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:45.405426: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:45.405628: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2021-07-05 11:39:45.405677: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-07-05 11:39:46.000747: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-05 11:39:46.000849: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2021-07-05 11:39:46.000868: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2021-07-05 11:39:46.001192: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:46.001574: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:46.001878: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-07-05 11:39:46.002129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 28341 MB memory) -> physical GPU (device: 0, name: GRID V100D-32Q, pci bus id: 0000:02:00.0, compute capability: 7.0)
+2021-07-05 11:39:46.002534: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
+2021-07-05 11:39:57.613785: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-07-05 11:39:57.910208: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 0
+Epoch 1/100
+65/65 - 7s - loss: 112.9435 - box_loss: 112.1048 - dig_loss: 0.8387 - val_loss: 110.7811 - val_box_loss: 110.1673 - val_dig_loss: 0.6138
+Epoch 2/100
+65/65 - 4s - loss: 102.2343 - box_loss: 101.6458 - dig_loss: 0.5886 - val_loss: 105.4761 - val_box_loss: 104.8991 - val_dig_loss: 0.5770
+Epoch 3/100
+65/65 - 5s - loss: 100.5205 - box_loss: 99.9719 - dig_loss: 0.5486 - val_loss: 110.3496 - val_box_loss: 109.8139 - val_dig_loss: 0.5357
+Epoch 4/100
+65/65 - 5s - loss: 96.7742 - box_loss: 96.2630 - dig_loss: 0.5113 - val_loss: 107.5491 - val_box_loss: 107.0499 - val_dig_loss: 0.4993
+Epoch 5/100
+65/65 - 4s - loss: 94.2317 - box_loss: 93.7378 - dig_loss: 0.4939 - val_loss: 125.1156 - val_box_loss: 124.6383 - val_dig_loss: 0.4773
+Epoch 6/100
+65/65 - 4s - loss: 87.2620 - box_loss: 86.7861 - dig_loss: 0.4759 - val_loss: 114.1336 - val_box_loss: 113.6683 - val_dig_loss: 0.4652
+Epoch 7/100
+65/65 - 4s - loss: 78.4720 - box_loss: 78.0063 - dig_loss: 0.4657 - val_loss: 128.7219 - val_box_loss: 128.2657 - val_dig_loss: 0.4562
+Epoch 8/100
+65/65 - 4s - loss: 70.0863 - box_loss: 69.6280 - dig_loss: 0.4584 - val_loss: 140.5267 - val_box_loss: 140.0771 - val_dig_loss: 0.4496
+Epoch 9/100
+65/65 - 4s - loss: 63.8931 - box_loss: 63.4400 - dig_loss: 0.4531 - val_loss: 130.6839 - val_box_loss: 130.2389 - val_dig_loss: 0.4449
+Epoch 10/100
+65/65 - 4s - loss: 59.7459 - box_loss: 59.2964 - dig_loss: 0.4495 - val_loss: 131.0443 - val_box_loss: 130.6029 - val_dig_loss: 0.4414
+Epoch 11/100
+65/65 - 4s - loss: 54.5666 - box_loss: 54.1198 - dig_loss: 0.4469 - val_loss: 131.4056 - val_box_loss: 130.9665 - val_dig_loss: 0.4391
+Epoch 12/100
+65/65 - 4s - loss: 50.4992 - box_loss: 50.0541 - dig_loss: 0.4451 - val_loss: 130.4237 - val_box_loss: 129.9863 - val_dig_loss: 0.4374
+saving model CNNboxUNCERTAIN+WIND0
+model 1/120
+time elapsed:
+00:01:42.32
+estimated time left:
+03:22:55.80 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 1
+Epoch 1/100
+65/65 - 7s - loss: 114.3716 - box_loss: 113.9250 - dig_loss: 0.4466 - val_loss: 93.1097 - val_box_loss: 92.7098 - val_dig_loss: 0.3999
+Epoch 2/100
+65/65 - 4s - loss: 98.1284 - box_loss: 97.7628 - dig_loss: 0.3656 - val_loss: 89.1421 - val_box_loss: 88.8043 - val_dig_loss: 0.3378
+Epoch 3/100
+65/65 - 4s - loss: 92.8659 - box_loss: 92.5428 - dig_loss: 0.3231 - val_loss: 108.3363 - val_box_loss: 108.0681 - val_dig_loss: 0.2682
+Epoch 4/100
+65/65 - 4s - loss: 86.2603 - box_loss: 86.0193 - dig_loss: 0.2410 - val_loss: 103.1706 - val_box_loss: 102.9305 - val_dig_loss: 0.2401
+Epoch 5/100
+65/65 - 4s - loss: 83.8771 - box_loss: 83.6554 - dig_loss: 0.2217 - val_loss: 108.9327 - val_box_loss: 108.6536 - val_dig_loss: 0.2792
+Epoch 6/100
+65/65 - 4s - loss: 79.6726 - box_loss: 79.4486 - dig_loss: 0.2239 - val_loss: 124.4695 - val_box_loss: 124.2351 - val_dig_loss: 0.2344
+Epoch 7/100
+65/65 - 4s - loss: 76.6317 - box_loss: 76.4129 - dig_loss: 0.2188 - val_loss: 112.5776 - val_box_loss: 112.3477 - val_dig_loss: 0.2299
+Epoch 8/100
+65/65 - 4s - loss: 68.8301 - box_loss: 68.6119 - dig_loss: 0.2182 - val_loss: 120.3300 - val_box_loss: 120.0955 - val_dig_loss: 0.2345
+Epoch 9/100
+65/65 - 4s - loss: 63.3468 - box_loss: 63.1329 - dig_loss: 0.2139 - val_loss: 118.8863 - val_box_loss: 118.6598 - val_dig_loss: 0.2265
+Epoch 10/100
+65/65 - 4s - loss: 59.0224 - box_loss: 58.8153 - dig_loss: 0.2071 - val_loss: 132.6618 - val_box_loss: 132.4369 - val_dig_loss: 0.2250
+Epoch 11/100
+65/65 - 4s - loss: 53.8639 - box_loss: 53.6589 - dig_loss: 0.2050 - val_loss: 131.2794 - val_box_loss: 131.0594 - val_dig_loss: 0.2200
+Epoch 12/100
+65/65 - 4s - loss: 50.7773 - box_loss: 50.5744 - dig_loss: 0.2029 - val_loss: 131.8950 - val_box_loss: 131.6756 - val_dig_loss: 0.2193
+saving model CNNboxUNCERTAIN+WIND1
+model 2/120
+time elapsed:
+00:02:52.27
+estimated time left:
+02:49:24.05 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 2
+Epoch 1/100
+65/65 - 7s - loss: 113.8949 - box_loss: 113.4638 - dig_loss: 0.4311 - val_loss: 113.5145 - val_box_loss: 113.1668 - val_dig_loss: 0.3477
+Epoch 2/100
+65/65 - 4s - loss: 104.2844 - box_loss: 103.9472 - dig_loss: 0.3372 - val_loss: 102.2573 - val_box_loss: 101.9247 - val_dig_loss: 0.3326
+Epoch 3/100
+65/65 - 4s - loss: 96.3701 - box_loss: 96.0846 - dig_loss: 0.2854 - val_loss: 114.1158 - val_box_loss: 113.8335 - val_dig_loss: 0.2823
+Epoch 4/100
+65/65 - 4s - loss: 89.2490 - box_loss: 88.9957 - dig_loss: 0.2533 - val_loss: 98.2497 - val_box_loss: 97.9742 - val_dig_loss: 0.2755
+Epoch 5/100
+65/65 - 4s - loss: 81.3442 - box_loss: 81.0984 - dig_loss: 0.2458 - val_loss: 123.3752 - val_box_loss: 123.1303 - val_dig_loss: 0.2448
+Epoch 6/100
+65/65 - 4s - loss: 72.2175 - box_loss: 71.9806 - dig_loss: 0.2369 - val_loss: 131.5322 - val_box_loss: 131.2904 - val_dig_loss: 0.2418
+Epoch 7/100
+65/65 - 4s - loss: 67.1956 - box_loss: 66.9652 - dig_loss: 0.2304 - val_loss: 122.5723 - val_box_loss: 122.3372 - val_dig_loss: 0.2350
+Epoch 8/100
+65/65 - 4s - loss: 61.5719 - box_loss: 61.3438 - dig_loss: 0.2281 - val_loss: 136.1969 - val_box_loss: 135.9573 - val_dig_loss: 0.2397
+Epoch 9/100
+65/65 - 4s - loss: 56.9886 - box_loss: 56.7668 - dig_loss: 0.2218 - val_loss: 127.3303 - val_box_loss: 127.0994 - val_dig_loss: 0.2309
+Epoch 10/100
+65/65 - 4s - loss: 51.8429 - box_loss: 51.6253 - dig_loss: 0.2176 - val_loss: 136.6734 - val_box_loss: 136.4448 - val_dig_loss: 0.2286
+Epoch 11/100
+65/65 - 4s - loss: 50.5217 - box_loss: 50.3079 - dig_loss: 0.2138 - val_loss: 129.7346 - val_box_loss: 129.5116 - val_dig_loss: 0.2230
+Epoch 12/100
+65/65 - 4s - loss: 46.5217 - box_loss: 46.3130 - dig_loss: 0.2087 - val_loss: 129.1057 - val_box_loss: 128.8863 - val_dig_loss: 0.2195
+Epoch 13/100
+65/65 - 4s - loss: 43.7145 - box_loss: 43.5075 - dig_loss: 0.2069 - val_loss: 136.0137 - val_box_loss: 135.7908 - val_dig_loss: 0.2229
+Epoch 14/100
+65/65 - 4s - loss: 42.8638 - box_loss: 42.6587 - dig_loss: 0.2051 - val_loss: 132.9519 - val_box_loss: 132.7324 - val_dig_loss: 0.2195
+saving model CNNboxUNCERTAIN+WIND2
+model 3/120
+time elapsed:
+00:04:09.05
+estimated time left:
+02:41:52.97 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 3
+Epoch 1/100
+65/65 - 7s - loss: 113.7868 - box_loss: 113.3483 - dig_loss: 0.4385 - val_loss: 103.8956 - val_box_loss: 103.4985 - val_dig_loss: 0.3971
+Epoch 2/100
+65/65 - 4s - loss: 100.3129 - box_loss: 99.9916 - dig_loss: 0.3212 - val_loss: 111.6515 - val_box_loss: 111.3741 - val_dig_loss: 0.2774
+Epoch 3/100
+65/65 - 4s - loss: 93.8015 - box_loss: 93.5422 - dig_loss: 0.2594 - val_loss: 116.0635 - val_box_loss: 115.8097 - val_dig_loss: 0.2538
+Epoch 4/100
+65/65 - 4s - loss: 86.8705 - box_loss: 86.6330 - dig_loss: 0.2375 - val_loss: 124.4436 - val_box_loss: 124.2051 - val_dig_loss: 0.2386
+Epoch 5/100
+65/65 - 4s - loss: 75.9606 - box_loss: 75.7316 - dig_loss: 0.2290 - val_loss: 135.8042 - val_box_loss: 135.5709 - val_dig_loss: 0.2333
+Epoch 6/100
+65/65 - 4s - loss: 67.8335 - box_loss: 67.6123 - dig_loss: 0.2212 - val_loss: 129.3111 - val_box_loss: 129.0813 - val_dig_loss: 0.2298
+Epoch 7/100
+65/65 - 4s - loss: 63.5148 - box_loss: 63.2989 - dig_loss: 0.2159 - val_loss: 141.1717 - val_box_loss: 140.9431 - val_dig_loss: 0.2286
+Epoch 8/100
+65/65 - 4s - loss: 56.7494 - box_loss: 56.5374 - dig_loss: 0.2120 - val_loss: 131.1535 - val_box_loss: 130.9351 - val_dig_loss: 0.2184
+Epoch 9/100
+65/65 - 4s - loss: 53.4935 - box_loss: 53.2868 - dig_loss: 0.2067 - val_loss: 132.3582 - val_box_loss: 132.1362 - val_dig_loss: 0.2220
+Epoch 10/100
+65/65 - 4s - loss: 48.8588 - box_loss: 48.6538 - dig_loss: 0.2050 - val_loss: 128.3116 - val_box_loss: 128.0963 - val_dig_loss: 0.2153
+Epoch 11/100
+65/65 - 4s - loss: 45.9330 - box_loss: 45.7338 - dig_loss: 0.1993 - val_loss: 127.3630 - val_box_loss: 127.1472 - val_dig_loss: 0.2157
+saving model CNNboxUNCERTAIN+WIND3
+model 4/120
+time elapsed:
+00:05:13.68
+estimated time left:
+02:31:36.60 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 4
+Epoch 1/100
+65/65 - 7s - loss: 113.8325 - box_loss: 113.3680 - dig_loss: 0.4645 - val_loss: 99.6744 - val_box_loss: 99.2431 - val_dig_loss: 0.4313
+Epoch 2/100
+65/65 - 4s - loss: 109.3362 - box_loss: 108.9143 - dig_loss: 0.4219 - val_loss: 116.2211 - val_box_loss: 115.8325 - val_dig_loss: 0.3886
+Epoch 3/100
+65/65 - 4s - loss: 101.8582 - box_loss: 101.4874 - dig_loss: 0.3708 - val_loss: 109.6486 - val_box_loss: 109.3209 - val_dig_loss: 0.3277
+Epoch 4/100
+65/65 - 4s - loss: 98.7924 - box_loss: 98.5045 - dig_loss: 0.2879 - val_loss: 97.0110 - val_box_loss: 96.7151 - val_dig_loss: 0.2959
+Epoch 5/100
+65/65 - 4s - loss: 94.8745 - box_loss: 94.6132 - dig_loss: 0.2613 - val_loss: 100.6573 - val_box_loss: 100.4014 - val_dig_loss: 0.2559
+Epoch 6/100
+65/65 - 4s - loss: 86.3694 - box_loss: 86.1255 - dig_loss: 0.2438 - val_loss: 141.1318 - val_box_loss: 140.8790 - val_dig_loss: 0.2528
+Epoch 7/100
+65/65 - 4s - loss: 80.1965 - box_loss: 79.9552 - dig_loss: 0.2412 - val_loss: 116.7899 - val_box_loss: 116.5440 - val_dig_loss: 0.2459
+Epoch 8/100
+65/65 - 4s - loss: 70.6071 - box_loss: 70.3735 - dig_loss: 0.2336 - val_loss: 125.9390 - val_box_loss: 125.7061 - val_dig_loss: 0.2329
+Epoch 9/100
+65/65 - 4s - loss: 64.0395 - box_loss: 63.8156 - dig_loss: 0.2239 - val_loss: 133.3069 - val_box_loss: 133.0694 - val_dig_loss: 0.2375
+Epoch 10/100
+65/65 - 4s - loss: 59.7485 - box_loss: 59.5282 - dig_loss: 0.2203 - val_loss: 141.2582 - val_box_loss: 141.0246 - val_dig_loss: 0.2336
+Epoch 11/100
+65/65 - 4s - loss: 59.3907 - box_loss: 59.1709 - dig_loss: 0.2197 - val_loss: 133.2330 - val_box_loss: 132.9914 - val_dig_loss: 0.2416
+Epoch 12/100
+65/65 - 4s - loss: 54.1722 - box_loss: 53.9554 - dig_loss: 0.2168 - val_loss: 131.1050 - val_box_loss: 130.8805 - val_dig_loss: 0.2245
+Epoch 13/100
+65/65 - 4s - loss: 49.8352 - box_loss: 49.6238 - dig_loss: 0.2114 - val_loss: 130.2189 - val_box_loss: 129.9923 - val_dig_loss: 0.2266
+Epoch 14/100
+65/65 - 4s - loss: 47.6533 - box_loss: 47.4432 - dig_loss: 0.2101 - val_loss: 128.3887 - val_box_loss: 128.1645 - val_dig_loss: 0.2242
+saving model CNNboxUNCERTAIN+WIND4
+model 5/120
+time elapsed:
+00:06:30.75
+estimated time left:
+02:29:47.18 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 5
+Epoch 1/100
+65/65 - 7s - loss: 112.3087 - box_loss: 111.8517 - dig_loss: 0.4570 - val_loss: 110.1916 - val_box_loss: 109.7609 - val_dig_loss: 0.4307
+Epoch 2/100
+65/65 - 4s - loss: 106.1523 - box_loss: 105.7262 - dig_loss: 0.4261 - val_loss: 102.2509 - val_box_loss: 101.8357 - val_dig_loss: 0.4152
+Epoch 3/100
+65/65 - 4s - loss: 99.7274 - box_loss: 99.3375 - dig_loss: 0.3899 - val_loss: 119.0528 - val_box_loss: 118.7283 - val_dig_loss: 0.3244
+Epoch 4/100
+65/65 - 4s - loss: 97.4895 - box_loss: 97.1944 - dig_loss: 0.2951 - val_loss: 133.1718 - val_box_loss: 132.9076 - val_dig_loss: 0.2642
+Epoch 5/100
+65/65 - 4s - loss: 91.4802 - box_loss: 91.2267 - dig_loss: 0.2536 - val_loss: 111.1243 - val_box_loss: 110.8655 - val_dig_loss: 0.2588
+Epoch 6/100
+65/65 - 4s - loss: 79.1583 - box_loss: 78.9230 - dig_loss: 0.2353 - val_loss: 137.6108 - val_box_loss: 137.3755 - val_dig_loss: 0.2354
+Epoch 7/100
+65/65 - 4s - loss: 72.8510 - box_loss: 72.6270 - dig_loss: 0.2240 - val_loss: 137.2337 - val_box_loss: 137.0037 - val_dig_loss: 0.2299
+Epoch 8/100
+65/65 - 4s - loss: 66.2266 - box_loss: 66.0115 - dig_loss: 0.2151 - val_loss: 134.8182 - val_box_loss: 134.5917 - val_dig_loss: 0.2265
+Epoch 9/100
+65/65 - 4s - loss: 67.3269 - box_loss: 67.1046 - dig_loss: 0.2223 - val_loss: 121.8626 - val_box_loss: 121.6182 - val_dig_loss: 0.2444
+Epoch 10/100
+65/65 - 4s - loss: 59.8644 - box_loss: 59.6523 - dig_loss: 0.2121 - val_loss: 130.7070 - val_box_loss: 130.4939 - val_dig_loss: 0.2131
+Epoch 11/100
+65/65 - 4s - loss: 56.2979 - box_loss: 56.0919 - dig_loss: 0.2060 - val_loss: 129.7044 - val_box_loss: 129.4961 - val_dig_loss: 0.2083
+Epoch 12/100
+65/65 - 4s - loss: 49.4040 - box_loss: 49.2078 - dig_loss: 0.1962 - val_loss: 127.9147 - val_box_loss: 127.7114 - val_dig_loss: 0.2032
+saving model CNNboxUNCERTAIN+WIND5
+model 6/120
+time elapsed:
+00:07:38.54
+estimated time left:
+02:25:12.34 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 6
+Epoch 1/100
+65/65 - 7s - loss: 115.0396 - box_loss: 114.6147 - dig_loss: 0.4250 - val_loss: 96.2294 - val_box_loss: 95.8428 - val_dig_loss: 0.3866
+Epoch 2/100
+65/65 - 4s - loss: 100.8897 - box_loss: 100.5722 - dig_loss: 0.3175 - val_loss: 101.1229 - val_box_loss: 100.8359 - val_dig_loss: 0.2870
+Epoch 3/100
+65/65 - 4s - loss: 88.2054 - box_loss: 87.9573 - dig_loss: 0.2481 - val_loss: 105.9437 - val_box_loss: 105.6934 - val_dig_loss: 0.2503
+Epoch 4/100
+65/65 - 4s - loss: 77.4644 - box_loss: 77.2282 - dig_loss: 0.2362 - val_loss: 111.7527 - val_box_loss: 111.5114 - val_dig_loss: 0.2413
+Epoch 5/100
+65/65 - 4s - loss: 68.8773 - box_loss: 68.6514 - dig_loss: 0.2259 - val_loss: 111.4880 - val_box_loss: 111.2579 - val_dig_loss: 0.2301
+Epoch 6/100
+65/65 - 4s - loss: 61.7437 - box_loss: 61.5212 - dig_loss: 0.2225 - val_loss: 114.3231 - val_box_loss: 114.0970 - val_dig_loss: 0.2262
+Epoch 7/100
+65/65 - 4s - loss: 59.0514 - box_loss: 58.8339 - dig_loss: 0.2175 - val_loss: 129.5332 - val_box_loss: 129.3109 - val_dig_loss: 0.2224
+Epoch 8/100
+65/65 - 4s - loss: 54.0938 - box_loss: 53.8811 - dig_loss: 0.2127 - val_loss: 120.8200 - val_box_loss: 120.6003 - val_dig_loss: 0.2198
+Epoch 9/100
+65/65 - 4s - loss: 48.1612 - box_loss: 47.9556 - dig_loss: 0.2056 - val_loss: 122.3442 - val_box_loss: 122.1266 - val_dig_loss: 0.2176
+Epoch 10/100
+65/65 - 4s - loss: 47.5572 - box_loss: 47.3548 - dig_loss: 0.2024 - val_loss: 123.2499 - val_box_loss: 123.0318 - val_dig_loss: 0.2182
+Epoch 11/100
+65/65 - 4s - loss: 45.4425 - box_loss: 45.2417 - dig_loss: 0.2008 - val_loss: 125.4836 - val_box_loss: 125.2714 - val_dig_loss: 0.2122
+saving model CNNboxUNCERTAIN+WIND6
+model 7/120
+time elapsed:
+00:08:42.12
+estimated time left:
+02:20:28.45 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 7
+Epoch 1/100
+65/65 - 7s - loss: 115.2077 - box_loss: 114.7566 - dig_loss: 0.4511 - val_loss: 104.2950 - val_box_loss: 103.8653 - val_dig_loss: 0.4298
+Epoch 2/100
+65/65 - 4s - loss: 102.6618 - box_loss: 102.2447 - dig_loss: 0.4171 - val_loss: 112.5110 - val_box_loss: 112.1503 - val_dig_loss: 0.3607
+Epoch 3/100
+65/65 - 4s - loss: 98.0531 - box_loss: 97.7327 - dig_loss: 0.3204 - val_loss: 118.6545 - val_box_loss: 118.3752 - val_dig_loss: 0.2793
+Epoch 4/100
+65/65 - 4s - loss: 92.8973 - box_loss: 92.6231 - dig_loss: 0.2742 - val_loss: 121.8743 - val_box_loss: 121.6176 - val_dig_loss: 0.2567
+Epoch 5/100
+65/65 - 4s - loss: 85.4492 - box_loss: 85.2096 - dig_loss: 0.2396 - val_loss: 139.1919 - val_box_loss: 138.9448 - val_dig_loss: 0.2471
+Epoch 6/100
+65/65 - 4s - loss: 78.8007 - box_loss: 78.5651 - dig_loss: 0.2357 - val_loss: 138.8003 - val_box_loss: 138.5676 - val_dig_loss: 0.2327
+Epoch 7/100
+65/65 - 4s - loss: 70.7979 - box_loss: 70.5736 - dig_loss: 0.2243 - val_loss: 134.8172 - val_box_loss: 134.5944 - val_dig_loss: 0.2228
+Epoch 8/100
+65/65 - 4s - loss: 64.2260 - box_loss: 64.0099 - dig_loss: 0.2161 - val_loss: 138.0910 - val_box_loss: 137.8616 - val_dig_loss: 0.2294
+Epoch 9/100
+65/65 - 4s - loss: 58.6761 - box_loss: 58.4652 - dig_loss: 0.2109 - val_loss: 129.8169 - val_box_loss: 129.6003 - val_dig_loss: 0.2167
+Epoch 10/100
+65/65 - 4s - loss: 53.6971 - box_loss: 53.4874 - dig_loss: 0.2097 - val_loss: 130.9138 - val_box_loss: 130.6919 - val_dig_loss: 0.2219
+Epoch 11/100
+65/65 - 4s - loss: 49.6925 - box_loss: 49.4884 - dig_loss: 0.2040 - val_loss: 126.6289 - val_box_loss: 126.4172 - val_dig_loss: 0.2117
+saving model CNNboxUNCERTAIN+WIND7
+model 8/120
+time elapsed:
+00:09:45.88
+estimated time left:
+02:16:42.32 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 8
+Epoch 1/100
+65/65 - 7s - loss: 113.0573 - box_loss: 112.5934 - dig_loss: 0.4640 - val_loss: 99.6676 - val_box_loss: 99.2625 - val_dig_loss: 0.4052
+Epoch 2/100
+65/65 - 4s - loss: 104.3237 - box_loss: 103.9445 - dig_loss: 0.3791 - val_loss: 107.3950 - val_box_loss: 107.0401 - val_dig_loss: 0.3548
+Epoch 3/100
+65/65 - 4s - loss: 98.2561 - box_loss: 97.9695 - dig_loss: 0.2866 - val_loss: 109.4996 - val_box_loss: 109.2293 - val_dig_loss: 0.2703
+Epoch 4/100
+65/65 - 4s - loss: 90.0715 - box_loss: 89.8217 - dig_loss: 0.2497 - val_loss: 115.2971 - val_box_loss: 115.0486 - val_dig_loss: 0.2485
+Epoch 5/100
+65/65 - 4s - loss: 81.0533 - box_loss: 80.8201 - dig_loss: 0.2332 - val_loss: 127.7612 - val_box_loss: 127.5192 - val_dig_loss: 0.2420
+Epoch 6/100
+65/65 - 4s - loss: 73.0212 - box_loss: 72.7963 - dig_loss: 0.2249 - val_loss: 137.8631 - val_box_loss: 137.6319 - val_dig_loss: 0.2312
+Epoch 7/100
+65/65 - 4s - loss: 65.0819 - box_loss: 64.8636 - dig_loss: 0.2182 - val_loss: 137.7824 - val_box_loss: 137.5497 - val_dig_loss: 0.2327
+Epoch 8/100
+65/65 - 4s - loss: 57.3643 - box_loss: 57.1496 - dig_loss: 0.2147 - val_loss: 132.8432 - val_box_loss: 132.6211 - val_dig_loss: 0.2221
+Epoch 9/100
+65/65 - 4s - loss: 54.4079 - box_loss: 54.1928 - dig_loss: 0.2151 - val_loss: 130.7218 - val_box_loss: 130.4973 - val_dig_loss: 0.2246
+Epoch 10/100
+65/65 - 4s - loss: 49.3235 - box_loss: 49.1136 - dig_loss: 0.2098 - val_loss: 130.5398 - val_box_loss: 130.3147 - val_dig_loss: 0.2251
+Epoch 11/100
+65/65 - 4s - loss: 45.6533 - box_loss: 45.4476 - dig_loss: 0.2057 - val_loss: 128.1357 - val_box_loss: 127.9150 - val_dig_loss: 0.2207
+saving model CNNboxUNCERTAIN+WIND8
+model 9/120
+time elapsed:
+00:10:50.24
+estimated time left:
+02:13:39.66 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 9
+Epoch 1/100
+65/65 - 7s - loss: 112.6963 - box_loss: 112.2302 - dig_loss: 0.4660 - val_loss: 118.8997 - val_box_loss: 118.4656 - val_dig_loss: 0.4340
+Epoch 2/100
+65/65 - 4s - loss: 101.3236 - box_loss: 100.9090 - dig_loss: 0.4145 - val_loss: 96.8957 - val_box_loss: 96.4913 - val_dig_loss: 0.4044
+Epoch 3/100
+65/65 - 4s - loss: 92.8730 - box_loss: 92.5409 - dig_loss: 0.3321 - val_loss: 118.7764 - val_box_loss: 118.4917 - val_dig_loss: 0.2847
+Epoch 4/100
+65/65 - 4s - loss: 83.9986 - box_loss: 83.7411 - dig_loss: 0.2574 - val_loss: 106.3292 - val_box_loss: 106.0706 - val_dig_loss: 0.2586
+Epoch 5/100
+65/65 - 4s - loss: 78.7595 - box_loss: 78.5197 - dig_loss: 0.2398 - val_loss: 103.6906 - val_box_loss: 103.4391 - val_dig_loss: 0.2515
+Epoch 6/100
+65/65 - 4s - loss: 72.9128 - box_loss: 72.6799 - dig_loss: 0.2329 - val_loss: 115.8925 - val_box_loss: 115.6561 - val_dig_loss: 0.2364
+Epoch 7/100
+65/65 - 4s - loss: 66.6050 - box_loss: 66.3811 - dig_loss: 0.2239 - val_loss: 132.8338 - val_box_loss: 132.6085 - val_dig_loss: 0.2253
+Epoch 8/100
+65/65 - 4s - loss: 62.9263 - box_loss: 62.7046 - dig_loss: 0.2217 - val_loss: 130.9012 - val_box_loss: 130.6775 - val_dig_loss: 0.2237
+Epoch 9/100
+65/65 - 4s - loss: 54.7551 - box_loss: 54.5419 - dig_loss: 0.2132 - val_loss: 130.4023 - val_box_loss: 130.1840 - val_dig_loss: 0.2183
+Epoch 10/100
+65/65 - 4s - loss: 51.3370 - box_loss: 51.1288 - dig_loss: 0.2082 - val_loss: 129.9101 - val_box_loss: 129.6935 - val_dig_loss: 0.2167
+Epoch 11/100
+65/65 - 4s - loss: 47.4888 - box_loss: 47.2847 - dig_loss: 0.2041 - val_loss: 131.1626 - val_box_loss: 130.9471 - val_dig_loss: 0.2155
+Epoch 12/100
+65/65 - 4s - loss: 45.2525 - box_loss: 45.0504 - dig_loss: 0.2021 - val_loss: 129.0004 - val_box_loss: 128.7841 - val_dig_loss: 0.2163
+saving model CNNboxUNCERTAIN+WIND9
+model 10/120
+time elapsed:
+00:11:58.46
+estimated time left:
+02:11:43.07 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 10
+Epoch 1/100
+65/65 - 7s - loss: 113.8270 - box_loss: 113.3351 - dig_loss: 0.4919 - val_loss: 99.8771 - val_box_loss: 99.4385 - val_dig_loss: 0.4387
+Epoch 2/100
+65/65 - 4s - loss: 102.9874 - box_loss: 102.5538 - dig_loss: 0.4336 - val_loss: 100.0923 - val_box_loss: 99.6769 - val_dig_loss: 0.4154
+Epoch 3/100
+65/65 - 4s - loss: 98.9178 - box_loss: 98.5622 - dig_loss: 0.3557 - val_loss: 109.8681 - val_box_loss: 109.5367 - val_dig_loss: 0.3313
+Epoch 4/100
+65/65 - 4s - loss: 90.7284 - box_loss: 90.4499 - dig_loss: 0.2786 - val_loss: 112.3334 - val_box_loss: 112.0632 - val_dig_loss: 0.2702
+Epoch 5/100
+65/65 - 4s - loss: 85.3082 - box_loss: 85.0553 - dig_loss: 0.2528 - val_loss: 100.6081 - val_box_loss: 100.3291 - val_dig_loss: 0.2790
+Epoch 6/100
+65/65 - 4s - loss: 79.2533 - box_loss: 79.0069 - dig_loss: 0.2465 - val_loss: 116.9326 - val_box_loss: 116.6875 - val_dig_loss: 0.2451
+Epoch 7/100
+65/65 - 4s - loss: 68.6578 - box_loss: 68.4247 - dig_loss: 0.2331 - val_loss: 124.2290 - val_box_loss: 123.9888 - val_dig_loss: 0.2402
+Epoch 8/100
+65/65 - 4s - loss: 59.7616 - box_loss: 59.5370 - dig_loss: 0.2246 - val_loss: 117.9895 - val_box_loss: 117.7559 - val_dig_loss: 0.2336
+Epoch 9/100
+65/65 - 4s - loss: 54.7620 - box_loss: 54.5433 - dig_loss: 0.2187 - val_loss: 130.5064 - val_box_loss: 130.2771 - val_dig_loss: 0.2293
+Epoch 10/100
+65/65 - 4s - loss: 51.2446 - box_loss: 51.0315 - dig_loss: 0.2131 - val_loss: 135.6674 - val_box_loss: 135.4379 - val_dig_loss: 0.2295
+Epoch 11/100
+65/65 - 4s - loss: 48.7889 - box_loss: 48.5795 - dig_loss: 0.2094 - val_loss: 129.5363 - val_box_loss: 129.3106 - val_dig_loss: 0.2257
+saving model CNNboxUNCERTAIN+WIND10
+model 11/120
+time elapsed:
+00:13:02.21
+estimated time left:
+02:09:10.99 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 11
+Epoch 1/100
+65/65 - 7s - loss: 112.4406 - box_loss: 111.9766 - dig_loss: 0.4640 - val_loss: 105.0966 - val_box_loss: 104.6828 - val_dig_loss: 0.4138
+Epoch 2/100
+65/65 - 4s - loss: 105.1790 - box_loss: 104.7851 - dig_loss: 0.3939 - val_loss: 101.6140 - val_box_loss: 101.2481 - val_dig_loss: 0.3659
+Epoch 3/100
+65/65 - 4s - loss: 98.2462 - box_loss: 97.9403 - dig_loss: 0.3059 - val_loss: 106.7985 - val_box_loss: 106.5195 - val_dig_loss: 0.2790
+Epoch 4/100
+65/65 - 4s - loss: 89.8772 - box_loss: 89.6289 - dig_loss: 0.2483 - val_loss: 110.4221 - val_box_loss: 110.1681 - val_dig_loss: 0.2540
+Epoch 5/100
+65/65 - 4s - loss: 79.6989 - box_loss: 79.4620 - dig_loss: 0.2369 - val_loss: 98.1536 - val_box_loss: 97.9052 - val_dig_loss: 0.2484
+Epoch 6/100
+65/65 - 4s - loss: 73.1322 - box_loss: 72.9012 - dig_loss: 0.2310 - val_loss: 104.4034 - val_box_loss: 104.1689 - val_dig_loss: 0.2346
+Epoch 7/100
+65/65 - 4s - loss: 66.0778 - box_loss: 65.8538 - dig_loss: 0.2240 - val_loss: 117.9458 - val_box_loss: 117.7147 - val_dig_loss: 0.2310
+Epoch 8/100
+65/65 - 4s - loss: 58.4038 - box_loss: 58.1856 - dig_loss: 0.2183 - val_loss: 125.8264 - val_box_loss: 125.6027 - val_dig_loss: 0.2238
+Epoch 9/100
+65/65 - 4s - loss: 52.6809 - box_loss: 52.4667 - dig_loss: 0.2142 - val_loss: 121.4748 - val_box_loss: 121.2527 - val_dig_loss: 0.2222
+Epoch 10/100
+65/65 - 4s - loss: 52.1751 - box_loss: 51.9638 - dig_loss: 0.2112 - val_loss: 130.6136 - val_box_loss: 130.3888 - val_dig_loss: 0.2248
+Epoch 11/100
+65/65 - 4s - loss: 50.2087 - box_loss: 50.0000 - dig_loss: 0.2087 - val_loss: 124.9292 - val_box_loss: 124.7118 - val_dig_loss: 0.2174
+Epoch 12/100
+65/65 - 4s - loss: 45.7311 - box_loss: 45.5275 - dig_loss: 0.2037 - val_loss: 126.8983 - val_box_loss: 126.6825 - val_dig_loss: 0.2158
+Epoch 13/100
+65/65 - 4s - loss: 43.5267 - box_loss: 43.3252 - dig_loss: 0.2014 - val_loss: 126.6637 - val_box_loss: 126.4494 - val_dig_loss: 0.2144
+Epoch 14/100
+65/65 - 4s - loss: 41.6280 - box_loss: 41.4285 - dig_loss: 0.1995 - val_loss: 128.4016 - val_box_loss: 128.1872 - val_dig_loss: 0.2144
+Epoch 15/100
+65/65 - 4s - loss: 40.3923 - box_loss: 40.1966 - dig_loss: 0.1957 - val_loss: 126.2970 - val_box_loss: 126.0861 - val_dig_loss: 0.2110
+saving model CNNboxUNCERTAIN+WIND11
+model 12/120
+time elapsed:
+00:14:23.54
+estimated time left:
+02:09:31.87 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 12
+Epoch 1/100
+65/65 - 7s - loss: 113.3028 - box_loss: 112.7975 - dig_loss: 0.5053 - val_loss: 116.0522 - val_box_loss: 115.6158 - val_dig_loss: 0.4363
+Epoch 2/100
+65/65 - 4s - loss: 101.8561 - box_loss: 101.4133 - dig_loss: 0.4428 - val_loss: 105.8488 - val_box_loss: 105.4132 - val_dig_loss: 0.4355
+Epoch 3/100
+65/65 - 4s - loss: 100.0414 - box_loss: 99.5999 - dig_loss: 0.4415 - val_loss: 125.1022 - val_box_loss: 124.6701 - val_dig_loss: 0.4321
+Epoch 4/100
+65/65 - 4s - loss: 95.6340 - box_loss: 95.2384 - dig_loss: 0.3956 - val_loss: 109.2422 - val_box_loss: 108.8957 - val_dig_loss: 0.3465
+Epoch 5/100
+65/65 - 4s - loss: 90.5072 - box_loss: 90.2015 - dig_loss: 0.3057 - val_loss: 107.5062 - val_box_loss: 107.2141 - val_dig_loss: 0.2920
+Epoch 6/100
+65/65 - 4s - loss: 81.9781 - box_loss: 81.7091 - dig_loss: 0.2691 - val_loss: 133.4645 - val_box_loss: 133.1984 - val_dig_loss: 0.2660
+Epoch 7/100
+65/65 - 4s - loss: 74.6685 - box_loss: 74.4142 - dig_loss: 0.2543 - val_loss: 132.7800 - val_box_loss: 132.5276 - val_dig_loss: 0.2523
+Epoch 8/100
+65/65 - 4s - loss: 67.8169 - box_loss: 67.5751 - dig_loss: 0.2417 - val_loss: 138.2828 - val_box_loss: 138.0396 - val_dig_loss: 0.2432
+Epoch 9/100
+65/65 - 4s - loss: 59.9593 - box_loss: 59.7256 - dig_loss: 0.2337 - val_loss: 135.7759 - val_box_loss: 135.5366 - val_dig_loss: 0.2393
+Epoch 10/100
+65/65 - 4s - loss: 55.8222 - box_loss: 55.5941 - dig_loss: 0.2281 - val_loss: 134.7012 - val_box_loss: 134.4660 - val_dig_loss: 0.2352
+Epoch 11/100
+65/65 - 4s - loss: 52.4295 - box_loss: 52.2066 - dig_loss: 0.2229 - val_loss: 130.2742 - val_box_loss: 130.0440 - val_dig_loss: 0.2302
+Epoch 12/100
+65/65 - 4s - loss: 51.1784 - box_loss: 50.9595 - dig_loss: 0.2189 - val_loss: 130.2706 - val_box_loss: 130.0426 - val_dig_loss: 0.2280
+saving model CNNboxUNCERTAIN+WIND12
+model 13/120
+time elapsed:
+00:15:31.56
+estimated time left:
+02:07:47.45 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 13
+Epoch 1/100
+65/65 - 7s - loss: 113.2735 - box_loss: 112.8333 - dig_loss: 0.4402 - val_loss: 99.1290 - val_box_loss: 98.7244 - val_dig_loss: 0.4046
+Epoch 2/100
+65/65 - 4s - loss: 101.1126 - box_loss: 100.7862 - dig_loss: 0.3264 - val_loss: 100.2188 - val_box_loss: 99.9059 - val_dig_loss: 0.3129
+Epoch 3/100
+65/65 - 4s - loss: 93.8952 - box_loss: 93.6371 - dig_loss: 0.2582 - val_loss: 110.3817 - val_box_loss: 110.1317 - val_dig_loss: 0.2501
+Epoch 4/100
+65/65 - 4s - loss: 86.9116 - box_loss: 86.6742 - dig_loss: 0.2375 - val_loss: 122.1022 - val_box_loss: 121.8621 - val_dig_loss: 0.2401
+Epoch 5/100
+65/65 - 4s - loss: 78.8134 - box_loss: 78.5831 - dig_loss: 0.2303 - val_loss: 115.9591 - val_box_loss: 115.7219 - val_dig_loss: 0.2372
+Epoch 6/100
+65/65 - 4s - loss: 72.0229 - box_loss: 71.7974 - dig_loss: 0.2255 - val_loss: 119.4453 - val_box_loss: 119.2115 - val_dig_loss: 0.2338
+Epoch 7/100
+65/65 - 4s - loss: 63.5708 - box_loss: 63.3501 - dig_loss: 0.2207 - val_loss: 134.6747 - val_box_loss: 134.4485 - val_dig_loss: 0.2262
+Epoch 8/100
+65/65 - 4s - loss: 58.2617 - box_loss: 58.0460 - dig_loss: 0.2157 - val_loss: 134.2977 - val_box_loss: 134.0729 - val_dig_loss: 0.2248
+Epoch 9/100
+65/65 - 4s - loss: 54.5712 - box_loss: 54.3615 - dig_loss: 0.2098 - val_loss: 135.9725 - val_box_loss: 135.7460 - val_dig_loss: 0.2265
+Epoch 10/100
+65/65 - 4s - loss: 52.4108 - box_loss: 52.2011 - dig_loss: 0.2097 - val_loss: 133.2222 - val_box_loss: 133.0028 - val_dig_loss: 0.2194
+Epoch 11/100
+65/65 - 5s - loss: 47.8495 - box_loss: 47.6429 - dig_loss: 0.2065 - val_loss: 128.8353 - val_box_loss: 128.6190 - val_dig_loss: 0.2163
+saving model CNNboxUNCERTAIN+WIND13
+model 14/120
+time elapsed:
+00:16:35.46
+estimated time left:
+02:05:37.06 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 14
+Epoch 1/100
+65/65 - 7s - loss: 118.5138 - box_loss: 118.0392 - dig_loss: 0.4746 - val_loss: 100.3090 - val_box_loss: 99.8567 - val_dig_loss: 0.4523
+Epoch 2/100
+65/65 - 4s - loss: 102.6725 - box_loss: 102.2532 - dig_loss: 0.4193 - val_loss: 117.9028 - val_box_loss: 117.5356 - val_dig_loss: 0.3672
+Epoch 3/100
+65/65 - 4s - loss: 100.4527 - box_loss: 100.1316 - dig_loss: 0.3211 - val_loss: 121.3910 - val_box_loss: 121.1149 - val_dig_loss: 0.2761
+Epoch 4/100
+65/65 - 4s - loss: 94.2403 - box_loss: 93.9831 - dig_loss: 0.2572 - val_loss: 115.3698 - val_box_loss: 115.1056 - val_dig_loss: 0.2642
+Epoch 5/100
+65/65 - 4s - loss: 85.6352 - box_loss: 85.3913 - dig_loss: 0.2439 - val_loss: 115.1486 - val_box_loss: 114.8959 - val_dig_loss: 0.2527
+Epoch 6/100
+65/65 - 4s - loss: 78.0321 - box_loss: 77.8002 - dig_loss: 0.2319 - val_loss: 127.7502 - val_box_loss: 127.5081 - val_dig_loss: 0.2420
+Epoch 7/100
+65/65 - 4s - loss: 66.5753 - box_loss: 66.3519 - dig_loss: 0.2234 - val_loss: 141.0784 - val_box_loss: 140.8407 - val_dig_loss: 0.2377
+Epoch 8/100
+65/65 - 4s - loss: 62.7095 - box_loss: 62.4904 - dig_loss: 0.2191 - val_loss: 134.6973 - val_box_loss: 134.4634 - val_dig_loss: 0.2339
+Epoch 9/100
+65/65 - 4s - loss: 57.3190 - box_loss: 57.1060 - dig_loss: 0.2130 - val_loss: 132.1737 - val_box_loss: 131.9436 - val_dig_loss: 0.2301
+Epoch 10/100
+65/65 - 4s - loss: 50.9204 - box_loss: 50.7102 - dig_loss: 0.2102 - val_loss: 131.6154 - val_box_loss: 131.3873 - val_dig_loss: 0.2281
+Epoch 11/100
+65/65 - 4s - loss: 50.3676 - box_loss: 50.1614 - dig_loss: 0.2062 - val_loss: 129.8788 - val_box_loss: 129.6549 - val_dig_loss: 0.2239
+saving model CNNboxUNCERTAIN+WIND14
+model 15/120
+time elapsed:
+00:17:38.82
+estimated time left:
+02:03:31.72 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 15
+Epoch 1/100
+65/65 - 7s - loss: 119.3459 - box_loss: 118.8900 - dig_loss: 0.4559 - val_loss: 100.4416 - val_box_loss: 99.9939 - val_dig_loss: 0.4478
+Epoch 2/100
+65/65 - 4s - loss: 110.8770 - box_loss: 110.4624 - dig_loss: 0.4146 - val_loss: 102.6848 - val_box_loss: 102.2964 - val_dig_loss: 0.3884
+Epoch 3/100
+65/65 - 4s - loss: 105.0216 - box_loss: 104.6736 - dig_loss: 0.3481 - val_loss: 108.4456 - val_box_loss: 108.1504 - val_dig_loss: 0.2953
+Epoch 4/100
+65/65 - 4s - loss: 99.1293 - box_loss: 98.8696 - dig_loss: 0.2597 - val_loss: 98.4277 - val_box_loss: 98.1164 - val_dig_loss: 0.3112
+Epoch 5/100
+65/65 - 4s - loss: 95.2084 - box_loss: 94.9406 - dig_loss: 0.2678 - val_loss: 113.4229 - val_box_loss: 113.1669 - val_dig_loss: 0.2559
+Epoch 6/100
+65/65 - 4s - loss: 88.8463 - box_loss: 88.6048 - dig_loss: 0.2414 - val_loss: 109.2712 - val_box_loss: 109.0234 - val_dig_loss: 0.2478
+Epoch 7/100
+65/65 - 4s - loss: 80.1576 - box_loss: 79.9230 - dig_loss: 0.2345 - val_loss: 132.2423 - val_box_loss: 132.0002 - val_dig_loss: 0.2421
+Epoch 8/100
+65/65 - 4s - loss: 73.7941 - box_loss: 73.5657 - dig_loss: 0.2285 - val_loss: 129.0611 - val_box_loss: 128.8269 - val_dig_loss: 0.2342
+Epoch 9/100
+65/65 - 4s - loss: 66.4471 - box_loss: 66.2234 - dig_loss: 0.2237 - val_loss: 140.5547 - val_box_loss: 140.3226 - val_dig_loss: 0.2320
+Epoch 10/100
+65/65 - 4s - loss: 60.6935 - box_loss: 60.4680 - dig_loss: 0.2255 - val_loss: 136.4363 - val_box_loss: 136.2020 - val_dig_loss: 0.2343
+Epoch 11/100
+65/65 - 4s - loss: 55.1736 - box_loss: 54.9585 - dig_loss: 0.2151 - val_loss: 133.9297 - val_box_loss: 133.7059 - val_dig_loss: 0.2238
+Epoch 12/100
+65/65 - 4s - loss: 51.9895 - box_loss: 51.7793 - dig_loss: 0.2102 - val_loss: 129.7188 - val_box_loss: 129.4992 - val_dig_loss: 0.2196
+Epoch 13/100
+65/65 - 4s - loss: 50.1473 - box_loss: 49.9400 - dig_loss: 0.2073 - val_loss: 132.0625 - val_box_loss: 131.8436 - val_dig_loss: 0.2189
+Epoch 14/100
+65/65 - 4s - loss: 46.8854 - box_loss: 46.6830 - dig_loss: 0.2024 - val_loss: 127.5776 - val_box_loss: 127.3633 - val_dig_loss: 0.2143
+saving model CNNboxUNCERTAIN+WIND15
+model 16/120
+time elapsed:
+00:18:55.77
+estimated time left:
+02:03:02.50 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 16
+Epoch 1/100
+65/65 - 7s - loss: 113.2779 - box_loss: 112.7887 - dig_loss: 0.4892 - val_loss: 97.8769 - val_box_loss: 97.4327 - val_dig_loss: 0.4442
+Epoch 2/100
+65/65 - 4s - loss: 104.2084 - box_loss: 103.7696 - dig_loss: 0.4389 - val_loss: 121.8532 - val_box_loss: 121.4203 - val_dig_loss: 0.4329
+Epoch 3/100
+65/65 - 4s - loss: 100.9430 - box_loss: 100.5197 - dig_loss: 0.4233 - val_loss: 107.4321 - val_box_loss: 107.0359 - val_dig_loss: 0.3963
+Epoch 4/100
+65/65 - 4s - loss: 99.1231 - box_loss: 98.7269 - dig_loss: 0.3962 - val_loss: 103.7391 - val_box_loss: 103.3792 - val_dig_loss: 0.3598
+Epoch 5/100
+65/65 - 4s - loss: 95.7628 - box_loss: 95.4362 - dig_loss: 0.3266 - val_loss: 110.2646 - val_box_loss: 109.9929 - val_dig_loss: 0.2717
+Epoch 6/100
+65/65 - 4s - loss: 93.3520 - box_loss: 93.0904 - dig_loss: 0.2616 - val_loss: 105.4343 - val_box_loss: 105.1716 - val_dig_loss: 0.2627
+Epoch 7/100
+65/65 - 4s - loss: 93.9735 - box_loss: 93.7272 - dig_loss: 0.2464 - val_loss: 119.4503 - val_box_loss: 119.2075 - val_dig_loss: 0.2427
+Epoch 8/100
+65/65 - 4s - loss: 87.2897 - box_loss: 87.0574 - dig_loss: 0.2323 - val_loss: 98.9314 - val_box_loss: 98.6775 - val_dig_loss: 0.2538
+Epoch 9/100
+65/65 - 4s - loss: 83.2795 - box_loss: 83.0620 - dig_loss: 0.2175 - val_loss: 113.3638 - val_box_loss: 113.1203 - val_dig_loss: 0.2435
+Epoch 10/100
+65/65 - 4s - loss: 80.6060 - box_loss: 80.3888 - dig_loss: 0.2172 - val_loss: 117.3490 - val_box_loss: 117.1332 - val_dig_loss: 0.2158
+Epoch 11/100
+65/65 - 4s - loss: 76.3546 - box_loss: 76.1426 - dig_loss: 0.2120 - val_loss: 114.8179 - val_box_loss: 114.5824 - val_dig_loss: 0.2355
+saving model CNNboxUNCERTAIN+WIND16
+model 17/120
+time elapsed:
+00:19:59.62
+estimated time left:
+02:01:08.30 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 17
+Epoch 1/100
+65/65 - 7s - loss: 114.4851 - box_loss: 114.0168 - dig_loss: 0.4683 - val_loss: 106.5984 - val_box_loss: 106.1670 - val_dig_loss: 0.4313
+Epoch 2/100
+65/65 - 4s - loss: 103.2704 - box_loss: 102.8380 - dig_loss: 0.4324 - val_loss: 106.8117 - val_box_loss: 106.3850 - val_dig_loss: 0.4266
+Epoch 3/100
+65/65 - 4s - loss: 99.4845 - box_loss: 99.0984 - dig_loss: 0.3861 - val_loss: 119.0484 - val_box_loss: 118.7291 - val_dig_loss: 0.3193
+Epoch 4/100
+65/65 - 4s - loss: 93.8193 - box_loss: 93.5387 - dig_loss: 0.2806 - val_loss: 107.0899 - val_box_loss: 106.7570 - val_dig_loss: 0.3328
+Epoch 5/100
+65/65 - 4s - loss: 90.0640 - box_loss: 89.7957 - dig_loss: 0.2682 - val_loss: 134.1733 - val_box_loss: 133.8976 - val_dig_loss: 0.2758
+Epoch 6/100
+65/65 - 4s - loss: 79.9720 - box_loss: 79.7252 - dig_loss: 0.2469 - val_loss: 139.6260 - val_box_loss: 139.3777 - val_dig_loss: 0.2483
+Epoch 7/100
+65/65 - 4s - loss: 72.8508 - box_loss: 72.6137 - dig_loss: 0.2372 - val_loss: 136.1763 - val_box_loss: 135.9370 - val_dig_loss: 0.2392
+Epoch 8/100
+65/65 - 4s - loss: 66.8978 - box_loss: 66.6687 - dig_loss: 0.2290 - val_loss: 136.4535 - val_box_loss: 136.2173 - val_dig_loss: 0.2362
+Epoch 9/100
+65/65 - 4s - loss: 59.8680 - box_loss: 59.6439 - dig_loss: 0.2241 - val_loss: 132.7406 - val_box_loss: 132.5084 - val_dig_loss: 0.2321
+Epoch 10/100
+65/65 - 4s - loss: 57.3714 - box_loss: 57.1514 - dig_loss: 0.2200 - val_loss: 135.2000 - val_box_loss: 134.9642 - val_dig_loss: 0.2358
+Epoch 11/100
+65/65 - 4s - loss: 56.0418 - box_loss: 55.8254 - dig_loss: 0.2163 - val_loss: 141.7112 - val_box_loss: 141.4848 - val_dig_loss: 0.2264
+saving model CNNboxUNCERTAIN+WIND17
+model 18/120
+time elapsed:
+00:21:03.40
+estimated time left:
+01:59:19.26 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 18
+Epoch 1/100
+65/65 - 7s - loss: 121.0459 - box_loss: 120.4735 - dig_loss: 0.5724 - val_loss: 96.8296 - val_box_loss: 96.3394 - val_dig_loss: 0.4902
+Epoch 2/100
+65/65 - 4s - loss: 104.7606 - box_loss: 104.3011 - dig_loss: 0.4595 - val_loss: 99.2955 - val_box_loss: 98.8478 - val_dig_loss: 0.4477
+Epoch 3/100
+65/65 - 4s - loss: 98.8816 - box_loss: 98.4311 - dig_loss: 0.4505 - val_loss: 101.6436 - val_box_loss: 101.2012 - val_dig_loss: 0.4423
+Epoch 4/100
+65/65 - 4s - loss: 91.1311 - box_loss: 90.6989 - dig_loss: 0.4322 - val_loss: 118.9115 - val_box_loss: 118.5391 - val_dig_loss: 0.3725
+Epoch 5/100
+65/65 - 4s - loss: 87.4386 - box_loss: 87.0521 - dig_loss: 0.3865 - val_loss: 123.1265 - val_box_loss: 122.7738 - val_dig_loss: 0.3527
+Epoch 6/100
+65/65 - 4s - loss: 77.8888 - box_loss: 77.5621 - dig_loss: 0.3266 - val_loss: 120.0000 - val_box_loss: 119.6778 - val_dig_loss: 0.3222
+Epoch 7/100
+65/65 - 4s - loss: 75.8275 - box_loss: 75.5327 - dig_loss: 0.2948 - val_loss: 115.3533 - val_box_loss: 115.0692 - val_dig_loss: 0.2841
+Epoch 8/100
+65/65 - 4s - loss: 66.1110 - box_loss: 65.8361 - dig_loss: 0.2749 - val_loss: 130.0694 - val_box_loss: 129.7934 - val_dig_loss: 0.2761
+Epoch 9/100
+65/65 - 4s - loss: 59.5089 - box_loss: 59.2466 - dig_loss: 0.2623 - val_loss: 134.7167 - val_box_loss: 134.4556 - val_dig_loss: 0.2611
+Epoch 10/100
+65/65 - 4s - loss: 54.8763 - box_loss: 54.6245 - dig_loss: 0.2518 - val_loss: 133.3956 - val_box_loss: 133.1428 - val_dig_loss: 0.2528
+Epoch 11/100
+65/65 - 4s - loss: 52.5456 - box_loss: 52.3034 - dig_loss: 0.2422 - val_loss: 129.1355 - val_box_loss: 128.8916 - val_dig_loss: 0.2440
+saving model CNNboxUNCERTAIN+WIND18
+model 19/120
+time elapsed:
+00:22:06.96
+estimated time left:
+01:57:33.83 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 19
+Epoch 1/100
+65/65 - 7s - loss: 113.9168 - box_loss: 113.4321 - dig_loss: 0.4848 - val_loss: 98.1649 - val_box_loss: 97.7256 - val_dig_loss: 0.4392
+Epoch 2/100
+65/65 - 4s - loss: 103.2059 - box_loss: 102.7627 - dig_loss: 0.4432 - val_loss: 106.7273 - val_box_loss: 106.2941 - val_dig_loss: 0.4333
+Epoch 3/100
+65/65 - 4s - loss: 95.9060 - box_loss: 95.4740 - dig_loss: 0.4320 - val_loss: 108.6470 - val_box_loss: 108.2491 - val_dig_loss: 0.3979
+Epoch 4/100
+65/65 - 4s - loss: 90.9874 - box_loss: 90.6558 - dig_loss: 0.3316 - val_loss: 117.9691 - val_box_loss: 117.6595 - val_dig_loss: 0.3096
+Epoch 5/100
+65/65 - 4s - loss: 83.8723 - box_loss: 83.5969 - dig_loss: 0.2754 - val_loss: 124.1326 - val_box_loss: 123.8580 - val_dig_loss: 0.2746
+Epoch 6/100
+65/65 - 4s - loss: 75.8319 - box_loss: 75.5772 - dig_loss: 0.2547 - val_loss: 143.5387 - val_box_loss: 143.2800 - val_dig_loss: 0.2587
+Epoch 7/100
+65/65 - 4s - loss: 66.4200 - box_loss: 66.1765 - dig_loss: 0.2435 - val_loss: 137.8578 - val_box_loss: 137.6115 - val_dig_loss: 0.2463
+Epoch 8/100
+65/65 - 4s - loss: 60.5867 - box_loss: 60.3537 - dig_loss: 0.2330 - val_loss: 135.2852 - val_box_loss: 135.0458 - val_dig_loss: 0.2394
+Epoch 9/100
+65/65 - 4s - loss: 56.6336 - box_loss: 56.4049 - dig_loss: 0.2287 - val_loss: 139.9469 - val_box_loss: 139.7108 - val_dig_loss: 0.2361
+Epoch 10/100
+65/65 - 4s - loss: 52.8057 - box_loss: 52.5816 - dig_loss: 0.2240 - val_loss: 132.4093 - val_box_loss: 132.1764 - val_dig_loss: 0.2329
+Epoch 11/100
+65/65 - 4s - loss: 49.6979 - box_loss: 49.4806 - dig_loss: 0.2173 - val_loss: 133.8302 - val_box_loss: 133.6008 - val_dig_loss: 0.2294
+saving model CNNboxUNCERTAIN+WIND19
+model 20/120
+time elapsed:
+00:23:10.61
+estimated time left:
+01:55:53.03 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 20
+Epoch 1/100
+65/65 - 7s - loss: 113.7415 - box_loss: 113.2470 - dig_loss: 0.4945 - val_loss: 97.3113 - val_box_loss: 96.8797 - val_dig_loss: 0.4316
+Epoch 2/100
+65/65 - 4s - loss: 104.0852 - box_loss: 103.6642 - dig_loss: 0.4211 - val_loss: 94.7227 - val_box_loss: 94.2794 - val_dig_loss: 0.4433
+Epoch 3/100
+65/65 - 5s - loss: 98.9831 - box_loss: 98.6289 - dig_loss: 0.3542 - val_loss: 109.4812 - val_box_loss: 109.1956 - val_dig_loss: 0.2856
+Epoch 4/100
+65/65 - 4s - loss: 91.2425 - box_loss: 90.9785 - dig_loss: 0.2640 - val_loss: 108.4633 - val_box_loss: 108.2008 - val_dig_loss: 0.2625
+Epoch 5/100
+65/65 - 4s - loss: 81.4541 - box_loss: 81.2079 - dig_loss: 0.2462 - val_loss: 130.3346 - val_box_loss: 130.0836 - val_dig_loss: 0.2510
+Epoch 6/100
+65/65 - 4s - loss: 71.0210 - box_loss: 70.7851 - dig_loss: 0.2360 - val_loss: 133.8555 - val_box_loss: 133.6209 - val_dig_loss: 0.2346
+Epoch 7/100
+65/65 - 4s - loss: 65.2404 - box_loss: 65.0146 - dig_loss: 0.2258 - val_loss: 134.5299 - val_box_loss: 134.2967 - val_dig_loss: 0.2332
+Epoch 8/100
+65/65 - 4s - loss: 58.7315 - box_loss: 58.5099 - dig_loss: 0.2216 - val_loss: 131.8222 - val_box_loss: 131.5926 - val_dig_loss: 0.2296
+Epoch 9/100
+65/65 - 4s - loss: 55.4487 - box_loss: 55.2331 - dig_loss: 0.2156 - val_loss: 121.8705 - val_box_loss: 121.6432 - val_dig_loss: 0.2274
+Epoch 10/100
+65/65 - 4s - loss: 51.3562 - box_loss: 51.1469 - dig_loss: 0.2094 - val_loss: 131.0988 - val_box_loss: 130.8791 - val_dig_loss: 0.2197
+Epoch 11/100
+65/65 - 4s - loss: 47.0386 - box_loss: 46.8352 - dig_loss: 0.2034 - val_loss: 130.7119 - val_box_loss: 130.4927 - val_dig_loss: 0.2193
+Epoch 12/100
+65/65 - 4s - loss: 43.7169 - box_loss: 43.5211 - dig_loss: 0.1958 - val_loss: 128.2028 - val_box_loss: 127.9819 - val_dig_loss: 0.2209
+saving model CNNboxUNCERTAIN+WIND20
+model 21/120
+time elapsed:
+00:24:18.66
+estimated time left:
+01:54:36.54 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 21
+Epoch 1/100
+65/65 - 7s - loss: 116.2073 - box_loss: 115.6134 - dig_loss: 0.5940 - val_loss: 102.3952 - val_box_loss: 101.8856 - val_dig_loss: 0.5096
+Epoch 2/100
+65/65 - 4s - loss: 108.3105 - box_loss: 107.8429 - dig_loss: 0.4676 - val_loss: 99.5994 - val_box_loss: 99.1415 - val_dig_loss: 0.4579
+Epoch 3/100
+65/65 - 4s - loss: 103.4163 - box_loss: 102.9614 - dig_loss: 0.4549 - val_loss: 108.8833 - val_box_loss: 108.4393 - val_dig_loss: 0.4441
+Epoch 4/100
+65/65 - 4s - loss: 100.2380 - box_loss: 99.7891 - dig_loss: 0.4488 - val_loss: 103.5722 - val_box_loss: 103.1313 - val_dig_loss: 0.4409
+Epoch 5/100
+65/65 - 4s - loss: 95.6336 - box_loss: 95.1888 - dig_loss: 0.4449 - val_loss: 139.4924 - val_box_loss: 139.0557 - val_dig_loss: 0.4366
+Epoch 6/100
+65/65 - 4s - loss: 89.1722 - box_loss: 88.7291 - dig_loss: 0.4432 - val_loss: 127.1756 - val_box_loss: 126.7403 - val_dig_loss: 0.4353
+Epoch 7/100
+65/65 - 4s - loss: 80.9819 - box_loss: 80.5396 - dig_loss: 0.4424 - val_loss: 145.4788 - val_box_loss: 145.0443 - val_dig_loss: 0.4345
+Epoch 8/100
+65/65 - 4s - loss: 78.4193 - box_loss: 77.9773 - dig_loss: 0.4420 - val_loss: 137.2780 - val_box_loss: 136.8438 - val_dig_loss: 0.4341
+Epoch 9/100
+65/65 - 4s - loss: 72.0362 - box_loss: 71.5944 - dig_loss: 0.4418 - val_loss: 129.5509 - val_box_loss: 129.1169 - val_dig_loss: 0.4339
+Epoch 10/100
+65/65 - 4s - loss: 73.7685 - box_loss: 73.3268 - dig_loss: 0.4417 - val_loss: 134.1160 - val_box_loss: 133.6822 - val_dig_loss: 0.4338
+Epoch 11/100
+65/65 - 4s - loss: 61.1063 - box_loss: 60.6646 - dig_loss: 0.4417 - val_loss: 131.2452 - val_box_loss: 130.8115 - val_dig_loss: 0.4338
+Epoch 12/100
+65/65 - 4s - loss: 56.1953 - box_loss: 55.7536 - dig_loss: 0.4417 - val_loss: 131.5040 - val_box_loss: 131.0702 - val_dig_loss: 0.4337
+saving model CNNboxUNCERTAIN+WIND21
+model 22/120
+time elapsed:
+00:25:26.57
+estimated time left:
+01:53:20.17 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 22
+Epoch 1/100
+65/65 - 7s - loss: 119.6617 - box_loss: 119.0830 - dig_loss: 0.5788 - val_loss: 100.2012 - val_box_loss: 99.7045 - val_dig_loss: 0.4967
+Epoch 2/100
+65/65 - 4s - loss: 108.0282 - box_loss: 107.5521 - dig_loss: 0.4761 - val_loss: 96.6805 - val_box_loss: 96.2203 - val_dig_loss: 0.4603
+Epoch 3/100
+65/65 - 4s - loss: 101.0337 - box_loss: 100.5736 - dig_loss: 0.4601 - val_loss: 100.6016 - val_box_loss: 100.1521 - val_dig_loss: 0.4494
+Epoch 4/100
+65/65 - 4s - loss: 96.6159 - box_loss: 96.1637 - dig_loss: 0.4522 - val_loss: 99.9736 - val_box_loss: 99.5307 - val_dig_loss: 0.4429
+Epoch 5/100
+65/65 - 4s - loss: 90.5995 - box_loss: 90.2214 - dig_loss: 0.3781 - val_loss: 111.2012 - val_box_loss: 110.8498 - val_dig_loss: 0.3514
+Epoch 6/100
+65/65 - 4s - loss: 79.7716 - box_loss: 79.4626 - dig_loss: 0.3090 - val_loss: 124.0478 - val_box_loss: 123.7434 - val_dig_loss: 0.3045
+Epoch 7/100
+65/65 - 4s - loss: 73.3001 - box_loss: 73.0196 - dig_loss: 0.2805 - val_loss: 132.5368 - val_box_loss: 132.2488 - val_dig_loss: 0.2880
+Epoch 8/100
+65/65 - 4s - loss: 64.2486 - box_loss: 63.9862 - dig_loss: 0.2624 - val_loss: 139.5393 - val_box_loss: 139.2673 - val_dig_loss: 0.2720
+Epoch 9/100
+65/65 - 4s - loss: 58.2181 - box_loss: 57.9662 - dig_loss: 0.2519 - val_loss: 133.6729 - val_box_loss: 133.4122 - val_dig_loss: 0.2607
+Epoch 10/100
+65/65 - 4s - loss: 55.0144 - box_loss: 54.7713 - dig_loss: 0.2431 - val_loss: 132.7900 - val_box_loss: 132.5289 - val_dig_loss: 0.2610
+Epoch 11/100
+65/65 - 4s - loss: 50.6978 - box_loss: 50.4613 - dig_loss: 0.2364 - val_loss: 133.3027 - val_box_loss: 133.0518 - val_dig_loss: 0.2509
+Epoch 12/100
+65/65 - 4s - loss: 48.6748 - box_loss: 48.4438 - dig_loss: 0.2310 - val_loss: 132.9003 - val_box_loss: 132.6478 - val_dig_loss: 0.2524
+saving model CNNboxUNCERTAIN+WIND22
+model 23/120
+time elapsed:
+00:26:34.58
+estimated time left:
+01:52:04.95 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 23
+Epoch 1/100
+65/65 - 7s - loss: 112.3959 - box_loss: 111.8703 - dig_loss: 0.5256 - val_loss: 98.9604 - val_box_loss: 98.5084 - val_dig_loss: 0.4520
+Epoch 2/100
+65/65 - 4s - loss: 102.5845 - box_loss: 102.1313 - dig_loss: 0.4532 - val_loss: 97.2491 - val_box_loss: 96.7994 - val_dig_loss: 0.4497
+Epoch 3/100
+65/65 - 4s - loss: 99.5341 - box_loss: 99.0886 - dig_loss: 0.4455 - val_loss: 101.4166 - val_box_loss: 100.9793 - val_dig_loss: 0.4373
+Epoch 4/100
+65/65 - 4s - loss: 96.2743 - box_loss: 95.8315 - dig_loss: 0.4427 - val_loss: 107.4929 - val_box_loss: 107.0573 - val_dig_loss: 0.4356
+Epoch 5/100
+65/65 - 4s - loss: 90.5304 - box_loss: 90.0888 - dig_loss: 0.4417 - val_loss: 106.5268 - val_box_loss: 106.0950 - val_dig_loss: 0.4318
+Epoch 6/100
+65/65 - 4s - loss: 84.0334 - box_loss: 83.6668 - dig_loss: 0.3666 - val_loss: 116.8987 - val_box_loss: 116.5644 - val_dig_loss: 0.3343
+Epoch 7/100
+65/65 - 4s - loss: 77.0422 - box_loss: 76.7548 - dig_loss: 0.2875 - val_loss: 128.2391 - val_box_loss: 127.9651 - val_dig_loss: 0.2740
+Epoch 8/100
+65/65 - 4s - loss: 73.5445 - box_loss: 73.2791 - dig_loss: 0.2655 - val_loss: 117.8297 - val_box_loss: 117.5430 - val_dig_loss: 0.2867
+Epoch 9/100
+65/65 - 4s - loss: 67.1963 - box_loss: 66.9443 - dig_loss: 0.2520 - val_loss: 124.4926 - val_box_loss: 124.2372 - val_dig_loss: 0.2554
+Epoch 10/100
+65/65 - 4s - loss: 61.6294 - box_loss: 61.3894 - dig_loss: 0.2401 - val_loss: 133.4853 - val_box_loss: 133.2433 - val_dig_loss: 0.2420
+Epoch 11/100
+65/65 - 4s - loss: 56.2954 - box_loss: 56.0661 - dig_loss: 0.2292 - val_loss: 130.8099 - val_box_loss: 130.5716 - val_dig_loss: 0.2383
+Epoch 12/100
+65/65 - 4s - loss: 54.4722 - box_loss: 54.2483 - dig_loss: 0.2239 - val_loss: 132.7177 - val_box_loss: 132.4809 - val_dig_loss: 0.2368
+saving model CNNboxUNCERTAIN+WIND23
+model 24/120
+time elapsed:
+00:27:42.44
+estimated time left:
+01:50:49.75 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 24
+Epoch 1/100
+65/65 - 7s - loss: 115.4850 - box_loss: 114.9043 - dig_loss: 0.5807 - val_loss: 102.0028 - val_box_loss: 101.5573 - val_dig_loss: 0.4455
+Epoch 2/100
+65/65 - 4s - loss: 104.9411 - box_loss: 104.4940 - dig_loss: 0.4471 - val_loss: 97.4429 - val_box_loss: 96.9981 - val_dig_loss: 0.4448
+Epoch 3/100
+65/65 - 4s - loss: 99.4686 - box_loss: 99.0271 - dig_loss: 0.4415 - val_loss: 116.0411 - val_box_loss: 115.6227 - val_dig_loss: 0.4184
+Epoch 4/100
+65/65 - 4s - loss: 92.0655 - box_loss: 91.7007 - dig_loss: 0.3647 - val_loss: 118.0715 - val_box_loss: 117.7361 - val_dig_loss: 0.3354
+Epoch 5/100
+65/65 - 4s - loss: 81.4046 - box_loss: 81.0982 - dig_loss: 0.3065 - val_loss: 133.3625 - val_box_loss: 133.0698 - val_dig_loss: 0.2927
+Epoch 6/100
+65/65 - 4s - loss: 76.3594 - box_loss: 76.0856 - dig_loss: 0.2738 - val_loss: 133.0000 - val_box_loss: 132.7268 - val_dig_loss: 0.2732
+Epoch 7/100
+65/65 - 4s - loss: 65.0499 - box_loss: 64.7911 - dig_loss: 0.2588 - val_loss: 138.0108 - val_box_loss: 137.7523 - val_dig_loss: 0.2584
+Epoch 8/100
+65/65 - 4s - loss: 60.2741 - box_loss: 60.0267 - dig_loss: 0.2475 - val_loss: 135.1061 - val_box_loss: 134.8550 - val_dig_loss: 0.2511
+Epoch 9/100
+65/65 - 4s - loss: 55.0783 - box_loss: 54.8395 - dig_loss: 0.2388 - val_loss: 132.9081 - val_box_loss: 132.6640 - val_dig_loss: 0.2441
+Epoch 10/100
+65/65 - 4s - loss: 52.7667 - box_loss: 52.5342 - dig_loss: 0.2325 - val_loss: 129.6918 - val_box_loss: 129.4511 - val_dig_loss: 0.2407
+Epoch 11/100
+65/65 - 4s - loss: 49.6303 - box_loss: 49.4017 - dig_loss: 0.2286 - val_loss: 134.8439 - val_box_loss: 134.6064 - val_dig_loss: 0.2375
+Epoch 12/100
+65/65 - 4s - loss: 47.1898 - box_loss: 46.9663 - dig_loss: 0.2235 - val_loss: 128.6075 - val_box_loss: 128.3736 - val_dig_loss: 0.2340
+saving model CNNboxUNCERTAIN+WIND24
+model 25/120
+time elapsed:
+00:28:50.54
+estimated time left:
+01:49:36.06 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 25
+Epoch 1/100
+65/65 - 7s - loss: 111.6236 - box_loss: 111.1559 - dig_loss: 0.4676 - val_loss: 110.0131 - val_box_loss: 109.5827 - val_dig_loss: 0.4304
+Epoch 2/100
+65/65 - 4s - loss: 101.0338 - box_loss: 100.6276 - dig_loss: 0.4062 - val_loss: 110.8544 - val_box_loss: 110.5217 - val_dig_loss: 0.3328
+Epoch 3/100
+65/65 - 4s - loss: 95.8183 - box_loss: 95.5338 - dig_loss: 0.2845 - val_loss: 103.0747 - val_box_loss: 102.7907 - val_dig_loss: 0.2839
+Epoch 4/100
+65/65 - 4s - loss: 85.8707 - box_loss: 85.6188 - dig_loss: 0.2519 - val_loss: 112.2349 - val_box_loss: 111.9884 - val_dig_loss: 0.2465
+Epoch 5/100
+65/65 - 4s - loss: 76.6595 - box_loss: 76.4233 - dig_loss: 0.2363 - val_loss: 118.6953 - val_box_loss: 118.4468 - val_dig_loss: 0.2484
+Epoch 6/100
+65/65 - 4s - loss: 69.8547 - box_loss: 69.6258 - dig_loss: 0.2289 - val_loss: 127.8950 - val_box_loss: 127.6608 - val_dig_loss: 0.2341
+Epoch 7/100
+65/65 - 4s - loss: 62.5269 - box_loss: 62.3054 - dig_loss: 0.2214 - val_loss: 128.3606 - val_box_loss: 128.1300 - val_dig_loss: 0.2306
+Epoch 8/100
+65/65 - 4s - loss: 53.8189 - box_loss: 53.6013 - dig_loss: 0.2176 - val_loss: 129.7181 - val_box_loss: 129.4940 - val_dig_loss: 0.2241
+Epoch 9/100
+65/65 - 4s - loss: 49.8632 - box_loss: 49.6508 - dig_loss: 0.2124 - val_loss: 129.2007 - val_box_loss: 128.9794 - val_dig_loss: 0.2213
+Epoch 10/100
+65/65 - 4s - loss: 46.0558 - box_loss: 45.8486 - dig_loss: 0.2072 - val_loss: 129.1291 - val_box_loss: 128.9127 - val_dig_loss: 0.2164
+Epoch 11/100
+65/65 - 4s - loss: 43.1921 - box_loss: 42.9879 - dig_loss: 0.2043 - val_loss: 128.6364 - val_box_loss: 128.4183 - val_dig_loss: 0.2181
+Epoch 12/100
+65/65 - 4s - loss: 40.6570 - box_loss: 40.4571 - dig_loss: 0.1998 - val_loss: 126.4891 - val_box_loss: 126.2700 - val_dig_loss: 0.2192
+Epoch 13/100
+65/65 - 4s - loss: 38.4687 - box_loss: 38.2734 - dig_loss: 0.1953 - val_loss: 126.0270 - val_box_loss: 125.8151 - val_dig_loss: 0.2119
+saving model CNNboxUNCERTAIN+WIND25
+model 26/120
+time elapsed:
+00:30:03.00
+estimated time left:
+01:48:38.53 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 26
+Epoch 1/100
+65/65 - 7s - loss: 114.5206 - box_loss: 114.0675 - dig_loss: 0.4531 - val_loss: 107.1656 - val_box_loss: 106.7305 - val_dig_loss: 0.4351
+Epoch 2/100
+65/65 - 4s - loss: 105.2581 - box_loss: 104.8393 - dig_loss: 0.4189 - val_loss: 105.0026 - val_box_loss: 104.6056 - val_dig_loss: 0.3970
+Epoch 3/100
+65/65 - 4s - loss: 101.3773 - box_loss: 101.0011 - dig_loss: 0.3762 - val_loss: 102.7541 - val_box_loss: 102.3904 - val_dig_loss: 0.3637
+Epoch 4/100
+65/65 - 4s - loss: 98.8752 - box_loss: 98.5440 - dig_loss: 0.3312 - val_loss: 108.2401 - val_box_loss: 107.9444 - val_dig_loss: 0.2957
+Epoch 5/100
+65/65 - 4s - loss: 97.2214 - box_loss: 96.9390 - dig_loss: 0.2824 - val_loss: 107.3494 - val_box_loss: 107.0547 - val_dig_loss: 0.2947
+Epoch 6/100
+65/65 - 4s - loss: 90.8107 - box_loss: 90.5562 - dig_loss: 0.2544 - val_loss: 115.1831 - val_box_loss: 114.8669 - val_dig_loss: 0.3162
+Epoch 7/100
+65/65 - 4s - loss: 85.8175 - box_loss: 85.5719 - dig_loss: 0.2456 - val_loss: 119.6572 - val_box_loss: 119.4177 - val_dig_loss: 0.2395
+Epoch 8/100
+65/65 - 4s - loss: 74.6168 - box_loss: 74.3904 - dig_loss: 0.2264 - val_loss: 138.8920 - val_box_loss: 138.6631 - val_dig_loss: 0.2289
+Epoch 9/100
+65/65 - 4s - loss: 67.9944 - box_loss: 67.7751 - dig_loss: 0.2193 - val_loss: 137.5402 - val_box_loss: 137.3140 - val_dig_loss: 0.2263
+Epoch 10/100
+65/65 - 4s - loss: 62.6641 - box_loss: 62.4499 - dig_loss: 0.2143 - val_loss: 134.4229 - val_box_loss: 134.2019 - val_dig_loss: 0.2210
+Epoch 11/100
+65/65 - 4s - loss: 56.9175 - box_loss: 56.7069 - dig_loss: 0.2105 - val_loss: 133.9010 - val_box_loss: 133.6779 - val_dig_loss: 0.2231
+Epoch 12/100
+65/65 - 4s - loss: 58.0203 - box_loss: 57.8128 - dig_loss: 0.2075 - val_loss: 132.3649 - val_box_loss: 132.1468 - val_dig_loss: 0.2180
+Epoch 13/100
+65/65 - 4s - loss: 50.4209 - box_loss: 50.2177 - dig_loss: 0.2032 - val_loss: 128.8958 - val_box_loss: 128.6809 - val_dig_loss: 0.2148
+saving model CNNboxUNCERTAIN+WIND26
+model 27/120
+time elapsed:
+00:31:16.04
+estimated time left:
+01:47:41.92 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 27
+Epoch 1/100
+65/65 - 7s - loss: 113.9933 - box_loss: 113.4830 - dig_loss: 0.5102 - val_loss: 94.8002 - val_box_loss: 94.3637 - val_dig_loss: 0.4366
+Epoch 2/100
+65/65 - 4s - loss: 101.4374 - box_loss: 100.9963 - dig_loss: 0.4411 - val_loss: 99.3239 - val_box_loss: 98.8942 - val_dig_loss: 0.4297
+Epoch 3/100
+65/65 - 4s - loss: 94.5512 - box_loss: 94.1691 - dig_loss: 0.3821 - val_loss: 120.0225 - val_box_loss: 119.7150 - val_dig_loss: 0.3074
+Epoch 4/100
+65/65 - 4s - loss: 83.6579 - box_loss: 83.3756 - dig_loss: 0.2823 - val_loss: 108.4146 - val_box_loss: 108.1320 - val_dig_loss: 0.2825
+Epoch 5/100
+65/65 - 4s - loss: 76.7529 - box_loss: 76.4912 - dig_loss: 0.2617 - val_loss: 111.2370 - val_box_loss: 110.9770 - val_dig_loss: 0.2600
+Epoch 6/100
+65/65 - 4s - loss: 68.1663 - box_loss: 67.9198 - dig_loss: 0.2465 - val_loss: 113.0664 - val_box_loss: 112.8146 - val_dig_loss: 0.2518
+Epoch 7/100
+65/65 - 4s - loss: 59.7890 - box_loss: 59.5531 - dig_loss: 0.2359 - val_loss: 129.6000 - val_box_loss: 129.3599 - val_dig_loss: 0.2401
+Epoch 8/100
+65/65 - 4s - loss: 53.8203 - box_loss: 53.5914 - dig_loss: 0.2289 - val_loss: 113.3709 - val_box_loss: 113.1350 - val_dig_loss: 0.2359
+Epoch 9/100
+65/65 - 4s - loss: 49.2326 - box_loss: 49.0089 - dig_loss: 0.2237 - val_loss: 132.3728 - val_box_loss: 132.1405 - val_dig_loss: 0.2323
+Epoch 10/100
+65/65 - 4s - loss: 45.7631 - box_loss: 45.5433 - dig_loss: 0.2198 - val_loss: 118.5203 - val_box_loss: 118.2901 - val_dig_loss: 0.2302
+Epoch 11/100
+65/65 - 4s - loss: 43.0276 - box_loss: 42.8129 - dig_loss: 0.2147 - val_loss: 126.9311 - val_box_loss: 126.7048 - val_dig_loss: 0.2264
+saving model CNNboxUNCERTAIN+WIND27
+model 28/120
+time elapsed:
+00:32:19.60
+estimated time left:
+01:46:12.96 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 28
+Epoch 1/100
+65/65 - 7s - loss: 114.2362 - box_loss: 113.7692 - dig_loss: 0.4669 - val_loss: 98.0325 - val_box_loss: 97.5958 - val_dig_loss: 0.4367
+Epoch 2/100
+65/65 - 4s - loss: 102.0912 - box_loss: 101.6522 - dig_loss: 0.4390 - val_loss: 102.4324 - val_box_loss: 102.0068 - val_dig_loss: 0.4256
+Epoch 3/100
+65/65 - 4s - loss: 101.2310 - box_loss: 100.8305 - dig_loss: 0.4005 - val_loss: 97.2578 - val_box_loss: 96.8574 - val_dig_loss: 0.4004
+Epoch 4/100
+65/65 - 4s - loss: 99.6298 - box_loss: 99.2989 - dig_loss: 0.3310 - val_loss: 103.4569 - val_box_loss: 103.1705 - val_dig_loss: 0.2864
+Epoch 5/100
+65/65 - 4s - loss: 95.8415 - box_loss: 95.5688 - dig_loss: 0.2727 - val_loss: 100.8403 - val_box_loss: 100.6013 - val_dig_loss: 0.2389
+Epoch 6/100
+65/65 - 4s - loss: 89.2388 - box_loss: 89.0145 - dig_loss: 0.2243 - val_loss: 102.1215 - val_box_loss: 101.8866 - val_dig_loss: 0.2349
+Epoch 7/100
+65/65 - 4s - loss: 83.4241 - box_loss: 83.2067 - dig_loss: 0.2174 - val_loss: 99.7526 - val_box_loss: 99.4972 - val_dig_loss: 0.2553
+Epoch 8/100
+65/65 - 4s - loss: 77.4473 - box_loss: 77.2337 - dig_loss: 0.2137 - val_loss: 121.4493 - val_box_loss: 121.2294 - val_dig_loss: 0.2199
+Epoch 9/100
+65/65 - 4s - loss: 73.1464 - box_loss: 72.9382 - dig_loss: 0.2082 - val_loss: 104.1014 - val_box_loss: 103.8898 - val_dig_loss: 0.2116
+Epoch 10/100
+65/65 - 4s - loss: 64.6387 - box_loss: 64.4322 - dig_loss: 0.2066 - val_loss: 123.0974 - val_box_loss: 122.8792 - val_dig_loss: 0.2182
+Epoch 11/100
+65/65 - 4s - loss: 59.7396 - box_loss: 59.5403 - dig_loss: 0.1993 - val_loss: 114.8991 - val_box_loss: 114.6894 - val_dig_loss: 0.2096
+Epoch 12/100
+65/65 - 4s - loss: 52.2649 - box_loss: 52.0683 - dig_loss: 0.1966 - val_loss: 129.8766 - val_box_loss: 129.6643 - val_dig_loss: 0.2122
+Epoch 13/100
+65/65 - 4s - loss: 46.5140 - box_loss: 46.3224 - dig_loss: 0.1915 - val_loss: 127.2478 - val_box_loss: 127.0441 - val_dig_loss: 0.2038
+saving model CNNboxUNCERTAIN+WIND28
+model 29/120
+time elapsed:
+00:33:32.29
+estimated time left:
+01:45:14.42 
+
+
+loading data:/home/f118885/data/thesis/boxUNCERTAIN+WIND.npy
+input images:  (5200, 256, 256, 7)
+outputs:  (5200, 62)
+UNCERTAIN+WIND run: 29
+Epoch 1/100
+65/65 - 7s - loss: 116.5518 - box_loss: 116.1238 - dig_loss: 0.4281 - val_loss: 100.0864 - val_box_loss: 99.6668 - val_dig_loss: 0.4196
+Epoch 2/100
+65/65 - 4s - loss: 108.3663 - box_loss: 107.9507 - dig_loss: 0.4157 - val_loss: 102.6101 - val_box_loss: 102.2161 - val_dig_loss: 0.3940
+Epoch 3/100
+65/65 - 4s - loss: 103.8232 - box_loss: 103.4505 - dig_loss: 0.3727 - val_loss: 101.6300 - val_box_loss: 101.2836 - val_dig_loss: 0.3464
+Epoch 4/100
+65/65 - 4s - loss: 99.7318 - box_loss: 99.4369 - dig_loss: 0.2948 - val_loss: 103.0007 - val_box_loss: 102.7066 - val_dig_loss: 0.2941
+Epoch 5/100
+65/65 - 4s - loss: 98.5758 - box_loss: 98.3084 - dig_loss: 0.2673 - val_loss: 104.8088 - val_box_loss: 104.5632 - val_dig_loss: 0.2456
+Epoch 6/100
+65/65 - 4s - loss: 96.1059 - box_loss: 95.8836 - dig_loss: 0.2223 - val_loss: 103.3835 - val_box_loss: 103.1534 - val_dig_loss: 0.2301
+Epoch 7/100
+65/65 - 4s - loss: 91.2362 - box_loss: 91.0179 - dig_loss: 0.2183 - val_loss: 127.2888 - val_box_loss: 127.0737 - val_dig_loss: 0.2151
+Epoch 8/100
+65/65 - 4s - loss: 88.1843 - box_loss: 87.9652 - dig_loss: 0.2191 - val_loss: 111.8899 - val_box_loss: 111.6567 - val_dig_loss: 0.2332
+Epoch 9/100
+65/65 - 4s - loss: 82.3029 - box_loss: 82.0941 - dig_loss: 0.2088 - val_loss: 129.9917 - val_box_loss: 129.7832 - val_dig_loss: 0.2084
+Epoch 10/100
+65/65 - 4s - loss: 74.3188 - box_loss: 74.1161 - dig_loss: 0.2027 - val_loss: 136.8036 - val_box_loss: 136.5951 - val_dig_loss: 0.2086
+Epoch 11/100
+65/65 - 4s - loss: 73.0919 - box_loss: 72.8910 - dig_loss: 0.2009 - val_loss: 140.7574 - val_box_loss: 140.5515 - val_dig_loss: 0.2058
+saving model CNNboxUNCERTAIN+WIND29
+model 30/120
+time elapsed:
+00:34:35.84
+estimated time left:
+01:43:47.53 
+
+
+
+
+###############################################################################
+Peregrine Cluster
+Job 20906230 for user 'f118885'
+Finished at: Mon Jul  5 12:13:54 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20906230
+Name                : CNN_job
+User                : f118885
+Partition           : gpu
+Nodes               : pg-gpu20
+Number of Nodes     : 1
+Cores               : 12
+State               : COMPLETED
+Submit              : 2021-07-05T11:39:03
+Start               : 2021-07-05T11:39:04
+End                 : 2021-07-05T12:13:54
+Reserved walltime   : 03:03:00
+Used walltime       : 00:34:50
+Used CPU time       : 00:59:07 (efficiency: 14.14%)
+% User (Computation): 91.70%
+% System (I/O)      :  8.30%
+Mem reserved        : 60G/node
+Max Mem used        : 46.42G (pg-gpu20)
+Max Disk Write      : 153.60K (pg-gpu20)
+Max Disk Read       : 3.42M (pg-gpu20)
+Average GPU usage   : 54.3% (pg-gpu20)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

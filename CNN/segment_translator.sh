@@ -9,7 +9,7 @@
 
 # Load the module for R
 module load Python/3.7.4-GCCcore-8.3.0
-module load TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4
+module load TensorFlow/2.3.1-fosscuda-2019b-Python-3.7.4
 #module load  Python/3.6.4-foss-2018a
 
 module load matplotlib/3.1.1-foss-2019b-Python-3.7.4
@@ -18,7 +18,7 @@ echo Overview of modules that are loaded
 module list
 
 echo starting data_translator
-python3 data_translator_new_architectures.py 3 $1
+python3 data_translator_segments.py $1
 
 
 # execute with:

@@ -70,15 +70,14 @@ def outputs_xy(data):
   #print(agent_info)
   return np.asarray(outputs, dtype=np.float16)
 
-
-def outputs_segments(data):
+def outputs_segments(data, size = 16):
+  histogram = [0]*size
   print("Constructing angle segments outputs")
   agent_info = [data_point[3] for data_point in data]
   agent_info = [j for sub in agent_info for j in sub]  # flatten the list
 
   outputs = []  # [[x rel. to agent, y, drive/dig], ...]
   for raw in agent_info:
-
     agent_pos = raw[0]  # make things explicit, easy-to-understand
     wp = raw[1]
     dig_drive = raw[2]
@@ -86,15 +85,26 @@ def outputs_segments(data):
     delta_x = wp[0] - agent_pos[0]
     delta_y = wp[1] - agent_pos[1]
 
-    angle = math.atan2(delta_y, delta_x)
-    segments = [0] * 16
+    angle = math.atan2(delta_y, delta_x) # Angle
+    segment = round(size * angle / (2 * math.pi)) % size # corresponding segment
 
-    segments[round(8 * angle / (2 * math.pi)) % 16] = 1
+    segments = [0] * size
+    # print(segment)
+    segments[segment] = 1
+    histogram[segment] += 1
+    # print(segments)
 
-    print(segments)
     outputs.append(segments + [dig_drive])
 
-  print(outputs[:10])
+    # checking correctness
+    converts_to = segment * 2 * math.pi / size
+    # print(f"angle\t{angle}")
+    # print(f"segments\t{segments}")
+    # print(f"converted to\t{converts_to}")
+    # print(f"Old x:\t{delta_x},\tnew x:\t{math.cos(converts_to)}")
+    # print(f"Old y:\t{delta_y},\tnew y:\t{math.sin(converts_to)}\n")
+  
+  # print(histogram)
   return np.asarray(outputs, dtype=np.float16)
 
 
@@ -407,7 +417,7 @@ if __name__ == "__main__":
   print(f"architecture: {out_variant}, experiment: {experiment}")
 
   data = load_raw_data(file_filter=experiment)
-  data = data[:25]
+  data = data
   # if out_variant == 'box':
     # data = augmentData(data)
 

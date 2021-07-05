@@ -7,16 +7,21 @@ from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPooling2D, Dropout, Conv2DTranspose, Reshape, Activation
 from NNutils import *
 
+from getpass import getuser
+
 
 def load_data(out_variant, experiment):
-  print("loading data: images_" + out_variant + experiment + ".npy")
-  images = np.load("images_" + out_variant + experiment + ".npy", allow_pickle=True)
-  outputs = np.load("outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
+    directory = "/home/f118885/data/thesis/" if getuser() == "f118885" else ""
+    print("loading data:" + directory + out_variant + experiment + ".npy")
+    images = np.load(directory + "images_" + out_variant + experiment + ".npy", allow_pickle=True)
+    # concat = np.load("concat_" + out_variant + ".npy", allow_pickle=True)
+    outputs = np.load(directory + "outputs_" + out_variant + experiment + ".npy", allow_pickle=True)
 
-  print("input images: ", images.shape)
-  print("CNN segments - outputs: ", outputs.shape)
+    print("input images: ", images.shape)
+    print("outputs: ", outputs.shape)
 
-  return images, outputs
+    return images, outputs
+
 
 def build_model(input_shape, size = 16):
     """

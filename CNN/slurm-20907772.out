@@ -1,0 +1,533 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+starting CNN
+2021-07-05 13:46:34.162254: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+--------------------------------------------------------------------------
+A process has executed an operation involving a call to the
+"fork()" system call to create a child process.  Open MPI is currently
+operating in a condition that could result in memory corruption or
+other system errors; your job may hang, crash, or produce silent
+data corruption.  The use of fork() (or system() or other calls that
+create child processes) is strongly discouraged.
+
+The process that invoked fork was:
+
+  Local host:          [[39407,1],0] (PID 11022)
+
+If you are *absolutely sure* that your application will successfully
+and correctly survive a call to fork(), you may disable this warning
+by setting the mpi_warn_on_fork MCA parameter to 0.
+--------------------------------------------------------------------------
+2021-07-05 13:46:54.722687: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2021-07-05 13:46:54.746694: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:82:00.0 name: Tesla K40m computeCapability: 3.5
+coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
+2021-07-05 13:46:54.746770: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-07-05 13:46:54.749753: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-07-05 13:46:54.752339: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2021-07-05 13:46:54.753171: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2021-07-05 13:46:54.755591: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2021-07-05 13:46:54.756883: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2021-07-05 13:46:54.761644: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2021-07-05 13:46:54.763114: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2021-07-05 13:46:54.767331: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:82:00.0 name: Tesla K40m computeCapability: 3.5
+coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
+2021-07-05 13:46:54.767381: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-07-05 13:46:54.767423: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-07-05 13:46:54.767464: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2021-07-05 13:46:54.767504: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2021-07-05 13:46:54.767544: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2021-07-05 13:46:54.767583: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2021-07-05 13:46:54.767623: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2021-07-05 13:46:54.769213: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2021-07-05 13:46:54.769267: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-07-05 13:46:55.130641: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-05 13:46:55.130733: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2021-07-05 13:46:55.130754: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2021-07-05 13:46:55.133052: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10630 MB memory) -> physical GPU (device: 0, name: Tesla K40m, pci bus id: 0000:82:00.0, compute capability: 3.5)
+2021-07-05 13:46:55.133444: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
+2021-07-05 13:47:05.341340: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-07-05 13:47:05.566618: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 23
+Epoch 1/100
+55/55 - 15s - loss: 109.2945 - box_loss: 108.8646 - dig_loss: 0.4298 - val_loss: 82.6675 - val_box_loss: 82.3132 - val_dig_loss: 0.3543
+Epoch 2/100
+55/55 - 12s - loss: 94.8116 - box_loss: 94.5936 - dig_loss: 0.2179 - val_loss: 67.7838 - val_box_loss: 67.6869 - val_dig_loss: 0.0969
+Epoch 3/100
+55/55 - 12s - loss: 79.8096 - box_loss: 79.7241 - dig_loss: 0.0856 - val_loss: 60.6622 - val_box_loss: 60.5866 - val_dig_loss: 0.0756
+Epoch 4/100
+55/55 - 12s - loss: 79.1235 - box_loss: 79.0402 - dig_loss: 0.0832 - val_loss: 60.4589 - val_box_loss: 60.3946 - val_dig_loss: 0.0642
+Epoch 5/100
+55/55 - 12s - loss: 68.4430 - box_loss: 68.3822 - dig_loss: 0.0608 - val_loss: 59.5960 - val_box_loss: 59.5414 - val_dig_loss: 0.0546
+Epoch 6/100
+55/55 - 12s - loss: 60.4328 - box_loss: 60.3802 - dig_loss: 0.0526 - val_loss: 55.2717 - val_box_loss: 55.2244 - val_dig_loss: 0.0474
+Epoch 7/100
+55/55 - 12s - loss: 54.5548 - box_loss: 54.5088 - dig_loss: 0.0459 - val_loss: 57.1611 - val_box_loss: 57.1197 - val_dig_loss: 0.0415
+Epoch 8/100
+55/55 - 12s - loss: 49.0052 - box_loss: 48.9647 - dig_loss: 0.0405 - val_loss: 54.3686 - val_box_loss: 54.3320 - val_dig_loss: 0.0367
+Epoch 9/100
+55/55 - 12s - loss: 44.9737 - box_loss: 44.9377 - dig_loss: 0.0360 - val_loss: 56.4102 - val_box_loss: 56.3775 - val_dig_loss: 0.0327
+Epoch 10/100
+55/55 - 12s - loss: 43.5087 - box_loss: 43.4765 - dig_loss: 0.0322 - val_loss: 51.3473 - val_box_loss: 51.3179 - val_dig_loss: 0.0293
+Epoch 11/100
+55/55 - 12s - loss: 39.8705 - box_loss: 39.8415 - dig_loss: 0.0290 - val_loss: 51.0036 - val_box_loss: 50.9772 - val_dig_loss: 0.0264
+Epoch 12/100
+55/55 - 12s - loss: 38.8662 - box_loss: 38.8400 - dig_loss: 0.0262 - val_loss: 52.8224 - val_box_loss: 52.7984 - val_dig_loss: 0.0240
+Epoch 13/100
+55/55 - 12s - loss: 36.5207 - box_loss: 36.4969 - dig_loss: 0.0238 - val_loss: 51.0630 - val_box_loss: 51.0412 - val_dig_loss: 0.0218
+Epoch 14/100
+55/55 - 12s - loss: 35.5788 - box_loss: 35.5570 - dig_loss: 0.0217 - val_loss: 51.2313 - val_box_loss: 51.2113 - val_dig_loss: 0.0200
+Epoch 15/100
+55/55 - 12s - loss: 34.4004 - box_loss: 34.3805 - dig_loss: 0.0199 - val_loss: 52.1050 - val_box_loss: 52.0867 - val_dig_loss: 0.0183
+Epoch 16/100
+55/55 - 12s - loss: 33.7977 - box_loss: 33.7794 - dig_loss: 0.0183 - val_loss: 50.4948 - val_box_loss: 50.4779 - val_dig_loss: 0.0169
+Epoch 17/100
+55/55 - 12s - loss: 32.1545 - box_loss: 32.1376 - dig_loss: 0.0169 - val_loss: 48.5912 - val_box_loss: 48.5756 - val_dig_loss: 0.0156
+Epoch 18/100
+55/55 - 12s - loss: 31.6685 - box_loss: 31.6529 - dig_loss: 0.0156 - val_loss: 51.4810 - val_box_loss: 51.4666 - val_dig_loss: 0.0144
+Epoch 19/100
+55/55 - 12s - loss: 30.0325 - box_loss: 30.0180 - dig_loss: 0.0145 - val_loss: 51.6554 - val_box_loss: 51.6420 - val_dig_loss: 0.0134
+Epoch 20/100
+55/55 - 12s - loss: 29.6909 - box_loss: 29.6774 - dig_loss: 0.0135 - val_loss: 53.8414 - val_box_loss: 53.8289 - val_dig_loss: 0.0125
+Epoch 21/100
+55/55 - 12s - loss: 28.9778 - box_loss: 28.9652 - dig_loss: 0.0126 - val_loss: 53.4414 - val_box_loss: 53.4298 - val_dig_loss: 0.0117
+Epoch 22/100
+55/55 - 12s - loss: 28.0805 - box_loss: 28.0688 - dig_loss: 0.0118 - val_loss: 55.4197 - val_box_loss: 55.4088 - val_dig_loss: 0.0109
+Epoch 23/100
+55/55 - 12s - loss: 26.8318 - box_loss: 26.8208 - dig_loss: 0.0110 - val_loss: 55.0304 - val_box_loss: 55.0202 - val_dig_loss: 0.0102
+Epoch 24/100
+55/55 - 12s - loss: 27.0425 - box_loss: 27.0322 - dig_loss: 0.0103 - val_loss: 55.7935 - val_box_loss: 55.7839 - val_dig_loss: 0.0096
+Epoch 25/100
+55/55 - 12s - loss: 25.8681 - box_loss: 25.8584 - dig_loss: 0.0097 - val_loss: 56.2029 - val_box_loss: 56.1938 - val_dig_loss: 0.0090
+Epoch 26/100
+55/55 - 12s - loss: 25.3656 - box_loss: 25.3564 - dig_loss: 0.0091 - val_loss: 56.4552 - val_box_loss: 56.4467 - val_dig_loss: 0.0085
+Epoch 27/100
+55/55 - 12s - loss: 24.6133 - box_loss: 24.6047 - dig_loss: 0.0086 - val_loss: 56.2943 - val_box_loss: 56.2863 - val_dig_loss: 0.0080
+saving model CNNboxWINDONLY23
+model 24/120
+time elapsed:
+00:05:58.42
+estimated time left:
+00:23:53.70 
+
+
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 24
+Epoch 1/100
+55/55 - 14s - loss: 113.8693 - box_loss: 113.4828 - dig_loss: 0.3865 - val_loss: 81.1150 - val_box_loss: 80.8532 - val_dig_loss: 0.2618
+Epoch 2/100
+55/55 - 12s - loss: 105.4374 - box_loss: 105.2082 - dig_loss: 0.2292 - val_loss: 80.5195 - val_box_loss: 80.3575 - val_dig_loss: 0.1620
+Epoch 3/100
+55/55 - 12s - loss: 96.0816 - box_loss: 96.0025 - dig_loss: 0.0791 - val_loss: 73.8709 - val_box_loss: 73.7935 - val_dig_loss: 0.0774
+Epoch 4/100
+55/55 - 12s - loss: 83.9289 - box_loss: 83.8789 - dig_loss: 0.0500 - val_loss: 65.1474 - val_box_loss: 65.1046 - val_dig_loss: 0.0428
+Epoch 5/100
+55/55 - 12s - loss: 71.4630 - box_loss: 71.4236 - dig_loss: 0.0395 - val_loss: 59.6918 - val_box_loss: 59.6556 - val_dig_loss: 0.0363
+Epoch 6/100
+55/55 - 12s - loss: 60.8308 - box_loss: 60.7958 - dig_loss: 0.0350 - val_loss: 56.7284 - val_box_loss: 56.6963 - val_dig_loss: 0.0321
+Epoch 7/100
+55/55 - 12s - loss: 52.0506 - box_loss: 52.0193 - dig_loss: 0.0313 - val_loss: 54.2815 - val_box_loss: 54.2528 - val_dig_loss: 0.0287
+Epoch 8/100
+55/55 - 12s - loss: 45.9420 - box_loss: 45.9138 - dig_loss: 0.0282 - val_loss: 52.3635 - val_box_loss: 52.3376 - val_dig_loss: 0.0259
+Epoch 9/100
+55/55 - 12s - loss: 43.3281 - box_loss: 43.3026 - dig_loss: 0.0255 - val_loss: 50.0986 - val_box_loss: 50.0751 - val_dig_loss: 0.0235
+Epoch 10/100
+55/55 - 12s - loss: 40.8585 - box_loss: 40.8354 - dig_loss: 0.0231 - val_loss: 49.0811 - val_box_loss: 49.0598 - val_dig_loss: 0.0213
+Epoch 11/100
+55/55 - 12s - loss: 38.7581 - box_loss: 38.7371 - dig_loss: 0.0211 - val_loss: 51.5323 - val_box_loss: 51.5129 - val_dig_loss: 0.0194
+Epoch 12/100
+55/55 - 12s - loss: 37.4727 - box_loss: 37.4534 - dig_loss: 0.0193 - val_loss: 49.2408 - val_box_loss: 49.2230 - val_dig_loss: 0.0178
+Epoch 13/100
+55/55 - 12s - loss: 36.3759 - box_loss: 36.3582 - dig_loss: 0.0177 - val_loss: 49.7499 - val_box_loss: 49.7336 - val_dig_loss: 0.0163
+Epoch 14/100
+55/55 - 12s - loss: 35.7735 - box_loss: 35.7573 - dig_loss: 0.0162 - val_loss: 49.5238 - val_box_loss: 49.5088 - val_dig_loss: 0.0150
+Epoch 15/100
+55/55 - 12s - loss: 33.8103 - box_loss: 33.7953 - dig_loss: 0.0150 - val_loss: 48.6946 - val_box_loss: 48.6807 - val_dig_loss: 0.0139
+Epoch 16/100
+55/55 - 12s - loss: 32.9099 - box_loss: 32.8961 - dig_loss: 0.0139 - val_loss: 50.5133 - val_box_loss: 50.5004 - val_dig_loss: 0.0128
+Epoch 17/100
+55/55 - 12s - loss: 31.2389 - box_loss: 31.2260 - dig_loss: 0.0129 - val_loss: 50.4088 - val_box_loss: 50.3969 - val_dig_loss: 0.0119
+Epoch 18/100
+55/55 - 12s - loss: 29.9497 - box_loss: 29.9378 - dig_loss: 0.0120 - val_loss: 48.7572 - val_box_loss: 48.7461 - val_dig_loss: 0.0111
+Epoch 19/100
+55/55 - 12s - loss: 28.6687 - box_loss: 28.6576 - dig_loss: 0.0111 - val_loss: 51.2843 - val_box_loss: 51.2739 - val_dig_loss: 0.0103
+Epoch 20/100
+55/55 - 12s - loss: 28.0926 - box_loss: 28.0822 - dig_loss: 0.0104 - val_loss: 50.5339 - val_box_loss: 50.5243 - val_dig_loss: 0.0097
+Epoch 21/100
+55/55 - 12s - loss: 26.6531 - box_loss: 26.6434 - dig_loss: 0.0097 - val_loss: 50.4821 - val_box_loss: 50.4730 - val_dig_loss: 0.0091
+Epoch 22/100
+55/55 - 12s - loss: 25.9392 - box_loss: 25.9301 - dig_loss: 0.0091 - val_loss: 50.5701 - val_box_loss: 50.5616 - val_dig_loss: 0.0085
+Epoch 23/100
+55/55 - 12s - loss: 24.7581 - box_loss: 24.7495 - dig_loss: 0.0086 - val_loss: 49.9512 - val_box_loss: 49.9433 - val_dig_loss: 0.0080
+Epoch 24/100
+55/55 - 12s - loss: 24.1509 - box_loss: 24.1428 - dig_loss: 0.0081 - val_loss: 52.8796 - val_box_loss: 52.8720 - val_dig_loss: 0.0075
+Epoch 25/100
+55/55 - 12s - loss: 22.9675 - box_loss: 22.9599 - dig_loss: 0.0076 - val_loss: 54.0980 - val_box_loss: 54.0909 - val_dig_loss: 0.0071
+saving model CNNboxWINDONLY24
+model 25/120
+time elapsed:
+00:11:13.56
+estimated time left:
+00:42:39.52 
+
+
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 25
+Epoch 1/100
+55/55 - 14s - loss: 111.9154 - box_loss: 111.4048 - dig_loss: 0.5106 - val_loss: 82.4959 - val_box_loss: 82.0826 - val_dig_loss: 0.4133
+Epoch 2/100
+55/55 - 12s - loss: 100.1430 - box_loss: 99.7066 - dig_loss: 0.4364 - val_loss: 77.1623 - val_box_loss: 76.7700 - val_dig_loss: 0.3923
+Epoch 3/100
+55/55 - 12s - loss: 98.6721 - box_loss: 98.2491 - dig_loss: 0.4230 - val_loss: 77.2095 - val_box_loss: 76.8246 - val_dig_loss: 0.3849
+Epoch 4/100
+55/55 - 12s - loss: 93.5408 - box_loss: 93.1824 - dig_loss: 0.3584 - val_loss: 75.6846 - val_box_loss: 75.4165 - val_dig_loss: 0.2681
+Epoch 5/100
+55/55 - 12s - loss: 86.3405 - box_loss: 86.1763 - dig_loss: 0.1642 - val_loss: 67.8404 - val_box_loss: 67.7406 - val_dig_loss: 0.0997
+Epoch 6/100
+55/55 - 12s - loss: 79.7695 - box_loss: 79.6806 - dig_loss: 0.0888 - val_loss: 68.3231 - val_box_loss: 68.2290 - val_dig_loss: 0.0941
+Epoch 7/100
+55/55 - 12s - loss: 74.1014 - box_loss: 74.0237 - dig_loss: 0.0777 - val_loss: 63.4950 - val_box_loss: 63.4298 - val_dig_loss: 0.0652
+Epoch 8/100
+55/55 - 12s - loss: 61.0589 - box_loss: 60.9972 - dig_loss: 0.0617 - val_loss: 64.2728 - val_box_loss: 64.2169 - val_dig_loss: 0.0559
+Epoch 9/100
+55/55 - 12s - loss: 50.7060 - box_loss: 50.6525 - dig_loss: 0.0535 - val_loss: 59.4130 - val_box_loss: 59.3643 - val_dig_loss: 0.0487
+Epoch 10/100
+55/55 - 12s - loss: 46.6619 - box_loss: 46.6149 - dig_loss: 0.0471 - val_loss: 51.8715 - val_box_loss: 51.8284 - val_dig_loss: 0.0430
+Epoch 11/100
+55/55 - 12s - loss: 43.8095 - box_loss: 43.7676 - dig_loss: 0.0419 - val_loss: 53.1251 - val_box_loss: 53.0867 - val_dig_loss: 0.0384
+Epoch 12/100
+55/55 - 12s - loss: 41.1197 - box_loss: 41.0821 - dig_loss: 0.0375 - val_loss: 50.4054 - val_box_loss: 50.3709 - val_dig_loss: 0.0345
+Epoch 13/100
+55/55 - 12s - loss: 39.8260 - box_loss: 39.7921 - dig_loss: 0.0339 - val_loss: 51.3508 - val_box_loss: 51.3197 - val_dig_loss: 0.0312
+Epoch 14/100
+55/55 - 12s - loss: 37.4136 - box_loss: 37.3828 - dig_loss: 0.0308 - val_loss: 49.1157 - val_box_loss: 49.0873 - val_dig_loss: 0.0284
+Epoch 15/100
+55/55 - 12s - loss: 35.5618 - box_loss: 35.5337 - dig_loss: 0.0281 - val_loss: 49.2779 - val_box_loss: 49.2520 - val_dig_loss: 0.0259
+Epoch 16/100
+55/55 - 12s - loss: 33.6525 - box_loss: 33.6268 - dig_loss: 0.0257 - val_loss: 47.4435 - val_box_loss: 47.4197 - val_dig_loss: 0.0238
+Epoch 17/100
+55/55 - 12s - loss: 33.2451 - box_loss: 33.2214 - dig_loss: 0.0237 - val_loss: 49.4433 - val_box_loss: 49.4214 - val_dig_loss: 0.0219
+Epoch 18/100
+55/55 - 12s - loss: 31.9874 - box_loss: 31.9655 - dig_loss: 0.0219 - val_loss: 48.4862 - val_box_loss: 48.4659 - val_dig_loss: 0.0203
+Epoch 19/100
+55/55 - 12s - loss: 30.1138 - box_loss: 30.0936 - dig_loss: 0.0203 - val_loss: 47.5605 - val_box_loss: 47.5417 - val_dig_loss: 0.0188
+Epoch 20/100
+55/55 - 12s - loss: 29.0940 - box_loss: 29.0752 - dig_loss: 0.0188 - val_loss: 49.3769 - val_box_loss: 49.3594 - val_dig_loss: 0.0175
+Epoch 21/100
+55/55 - 12s - loss: 28.7919 - box_loss: 28.7744 - dig_loss: 0.0176 - val_loss: 45.7610 - val_box_loss: 45.7447 - val_dig_loss: 0.0163
+Epoch 22/100
+55/55 - 12s - loss: 26.4073 - box_loss: 26.3909 - dig_loss: 0.0164 - val_loss: 49.5508 - val_box_loss: 49.5356 - val_dig_loss: 0.0152
+Epoch 23/100
+55/55 - 12s - loss: 26.0914 - box_loss: 26.0761 - dig_loss: 0.0153 - val_loss: 49.3113 - val_box_loss: 49.2971 - val_dig_loss: 0.0142
+Epoch 24/100
+55/55 - 12s - loss: 24.8668 - box_loss: 24.8524 - dig_loss: 0.0144 - val_loss: 52.2760 - val_box_loss: 52.2627 - val_dig_loss: 0.0134
+Epoch 25/100
+55/55 - 12s - loss: 24.9033 - box_loss: 24.8898 - dig_loss: 0.0135 - val_loss: 49.1177 - val_box_loss: 49.1051 - val_dig_loss: 0.0126
+Epoch 26/100
+55/55 - 12s - loss: 24.2518 - box_loss: 24.2390 - dig_loss: 0.0127 - val_loss: 49.5105 - val_box_loss: 49.4987 - val_dig_loss: 0.0118
+Epoch 27/100
+55/55 - 12s - loss: 22.2909 - box_loss: 22.2790 - dig_loss: 0.0120 - val_loss: 49.8847 - val_box_loss: 49.8736 - val_dig_loss: 0.0111
+Epoch 28/100
+55/55 - 12s - loss: 21.2801 - box_loss: 21.2688 - dig_loss: 0.0113 - val_loss: 52.2752 - val_box_loss: 52.2647 - val_dig_loss: 0.0105
+Epoch 29/100
+55/55 - 12s - loss: 21.0824 - box_loss: 21.0717 - dig_loss: 0.0107 - val_loss: 53.8727 - val_box_loss: 53.8628 - val_dig_loss: 0.0099
+Epoch 30/100
+55/55 - 12s - loss: 19.8507 - box_loss: 19.8406 - dig_loss: 0.0101 - val_loss: 53.9446 - val_box_loss: 53.9352 - val_dig_loss: 0.0094
+Epoch 31/100
+55/55 - 12s - loss: 18.5782 - box_loss: 18.5686 - dig_loss: 0.0096 - val_loss: 56.2501 - val_box_loss: 56.2412 - val_dig_loss: 0.0089
+saving model CNNboxWINDONLY25
+model 26/120
+time elapsed:
+00:17:40.81
+estimated time left:
+01:03:55.25 
+
+
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 26
+Epoch 1/100
+55/55 - 14s - loss: 111.1374 - box_loss: 110.6709 - dig_loss: 0.4665 - val_loss: 80.1799 - val_box_loss: 79.7962 - val_dig_loss: 0.3837
+Epoch 2/100
+55/55 - 12s - loss: 95.2937 - box_loss: 94.9883 - dig_loss: 0.3055 - val_loss: 71.5708 - val_box_loss: 71.4165 - val_dig_loss: 0.1543
+Epoch 3/100
+55/55 - 12s - loss: 84.0882 - box_loss: 83.9509 - dig_loss: 0.1374 - val_loss: 67.8904 - val_box_loss: 67.7651 - val_dig_loss: 0.1253
+Epoch 4/100
+55/55 - 12s - loss: 71.6129 - box_loss: 71.4990 - dig_loss: 0.1139 - val_loss: 63.3140 - val_box_loss: 63.2144 - val_dig_loss: 0.0997
+Epoch 5/100
+55/55 - 12s - loss: 61.0607 - box_loss: 60.9672 - dig_loss: 0.0935 - val_loss: 58.7330 - val_box_loss: 58.6489 - val_dig_loss: 0.0841
+Epoch 6/100
+55/55 - 12s - loss: 56.7000 - box_loss: 56.6202 - dig_loss: 0.0798 - val_loss: 58.4620 - val_box_loss: 58.3898 - val_dig_loss: 0.0722
+Epoch 7/100
+55/55 - 12s - loss: 50.7810 - box_loss: 50.7120 - dig_loss: 0.0690 - val_loss: 59.1033 - val_box_loss: 59.0406 - val_dig_loss: 0.0627
+Epoch 8/100
+55/55 - 12s - loss: 43.9750 - box_loss: 43.9147 - dig_loss: 0.0604 - val_loss: 51.1013 - val_box_loss: 51.0462 - val_dig_loss: 0.0551
+Epoch 9/100
+55/55 - 12s - loss: 42.3713 - box_loss: 42.3180 - dig_loss: 0.0533 - val_loss: 52.7000 - val_box_loss: 52.6512 - val_dig_loss: 0.0487
+Epoch 10/100
+55/55 - 12s - loss: 40.3721 - box_loss: 40.3247 - dig_loss: 0.0474 - val_loss: 48.5767 - val_box_loss: 48.5332 - val_dig_loss: 0.0435
+Epoch 11/100
+55/55 - 12s - loss: 41.5624 - box_loss: 41.5200 - dig_loss: 0.0424 - val_loss: 54.7829 - val_box_loss: 54.7439 - val_dig_loss: 0.0390
+Epoch 12/100
+55/55 - 12s - loss: 37.8927 - box_loss: 37.8545 - dig_loss: 0.0382 - val_loss: 53.0786 - val_box_loss: 53.0433 - val_dig_loss: 0.0352
+Epoch 13/100
+55/55 - 12s - loss: 35.2992 - box_loss: 35.2646 - dig_loss: 0.0346 - val_loss: 48.7702 - val_box_loss: 48.7382 - val_dig_loss: 0.0320
+Epoch 14/100
+55/55 - 12s - loss: 33.1979 - box_loss: 33.1664 - dig_loss: 0.0315 - val_loss: 49.6612 - val_box_loss: 49.6320 - val_dig_loss: 0.0292
+Epoch 15/100
+55/55 - 12s - loss: 32.3047 - box_loss: 32.2759 - dig_loss: 0.0288 - val_loss: 50.4495 - val_box_loss: 50.4228 - val_dig_loss: 0.0267
+Epoch 16/100
+55/55 - 12s - loss: 31.8115 - box_loss: 31.7851 - dig_loss: 0.0264 - val_loss: 49.8628 - val_box_loss: 49.8383 - val_dig_loss: 0.0245
+Epoch 17/100
+55/55 - 12s - loss: 29.7805 - box_loss: 29.7562 - dig_loss: 0.0243 - val_loss: 54.8446 - val_box_loss: 54.8220 - val_dig_loss: 0.0226
+Epoch 18/100
+55/55 - 12s - loss: 28.8928 - box_loss: 28.8704 - dig_loss: 0.0225 - val_loss: 50.8890 - val_box_loss: 50.8681 - val_dig_loss: 0.0209
+Epoch 19/100
+55/55 - 12s - loss: 28.5847 - box_loss: 28.5639 - dig_loss: 0.0208 - val_loss: 51.8372 - val_box_loss: 51.8178 - val_dig_loss: 0.0194
+Epoch 20/100
+55/55 - 12s - loss: 27.7346 - box_loss: 27.7153 - dig_loss: 0.0193 - val_loss: 52.7509 - val_box_loss: 52.7329 - val_dig_loss: 0.0180
+saving model CNNboxWINDONLY26
+model 27/120
+time elapsed:
+00:21:56.24
+estimated time left:
+01:15:33.71 
+
+
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 27
+Epoch 1/100
+55/55 - 14s - loss: 104.5630 - box_loss: 104.2286 - dig_loss: 0.3345 - val_loss: 75.5024 - val_box_loss: 75.3679 - val_dig_loss: 0.1346
+Epoch 2/100
+55/55 - 12s - loss: 89.6873 - box_loss: 89.5652 - dig_loss: 0.1222 - val_loss: 65.1793 - val_box_loss: 65.0809 - val_dig_loss: 0.0984
+Epoch 3/100
+55/55 - 12s - loss: 72.9168 - box_loss: 72.8158 - dig_loss: 0.1010 - val_loss: 61.6828 - val_box_loss: 61.5960 - val_dig_loss: 0.0868
+Epoch 4/100
+55/55 - 12s - loss: 61.0810 - box_loss: 60.9903 - dig_loss: 0.0907 - val_loss: 59.1086 - val_box_loss: 59.0303 - val_dig_loss: 0.0783
+Epoch 5/100
+55/55 - 12s - loss: 53.9720 - box_loss: 53.8898 - dig_loss: 0.0822 - val_loss: 59.1239 - val_box_loss: 59.0524 - val_dig_loss: 0.0715
+Epoch 6/100
+55/55 - 12s - loss: 50.9151 - box_loss: 50.8401 - dig_loss: 0.0749 - val_loss: 55.7684 - val_box_loss: 55.7031 - val_dig_loss: 0.0654
+Epoch 7/100
+55/55 - 12s - loss: 45.0422 - box_loss: 44.9736 - dig_loss: 0.0686 - val_loss: 52.6179 - val_box_loss: 52.5578 - val_dig_loss: 0.0601
+Epoch 8/100
+55/55 - 12s - loss: 43.9957 - box_loss: 43.9326 - dig_loss: 0.0631 - val_loss: 53.5164 - val_box_loss: 53.4607 - val_dig_loss: 0.0558
+Epoch 9/100
+55/55 - 12s - loss: 39.0048 - box_loss: 38.9467 - dig_loss: 0.0582 - val_loss: 52.0987 - val_box_loss: 52.0474 - val_dig_loss: 0.0513
+Epoch 10/100
+55/55 - 12s - loss: 37.7239 - box_loss: 37.6701 - dig_loss: 0.0538 - val_loss: 52.2337 - val_box_loss: 52.1860 - val_dig_loss: 0.0477
+Epoch 11/100
+55/55 - 12s - loss: 36.4708 - box_loss: 36.4209 - dig_loss: 0.0499 - val_loss: 50.1692 - val_box_loss: 50.1251 - val_dig_loss: 0.0441
+Epoch 12/100
+55/55 - 12s - loss: 34.9447 - box_loss: 34.8984 - dig_loss: 0.0463 - val_loss: 52.5430 - val_box_loss: 52.5016 - val_dig_loss: 0.0414
+Epoch 13/100
+55/55 - 12s - loss: 32.9132 - box_loss: 32.8701 - dig_loss: 0.0431 - val_loss: 50.3607 - val_box_loss: 50.3226 - val_dig_loss: 0.0382
+Epoch 14/100
+55/55 - 12s - loss: 32.3301 - box_loss: 32.2899 - dig_loss: 0.0402 - val_loss: 51.2717 - val_box_loss: 51.2355 - val_dig_loss: 0.0362
+Epoch 15/100
+55/55 - 12s - loss: 30.0201 - box_loss: 29.9826 - dig_loss: 0.0376 - val_loss: 52.1015 - val_box_loss: 52.0676 - val_dig_loss: 0.0340
+Epoch 16/100
+55/55 - 12s - loss: 29.3330 - box_loss: 29.2979 - dig_loss: 0.0351 - val_loss: 52.6742 - val_box_loss: 52.6420 - val_dig_loss: 0.0322
+Epoch 17/100
+55/55 - 12s - loss: 28.4840 - box_loss: 28.4510 - dig_loss: 0.0330 - val_loss: 50.5309 - val_box_loss: 50.5011 - val_dig_loss: 0.0298
+Epoch 18/100
+55/55 - 12s - loss: 28.2263 - box_loss: 28.1953 - dig_loss: 0.0310 - val_loss: 52.8882 - val_box_loss: 52.8607 - val_dig_loss: 0.0275
+Epoch 19/100
+55/55 - 12s - loss: 26.4368 - box_loss: 26.4076 - dig_loss: 0.0291 - val_loss: 51.2413 - val_box_loss: 51.2150 - val_dig_loss: 0.0263
+Epoch 20/100
+55/55 - 12s - loss: 25.2138 - box_loss: 25.1863 - dig_loss: 0.0274 - val_loss: 54.7103 - val_box_loss: 54.6856 - val_dig_loss: 0.0247
+Epoch 21/100
+55/55 - 12s - loss: 24.7398 - box_loss: 24.7139 - dig_loss: 0.0259 - val_loss: 55.0270 - val_box_loss: 55.0033 - val_dig_loss: 0.0237
+saving model CNNboxWINDONLY27
+model 28/120
+time elapsed:
+00:26:22.15
+estimated time left:
+01:26:38.48 
+
+
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 28
+Epoch 1/100
+55/55 - 14s - loss: 109.2575 - box_loss: 108.8018 - dig_loss: 0.4557 - val_loss: 80.8345 - val_box_loss: 80.4520 - val_dig_loss: 0.3826
+Epoch 2/100
+55/55 - 12s - loss: 96.5183 - box_loss: 96.2334 - dig_loss: 0.2849 - val_loss: 72.9662 - val_box_loss: 72.8619 - val_dig_loss: 0.1043
+Epoch 3/100
+55/55 - 12s - loss: 90.1785 - box_loss: 90.0937 - dig_loss: 0.0848 - val_loss: 69.6225 - val_box_loss: 69.5523 - val_dig_loss: 0.0702
+Epoch 4/100
+55/55 - 12s - loss: 80.8365 - box_loss: 80.7723 - dig_loss: 0.0642 - val_loss: 65.8905 - val_box_loss: 65.8316 - val_dig_loss: 0.0589
+Epoch 5/100
+55/55 - 12s - loss: 69.2719 - box_loss: 69.2166 - dig_loss: 0.0553 - val_loss: 58.6524 - val_box_loss: 58.6023 - val_dig_loss: 0.0501
+Epoch 6/100
+55/55 - 12s - loss: 61.5556 - box_loss: 61.5075 - dig_loss: 0.0481 - val_loss: 57.5112 - val_box_loss: 57.4675 - val_dig_loss: 0.0438
+Epoch 7/100
+55/55 - 12s - loss: 52.6248 - box_loss: 52.5824 - dig_loss: 0.0424 - val_loss: 56.0084 - val_box_loss: 55.9702 - val_dig_loss: 0.0382
+Epoch 8/100
+55/55 - 12s - loss: 47.8742 - box_loss: 47.8366 - dig_loss: 0.0376 - val_loss: 55.7531 - val_box_loss: 55.7192 - val_dig_loss: 0.0339
+Epoch 9/100
+55/55 - 12s - loss: 43.3004 - box_loss: 43.2668 - dig_loss: 0.0336 - val_loss: 50.4442 - val_box_loss: 50.4138 - val_dig_loss: 0.0305
+Epoch 10/100
+55/55 - 12s - loss: 41.6292 - box_loss: 41.5990 - dig_loss: 0.0302 - val_loss: 53.2127 - val_box_loss: 53.1854 - val_dig_loss: 0.0273
+Epoch 11/100
+55/55 - 12s - loss: 39.9416 - box_loss: 39.9143 - dig_loss: 0.0273 - val_loss: 48.8674 - val_box_loss: 48.8426 - val_dig_loss: 0.0248
+Epoch 12/100
+55/55 - 12s - loss: 36.4174 - box_loss: 36.3925 - dig_loss: 0.0249 - val_loss: 48.8777 - val_box_loss: 48.8552 - val_dig_loss: 0.0226
+Epoch 13/100
+55/55 - 12s - loss: 34.8658 - box_loss: 34.8431 - dig_loss: 0.0227 - val_loss: 50.8053 - val_box_loss: 50.7847 - val_dig_loss: 0.0206
+Epoch 14/100
+55/55 - 12s - loss: 33.6804 - box_loss: 33.6596 - dig_loss: 0.0208 - val_loss: 53.2380 - val_box_loss: 53.2190 - val_dig_loss: 0.0189
+Epoch 15/100
+55/55 - 12s - loss: 33.2742 - box_loss: 33.2550 - dig_loss: 0.0191 - val_loss: 50.2342 - val_box_loss: 50.2168 - val_dig_loss: 0.0174
+Epoch 16/100
+55/55 - 12s - loss: 31.3221 - box_loss: 31.3045 - dig_loss: 0.0177 - val_loss: 52.2513 - val_box_loss: 52.2352 - val_dig_loss: 0.0161
+Epoch 17/100
+55/55 - 12s - loss: 30.6710 - box_loss: 30.6546 - dig_loss: 0.0163 - val_loss: 48.4601 - val_box_loss: 48.4450 - val_dig_loss: 0.0151
+Epoch 18/100
+55/55 - 12s - loss: 30.6385 - box_loss: 30.6234 - dig_loss: 0.0152 - val_loss: 48.6400 - val_box_loss: 48.6260 - val_dig_loss: 0.0140
+Epoch 19/100
+55/55 - 12s - loss: 29.4160 - box_loss: 29.4019 - dig_loss: 0.0141 - val_loss: 53.1122 - val_box_loss: 53.0992 - val_dig_loss: 0.0130
+Epoch 20/100
+55/55 - 12s - loss: 28.1140 - box_loss: 28.1009 - dig_loss: 0.0131 - val_loss: 53.1740 - val_box_loss: 53.1619 - val_dig_loss: 0.0122
+Epoch 21/100
+55/55 - 12s - loss: 26.5368 - box_loss: 26.5245 - dig_loss: 0.0123 - val_loss: 55.6269 - val_box_loss: 55.6154 - val_dig_loss: 0.0116
+Epoch 22/100
+55/55 - 12s - loss: 25.7706 - box_loss: 25.7591 - dig_loss: 0.0115 - val_loss: 57.1871 - val_box_loss: 57.1763 - val_dig_loss: 0.0108
+Epoch 23/100
+55/55 - 12s - loss: 24.9790 - box_loss: 24.9682 - dig_loss: 0.0108 - val_loss: 54.6242 - val_box_loss: 54.6139 - val_dig_loss: 0.0103
+Epoch 24/100
+55/55 - 12s - loss: 24.9921 - box_loss: 24.9819 - dig_loss: 0.0101 - val_loss: 57.3291 - val_box_loss: 57.3193 - val_dig_loss: 0.0098
+Epoch 25/100
+55/55 - 12s - loss: 24.1235 - box_loss: 24.1139 - dig_loss: 0.0095 - val_loss: 57.2958 - val_box_loss: 57.2862 - val_dig_loss: 0.0097
+Epoch 26/100
+55/55 - 12s - loss: 23.2287 - box_loss: 23.2197 - dig_loss: 0.0090 - val_loss: 57.9753 - val_box_loss: 57.9656 - val_dig_loss: 0.0097
+Epoch 27/100
+55/55 - 12s - loss: 22.6762 - box_loss: 22.6677 - dig_loss: 0.0085 - val_loss: 62.4535 - val_box_loss: 62.4451 - val_dig_loss: 0.0084
+saving model CNNboxWINDONLY28
+model 29/120
+time elapsed:
+00:32:00.39
+estimated time left:
+01:40:26.04 
+
+
+loading data:/home/f118885/data/thesis/boxWINDONLY.npy
+input images:  (4355, 256, 256, 7)
+outputs:  (4355, 62)
+WINDONLY run: 29
+Epoch 1/100
+55/55 - 14s - loss: 106.2757 - box_loss: 105.7766 - dig_loss: 0.4991 - val_loss: 80.1801 - val_box_loss: 79.7772 - val_dig_loss: 0.4029
+Epoch 2/100
+55/55 - 12s - loss: 97.3662 - box_loss: 96.9404 - dig_loss: 0.4258 - val_loss: 75.0151 - val_box_loss: 74.6352 - val_dig_loss: 0.3799
+Epoch 3/100
+55/55 - 12s - loss: 78.9914 - box_loss: 78.7522 - dig_loss: 0.2393 - val_loss: 65.7825 - val_box_loss: 65.6038 - val_dig_loss: 0.1787
+Epoch 4/100
+55/55 - 12s - loss: 72.8616 - box_loss: 72.7009 - dig_loss: 0.1608 - val_loss: 61.1880 - val_box_loss: 61.0433 - val_dig_loss: 0.1447
+Epoch 5/100
+55/55 - 12s - loss: 58.9383 - box_loss: 58.8045 - dig_loss: 0.1339 - val_loss: 57.7411 - val_box_loss: 57.6196 - val_dig_loss: 0.1216
+Epoch 6/100
+55/55 - 12s - loss: 54.5631 - box_loss: 54.4491 - dig_loss: 0.1139 - val_loss: 55.0342 - val_box_loss: 54.9302 - val_dig_loss: 0.1040
+Epoch 7/100
+55/55 - 12s - loss: 47.1968 - box_loss: 47.0984 - dig_loss: 0.0984 - val_loss: 57.0856 - val_box_loss: 56.9954 - val_dig_loss: 0.0902
+Epoch 8/100
+55/55 - 12s - loss: 42.1680 - box_loss: 42.0821 - dig_loss: 0.0859 - val_loss: 50.8640 - val_box_loss: 50.7848 - val_dig_loss: 0.0792
+Epoch 9/100
+55/55 - 12s - loss: 42.5182 - box_loss: 42.4425 - dig_loss: 0.0757 - val_loss: 52.3883 - val_box_loss: 52.3182 - val_dig_loss: 0.0701
+Epoch 10/100
+55/55 - 12s - loss: 39.7514 - box_loss: 39.6842 - dig_loss: 0.0672 - val_loss: 50.1956 - val_box_loss: 50.1331 - val_dig_loss: 0.0625
+Epoch 11/100
+55/55 - 12s - loss: 37.0728 - box_loss: 37.0127 - dig_loss: 0.0602 - val_loss: 50.0900 - val_box_loss: 50.0339 - val_dig_loss: 0.0561
+Epoch 12/100
+55/55 - 12s - loss: 35.7762 - box_loss: 35.7221 - dig_loss: 0.0541 - val_loss: 50.5907 - val_box_loss: 50.5401 - val_dig_loss: 0.0506
+Epoch 13/100
+55/55 - 12s - loss: 33.9318 - box_loss: 33.8828 - dig_loss: 0.0490 - val_loss: 49.5042 - val_box_loss: 49.4583 - val_dig_loss: 0.0459
+Epoch 14/100
+55/55 - 12s - loss: 32.7543 - box_loss: 32.7098 - dig_loss: 0.0445 - val_loss: 50.1178 - val_box_loss: 50.0759 - val_dig_loss: 0.0419
+Epoch 15/100
+55/55 - 12s - loss: 31.7779 - box_loss: 31.7372 - dig_loss: 0.0407 - val_loss: 53.1747 - val_box_loss: 53.1364 - val_dig_loss: 0.0383
+Epoch 16/100
+55/55 - 12s - loss: 31.1085 - box_loss: 31.0712 - dig_loss: 0.0373 - val_loss: 50.7042 - val_box_loss: 50.6690 - val_dig_loss: 0.0352
+Epoch 17/100
+55/55 - 12s - loss: 29.6414 - box_loss: 29.6071 - dig_loss: 0.0343 - val_loss: 51.3484 - val_box_loss: 51.3160 - val_dig_loss: 0.0324
+Epoch 18/100
+55/55 - 12s - loss: 30.0692 - box_loss: 30.0376 - dig_loss: 0.0317 - val_loss: 49.9602 - val_box_loss: 49.9303 - val_dig_loss: 0.0300
+Epoch 19/100
+55/55 - 12s - loss: 27.0855 - box_loss: 27.0562 - dig_loss: 0.0293 - val_loss: 52.1634 - val_box_loss: 52.1356 - val_dig_loss: 0.0278
+Epoch 20/100
+55/55 - 12s - loss: 26.6273 - box_loss: 26.6001 - dig_loss: 0.0272 - val_loss: 53.9768 - val_box_loss: 53.9510 - val_dig_loss: 0.0258
+Epoch 21/100
+55/55 - 12s - loss: 27.0621 - box_loss: 27.0368 - dig_loss: 0.0253 - val_loss: 51.4126 - val_box_loss: 51.3886 - val_dig_loss: 0.0241
+Epoch 22/100
+55/55 - 12s - loss: 24.8920 - box_loss: 24.8684 - dig_loss: 0.0236 - val_loss: 55.7171 - val_box_loss: 55.6946 - val_dig_loss: 0.0225
+Epoch 23/100
+55/55 - 12s - loss: 24.8901 - box_loss: 24.8680 - dig_loss: 0.0221 - val_loss: 57.7186 - val_box_loss: 57.6975 - val_dig_loss: 0.0211
+saving model CNNboxWINDONLY29
+model 30/120
+time elapsed:
+00:36:50.74
+estimated time left:
+01:50:32.22 
+
+
+
+
+###############################################################################
+Peregrine Cluster
+Job 20907772 for user 'f118885'
+Finished at: Mon Jul  5 14:23:31 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20907772
+Name                : CNN_job
+User                : f118885
+Partition           : gpu
+Nodes               : pg-gpu01
+Number of Nodes     : 1
+Cores               : 12
+State               : COMPLETED
+Submit              : 2021-07-05T13:45:48
+Start               : 2021-07-05T13:46:28
+End                 : 2021-07-05T14:23:31
+Reserved walltime   : 03:03:00
+Used walltime       : 00:37:03
+Used CPU time       : 00:38:29 (efficiency:  8.66%)
+% User (Computation): 84.06%
+% System (I/O)      : 15.94%
+Mem reserved        : 60G/node
+Max Mem used        : 30.17G (pg-gpu01)
+Max Disk Write      : 153.60K (pg-gpu01)
+Max Disk Read       : 3.43M (pg-gpu01)
+Average GPU usage   : 66.2% (pg-gpu01)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

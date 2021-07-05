@@ -63,7 +63,7 @@ def create_class_weight(boxID):
 def weighted_loss(weights):
     """Nested loss function to achieve custom loss + class weights.
     https://medium.com/@Bloomore/how-to-write-a-custom-loss-function-with-additional-arguments-in-keras-5f193929f7a0
-    requires special treatment when loading a model, see the link."""
+    may require special treatment when loading a model, see the link."""
     def my_loss(y_true, y_pred):
       # scale predictions so that the class probabilities of each sample sum to 1
       y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
@@ -192,25 +192,23 @@ def run_experiments():
     import time
     start = time.time()
 
-    n_runs = 30
+    n_runs = 1
     architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
     architecture_variant = architecture_variants[2]
     experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
 
-    for exp, experiment in enumerate(experiments[0:1]):
+    for exp, experiment in enumerate(experiments[3:4]):
 
         #performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
         #performances.write("Experiment" + experiment + "\n")
-
         images, outputs = load_data(architecture_variant, experiment)
         image_shape = images[0].shape
         for run in range(0, n_runs):
             if architecture_variant == 'box':
-                images, outputs = load_data(architecture_variant, experiment)
+                print(experiment, "run:", run)
                 box = []
                 dig_drive = []
                 boxArr = []
-                class_weight = []
                 for out in outputs:
                     box = out[:-1]
                     dig_drive.append(out[-1])
@@ -221,22 +219,21 @@ def run_experiments():
                     for i in range(len(box)):
                         if box[i] == 1:
                             boxID[i] += 1
-                    class_weight = create_class_weight(boxID)
-                    dig_drive = np.asarray(dig_drive, dtype=np.float16)
 
-                print(experiment, "run:", run)
-                test_data = [images[:20], boxes[:20], dig_drive[:20]]
-                images, box, dig_drive = images[20:], boxes[20:], dig_drive[20:]
+                class_weight = create_class_weight(boxID)
+                dig_drive = np.asarray(dig_drive, dtype=np.float16)
+
+
                 model = build_model_box(image_shape, class_weight)
-                callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+                callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True)
                 model.fit(images,  # used to be list of 2 inputs to model
-                          [box, dig_drive],
+                          [boxes, dig_drive],
                           batch_size=64,  # 64
                           epochs=100,  # 50
                           shuffle=True,
                           callbacks=[callback],
-                          validation_split=0.2,
-                          verbose=2)  # 0.2
+                          validation_split=0.2)#,
+                          #verbose=2)  # 0.2
             else:
               ##model = build_model_xy(images[0].shape)
               model = build_model_angle(images[0].shape)

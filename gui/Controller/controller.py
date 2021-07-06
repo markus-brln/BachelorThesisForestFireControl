@@ -297,7 +297,7 @@ class Controller:
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
-    print("pay attention", max(output), "digging:", output[1])
+    # print("pay attention", max(output), "digging:", output[1])
     digging = output[1] < self.digging_threshold
     # digging = 0
     waypointIdx = 0

@@ -262,7 +262,7 @@ class Controller:
       for agent in range(0, 5):
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
-        new_wp, digging = self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
+        new_wp, digging = self.postprocess_output_NN_box(positions[agent], self.model.agents[agent], dig_drive[agent])
         #print("pos: ", new_wp, "dig: ", digging)
         #print(" ")
         #self.model.highlight_agent(agent)
@@ -330,13 +330,13 @@ class Controller:
     return 0
 
 
-  def postprocess_output_NN_box(self, output, agent):
+  def postprocess_output_NN_box(self, output, agent, digdrive):
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
     #print("pay attention", max(output))
-    digging = output[1] > self.digging_threshold
+    digging = digdrive > self.digging_threshold
     #digging = 1
     waypointIdx = 0
     for idx in range(len(output)):

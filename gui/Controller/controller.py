@@ -8,6 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import math
 import statistics
+import tensorflow.keras.backend as K
 
 timeframe = 20
 class Controller:
@@ -559,6 +560,17 @@ class Controller:
     plt.show()
 
   @staticmethod
+  def box_loss(y_true, y_pred):
+    # scale predictions so that the class probabilities of each sample sum to 1
+    y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+    # clipping to remove divide by zero errors
+    y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+    # results of loss func
+    loss = y_true * K.log(y_pred)
+    loss = -K.sum(loss, -1)
+    return loss
+
+  @staticmethod
   def build_model_box(input_shape):
     import tensorflow as tf
     from tensorflow.keras import Input, Model
@@ -584,7 +596,7 @@ class Controller:
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
     adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # 0.0005
     # loss1 = weighted_loss(weights=weights)
-    model.compile(loss=['mse', tf.keras.losses.BinaryCrossentropy()],
+    model.compile(loss=[Controller.box_loss, tf.keras.losses.BinaryCrossentropy()],
                   ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
                   optimizer=adam,
                   # metrics=['categorical_accuracy', 'binary_crossentropy']

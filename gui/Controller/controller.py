@@ -224,7 +224,8 @@ class Controller:
       for agent in range(0, 5):
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
-        new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
+        print("dig/drive:",dig_drive[agent])
+        new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent], dig_drive[agent])
         print("pos: ", new_wp, "dig: ", digging)
         print(" ")
         self.model.highlight_agent(agent)
@@ -284,21 +285,21 @@ class Controller:
     return wp
 
   def waypointValid(self, wp, agent):
-    if (wp[0] >= -20 and wp[0] <= 20):
-      if(wp[1] >= -20 and wp[1] <= 20):
-        if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
-          if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
-            return 1
+    #if (wp[0] >= -20 and wp[0] <= 20):
+      #if(wp[1] >= -20 and wp[1] <= 20):
+    if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
+      if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
+        return 1
     return 0
 
 
-  def postprocess_output_NN_box(self, output, agent):
+  def postprocess_output_NN_box(self, output, agent, dig_drive):
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
     print("pay attention", max(output), "digging:", output[1])
-    digging = output[1] < self.digging_threshold
+    digging = dig_drive > self.digging_threshold
     # digging = 0
     waypointIdx = 0
     for idx in range(len(output)):
@@ -307,10 +308,15 @@ class Controller:
 
     print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
+
+    if not digging:                                   # double range for driving
+      wp = (wp[0] * 2, wp[1] * 2)
+
     # print("indx:", waypointIdx, "wp", wp)
     if self.waypointValid(wp, agent):
       delta_x = wp[0]
       delta_y = wp[1]
+
       print("x", delta_x, "y", delta_y)
       # if (abs(delta_x) + abs(delta_y)) > 15:
       #   digging = 1
@@ -319,6 +325,8 @@ class Controller:
     else:
       print("invalid waypoint position agent stops")
       output = agent.position[0], agent.position[1]
+
+
     return output, digging
 
 

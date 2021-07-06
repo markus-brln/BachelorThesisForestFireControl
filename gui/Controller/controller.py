@@ -262,14 +262,11 @@ class Controller:
       for agent in range(0, 5):
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
-        new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
+        new_wp, digging = self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
         #print("pos: ", new_wp, "dig: ", digging)
         #print(" ")
         #self.model.highlight_agent(agent)
         print(new_wp)
-        for ag in self.model.agents:
-          print("pos:", ag.position)
-          print("wp:", ag.wp)
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
           return -1  # waypoint outside of environment, FAIL!
@@ -323,10 +320,13 @@ class Controller:
 
     return wp
 
-  def waypointValid(self, wp):
+
+  def waypointValid(self, wp, agent):
     if (wp[0] >= -20 and wp[0] <= 20):
       if(wp[1] >= -20 and wp[1] <= 20):
-        return 1
+        if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
+          if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
+            return 1
     return 0
 
 
@@ -336,8 +336,8 @@ class Controller:
     """
 
     #print("pay attention", max(output))
-    # digging = output[1] > self.digging_threshold
-    digging = 1
+    digging = output[1] > self.digging_threshold
+    #digging = 1
     waypointIdx = 0
     for idx in range(len(output)):
       # print("tits", len(output[0]))
@@ -347,7 +347,7 @@ class Controller:
     #print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
     # print("indx:", waypointIdx, "wp", wp)
-    if self.waypointValid(wp):
+    if self.waypointValid(wp, agent):
       delta_x = wp[0]
       delta_y = wp[1]
 

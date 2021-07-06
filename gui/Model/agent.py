@@ -27,7 +27,6 @@ class Agent:
     if self.is_digging:
       self.dig()
       self.move()                                           # walk towards waypoint (straight line) + dig on every step
-
     else:
       self.move()                                           # move at double the speed compared to digging
       self.move()

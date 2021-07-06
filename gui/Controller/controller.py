@@ -193,6 +193,7 @@ class Controller:
     file = open("results" + os.sep + self.NN_variant + os.sep + self.NN_variant + utils.experiment + ".txt", mode='a')
     file.write(str(self.n_runs_per_NN) + "\n")
     file.write(str(self.n_burned_cells) + "\n")
+    print(self.n_burned_cells)
     #file.write(self.NN_variant + utils.experiment+ " model nr:" + str(self.NN_number)+"\n")
     #file.write(f"successfully contained fires: {self.n_success}\n")
     #file.write(f"failed attempts: {self.n_failed}\n")
@@ -261,8 +262,8 @@ class Controller:
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
         new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
-        print("pos: ", new_wp, "dig: ", digging)
-        print(" ")
+        #print("pos: ", new_wp, "dig: ", digging)
+        #print(" ")
         #self.model.highlight_agent(agent)
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           # new_wp = int(utils.size / 2), int(utils.size / 2)
@@ -272,7 +273,7 @@ class Controller:
           return -1  # waypoint outside of environment, FAIL!
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
-        print("new agent", self.agent_no)
+        #print("new agent", self.agent_no)
       # elif self.NN_variant == "box":
       #   print("gaga", self.agent_no)
       #   new_wp, digging = self.postprocess_output_NN_box(output[self.agent_no], self.model.agents[self.agent_no])
@@ -313,7 +314,7 @@ class Controller:
         cnt += 1
         if cnt == idx:
           wp = (x, y)
-          print(cnt, "wp", wp)
+          #print(cnt, "wp", wp)
           if (abs(x) + abs(y)) != 0:
             scale = utils.timeframe / (abs(x) + abs(y))
           else:
@@ -337,7 +338,7 @@ class Controller:
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
-    print("pay attention", max(output))
+    #print("pay attention", max(output))
     # digging = output[1] > self.digging_threshold
     digging = 1
     waypointIdx = 0
@@ -346,17 +347,17 @@ class Controller:
       if output[idx] == max(output):
         waypointIdx = idx
 
-    print("agent pos", agent.position[0], agent.position[1])
+    #print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
     # print("indx:", waypointIdx, "wp", wp)
     if self.waypointValid(wp):
       delta_x = wp[0]
       delta_y = wp[1]
-      print("x", delta_x, "y", delta_y)
+      #print("x", delta_x, "y", delta_y)
       # if digging:
       #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
       #   delta_y = self.arrayIndex2WaypointPos(waypointIdx[1])
-      print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
+      #print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
       output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
     else:
       output = agent.position[0], agent.position[1]
@@ -613,21 +614,60 @@ class Controller:
 
 
   @staticmethod
+  def build_model_box(input_shape):
+    import tensorflow as tf
+    from tensorflow.keras import Input, Model
+    from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
+
+    downscaleInput = Input(shape=input_shape)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+      downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Flatten()(downscaled)
+    downscaled = Dropout(0.03)(downscaled)
+    out = Dense(8, activation='sigmoid')(downscaled)
+    dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
+    box = Dense(64, activation='relu')(downscaled)
+    box = Dense(61, activation='softmax', name='box')(box)
+
+    model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # 0.0005
+    # loss1 = weighted_loss(weights=weights)
+    model.compile(loss=['mse', tf.keras.losses.BinaryCrossentropy()],
+                  ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
+                  optimizer=adam,
+                  # metrics=['categorical_accuracy', 'binary_crossentropy']
+                  )
+    return model
+
+
+  @staticmethod
   def load_NN(filename):
     """Load a Keras model from json file and weights (.h5). Same as in
     CNN/NNutils.py"""
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     print("loading model " + filename)
     import tensorflow
-    # load json and create model
-    json_file = open('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
-    model_json = json_file.read()
-    json_file.close()
 
-    model = tensorflow.keras.models.model_from_json(model_json)
-    # load weights into new model
-    model.load_weights('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
-    print("Loaded model from disk")
+    if "box" in filename:
+      model = Controller.build_model_box((256, 256, 7))
+      model.load_weights('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
+    else:
+      # load json and create model
+      json_file = open('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
+      model_json = json_file.read()
+      json_file.close()
+
+      model = tensorflow.keras.models.model_from_json(model_json)
+      # load weights into new model
+      model.load_weights('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
+      print("Loaded model from disk")
 
     return model
 

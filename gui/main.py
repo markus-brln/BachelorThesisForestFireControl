@@ -8,7 +8,24 @@ from Controller.controller import Controller
 import sys
 from Model import utils
 
+def load():
+  import tensorflow
+  import os
+  filename = "CNNangleSTOCHASTIC0"
+  # load json and create model
+  json_file = open('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
+  model_json = json_file.read()
+  json_file.close()
+
+  model = tensorflow.keras.models.model_from_json(model_json)
+  # load weights into new model
+  model.load_weights('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
+  print("Loaded model from disk")
+
+
 def main():
+  load()
+  exit()
 
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]

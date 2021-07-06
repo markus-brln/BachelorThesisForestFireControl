@@ -32,7 +32,6 @@ class Controller:
       self.n_burned_cells = []
       self.n_assignments = 0
       self.fail_bit = 0
-      self.n_models = 10
       self.next_model = False
       self.n_runs_per_NN = n_runs_per_NN
 

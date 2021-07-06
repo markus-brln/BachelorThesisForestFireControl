@@ -258,6 +258,7 @@ class Controller:
     """Emulates the manual setting of waypoints through mouse clicks
        by using the NN output."""
     if self.NN_variant == "box":
+      #print("outputs[0]", outputs[0])
       for agent in range(0, 5):
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
@@ -265,18 +266,18 @@ class Controller:
         #print("pos: ", new_wp, "dig: ", digging)
         #print(" ")
         #self.model.highlight_agent(agent)
+        print(new_wp)
+        for ag in self.model.agents:
+          print("pos:", ag.position)
+          print("wp:", ag.wp)
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
-          # new_wp = int(utils.size / 2), int(utils.size / 2)
-          # self.model.highlight_agent(self.agent_no)
-          # self.model.select_square(new_wp, digging=digging)
-          # self.agent_no += 1
+          print("Waypoint was outside the environment! Press backspace to discard episode!")
           return -1  # waypoint outside of environment, FAIL!
+
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
-        #print("new agent", self.agent_no)
-      # elif self.NN_variant == "box":
-      #   print("gaga", self.agent_no)
-      #   new_wp, digging = self.postprocess_output_NN_box(output[self.agent_no], self.model.agents[self.agent_no])
+
+
     else:
       for output in outputs:
         new_wp, digging = None, None
@@ -290,10 +291,6 @@ class Controller:
 
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
-          #new_wp = int(utils.size / 2), int(utils.size / 2)
-          #self.model.highlight_agent(self.agent_no)
-          #self.model.select_square(new_wp, digging=digging)
-          #self.agent_no += 1
           return -1                                         # waypoint outside of environment, FAIL!
 
         # print("pos: ", new_wp, "dig: ", digging)
@@ -353,6 +350,7 @@ class Controller:
     if self.waypointValid(wp):
       delta_x = wp[0]
       delta_y = wp[1]
+
       #print("x", delta_x, "y", delta_y)
       # if digging:
       #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
@@ -361,6 +359,7 @@ class Controller:
       output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
     else:
       output = agent.position[0], agent.position[1]
+    print("box wp:", wp)
     return output, digging
 
 

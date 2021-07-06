@@ -88,8 +88,16 @@ class Agent:
       return
     self.prev_node = self.node
     self.position = Direction.find(self)(self.position)
-    self.node = self.model.find_node(self.position)
-    self.model.agent_moves(self)
+    node = self.model.find_node(self.position)
+    if node:
+      self.node = node
+      self.model.agent_moves(self)
+    else:
+      print("hoii")
+      print(self.position)
+      print(self)
+      print(self.prev_node)
+      exit()
 
 
   def get_waypoint(self):

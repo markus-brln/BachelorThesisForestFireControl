@@ -92,12 +92,7 @@ class Agent:
     if node:
       self.node = node
       self.model.agent_moves(self)
-    else:
-      print("hoii")
-      print(self.position)
-      print(self)
-      print(self.prev_node)
-      exit()
+
 
 
   def get_waypoint(self):

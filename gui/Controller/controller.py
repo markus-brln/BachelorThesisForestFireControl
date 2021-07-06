@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 import math
 import statistics
 from numba import jit
+import tensorflow.keras.backend as K
 
 
 timeframe = 20
@@ -259,6 +260,7 @@ class Controller:
        by using the NN output."""
     if self.NN_variant == "box":
       #print("outputs[0]", outputs[0])
+      bad_wp = 0
       for agent in range(0, 5):
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
@@ -269,12 +271,14 @@ class Controller:
         print(new_wp)
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
-          return -1  # waypoint outside of environment, FAIL!
+          bad_wp = 1  # waypoint outside of environment, FAIL!
 
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
 
-
+      if bad_wp:
+        print("HELLOOO")
+        return -1
     else:
       for output in outputs:
         new_wp, digging = None, None
@@ -320,46 +324,47 @@ class Controller:
 
     return wp
 
-
   def waypointValid(self, wp, agent):
-    if (wp[0] >= -20 and wp[0] <= 20):
-      if(wp[1] >= -20 and wp[1] <= 20):
-        if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
-          if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
-            return 1
+    # if (wp[0] >= -20 and wp[0] <= 20):
+    # if(wp[1] >= -20 and wp[1] <= 20):
+    if 0 < agent.position[0] + wp[0] < 255:
+      if 0 < agent.position[1] + wp[1] < 255:
+        return 1
     return 0
 
-
-  def postprocess_output_NN_box(self, output, agent, digdrive):
+  def postprocess_output_NN_box(self, output, agent, dig_drive):
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
-    #print("pay attention", max(output))
-    digging = digdrive > self.digging_threshold
-    #digging = 1
+    #print("pay attention", max(output), "digging:", output[1])
+    digging = dig_drive > self.digging_threshold
+    # digging = 0
     waypointIdx = 0
     for idx in range(len(output)):
-      # print("tits", len(output[0]))
       if output[idx] == max(output):
         waypointIdx = idx
 
     #print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
+
+    if not digging:  # double range for driving
+      wp = (wp[0] * 2, wp[1] * 2)
+
     # print("indx:", waypointIdx, "wp", wp)
     if self.waypointValid(wp, agent):
       delta_x = wp[0]
       delta_y = wp[1]
 
       #print("x", delta_x, "y", delta_y)
-      # if digging:
-      #   delta_x = self.arrayIndex2WaypointPos(waypointIdx[0])
-      #   delta_y = self.arrayIndex2WaypointPos(waypointIdx[1])
+      # if (abs(delta_x) + abs(delta_y)) > 15:
+      #   digging = 1
       #print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
       output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
     else:
+      #print("invalid waypoint position agent stops")
       output = agent.position[0], agent.position[1]
-    print("box wp:", wp)
+
     return output, digging
 
 
@@ -611,6 +616,16 @@ class Controller:
     plt.imshow(orig_img)
     plt.show()
 
+  @staticmethod
+  def box_loss(y_true, y_pred):
+    # scale predictions so that the class probabilities of each sample sum to 1
+    y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+    # clipping to remove divide by zero errors
+    y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+    # results of loss func
+    loss = y_true * K.log(y_pred)
+    loss = -K.sum(loss, -1)
+    return loss
 
   @staticmethod
   def build_model_box(input_shape):
@@ -638,7 +653,7 @@ class Controller:
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
     adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # 0.0005
     # loss1 = weighted_loss(weights=weights)
-    model.compile(loss=['mse', tf.keras.losses.BinaryCrossentropy()],
+    model.compile(loss=[Controller.box_loss, tf.keras.losses.BinaryCrossentropy()],
                   ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
                   optimizer=adam,
                   # metrics=['categorical_accuracy', 'binary_crossentropy']

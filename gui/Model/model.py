@@ -177,6 +177,11 @@ class Model:
       return
 
     for agent in self.agents:
+      if not self.find_node(agent.position):
+        agent.dead = True
+        print("agent dies out of bounds")
+        self.agents.remove(agent)
+        return
       if not self.find_node(agent.position).state is None \
               and self.find_node(agent.position).state == NodeState.ON_FIRE:
         agent.dead = True

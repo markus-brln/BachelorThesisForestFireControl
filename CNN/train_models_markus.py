@@ -245,8 +245,8 @@ def run_experiments():
                   epochs=100,  # 50
                   shuffle=True,
                   callbacks=[callback],
-                  validation_split=0.2)  # ,
-        # verbose=2)  # 0.2
+                  validation_split=0.2,
+                  verbose=2)  # 0.2
       else:
         ##model = build_model_xy(images[0].shape)
         model = build_model_angle(images[0].shape)

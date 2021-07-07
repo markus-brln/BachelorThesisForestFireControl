@@ -579,7 +579,7 @@ class Controller:
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
       downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
@@ -587,14 +587,12 @@ class Controller:
     # downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    downscaled = Dropout(0.2)(downscaled)
+    downscaled = Dropout(0.1)(downscaled)
     out = Dense(16, activation='sigmoid')(downscaled)
     dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
-    box = Dense(128, activation='relu')(downscaled)
-    box = Dropout(0.2)(box)
+    box = Dense(64, activation='relu')(downscaled)
+    box = Dropout(0.1)(box)
     box = Dense(61, activation='softmax', name='box')(box)
-
-
 
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
     adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # 0.0005

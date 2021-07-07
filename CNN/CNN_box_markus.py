@@ -72,7 +72,7 @@ def build_model_box(input_shape, weights):
   downscaled = Dropout(0.1)(downscaled)
   out = Dense(16, activation='sigmoid')(downscaled)
   dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
-  box = Dense(128, activation='relu')(downscaled)
+  box = Dense(64, activation='relu')(downscaled)
   box = Dropout(0.1)(box)
   box = Dense(61, activation='softmax', name='box')(box)
 
@@ -209,7 +209,7 @@ if __name__ == "__main__":
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = experiments[3]                             # dictates model name
+  experiment = experiments[4]                             # dictates model name
 
   images, outputs = load_data(out_variant, experiment)
   box = []
@@ -266,7 +266,7 @@ if __name__ == "__main__":
   print(model.summary())
   # exit()
 
-  callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=3, restore_best_weights=True)
+  callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=10, restore_best_weights=True)
 
   # class_weight = {0: 0.7,
   #                 1: 0.9, # why y coords less precise??

@@ -8,6 +8,7 @@ from tensorflow.keras.layers import concatenate, Dense, Conv2D, Flatten, MaxPool
   Reshape, Activation
 from NNutils import *
 import tensorflow.keras.backend as K
+import sys
 # from functools import partial
 
 
@@ -204,8 +205,12 @@ def run_experiments():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   architecture_variant = architecture_variants[2]
   experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
+    experiment_nr = int(sys.argv[1])
 
-  for exp, experiment in enumerate(experiments[0:1]):
+
+  for exp, experiment in enumerate(experiments[0+experiment_nr:1+experiment_nr]):
 
     # performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
     # performances.write("Experiment" + experiment + "\n")
@@ -237,7 +242,7 @@ def run_experiments():
         model.fit(images,  # used to be list of 2 inputs to model
                   [boxes, dig_drive],
                   batch_size=64,  # 64
-                  epochs=1,  # 50
+                  epochs=100,  # 50
                   shuffle=True,
                   callbacks=[callback],
                   validation_split=0.2)  # ,

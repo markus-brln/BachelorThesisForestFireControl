@@ -205,10 +205,10 @@ def run_experiments():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   architecture_variant = architecture_variants[2]
   experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  
+
+  experiment_nr = 0
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
     experiment_nr = int(sys.argv[1])
-
 
   for exp, experiment in enumerate(experiments[0+experiment_nr:1+experiment_nr]):
 

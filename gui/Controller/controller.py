@@ -268,17 +268,12 @@ class Controller:
         #print("pos: ", new_wp, "dig: ", digging)
         #print(" ")
         #self.model.highlight_agent(agent)
-        print(new_wp)
+        #print(new_wp)
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
-          bad_wp = 1  # waypoint outside of environment, FAIL!
 
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
-
-      if bad_wp:
-        print("HELLOOO")
-        return -1
     else:
       for output in outputs:
         new_wp, digging = None, None
@@ -618,14 +613,12 @@ class Controller:
 
   @staticmethod
   def box_loss(y_true, y_pred):
-    # scale predictions so that the class probabilities of each sample sum to 1
     y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
-    # clipping to remove divide by zero errors
     y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
-    # results of loss func
     loss = y_true * K.log(y_pred)
     loss = -K.sum(loss, -1)
     return loss
+
 
   @staticmethod
   def build_model_box(input_shape):
@@ -641,13 +634,12 @@ class Controller:
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    downscaled = Dropout(0.03)(downscaled)
-    out = Dense(8, activation='sigmoid')(downscaled)
+    downscaled = Dropout(0.1)(downscaled)
+    out = Dense(16, activation='sigmoid')(downscaled)
     dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
     box = Dense(64, activation='relu')(downscaled)
+    box = Dropout(0.1)(box)
     box = Dense(61, activation='softmax', name='box')(box)
 
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])

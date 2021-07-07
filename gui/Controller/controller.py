@@ -8,6 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import math
 import statistics
+import tensorflow.keras.backend as K
 
 timeframe = 20
 class Controller:
@@ -224,7 +225,8 @@ class Controller:
       for agent in range(0, 5):
         positions, dig_drive = outputs
         # print("len", len(positions), "agent no.", self.agent_no)
-        new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent])
+        print("dig/drive:",dig_drive[agent])
+        new_wp, digging =  self.postprocess_output_NN_box(positions[agent], self.model.agents[agent], dig_drive[agent])
         print("pos: ", new_wp, "dig: ", digging)
         print(" ")
         self.model.highlight_agent(agent)
@@ -280,24 +282,25 @@ class Controller:
           wp = (newx, newy)
         x += 1 if y < 0 else -1
         cnt += 1
+    # print(wp, "!")
     return wp
 
   def waypointValid(self, wp, agent):
-    if (wp[0] >= -20 and wp[0] <= 20):
-      if(wp[1] >= -20 and wp[1] <= 20):
-        if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
-          if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
-            return 1
+    #if (wp[0] >= -20 and wp[0] <= 20):
+      #if(wp[1] >= -20 and wp[1] <= 20):
+    if (agent.position[0] + wp[0] >= 0 and agent.position[0] + wp[0] <= 255):
+      if (agent.position[1] + wp[1] >= 0 and agent.position[1] + wp[1] <= 255):
+        return 1
     return 0
 
 
-  def postprocess_output_NN_box(self, output, agent):
+  def postprocess_output_NN_box(self, output, agent, dig_drive):
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
-    # print("pay attention", max(output), "digging:", output[1])
-    digging = output[1] < self.digging_threshold
+    print("pay attention", max(output), "digging:", output[1])
+    digging = dig_drive > self.digging_threshold
     # digging = 0
     waypointIdx = 0
     for idx in range(len(output)):
@@ -306,11 +309,16 @@ class Controller:
 
     print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
-    print("indx:", waypointIdx, "wp", wp)
+
+    if not digging:                                   # double range for driving
+      wp = (wp[0] * 2, wp[1] * 2)
+
+    # print("indx:", waypointIdx, "wp", wp)
     if self.waypointValid(wp, agent):
       delta_x = wp[0]
       delta_y = wp[1]
-      # print("x", delta_x, "y", delta_y)
+
+      print("x", delta_x, "y", delta_y)
       # if (abs(delta_x) + abs(delta_y)) > 15:
       #   digging = 1
       print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
@@ -318,6 +326,8 @@ class Controller:
     else:
       print("invalid waypoint position agent stops")
       output = agent.position[0], agent.position[1]
+
+
     return output, digging
 
 
@@ -529,7 +539,7 @@ class Controller:
     print("predicting")
     # print(self.NN.summary())
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
-    # print(output)
+    print(output)
     # print(output)
     return output
 
@@ -549,6 +559,53 @@ class Controller:
     plt.imshow(orig_img)
     plt.show()
 
+  @staticmethod
+  def box_loss(y_true, y_pred):
+    # scale predictions so that the class probabilities of each sample sum to 1
+    y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+    # clipping to remove divide by zero errors
+    y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+    # results of loss func
+    loss = y_true * K.log(y_pred)
+    loss = -K.sum(loss, -1)
+    return loss
+
+  @staticmethod
+  def build_model_box(input_shape):
+    import tensorflow as tf
+    from tensorflow.keras import Input, Model
+    from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
+
+    downscaleInput = Input(shape=input_shape)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+      downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    # downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Flatten()(downscaled)
+    downscaled = Dropout(0.2)(downscaled)
+    out = Dense(16, activation='sigmoid')(downscaled)
+    dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
+    box = Dense(128, activation='relu')(downscaled)
+    box = Dropout(0.2)(box)
+    box = Dense(61, activation='softmax', name='box')(box)
+
+
+
+    model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # 0.0005
+    # loss1 = weighted_loss(weights=weights)
+    model.compile(loss=[Controller.box_loss, tf.keras.losses.BinaryCrossentropy()],
+                  ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
+                  optimizer=adam
+                  # metrics=['categorical_accuracy', 'binary_crossentropy']
+                  )
+    return model
+
 
   @staticmethod
   def load_NN(filename):
@@ -557,14 +614,20 @@ class Controller:
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     print("loading model " + filename)
     import tensorflow
-    # load json and create model
-    json_file = open('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
-    model_json = json_file.read()
-    json_file.close()
 
-    model = tensorflow.keras.models.model_from_json(model_json)
-    # load weights into new model
-    model.load_weights('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
-    print("Loaded model from disk")
+
+    if "box" in filename:
+      model = Controller.build_model_box((256, 256, 7))
+      model.load_weights('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
+    else:
+      # load json and create model
+      json_file = open('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + '.json', 'r')
+      model_json = json_file.read()
+      json_file.close()
+
+      model = tensorflow.keras.models.model_from_json(model_json)
+      # load weights into new model
+      model.load_weights('..' + os.sep +'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
+      print("Loaded model from disk")
 
     return model

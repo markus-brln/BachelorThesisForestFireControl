@@ -579,26 +579,29 @@ class Controller:
     downscaleInput = Input(shape=input_shape)
     downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
       downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    # downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    downscaled = Dropout(0.03)(downscaled)
-    out = Dense(8, activation='sigmoid')(downscaled)
+    downscaled = Dropout(0.2)(downscaled)
+    out = Dense(16, activation='sigmoid')(downscaled)
     dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
-    box = Dense(64, activation='relu')(downscaled)
+    box = Dense(128, activation='relu')(downscaled)
+    box = Dropout(0.2)(box)
     box = Dense(61, activation='softmax', name='box')(box)
+
+
 
     model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
     adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # 0.0005
     # loss1 = weighted_loss(weights=weights)
     model.compile(loss=[Controller.box_loss, tf.keras.losses.BinaryCrossentropy()],
                   ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
-                  optimizer=adam,
+                  optimizer=adam
                   # metrics=['categorical_accuracy', 'binary_crossentropy']
                   )
     return model
@@ -611,6 +614,8 @@ class Controller:
     # https://machinelearningmastery.com/save-load-keras-deep-learning-models/
     print("loading model " + filename)
     import tensorflow
+
+
     if "box" in filename:
       model = Controller.build_model_box((256, 256, 7))
       model.load_weights('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")

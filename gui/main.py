@@ -14,7 +14,7 @@ def main():
   variant = architecture_variants[2]
   experiment = experiments[1]
   n_NN_to_test = 1
-  n_runs_per_NN = 2
+  n_runs_per_NN = 5
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]

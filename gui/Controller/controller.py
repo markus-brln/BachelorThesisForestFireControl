@@ -298,25 +298,23 @@ class Controller:
     self.model.highlight_agent(None)
 
   def arrayIndex2WaypointPos(self, idx):
+    timeframe = 20
     size = 5
     x = 0
     cnt = 0
-    wp = (0, 0)
+    wp = ()
     for y in range(-size, size + 1):
       for x in range(-x, x + 1):
-        cnt += 1
         if cnt == idx:
-          wp = (x, y)
-          #print(cnt, "wp", wp)
-          if (abs(x) + abs(y)) != 0:
-            scale = utils.timeframe / (abs(x) + abs(y))
-          else:
-            scale = 1
-          x = round(scale * x)
-          y = round(scale * y)
-          wp = (x, y)
-      x += 1 if y < 0 else -1
-
+          ratio = (abs(x) + abs(y)) / size
+          timeframe *= ratio
+          scale = timeframe / (abs(x) + abs(y))
+          newx = (scale * x)
+          newy = (scale * y)
+          wp = (newx, newy)
+        x += 1 if y < 0 else -1
+        cnt += 1
+    # print(wp, "!")
     return wp
 
   def waypointValid(self, wp, agent):
@@ -332,7 +330,7 @@ class Controller:
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
 
-    #print("pay attention", max(output), "digging:", output[1])
+    print("pay attention", max(output), "digging:", output[1])
     digging = dig_drive > self.digging_threshold
     # digging = 0
     waypointIdx = 0
@@ -340,10 +338,10 @@ class Controller:
       if output[idx] == max(output):
         waypointIdx = idx
 
-    #print("agent pos", agent.position[0], agent.position[1])
+    print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
 
-    if not digging:  # double range for driving
+    if not digging:                                   # double range for driving
       wp = (wp[0] * 2, wp[1] * 2)
 
     # print("indx:", waypointIdx, "wp", wp)
@@ -351,16 +349,18 @@ class Controller:
       delta_x = wp[0]
       delta_y = wp[1]
 
-      #print("x", delta_x, "y", delta_y)
+      print("x", delta_x, "y", delta_y)
       # if (abs(delta_x) + abs(delta_y)) > 15:
       #   digging = 1
-      #print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
+      print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
       output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
     else:
-      #print("invalid waypoint position agent stops")
+      print("invalid waypoint position agent stops")
       output = agent.position[0], agent.position[1]
 
+
     return output, digging
+
 
 
   def postprocess_output_NN_xy(self, output, agent):

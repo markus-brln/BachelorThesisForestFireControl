@@ -6,7 +6,7 @@
 #SBATCH --partition=gpu                                                                                                                      
 #SBATCH --job-name=CNN_job                                                                                                                   
 #SBATCH --gres=name[[:type]:count]                                                                                                           
-#SBATCH --gres=gpu:1                                                                                                                         
+#SBATCH --gres=gpu:v100:1
 #SBATCH --cpus-per-task=2                                                                                                     
 
 module load Python/3.7.4-GCCcore-8.3.0

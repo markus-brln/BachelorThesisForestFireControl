@@ -42,24 +42,41 @@ def loss(y_true, y_pred, weights):
   return loss
 
 def build_model_box(input_shape, weights):
+  # downscaleInput = Input(shape=input_shape)
+  # downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
+  # downscaled = Conv2D(filters=16, kernel_size=(2, 2),  strides=(1, 1), activation="relu", padding="same")(downscaled)
+  # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  # downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  # downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  # downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  # downscaled = Flatten()(downscaled)
+  # out = Dense(12, activation='sigmoid')(downscaled)
+  # dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
+  # box = Dense(64, activation='relu')(downscaled)
+  # box = Dense(61, activation='softmax', name='box')(box)
+
   downscaleInput = Input(shape=input_shape)
   downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaleInput)
-  downscaled = Conv2D(filters=16, kernel_size=(2, 2),  strides=(1, 1), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
   downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
-  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-  downscaled = Conv2D(filters=64, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  # downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(3, 3), activation="relu", padding="same")(downscaled)
   downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
   downscaled = Flatten()(downscaled)
-  downscaled = Dropout(0.03)(downscaled)
-  out = Dense(8, activation='sigmoid')(downscaled)
+  downscaled = Dropout(0.2)(downscaled)
+  out = Dense(12, activation='sigmoid')(downscaled)
+  out = Dense(4, activation='sigmoid')(out)
   dig_drive = Dense(1, activation='sigmoid', name='dig')(out)
   box = Dense(64, activation='relu')(downscaled)
   box = Dense(61, activation='softmax', name='box')(box)
 
   model = Model(inputs=downscaleInput, outputs=[box, dig_drive])
-  adam = tf.keras.optimizers.Adam(learning_rate=0.001)#0.0005
+  adam = tf.keras.optimizers.Adam(learning_rate=0.005)#0.0005
   from functools import partial
   loss1 = partial(loss, weights=weights)
   model.compile(loss=[loss1, tf.keras.losses.BinaryCrossentropy()], ## categorical_crossentropy  ## tf.keras.losses.BinaryCrossentropy()
@@ -171,7 +188,6 @@ def arrayIndex2WaypointPos(idx):
         wp = (newx, newy)
       x += 1 if y < 0 else -1
       cnt += 1
-  # print(wp, "!")
   return wp
 
 def create_class_weight(boxID):
@@ -185,19 +201,16 @@ def create_class_weight(boxID):
   return np.asarray(weights_dict)
 
 if __name__ == "__main__":
-  # predict()                          # predict with model loaded from file
-  # exit()
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   out_variant = architecture_variants[2]
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-  experiment = experiments[3]                             # dictates model name
+  experiment = experiments[1]                             # dictates model name
 
   images, outputs = load_data(out_variant, experiment)
   box = []
   dig_drive = []
   boxArr = []
-  # images = images[:-9500]
-  # outputs = outputs[:-9500]
+
   for out in outputs:
     box = out[:-1]
     dig_drive.append(out[-1])
@@ -221,10 +234,10 @@ if __name__ == "__main__":
       if box[i] == 1:
         boxID[i] += 1
 
-  # for p in range(len(boxID)):
-  #   if boxID[p] != 0:
-  #     print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
-  #     # p = len(boxID)
+  for p in range(len(boxID)):
+    if boxID[p] != 0:
+      print(p, "array pos", "waypoint:", arrayIndex2WaypointPos(p), "number of occurances in the dataset:", boxID[p])
+      # p = len(boxID)
 
   dig_drive = np.asarray(dig_drive, dtype=np.float16)
   print(boxes.shape, dig_drive.shape, "shape")
@@ -232,24 +245,18 @@ if __name__ == "__main__":
   test_data = [images[:20], boxes[:20], dig_drive[:20]]
   images, box, dig_drive = images[20:], boxes[20:], dig_drive[20:]
 
-  # check_performance(test_data)
-  # exit()
-  ## https://stackoverflow.com/questions/44036971/multiple-outputs-in-keras
+
+
 
   class_weight = create_class_weight(boxID)
-  # print("lengths class & boxID", len(class_weight), len(boxID))
-  # print("shapes:", images[0].shape)  ##(256, 256, 7)
+
 
   model = build_model_box(images[0].shape, class_weight)
   print(model.summary())
-  # exit()
 
-  callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+  callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=20)
 
-  # class_weight = {0: 0.7,
-  #                 1: 0.9, # why y coords less precise??
-  #                 2: 0.5}
-
+  ## https://stackoverflow.com/questions/44036971/multiple-outputs-in-keras
   history = model.fit(images,  # used to be list of 2 inputs to model
                       [box, dig_drive],
                       batch_size=64,  # 64
@@ -260,6 +267,12 @@ if __name__ == "__main__":
                       validation_split=0.2)  # 0.2
 
 
+  save(model, "CNNbox" + experiment + str(0))  # utils
+  # check_performance(test_data, model)
+  plot_history_box(history=history)
+  # plot_history_dig(history=history)
+
+  # predict(model=model, data=test_data)
   # print("keys", history.history.keys())
   # train_accuracy = history.history['box_categorical_accuracy']
   # test_accuracy = history.history['val_box_categorical_accuracy']
@@ -282,11 +295,3 @@ if __name__ == "__main__":
   # plt.ylabel('Digging Error')
   # plt.legend()
   # plt.show()
-
-
-  save(model, "CNNbox" + experiment + str(0))  # utils
-  # check_performance(test_data, model)
-  plot_history_box(history=history)
-  plot_history_dig(history=history)
-
-  # predict(model=model, data=test_data)

@@ -280,7 +280,6 @@ class Controller:
           wp = (newx, newy)
         x += 1 if y < 0 else -1
         cnt += 1
-    # print(wp, "!")
     return wp
 
   def waypointValid(self, wp, agent):
@@ -307,11 +306,11 @@ class Controller:
 
     print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
-    # print("indx:", waypointIdx, "wp", wp)
+    print("indx:", waypointIdx, "wp", wp)
     if self.waypointValid(wp, agent):
       delta_x = wp[0]
       delta_y = wp[1]
-      print("x", delta_x, "y", delta_y)
+      # print("x", delta_x, "y", delta_y)
       # if (abs(delta_x) + abs(delta_y)) > 15:
       #   digging = 1
       print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
@@ -530,7 +529,7 @@ class Controller:
     print("predicting")
     # print(self.NN.summary())
     output = self.NN.predict(NN_input)                      # needs to be a list of [images, concat], see
-    print(output)
+    # print(output)
     # print(output)
     return output
 

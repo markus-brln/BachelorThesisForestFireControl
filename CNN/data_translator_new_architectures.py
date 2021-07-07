@@ -201,8 +201,8 @@ def outputs_box(data):
     waypoint = tuple(agent[1])
     # print("agent: (", xpos, ",", ypos, ") wp: (", waypoint[0], ",", waypoint[1], ")")
     drive_dig = agent[2]
-    deltaX = int((waypoint[0] - xpos) + 1)
-    deltaY = int((waypoint[1] - ypos) + 1)
+    deltaX = int((waypoint[0] - xpos))
+    deltaY = int((waypoint[1] - ypos))
     # print("(", deltaX, deltaY, ")")
     wp = shrink2reachablewaypoint(deltaX, deltaY)
     arrPos = waypoint2array(wp)

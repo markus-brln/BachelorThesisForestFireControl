@@ -18,7 +18,7 @@ echo Overview of modules that are loaded
 echo starting CNN
 
 # the number behind again stands for the variant!
-python CNN_segments.py $1
+python CNN_segments.py $1 0
 
 
 # execute with:                                                                                                                              

@@ -1,4 +1,4 @@
-import random
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -58,6 +58,9 @@ if __name__ == "__main__":
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
     experiment = experiments[0]                             # dictates model name
 
+    if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
+      experiment = experiments[int(sys.argv[1])]
+
     ## Data processing
     images, outputs = load_data(out_variant, experiment)
     test_data = [images[:20], outputs[:20]]
@@ -93,3 +96,4 @@ if __name__ == "__main__":
     plot_history(history=history)
     # predict()                          # predict with model loaded from file
     # exit()
+

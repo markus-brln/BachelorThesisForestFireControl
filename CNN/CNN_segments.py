@@ -57,9 +57,13 @@ if __name__ == "__main__":
     out_variant = "segments"
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
     experiment = experiments[0]                             # dictates model name
+    nn_name = "0"
 
     if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
       experiment = experiments[int(sys.argv[1])]
+
+    if len(sys.argv) > 2:
+      nn_name = sys.argv[2]
 
     ## Data processing
     images, outputs = load_data(out_variant, experiment)
@@ -91,7 +95,7 @@ if __name__ == "__main__":
               # class_weight=class_weights,
               validation_split=0.2)
 
-    save(model, "CNNsegments" + experiment)  # utils
+    save(model, "CNNsegments" + experiment + nn_name)  # utils
     print(f"saving as CNNsegments{experiment}")
     plot_history(history=history)
     # predict()                          # predict with model loaded from file

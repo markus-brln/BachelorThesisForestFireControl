@@ -268,6 +268,7 @@ class Controller:
 
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
+          return -1
 
         self.model.highlight_agent(agent_nr)
         self.model.select_square(new_wp, digging=digging)

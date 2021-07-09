@@ -1,0 +1,7509 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
+  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
+  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
+  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+
+Overview of modules that are loaded
+
+Currently Loaded Modules:
+  1) GCCcore/8.3.0
+  2) zlib/1.2.11-GCCcore-8.3.0
+  3) binutils/2.32-GCCcore-8.3.0
+  4) bzip2/1.0.8-GCCcore-8.3.0
+  5) ncurses/6.1-GCCcore-8.3.0
+  6) libreadline/8.0-GCCcore-8.3.0
+  7) Tcl/8.6.9-GCCcore-8.3.0
+  8) SQLite/3.29.0-GCCcore-8.3.0
+  9) XZ/5.2.4-GCCcore-8.3.0
+ 10) GMP/6.1.2-GCCcore-8.3.0
+ 11) libffi/3.2.1-GCCcore-8.3.0
+ 12) Python/3.7.4-GCCcore-8.3.0
+ 13) GCC/8.3.0
+ 14) CUDA/10.1.243-GCC-8.3.0
+ 15) gcccuda/2019b
+ 16) numactl/2.0.12-GCCcore-8.3.0
+ 17) libxml2/2.9.9-GCCcore-8.3.0
+ 18) libpciaccess/0.14-GCCcore-8.3.0
+ 19) hwloc/1.11.12-GCCcore-8.3.0
+ 20) OpenBLAS/0.3.7-GCC-8.3.0
+ 21) gompic/2019b
+ 22) fosscuda/2019b
+ 23) Szip/2.1.1-GCCcore-8.3.0
+ 24) HDF5/1.10.5-gompic-2019b
+ 25) h5py/2.10.0-fosscuda-2019b-Python-3.7.4
+ 26) cuDNN/7.6.4.38-gcccuda-2019b
+ 27) NCCL/2.4.8-gcccuda-2019b
+ 28) TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4
+ 29) LLVM/8.0.1-GCCcore-8.3.0
+ 30) numba/0.47.0-fosscuda-2019b-Python-3.7.4
+ 31) OpenMPI/3.1.4-GCC-8.3.0
+ 32) gompi/2019b
+ 33) FFTW/3.3.8-gompi-2019b
+ 34) ScaLAPACK/2.0.2-gompi-2019b
+ 35) foss/2019b
+ 36) SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
+ 37) libpng/1.6.37-GCCcore-8.3.0
+ 38) freetype/2.10.1-GCCcore-8.3.0
+ 39) expat/2.2.7-GCCcore-8.3.0
+ 40) util-linux/2.34-GCCcore-8.3.0
+ 41) fontconfig/2.13.1-GCCcore-8.3.0
+ 42) X11/20190717-GCCcore-8.3.0
+ 43) Tk/8.6.9-GCCcore-8.3.0
+ 44) Tkinter/3.7.4-GCCcore-8.3.0
+ 45) matplotlib/3.1.1-foss-2019b-Python-3.7.4
+
+ 
+
+starting main
+2021-07-09 09:22:55.758034: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2021-07-09 09:22:59.902450: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /software/software/matplotlib/3.1.1-foss-2019b-Python-3.7.4/lib:/software/software/Tkinter/3.7.4-GCCcore-8.3.0/lib:/software/software/Tk/8.6.9-GCCcore-8.3.0/lib:/software/software/X11/20190717-GCCcore-8.3.0/lib:/software/software/fontconfig/2.13.1-GCCcore-8.3.0/lib:/software/software/util-linux/2.34-GCCcore-8.3.0/lib:/software/software/expat/2.2.7-GCCcore-8.3.0/lib:/software/software/freetype/2.10.1-GCCcore-8.3.0/lib:/software/software/libpng/1.6.37-GCCcore-8.3.0/lib:/software/software/SciPy-bundle/2019.10-foss-2019b-Python-3.7.4/lib/python3.7/site-packages/numpy/core/lib:/software/software/SciPy-bundle/2019.10-foss-2019b-Python-3.7.4/lib:/software/software/ScaLAPACK/2.0.2-gompi-2019b/lib:/software/software/FFTW/3.3.8-gompi-2019b/lib:/software/software/OpenMPI/3.1.4-GCC-8.3.0/lib:/software/software/numba/0.47.0-fosscuda-2019b-Python-3.7.4/lib:/software/software/LLVM/8.0.1-GCCcore-8.3.0/lib:/software/software/TensorFlow/2.1.0-fosscuda-2019b-Python-3.7.4/lib:/software/software/NCCL/2.4.8-gcccuda-2019b/lib:/software/software/cuDNN/7.6.4.38-gcccuda-2019b/lib64:/software/software/HDF5/1.10.5-gompic-2019b/lib:/software/software/Szip/2.1.1-GCCcore-8.3.0/lib:/software/software/OpenBLAS/0.3.7-GCC-8.3.0/lib:/software/software/hwloc/1.11.12-GCCcore-8.3.0/lib:/software/software/libpciaccess/0.14-GCCcore-8.3.0/lib:/software/software/libxml2/2.9.9-GCCcore-8.3.0/lib:/software/software/numactl/2.0.12-GCCcore-8.3.0/lib:/software/software/CUDA/10.1.243-GCC-8.3.0/nvvm/lib64:/software/software/CUDA/10.1.243-GCC-8.3.0/extras/CUPTI/lib64:/software/software/CUDA/10.1.243-GCC-8.3.0/lib64:/software/software/Python/3.7.4-GCCcore-8.3.0/lib:/software/software/libffi/3.2.1-GCCcore-8.3.0/lib64:/software/software/libffi/3.2.1-GCCcore-8.3.0/lib:/software/software/GMP/6.1.2-GCCcore-8.3.0/lib:/software/software/XZ/5.2.4-GCCcore-8.3.0/lib:/software/software/SQLite/3.29.0-GCCcore-8.3.0/lib:/software/software/Tcl/8.6.9-GCCcore-8.3.0/lib:/software/software/libreadline/8.0-GCCcore-8.3.0/lib:/software/software/ncurses/6.1-GCCcore-8.3.0/lib:/software/software/bzip2/1.0.8-GCCcore-8.3.0/lib:/software/software/binutils/2.32-GCCcore-8.3.0/lib:/software/software/zlib/1.2.11-GCCcore-8.3.0/lib:/software/software/GCCcore/8.3.0/lib/gcc/x86_64-pc-linux-gnu/8.3.0:/software/software/GCCcore/8.3.0/lib64:/software/software/GCCcore/8.3.0/lib
+2021-07-09 09:22:59.902593: E tensorflow/stream_executor/cuda/cuda_driver.cc:351] failed call to cuInit: UNKNOWN ERROR (303)
+2021-07-09 09:22:59.902659: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (pg-node173): /proc/driver/nvidia/version does not exist
+2021-07-09 09:22:59.910194: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+/home/f118885/thesis/gui/Controller/controller.py:694: NumbaPendingDeprecationWarning: 
+Encountered the use of a type that is scheduled for deprecation: type 'reflected set' found for argument 'firebreaks' of function 'check_escape'.
+
+For more information visit http://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+
+File "Controller/controller.py", line 714:
+@jit(nopython=True)
+def check_escape(firebreaks, new_burned):
+^
+
+  if check_escape(firebreaks, new_burned):  # the bounds of the environment
+/software/software/numba/0.47.0-fosscuda-2019b-Python-3.7.4/lib/python3.7/site-packages/numba/ir_utils.py:2030: NumbaPendingDeprecationWarning: 
+Encountered the use of a type that is scheduled for deprecation: type 'reflected set' found for argument 'firebreaks' of function 'count_containment'.
+
+For more information visit http://numba.pydata.org/numba-doc/latest/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
+
+File "Controller/controller.py", line 683:
+@jit(nopython=True)
+def count_containment(firebreaks, size):
+^
+
+  warnings.warn(NumbaPendingDeprecationWarning(msg, loc=loc))
+variant: box
+experiment: UNCERTAINONLY
+loading model CNNboxUNCERTAINONLY0
+model 0 success 1 / 1  successful
+agent dies
+nr agents fail
+model 0 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 0 fail 1 / 3  successful
+model 0 success 2 / 4  successful
+agent dies
+nr agents fail
+model 0 fail 2 / 5  successful
+model 0 success 3 / 6  successful
+agent dies
+nr agents fail
+model 0 fail 3 / 7  successful
+model 0 success 4 / 8  successful
+agent dies
+nr agents fail
+model 0 fail 4 / 9  successful
+agent dies
+nr agents fail
+model 0 fail 4 / 10  successful
+agent dies
+nr agents fail
+model 0 fail 4 / 11  successful
+agent dies
+nr agents fail
+model 0 fail 4 / 12  successful
+model 0 success 5 / 13  successful
+agent dies
+nr agents fail
+model 0 fail 5 / 14  successful
+agent dies
+nr agents fail
+model 0 fail 5 / 15  successful
+agent dies
+nr agents fail
+model 0 fail 5 / 16  successful
+model 0 success 6 / 17  successful
+agent dies
+nr agents fail
+model 0 fail 6 / 18  successful
+model 0 success 7 / 19  successful
+agent dies
+nr agents fail
+model 0 fail 7 / 20  successful
+agent dies
+nr agents fail
+model 0 fail 7 / 21  successful
+model 0 success 8 / 22  successful
+agent dies
+nr agents fail
+model 0 fail 8 / 23  successful
+agent dies
+nr agents fail
+model 0 fail 8 / 24  successful
+agent dies
+nr agents fail
+model 0 fail 8 / 25  successful
+model 0 success 9 / 26  successful
+model 0 success 10 / 27  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 28  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 29  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 30  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 31  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 32  successful
+nr assignments fail
+model 0 fail 10 / 33  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 34  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 35  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 36  successful
+nr assignments fail
+model 0 fail 10 / 37  successful
+agent dies
+nr agents fail
+model 0 fail 10 / 38  successful
+model 0 success 11 / 39  successful
+agent dies
+nr agents fail
+model 0 fail 11 / 40  successful
+agent dies
+nr agents fail
+model 0 fail 11 / 41  successful
+agent dies
+nr agents fail
+model 0 fail 11 / 42  successful
+agent dies
+nr agents fail
+model 0 fail 11 / 43  successful
+agent dies
+nr agents fail
+model 0 fail 11 / 44  successful
+model 0 success 12 / 45  successful
+agent dies
+nr agents fail
+model 0 fail 12 / 46  successful
+agent dies
+nr agents fail
+model 0 fail 12 / 47  successful
+agent dies
+nr agents fail
+model 0 fail 12 / 48  successful
+agent dies
+nr agents fail
+model 0 fail 12 / 49  successful
+agent dies
+nr agents fail
+model 0 fail 12 / 50  successful
+agent dies
+nr agents fail
+model 0 fail 12 / 51  successful
+model 0 success 13 / 52  successful
+agent dies
+nr agents fail
+model 0 fail 13 / 53  successful
+agent dies
+nr agents fail
+model 0 fail 13 / 54  successful
+model 0 success 14 / 55  successful
+agent dies
+nr agents fail
+model 0 fail 14 / 56  successful
+agent dies
+nr agents fail
+model 0 fail 14 / 57  successful
+agent dies
+nr agents fail
+model 0 fail 14 / 58  successful
+model 0 success 15 / 59  successful
+agent dies
+nr agents fail
+model 0 fail 15 / 60  successful
+agent dies
+nr agents fail
+model 0 fail 15 / 61  successful
+nr assignments fail
+model 0 fail 15 / 62  successful
+agent dies
+nr agents fail
+model 0 fail 15 / 63  successful
+agent dies
+nr agents fail
+model 0 fail 15 / 64  successful
+model 0 success 16 / 65  successful
+agent dies
+nr agents fail
+model 0 fail 16 / 66  successful
+model 0 success 17 / 67  successful
+agent dies
+nr agents fail
+model 0 fail 17 / 68  successful
+model 0 success 18 / 69  successful
+model 0 success 19 / 70  successful
+model 0 success 20 / 71  successful
+model 0 success 21 / 72  successful
+agent dies
+nr agents fail
+model 0 fail 21 / 73  successful
+agent dies
+nr agents fail
+model 0 fail 21 / 74  successful
+agent dies
+nr agents fail
+model 0 fail 21 / 75  successful
+agent dies
+nr agents fail
+model 0 fail 21 / 76  successful
+model 0 success 22 / 77  successful
+agent dies
+nr agents fail
+model 0 fail 22 / 78  successful
+model 0 success 23 / 79  successful
+agent dies
+nr agents fail
+model 0 fail 23 / 80  successful
+model 0 success 24 / 81  successful
+model 0 success 25 / 82  successful
+agent dies
+nr agents fail
+model 0 fail 25 / 83  successful
+agent dies
+nr agents fail
+model 0 fail 25 / 84  successful
+agent dies
+nr agents fail
+model 0 fail 25 / 85  successful
+agent dies
+nr agents fail
+model 0 fail 25 / 86  successful
+model 0 success 26 / 87  successful
+agent dies
+nr agents fail
+model 0 fail 26 / 88  successful
+agent dies
+nr agents fail
+model 0 fail 26 / 89  successful
+model 0 success 27 / 90  successful
+agent dies
+nr agents fail
+model 0 fail 27 / 91  successful
+model 0 success 28 / 92  successful
+agent dies
+agent dies
+nr agents fail
+model 0 fail 28 / 93  successful
+agent dies
+nr agents fail
+model 0 fail 28 / 94  successful
+model 0 success 29 / 95  successful
+model 0 success 30 / 96  successful
+model 0 success 31 / 97  successful
+agent dies
+agent dies
+nr agents fail
+model 0 fail 31 / 98  successful
+agent dies
+nr agents fail
+model 0 fail 31 / 99  successful
+model 0 success 32 / 100  successful
+writing to file
+[4154, 6000, 2986, 5504, 4464, 3954, 3787, 5836, 4521, 3987, 4443, 4306, 3645, 3035, 4446, 3313, 2968, 3649, 3899, 5858, 4491, 3515, 4138, 4810, 2310, 3936, 4567, 6078, 3830, 4295, 3516, 2281]
+loading model CNNboxUNCERTAINONLY1
+model 1 success 1 / 1  successful
+Waypoint was outside the environment!
+waypoint fail
+model 1 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 1 fail 1 / 3  successful
+agent dies
+nr agents fail
+model 1 fail 1 / 4  successful
+nr assignments fail
+model 1 fail 1 / 5  successful
+agent dies
+nr agents fail
+model 1 fail 1 / 6  successful
+model 1 success 2 / 7  successful
+model 1 success 3 / 8  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 9  successful
+Waypoint was outside the environment!
+waypoint fail
+model 1 fail 3 / 10  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 11  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 12  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 13  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 14  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 15  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 16  successful
+agent dies
+agent dies
+nr agents fail
+model 1 fail 3 / 17  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 18  successful
+agent dies
+nr agents fail
+model 1 fail 3 / 19  successful
+model 1 success 4 / 20  successful
+agent dies
+nr agents fail
+model 1 fail 4 / 21  successful
+agent dies
+nr agents fail
+model 1 fail 4 / 22  successful
+model 1 success 5 / 23  successful
+model 1 success 6 / 24  successful
+agent dies
+nr agents fail
+model 1 fail 6 / 25  successful
+model 1 success 7 / 26  successful
+nr assignments fail
+model 1 fail 7 / 27  successful
+agent dies
+nr agents fail
+model 1 fail 7 / 28  successful
+agent dies
+nr agents fail
+model 1 fail 7 / 29  successful
+model 1 success 8 / 30  successful
+agent dies
+nr agents fail
+model 1 fail 8 / 31  successful
+model 1 success 9 / 32  successful
+agent dies
+nr agents fail
+model 1 fail 9 / 33  successful
+nr assignments fail
+model 1 fail 9 / 34  successful
+model 1 success 10 / 35  successful
+nr assignments fail
+model 1 fail 10 / 36  successful
+model 1 success 11 / 37  successful
+model 1 success 12 / 38  successful
+model 1 success 13 / 39  successful
+nr assignments fail
+model 1 fail 13 / 40  successful
+agent dies
+nr agents fail
+model 1 fail 13 / 41  successful
+agent dies
+nr agents fail
+model 1 fail 13 / 42  successful
+agent dies
+nr agents fail
+model 1 fail 13 / 43  successful
+agent dies
+nr agents fail
+model 1 fail 13 / 44  successful
+model 1 success 14 / 45  successful
+agent dies
+nr agents fail
+model 1 fail 14 / 46  successful
+model 1 success 15 / 47  successful
+nr assignments fail
+model 1 fail 15 / 48  successful
+model 1 success 16 / 49  successful
+model 1 success 17 / 50  successful
+agent dies
+nr agents fail
+model 1 fail 17 / 51  successful
+Waypoint was outside the environment!
+waypoint fail
+model 1 fail 17 / 52  successful
+agent dies
+nr agents fail
+model 1 fail 17 / 53  successful
+model 1 success 18 / 54  successful
+agent dies
+nr agents fail
+model 1 fail 18 / 55  successful
+agent dies
+nr agents fail
+model 1 fail 18 / 56  successful
+nr assignments fail
+model 1 fail 18 / 57  successful
+nr assignments fail
+model 1 fail 18 / 58  successful
+agent dies
+nr agents fail
+model 1 fail 18 / 59  successful
+agent dies
+nr agents fail
+model 1 fail 18 / 60  successful
+agent dies
+nr agents fail
+model 1 fail 18 / 61  successful
+nr assignments fail
+model 1 fail 18 / 62  successful
+model 1 success 19 / 63  successful
+agent dies
+nr agents fail
+model 1 fail 19 / 64  successful
+agent dies
+nr agents fail
+model 1 fail 19 / 65  successful
+nr assignments fail
+model 1 fail 19 / 66  successful
+agent dies
+nr agents fail
+model 1 fail 19 / 67  successful
+nr assignments fail
+model 1 fail 19 / 68  successful
+agent dies
+nr agents fail
+model 1 fail 19 / 69  successful
+agent dies
+nr agents fail
+model 1 fail 19 / 70  successful
+model 1 success 20 / 71  successful
+agent dies
+agent dies
+nr agents fail
+model 1 fail 20 / 72  successful
+nr assignments fail
+model 1 fail 20 / 73  successful
+agent dies
+nr agents fail
+model 1 fail 20 / 74  successful
+agent dies
+nr agents fail
+model 1 fail 20 / 75  successful
+agent dies
+nr agents fail
+model 1 fail 20 / 76  successful
+model 1 success 21 / 77  successful
+model 1 success 22 / 78  successful
+model 1 success 23 / 79  successful
+agent dies
+agent dies
+nr agents fail
+model 1 fail 23 / 80  successful
+Waypoint was outside the environment!
+waypoint fail
+model 1 fail 23 / 81  successful
+agent dies
+nr agents fail
+model 1 fail 23 / 82  successful
+agent dies
+nr agents fail
+model 1 fail 23 / 83  successful
+agent dies
+nr agents fail
+model 1 fail 23 / 84  successful
+agent dies
+nr agents fail
+model 1 fail 23 / 85  successful
+agent dies
+nr agents fail
+model 1 fail 23 / 86  successful
+model 1 success 24 / 87  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 88  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 89  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 90  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 91  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 92  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 93  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 94  successful
+agent dies
+nr agents fail
+model 1 fail 24 / 95  successful
+model 1 success 25 / 96  successful
+agent dies
+nr agents fail
+model 1 fail 25 / 97  successful
+Waypoint was outside the environment!
+waypoint fail
+model 1 fail 25 / 98  successful
+Waypoint was outside the environment!
+waypoint fail
+model 1 fail 25 / 99  successful
+agent dies
+nr agents fail
+model 1 fail 25 / 100  successful
+writing to file
+[2852, 4325, 4749, 5743, 5013, 5761, 4740, 3343, 2470, 3297, 2749, 3388, 5056, 6091, 3437, 4655, 4986, 4485, 4058, 4046, 5276, 4399, 5197, 4282, 5046]
+loading model CNNboxUNCERTAINONLY2
+agent dies
+nr agents fail
+model 2 fail 0 / 1  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 0 / 2  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 2 fail 0 / 4  successful
+model 2 success 1 / 5  successful
+agent dies
+nr agents fail
+model 2 fail 1 / 6  successful
+model 2 success 2 / 7  successful
+agent dies
+nr agents fail
+model 2 fail 2 / 8  successful
+model 2 success 3 / 9  successful
+agent dies
+nr agents fail
+model 2 fail 3 / 10  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 3 / 11  successful
+model 2 success 4 / 12  successful
+model 2 success 5 / 13  successful
+model 2 success 6 / 14  successful
+agent dies
+nr agents fail
+model 2 fail 6 / 15  successful
+agent dies
+nr agents fail
+model 2 fail 6 / 16  successful
+model 2 success 7 / 17  successful
+agent dies
+nr agents fail
+model 2 fail 7 / 18  successful
+agent dies
+nr agents fail
+model 2 fail 7 / 19  successful
+agent dies
+nr agents fail
+model 2 fail 7 / 20  successful
+model 2 success 8 / 21  successful
+model 2 success 9 / 22  successful
+model 2 success 10 / 23  successful
+model 2 success 11 / 24  successful
+agent dies
+nr agents fail
+model 2 fail 11 / 25  successful
+model 2 success 12 / 26  successful
+model 2 success 13 / 27  successful
+agent dies
+nr agents fail
+model 2 fail 13 / 28  successful
+agent dies
+nr agents fail
+model 2 fail 13 / 29  successful
+model 2 success 14 / 30  successful
+model 2 success 15 / 31  successful
+agent dies
+nr agents fail
+model 2 fail 15 / 32  successful
+model 2 success 16 / 33  successful
+agent dies
+nr agents fail
+model 2 fail 16 / 34  successful
+model 2 success 17 / 35  successful
+agent dies
+nr agents fail
+model 2 fail 17 / 36  successful
+agent dies
+nr agents fail
+model 2 fail 17 / 37  successful
+model 2 success 18 / 38  successful
+agent dies
+nr agents fail
+model 2 fail 18 / 39  successful
+agent dies
+nr agents fail
+model 2 fail 18 / 40  successful
+model 2 success 19 / 41  successful
+model 2 success 20 / 42  successful
+agent dies
+nr agents fail
+model 2 fail 20 / 43  successful
+agent dies
+nr agents fail
+model 2 fail 20 / 44  successful
+agent dies
+nr agents fail
+model 2 fail 20 / 45  successful
+model 2 success 21 / 46  successful
+agent dies
+nr agents fail
+model 2 fail 21 / 47  successful
+agent dies
+nr agents fail
+model 2 fail 21 / 48  successful
+agent dies
+nr agents fail
+model 2 fail 21 / 49  successful
+agent dies
+nr agents fail
+model 2 fail 21 / 50  successful
+model 2 success 22 / 51  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 22 / 52  successful
+agent dies
+nr agents fail
+model 2 fail 22 / 53  successful
+agent dies
+nr agents fail
+model 2 fail 22 / 54  successful
+agent dies
+nr agents fail
+model 2 fail 22 / 55  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 22 / 56  successful
+agent dies
+nr agents fail
+model 2 fail 22 / 57  successful
+agent dies
+nr agents fail
+model 2 fail 22 / 58  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 22 / 59  successful
+nr assignments fail
+model 2 fail 22 / 60  successful
+agent dies
+nr agents fail
+model 2 fail 22 / 61  successful
+model 2 success 23 / 62  successful
+model 2 success 24 / 63  successful
+agent dies
+nr agents fail
+model 2 fail 24 / 64  successful
+nr assignments fail
+model 2 fail 24 / 65  successful
+model 2 success 25 / 66  successful
+model 2 success 26 / 67  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 68  successful
+agent dies
+nr agents fail
+model 2 fail 26 / 69  successful
+model 2 success 27 / 70  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 27 / 71  successful
+model 2 success 28 / 72  successful
+model 2 success 29 / 73  successful
+agent dies
+nr agents fail
+model 2 fail 29 / 74  successful
+model 2 success 30 / 75  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 30 / 76  successful
+agent dies
+nr agents fail
+model 2 fail 30 / 77  successful
+model 2 success 31 / 78  successful
+agent dies
+nr agents fail
+model 2 fail 31 / 79  successful
+agent dies
+nr agents fail
+model 2 fail 31 / 80  successful
+agent dies
+nr agents fail
+model 2 fail 31 / 81  successful
+model 2 success 32 / 82  successful
+agent dies
+agent dies
+nr agents fail
+model 2 fail 32 / 83  successful
+agent dies
+nr agents fail
+model 2 fail 32 / 84  successful
+model 2 success 33 / 85  successful
+agent dies
+nr agents fail
+model 2 fail 33 / 86  successful
+agent dies
+nr agents fail
+model 2 fail 33 / 87  successful
+Waypoint was outside the environment!
+waypoint fail
+model 2 fail 33 / 88  successful
+agent dies
+nr agents fail
+model 2 fail 33 / 89  successful
+model 2 success 34 / 90  successful
+agent dies
+nr agents fail
+model 2 fail 34 / 91  successful
+model 2 success 35 / 92  successful
+model 2 success 36 / 93  successful
+agent dies
+nr agents fail
+model 2 fail 36 / 94  successful
+nr assignments fail
+model 2 fail 36 / 95  successful
+agent dies
+nr agents fail
+model 2 fail 36 / 96  successful
+agent dies
+nr agents fail
+model 2 fail 36 / 97  successful
+agent dies
+nr agents fail
+model 2 fail 36 / 98  successful
+agent dies
+nr agents fail
+model 2 fail 36 / 99  successful
+agent dies
+nr agents fail
+model 2 fail 36 / 100  successful
+writing to file
+[3526, 2002, 4511, 3220, 3756, 3178, 3674, 3175, 4815, 2161, 2313, 4856, 5102, 5997, 4593, 4268, 5520, 4943, 3782, 3320, 1874, 5032, 6426, 2018, 3890, 3833, 4275, 3416, 1221, 3628, 5394, 6855, 2647, 2626, 3213, 3611]
+loading model CNNboxUNCERTAINONLY3
+model 3 success 1 / 1  successful
+agent dies
+nr agents fail
+model 3 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 3 fail 1 / 3  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 1 / 4  successful
+model 3 success 2 / 5  successful
+nr assignments fail
+model 3 fail 2 / 6  successful
+model 3 success 3 / 7  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 3 / 8  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 3 / 9  successful
+nr assignments fail
+model 3 fail 3 / 10  successful
+agent dies
+agent dies
+nr agents fail
+model 3 fail 3 / 11  successful
+agent dies
+nr agents fail
+model 3 fail 3 / 12  successful
+model 3 success 4 / 13  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 14  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 15  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 16  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 17  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 18  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 19  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 4 / 20  successful
+nr assignments fail
+model 3 fail 4 / 21  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 22  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 23  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 4 / 24  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 4 / 25  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 26  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 27  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 4 / 28  successful
+agent dies
+nr agents fail
+model 3 fail 4 / 29  successful
+model 3 success 5 / 30  successful
+agent dies
+nr agents fail
+model 3 fail 5 / 31  successful
+agent dies
+nr agents fail
+model 3 fail 5 / 32  successful
+agent dies
+nr agents fail
+model 3 fail 5 / 33  successful
+model 3 success 6 / 34  successful
+agent dies
+nr agents fail
+model 3 fail 6 / 35  successful
+model 3 success 7 / 36  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 7 / 37  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 7 / 38  successful
+agent dies
+nr agents fail
+model 3 fail 7 / 39  successful
+model 3 success 8 / 40  successful
+agent dies
+nr agents fail
+model 3 fail 8 / 41  successful
+agent dies
+nr agents fail
+model 3 fail 8 / 42  successful
+agent dies
+nr agents fail
+model 3 fail 8 / 43  successful
+nr assignments fail
+model 3 fail 8 / 44  successful
+model 3 success 9 / 45  successful
+agent dies
+nr agents fail
+model 3 fail 9 / 46  successful
+agent dies
+nr agents fail
+model 3 fail 9 / 47  successful
+model 3 success 10 / 48  successful
+agent dies
+nr agents fail
+model 3 fail 10 / 49  successful
+model 3 success 11 / 50  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 11 / 51  successful
+agent dies
+agent dies
+nr agents fail
+model 3 fail 11 / 52  successful
+model 3 success 12 / 53  successful
+agent dies
+nr agents fail
+model 3 fail 12 / 54  successful
+agent dies
+nr agents fail
+model 3 fail 12 / 55  successful
+agent dies
+nr agents fail
+model 3 fail 12 / 56  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 12 / 57  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 12 / 58  successful
+agent dies
+nr agents fail
+model 3 fail 12 / 59  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 12 / 60  successful
+model 3 success 13 / 61  successful
+model 3 success 14 / 62  successful
+agent dies
+nr agents fail
+model 3 fail 14 / 63  successful
+agent dies
+nr agents fail
+model 3 fail 14 / 64  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 14 / 65  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 14 / 66  successful
+agent dies
+nr agents fail
+model 3 fail 14 / 67  successful
+agent dies
+nr agents fail
+model 3 fail 14 / 68  successful
+model 3 success 15 / 69  successful
+agent dies
+nr agents fail
+model 3 fail 15 / 70  successful
+agent dies
+nr agents fail
+model 3 fail 15 / 71  successful
+model 3 success 16 / 72  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 73  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 74  successful
+agent dies
+nr agents fail
+model 3 fail 16 / 75  successful
+nr assignments fail
+model 3 fail 16 / 76  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 77  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 78  successful
+agent dies
+nr agents fail
+model 3 fail 16 / 79  successful
+agent dies
+nr agents fail
+model 3 fail 16 / 80  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 81  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 82  successful
+agent dies
+nr agents fail
+model 3 fail 16 / 83  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 16 / 84  successful
+agent dies
+nr agents fail
+model 3 fail 16 / 85  successful
+model 3 success 17 / 86  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 17 / 87  successful
+model 3 success 18 / 88  successful
+agent dies
+nr agents fail
+model 3 fail 18 / 89  successful
+agent dies
+nr agents fail
+model 3 fail 18 / 90  successful
+agent dies
+agent dies
+nr agents fail
+model 3 fail 18 / 91  successful
+model 3 success 19 / 92  successful
+agent dies
+nr agents fail
+model 3 fail 19 / 93  successful
+nr assignments fail
+model 3 fail 19 / 94  successful
+Waypoint was outside the environment!
+waypoint fail
+model 3 fail 19 / 95  successful
+agent dies
+nr agents fail
+model 3 fail 19 / 96  successful
+nr assignments fail
+model 3 fail 19 / 97  successful
+model 3 success 20 / 98  successful
+model 3 success 21 / 99  successful
+nr assignments fail
+model 3 fail 21 / 100  successful
+writing to file
+[7421, 3737, 2487, 4729, 3495, 2507, 5436, 3757, 4061, 2101, 5050, 3221, 4645, 3421, 4634, 5228, 4741, 3394, 5350, 4693, 3699]
+loading model CNNboxUNCERTAINONLY4
+model 4 success 1 / 1  successful
+model 4 success 2 / 2  successful
+agent dies
+nr agents fail
+model 4 fail 2 / 3  successful
+model 4 success 3 / 4  successful
+agent dies
+nr agents fail
+model 4 fail 3 / 5  successful
+model 4 success 4 / 6  successful
+model 4 success 5 / 7  successful
+agent dies
+nr agents fail
+model 4 fail 5 / 8  successful
+model 4 success 6 / 9  successful
+agent dies
+nr agents fail
+model 4 fail 6 / 10  successful
+model 4 success 7 / 11  successful
+model 4 success 8 / 12  successful
+agent dies
+nr agents fail
+model 4 fail 8 / 13  successful
+agent dies
+nr agents fail
+model 4 fail 8 / 14  successful
+model 4 success 9 / 15  successful
+model 4 success 10 / 16  successful
+model 4 success 11 / 17  successful
+agent dies
+nr agents fail
+model 4 fail 11 / 18  successful
+agent dies
+nr agents fail
+model 4 fail 11 / 19  successful
+agent dies
+nr agents fail
+model 4 fail 11 / 20  successful
+model 4 success 12 / 21  successful
+model 4 success 13 / 22  successful
+model 4 success 14 / 23  successful
+agent dies
+nr agents fail
+model 4 fail 14 / 24  successful
+agent dies
+nr agents fail
+model 4 fail 14 / 25  successful
+model 4 success 15 / 26  successful
+agent dies
+nr agents fail
+model 4 fail 15 / 27  successful
+model 4 success 16 / 28  successful
+agent dies
+nr agents fail
+model 4 fail 16 / 29  successful
+agent dies
+nr agents fail
+model 4 fail 16 / 30  successful
+agent dies
+nr agents fail
+model 4 fail 16 / 31  successful
+agent dies
+nr agents fail
+model 4 fail 16 / 32  successful
+model 4 success 17 / 33  successful
+model 4 success 18 / 34  successful
+agent dies
+nr agents fail
+model 4 fail 18 / 35  successful
+model 4 success 19 / 36  successful
+agent dies
+nr agents fail
+model 4 fail 19 / 37  successful
+model 4 success 20 / 38  successful
+agent dies
+nr agents fail
+model 4 fail 20 / 39  successful
+model 4 success 21 / 40  successful
+agent dies
+nr agents fail
+model 4 fail 21 / 41  successful
+agent dies
+nr agents fail
+model 4 fail 21 / 42  successful
+model 4 success 22 / 43  successful
+model 4 success 23 / 44  successful
+model 4 success 24 / 45  successful
+agent dies
+nr agents fail
+model 4 fail 24 / 46  successful
+model 4 success 25 / 47  successful
+model 4 success 26 / 48  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 49  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 50  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 51  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 52  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 53  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 54  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 55  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 56  successful
+agent dies
+nr agents fail
+model 4 fail 26 / 57  successful
+model 4 success 27 / 58  successful
+model 4 success 28 / 59  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 60  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 61  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 62  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 63  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 64  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 65  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 66  successful
+agent dies
+nr agents fail
+model 4 fail 28 / 67  successful
+model 4 success 29 / 68  successful
+model 4 success 30 / 69  successful
+model 4 success 31 / 70  successful
+agent dies
+agent dies
+nr agents fail
+model 4 fail 31 / 71  successful
+model 4 success 32 / 72  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 73  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 74  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 75  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 76  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 77  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 78  successful
+agent dies
+nr agents fail
+model 4 fail 32 / 79  successful
+model 4 success 33 / 80  successful
+agent dies
+nr agents fail
+model 4 fail 33 / 81  successful
+agent dies
+nr agents fail
+model 4 fail 33 / 82  successful
+agent dies
+nr agents fail
+model 4 fail 33 / 83  successful
+model 4 success 34 / 84  successful
+agent dies
+nr agents fail
+model 4 fail 34 / 85  successful
+agent dies
+nr agents fail
+model 4 fail 34 / 86  successful
+model 4 success 35 / 87  successful
+agent dies
+nr agents fail
+model 4 fail 35 / 88  successful
+agent dies
+nr agents fail
+model 4 fail 35 / 89  successful
+model 4 success 36 / 90  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 91  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 92  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 93  successful
+agent dies
+agent dies
+nr agents fail
+model 4 fail 36 / 94  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 95  successful
+Waypoint was outside the environment!
+waypoint fail
+model 4 fail 36 / 96  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 97  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 98  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 99  successful
+agent dies
+nr agents fail
+model 4 fail 36 / 100  successful
+writing to file
+[5264, 4112, 5490, 5288, 4897, 3946, 5236, 6305, 2466, 2035, 2727, 3399, 5020, 4942, 4517, 6209, 3645, 3044, 3229, 4000, 3138, 5404, 5347, 3858, 4784, 3787, 6628, 3352, 4493, 3280, 3416, 4976, 4715, 3851, 4860, 7774]
+loading model CNNboxUNCERTAINONLY5
+nr assignments fail
+model 5 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 4  successful
+nr assignments fail
+model 5 fail 0 / 5  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 6  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 7  successful
+nr assignments fail
+model 5 fail 0 / 8  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 9  successful
+agent dies
+nr agents fail
+model 5 fail 0 / 10  successful
+nr assignments fail
+model 5 fail 0 / 11  successful
+model 5 success 1 / 12  successful
+model 5 success 2 / 13  successful
+model 5 success 3 / 14  successful
+model 5 success 4 / 15  successful
+nr assignments fail
+model 5 fail 4 / 16  successful
+agent dies
+nr agents fail
+model 5 fail 4 / 17  successful
+Waypoint was outside the environment!
+waypoint fail
+model 5 fail 4 / 18  successful
+Waypoint was outside the environment!
+waypoint fail
+model 5 fail 4 / 19  successful
+model 5 success 5 / 20  successful
+agent dies
+nr agents fail
+model 5 fail 5 / 21  successful
+model 5 success 6 / 22  successful
+agent dies
+nr agents fail
+model 5 fail 6 / 23  successful
+model 5 success 7 / 24  successful
+model 5 success 8 / 25  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 26  successful
+nr assignments fail
+model 5 fail 8 / 27  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 28  successful
+nr assignments fail
+model 5 fail 8 / 29  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 30  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 31  successful
+nr assignments fail
+model 5 fail 8 / 32  successful
+nr assignments fail
+model 5 fail 8 / 33  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 34  successful
+nr assignments fail
+model 5 fail 8 / 35  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 36  successful
+agent dies
+nr agents fail
+model 5 fail 8 / 37  successful
+model 5 success 9 / 38  successful
+nr assignments fail
+model 5 fail 9 / 39  successful
+agent dies
+agent dies
+nr agents fail
+model 5 fail 9 / 40  successful
+nr assignments fail
+model 5 fail 9 / 41  successful
+agent dies
+nr agents fail
+model 5 fail 9 / 42  successful
+agent dies
+nr agents fail
+model 5 fail 9 / 43  successful
+nr assignments fail
+model 5 fail 9 / 44  successful
+model 5 success 10 / 45  successful
+nr assignments fail
+model 5 fail 10 / 46  successful
+agent dies
+nr agents fail
+model 5 fail 10 / 47  successful
+agent dies
+nr agents fail
+model 5 fail 10 / 48  successful
+nr assignments fail
+model 5 fail 10 / 49  successful
+model 5 success 11 / 50  successful
+agent dies
+nr agents fail
+model 5 fail 11 / 51  successful
+nr assignments fail
+model 5 fail 11 / 52  successful
+model 5 success 12 / 53  successful
+agent dies
+nr agents fail
+model 5 fail 12 / 54  successful
+nr assignments fail
+model 5 fail 12 / 55  successful
+model 5 success 13 / 56  successful
+model 5 success 14 / 57  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 58  successful
+nr assignments fail
+model 5 fail 14 / 59  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 60  successful
+Waypoint was outside the environment!
+waypoint fail
+model 5 fail 14 / 61  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 62  successful
+nr assignments fail
+model 5 fail 14 / 63  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 64  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 65  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 66  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 67  successful
+agent dies
+nr agents fail
+model 5 fail 14 / 68  successful
+model 5 success 15 / 69  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 70  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 71  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 72  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 73  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 74  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 75  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 76  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 77  successful
+nr assignments fail
+model 5 fail 15 / 78  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 79  successful
+nr assignments fail
+model 5 fail 15 / 80  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 81  successful
+nr assignments fail
+model 5 fail 15 / 82  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 83  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 84  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 85  successful
+agent dies
+agent dies
+nr agents fail
+model 5 fail 15 / 86  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 87  successful
+agent dies
+nr agents fail
+model 5 fail 15 / 88  successful
+model 5 success 16 / 89  successful
+agent dies
+nr agents fail
+model 5 fail 16 / 90  successful
+model 5 success 17 / 91  successful
+agent dies
+nr agents fail
+model 5 fail 17 / 92  successful
+agent dies
+nr agents fail
+model 5 fail 17 / 93  successful
+agent dies
+nr agents fail
+model 5 fail 17 / 94  successful
+nr assignments fail
+model 5 fail 17 / 95  successful
+agent dies
+nr agents fail
+model 5 fail 17 / 96  successful
+agent dies
+nr agents fail
+model 5 fail 17 / 97  successful
+nr assignments fail
+model 5 fail 17 / 98  successful
+nr assignments fail
+model 5 fail 17 / 99  successful
+nr assignments fail
+model 5 fail 17 / 100  successful
+writing to file
+[6951, 4242, 2661, 7478, 5007, 3951, 2451, 3951, 2844, 4690, 5182, 6448, 5471, 5675, 5147, 3831, 5369]
+loading model CNNboxUNCERTAINONLY6
+agent dies
+nr agents fail
+model 6 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 6 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 6 fail 0 / 3  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 0 / 4  successful
+agent dies
+nr agents fail
+model 6 fail 0 / 5  successful
+model 6 success 1 / 6  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 7  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 8  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 9  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 1 / 10  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 11  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 12  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 13  successful
+agent dies
+nr agents fail
+model 6 fail 1 / 14  successful
+model 6 success 2 / 15  successful
+model 6 success 3 / 16  successful
+agent dies
+nr agents fail
+model 6 fail 3 / 17  successful
+model 6 success 4 / 18  successful
+model 6 success 5 / 19  successful
+agent dies
+nr agents fail
+model 6 fail 5 / 20  successful
+agent dies
+nr agents fail
+model 6 fail 5 / 21  successful
+agent dies
+nr agents fail
+model 6 fail 5 / 22  successful
+nr assignments fail
+model 6 fail 5 / 23  successful
+model 6 success 6 / 24  successful
+agent dies
+nr agents fail
+model 6 fail 6 / 25  successful
+model 6 success 7 / 26  successful
+nr assignments fail
+model 6 fail 7 / 27  successful
+agent dies
+nr agents fail
+model 6 fail 7 / 28  successful
+agent dies
+nr agents fail
+model 6 fail 7 / 29  successful
+model 6 success 8 / 30  successful
+agent dies
+agent dies
+nr agents fail
+model 6 fail 8 / 31  successful
+agent dies
+nr agents fail
+model 6 fail 8 / 32  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 8 / 33  successful
+agent dies
+nr agents fail
+model 6 fail 8 / 34  successful
+agent dies
+nr agents fail
+model 6 fail 8 / 35  successful
+agent dies
+nr agents fail
+model 6 fail 8 / 36  successful
+agent dies
+nr agents fail
+model 6 fail 8 / 37  successful
+model 6 success 9 / 38  successful
+agent dies
+nr agents fail
+model 6 fail 9 / 39  successful
+agent dies
+nr agents fail
+model 6 fail 9 / 40  successful
+agent dies
+nr agents fail
+model 6 fail 9 / 41  successful
+agent dies
+nr agents fail
+model 6 fail 9 / 42  successful
+nr assignments fail
+model 6 fail 9 / 43  successful
+model 6 success 10 / 44  successful
+agent dies
+nr agents fail
+model 6 fail 10 / 45  successful
+model 6 success 11 / 46  successful
+model 6 success 12 / 47  successful
+model 6 success 13 / 48  successful
+agent dies
+nr agents fail
+model 6 fail 13 / 49  successful
+model 6 success 14 / 50  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 51  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 52  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 53  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 54  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 14 / 55  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 56  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 14 / 57  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 58  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 59  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 60  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 14 / 61  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 62  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 63  successful
+agent dies
+nr agents fail
+model 6 fail 14 / 64  successful
+model 6 success 15 / 65  successful
+agent dies
+nr agents fail
+model 6 fail 15 / 66  successful
+agent dies
+nr agents fail
+model 6 fail 15 / 67  successful
+agent dies
+nr agents fail
+model 6 fail 15 / 68  successful
+agent dies
+nr agents fail
+model 6 fail 15 / 69  successful
+agent dies
+nr agents fail
+model 6 fail 15 / 70  successful
+agent dies
+agent dies
+nr agents fail
+model 6 fail 15 / 71  successful
+agent dies
+nr agents fail
+model 6 fail 15 / 72  successful
+agent dies
+agent dies
+nr agents fail
+model 6 fail 15 / 73  successful
+model 6 success 16 / 74  successful
+model 6 success 17 / 75  successful
+agent dies
+nr agents fail
+model 6 fail 17 / 76  successful
+agent dies
+nr agents fail
+model 6 fail 17 / 77  successful
+model 6 success 18 / 78  successful
+agent dies
+nr agents fail
+model 6 fail 18 / 79  successful
+agent dies
+nr agents fail
+model 6 fail 18 / 80  successful
+agent dies
+nr agents fail
+model 6 fail 18 / 81  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 18 / 82  successful
+agent dies
+nr agents fail
+model 6 fail 18 / 83  successful
+agent dies
+nr agents fail
+model 6 fail 18 / 84  successful
+Waypoint was outside the environment!
+waypoint fail
+model 6 fail 18 / 85  successful
+agent dies
+nr agents fail
+model 6 fail 18 / 86  successful
+model 6 success 19 / 87  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 88  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 89  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 90  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 91  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 92  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 93  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 94  successful
+agent dies
+agent dies
+nr agents fail
+model 6 fail 19 / 95  successful
+agent dies
+nr agents fail
+model 6 fail 19 / 96  successful
+model 6 success 20 / 97  successful
+agent dies
+nr agents fail
+model 6 fail 20 / 98  successful
+agent dies
+agent dies
+agent dies
+nr agents fail
+model 6 fail 20 / 99  successful
+agent dies
+nr agents fail
+model 6 fail 20 / 100  successful
+writing to file
+[3978, 4255, 5116, 4301, 4127, 4733, 4697, 6500, 3276, 2263, 4795, 5154, 4142, 7931, 5377, 5616, 4104, 4220, 3868, 7346]
+loading model CNNboxUNCERTAINONLY7
+agent dies
+nr agents fail
+model 7 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 7 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 7 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 7 fail 0 / 4  successful
+agent dies
+nr agents fail
+model 7 fail 0 / 5  successful
+model 7 success 1 / 6  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 7  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 8  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 9  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 10  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 11  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 12  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 13  successful
+agent dies
+nr agents fail
+model 7 fail 1 / 14  successful
+model 7 success 2 / 15  successful
+agent dies
+nr agents fail
+model 7 fail 2 / 16  successful
+agent dies
+nr agents fail
+model 7 fail 2 / 17  successful
+agent dies
+nr agents fail
+model 7 fail 2 / 18  successful
+model 7 success 3 / 19  successful
+model 7 success 4 / 20  successful
+agent dies
+nr agents fail
+model 7 fail 4 / 21  successful
+agent dies
+nr agents fail
+model 7 fail 4 / 22  successful
+agent dies
+nr agents fail
+model 7 fail 4 / 23  successful
+model 7 success 5 / 24  successful
+agent dies
+nr agents fail
+model 7 fail 5 / 25  successful
+model 7 success 6 / 26  successful
+agent dies
+nr agents fail
+model 7 fail 6 / 27  successful
+agent dies
+nr agents fail
+model 7 fail 6 / 28  successful
+model 7 success 7 / 29  successful
+agent dies
+nr agents fail
+model 7 fail 7 / 30  successful
+model 7 success 8 / 31  successful
+agent dies
+agent dies
+nr agents fail
+model 7 fail 8 / 32  successful
+agent dies
+nr agents fail
+model 7 fail 8 / 33  successful
+agent dies
+nr agents fail
+model 7 fail 8 / 34  successful
+agent dies
+agent dies
+nr agents fail
+model 7 fail 8 / 35  successful
+agent dies
+nr agents fail
+model 7 fail 8 / 36  successful
+Waypoint was outside the environment!
+waypoint fail
+model 7 fail 8 / 37  successful
+agent dies
+nr agents fail
+model 7 fail 8 / 38  successful
+agent dies
+nr agents fail
+model 7 fail 8 / 39  successful
+model 7 success 9 / 40  successful
+agent dies
+nr agents fail
+model 7 fail 9 / 41  successful
+model 7 success 10 / 42  successful
+agent dies
+nr agents fail
+model 7 fail 10 / 43  successful
+Waypoint was outside the environment!
+waypoint fail
+model 7 fail 10 / 44  successful
+model 7 success 11 / 45  successful
+agent dies
+agent dies
+nr agents fail
+model 7 fail 11 / 46  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 47  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 48  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 49  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 50  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 51  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 52  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 53  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 54  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 55  successful
+agent dies
+nr agents fail
+model 7 fail 11 / 56  successful
+model 7 success 12 / 57  successful
+agent dies
+nr agents fail
+model 7 fail 12 / 58  successful
+agent dies
+nr agents fail
+model 7 fail 12 / 59  successful
+model 7 success 13 / 60  successful
+model 7 success 14 / 61  successful
+agent dies
+nr agents fail
+model 7 fail 14 / 62  successful
+agent dies
+nr agents fail
+model 7 fail 14 / 63  successful
+agent dies
+nr agents fail
+model 7 fail 14 / 64  successful
+agent dies
+nr agents fail
+model 7 fail 14 / 65  successful
+agent dies
+agent dies
+nr agents fail
+model 7 fail 14 / 66  successful
+agent dies
+agent dies
+nr agents fail
+model 7 fail 14 / 67  successful
+Waypoint was outside the environment!
+waypoint fail
+model 7 fail 14 / 68  successful
+agent dies
+nr agents fail
+model 7 fail 14 / 69  successful
+model 7 success 15 / 70  successful
+agent dies
+nr agents fail
+model 7 fail 15 / 71  successful
+model 7 success 16 / 72  successful
+agent dies
+nr agents fail
+model 7 fail 16 / 73  successful
+agent dies
+nr agents fail
+model 7 fail 16 / 74  successful
+model 7 success 17 / 75  successful
+agent dies
+nr agents fail
+model 7 fail 17 / 76  successful
+agent dies
+nr agents fail
+model 7 fail 17 / 77  successful
+agent dies
+nr agents fail
+model 7 fail 17 / 78  successful
+agent dies
+nr agents fail
+model 7 fail 17 / 79  successful
+agent dies
+nr agents fail
+model 7 fail 17 / 80  successful
+model 7 success 18 / 81  successful
+agent dies
+nr agents fail
+model 7 fail 18 / 82  successful
+agent dies
+nr agents fail
+model 7 fail 18 / 83  successful
+agent dies
+nr agents fail
+model 7 fail 18 / 84  successful
+agent dies
+nr agents fail
+model 7 fail 18 / 85  successful
+model 7 success 19 / 86  successful
+Waypoint was outside the environment!
+waypoint fail
+model 7 fail 19 / 87  successful
+model 7 success 20 / 88  successful
+Waypoint was outside the environment!
+waypoint fail
+model 7 fail 20 / 89  successful
+agent dies
+nr agents fail
+model 7 fail 20 / 90  successful
+agent dies
+nr agents fail
+model 7 fail 20 / 91  successful
+model 7 success 21 / 92  successful
+agent dies
+nr agents fail
+model 7 fail 21 / 93  successful
+model 7 success 22 / 94  successful
+agent dies
+nr agents fail
+model 7 fail 22 / 95  successful
+Waypoint was outside the environment!
+waypoint fail
+model 7 fail 22 / 96  successful
+agent dies
+nr agents fail
+model 7 fail 22 / 97  successful
+agent dies
+nr agents fail
+model 7 fail 22 / 98  successful
+model 7 success 23 / 99  successful
+agent dies
+nr agents fail
+model 7 fail 23 / 100  successful
+writing to file
+[5307, 4436, 5254, 2320, 3299, 3801, 4060, 6587, 1536, 3268, 2349, 3649, 2905, 4485, 7188, 4070, 4138, 4501, 2135, 4108, 4772, 4530, 5704]
+loading model CNNboxUNCERTAINONLY8
+agent dies
+nr agents fail
+model 8 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 8 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 8 fail 0 / 3  successful
+model 8 success 1 / 4  successful
+model 8 success 2 / 5  successful
+model 8 success 3 / 6  successful
+agent dies
+nr agents fail
+model 8 fail 3 / 7  successful
+agent dies
+nr agents fail
+model 8 fail 3 / 8  successful
+agent dies
+nr agents fail
+model 8 fail 3 / 9  successful
+agent dies
+agent dies
+nr agents fail
+model 8 fail 3 / 10  successful
+agent dies
+agent dies
+nr agents fail
+model 8 fail 3 / 11  successful
+model 8 success 4 / 12  successful
+agent dies
+nr agents fail
+model 8 fail 4 / 13  successful
+agent dies
+nr agents fail
+model 8 fail 4 / 14  successful
+model 8 success 5 / 15  successful
+model 8 success 6 / 16  successful
+agent dies
+nr agents fail
+model 8 fail 6 / 17  successful
+agent dies
+nr agents fail
+model 8 fail 6 / 18  successful
+agent dies
+nr agents fail
+model 8 fail 6 / 19  successful
+Waypoint was outside the environment!
+waypoint fail
+model 8 fail 6 / 20  successful
+Waypoint was outside the environment!
+waypoint fail
+model 8 fail 6 / 21  successful
+agent dies
+nr agents fail
+model 8 fail 6 / 22  successful
+agent dies
+agent dies
+nr agents fail
+model 8 fail 6 / 23  successful
+model 8 success 7 / 24  successful
+model 8 success 8 / 25  successful
+model 8 success 9 / 26  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 27  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 28  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 29  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 30  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 31  successful
+agent dies
+nr agents fail
+model 8 fail 9 / 32  successful
+model 8 success 10 / 33  successful
+nr assignments fail
+model 8 fail 10 / 34  successful
+agent dies
+nr agents fail
+model 8 fail 10 / 35  successful
+agent dies
+nr agents fail
+model 8 fail 10 / 36  successful
+agent dies
+nr agents fail
+model 8 fail 10 / 37  successful
+model 8 success 11 / 38  successful
+model 8 success 12 / 39  successful
+agent dies
+nr agents fail
+model 8 fail 12 / 40  successful
+model 8 success 13 / 41  successful
+agent dies
+nr agents fail
+model 8 fail 13 / 42  successful
+agent dies
+nr agents fail
+model 8 fail 13 / 43  successful
+model 8 success 14 / 44  successful
+agent dies
+agent dies
+nr agents fail
+model 8 fail 14 / 45  successful
+agent dies
+nr agents fail
+model 8 fail 14 / 46  successful
+model 8 success 15 / 47  successful
+agent dies
+nr agents fail
+model 8 fail 15 / 48  successful
+agent dies
+nr agents fail
+model 8 fail 15 / 49  successful
+model 8 success 16 / 50  successful
+agent dies
+nr agents fail
+model 8 fail 16 / 51  successful
+agent dies
+nr agents fail
+model 8 fail 16 / 52  successful
+agent dies
+nr agents fail
+model 8 fail 16 / 53  successful
+model 8 success 17 / 54  successful
+model 8 success 18 / 55  successful
+agent dies
+nr agents fail
+model 8 fail 18 / 56  successful
+model 8 success 19 / 57  successful
+agent dies
+nr agents fail
+model 8 fail 19 / 58  successful
+agent dies
+nr agents fail
+model 8 fail 19 / 59  successful
+agent dies
+nr agents fail
+model 8 fail 19 / 60  successful
+model 8 success 20 / 61  successful
+model 8 success 21 / 62  successful
+agent dies
+nr agents fail
+model 8 fail 21 / 63  successful
+agent dies
+nr agents fail
+model 8 fail 21 / 64  successful
+agent dies
+nr agents fail
+model 8 fail 21 / 65  successful
+agent dies
+nr agents fail
+model 8 fail 21 / 66  successful
+agent dies
+nr agents fail
+model 8 fail 21 / 67  successful
+model 8 success 22 / 68  successful
+model 8 success 23 / 69  successful
+model 8 success 24 / 70  successful
+nr assignments fail
+model 8 fail 24 / 71  successful
+agent dies
+nr agents fail
+model 8 fail 24 / 72  successful
+model 8 success 25 / 73  successful
+model 8 success 26 / 74  successful
+model 8 success 27 / 75  successful
+model 8 success 28 / 76  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 77  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 78  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 79  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 80  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 81  successful
+agent dies
+nr agents fail
+model 8 fail 28 / 82  successful
+model 8 success 29 / 83  successful
+model 8 success 30 / 84  successful
+model 8 success 31 / 85  successful
+agent dies
+nr agents fail
+model 8 fail 31 / 86  successful
+agent dies
+nr agents fail
+model 8 fail 31 / 87  successful
+agent dies
+agent dies
+nr agents fail
+model 8 fail 31 / 88  successful
+agent dies
+nr agents fail
+model 8 fail 31 / 89  successful
+agent dies
+agent dies
+nr agents fail
+model 8 fail 31 / 90  successful
+agent dies
+nr agents fail
+model 8 fail 31 / 91  successful
+agent dies
+nr agents fail
+model 8 fail 31 / 92  successful
+agent dies
+nr agents fail
+model 8 fail 31 / 93  successful
+model 8 success 32 / 94  successful
+model 8 success 33 / 95  successful
+model 8 success 34 / 96  successful
+agent dies
+nr agents fail
+model 8 fail 34 / 97  successful
+model 8 success 35 / 98  successful
+agent dies
+nr agents fail
+model 8 fail 35 / 99  successful
+model 8 success 36 / 100  successful
+writing to file
+[3540, 2270, 2287, 4914, 5912, 3449, 4439, 2389, 5561, 4492, 1193, 4280, 4040, 3803, 5723, 3959, 4042, 3721, 4692, 4089, 4738, 3251, 4140, 2679, 6742, 2938, 5650, 5330, 5077, 3561, 5660, 6531, 3584, 5026, 3983, 4041]
+loading model CNNboxUNCERTAINONLY9
+model 9 success 1 / 1  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 3  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 4  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 5  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 1 / 6  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 7  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 8  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 9  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 10  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 1 / 11  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 12  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 13  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 14  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 1 / 15  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 16  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 17  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 1 / 18  successful
+agent dies
+nr agents fail
+model 9 fail 1 / 19  successful
+model 9 success 2 / 20  successful
+agent dies
+nr agents fail
+model 9 fail 2 / 21  successful
+agent dies
+nr agents fail
+model 9 fail 2 / 22  successful
+model 9 success 3 / 23  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 24  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 25  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 26  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 27  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 28  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 29  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 30  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 31  successful
+agent dies
+agent dies
+nr agents fail
+model 9 fail 3 / 32  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 33  successful
+agent dies
+nr agents fail
+model 9 fail 3 / 34  successful
+model 9 success 4 / 35  successful
+model 9 success 5 / 36  successful
+agent dies
+nr agents fail
+model 9 fail 5 / 37  successful
+model 9 success 6 / 38  successful
+model 9 success 7 / 39  successful
+model 9 success 8 / 40  successful
+agent dies
+nr agents fail
+model 9 fail 8 / 41  successful
+agent dies
+nr agents fail
+model 9 fail 8 / 42  successful
+model 9 success 9 / 43  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 44  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 45  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 46  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 47  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 48  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 49  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 50  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 51  successful
+agent dies
+nr agents fail
+model 9 fail 9 / 52  successful
+model 9 success 10 / 53  successful
+agent dies
+nr agents fail
+model 9 fail 10 / 54  successful
+model 9 success 11 / 55  successful
+nr assignments fail
+model 9 fail 11 / 56  successful
+agent dies
+agent dies
+nr agents fail
+model 9 fail 11 / 57  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 11 / 58  successful
+agent dies
+nr agents fail
+model 9 fail 11 / 59  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 11 / 60  successful
+model 9 success 12 / 61  successful
+agent dies
+nr agents fail
+model 9 fail 12 / 62  successful
+agent dies
+nr agents fail
+model 9 fail 12 / 63  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 12 / 64  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 12 / 65  successful
+agent dies
+nr agents fail
+model 9 fail 12 / 66  successful
+agent dies
+nr agents fail
+model 9 fail 12 / 67  successful
+model 9 success 13 / 68  successful
+agent dies
+nr agents fail
+model 9 fail 13 / 69  successful
+agent dies
+nr agents fail
+model 9 fail 13 / 70  successful
+agent dies
+nr agents fail
+model 9 fail 13 / 71  successful
+agent dies
+nr agents fail
+model 9 fail 13 / 72  successful
+agent dies
+nr agents fail
+model 9 fail 13 / 73  successful
+model 9 success 14 / 74  successful
+nr assignments fail
+model 9 fail 14 / 75  successful
+agent dies
+nr agents fail
+model 9 fail 14 / 76  successful
+Waypoint was outside the environment!
+waypoint fail
+model 9 fail 14 / 77  successful
+agent dies
+nr agents fail
+model 9 fail 14 / 78  successful
+model 9 success 15 / 79  successful
+agent dies
+nr agents fail
+model 9 fail 15 / 80  successful
+agent dies
+nr agents fail
+model 9 fail 15 / 81  successful
+agent dies
+nr agents fail
+model 9 fail 15 / 82  successful
+model 9 success 16 / 83  successful
+agent dies
+nr agents fail
+model 9 fail 16 / 84  successful
+agent dies
+nr agents fail
+model 9 fail 16 / 85  successful
+agent dies
+nr agents fail
+model 9 fail 16 / 86  successful
+nr assignments fail
+model 9 fail 16 / 87  successful
+agent dies
+nr agents fail
+model 9 fail 16 / 88  successful
+agent dies
+nr agents fail
+model 9 fail 16 / 89  successful
+model 9 success 17 / 90  successful
+agent dies
+nr agents fail
+model 9 fail 17 / 91  successful
+model 9 success 18 / 92  successful
+model 9 success 19 / 93  successful
+agent dies
+nr agents fail
+model 9 fail 19 / 94  successful
+agent dies
+nr agents fail
+model 9 fail 19 / 95  successful
+agent dies
+nr agents fail
+model 9 fail 19 / 96  successful
+agent dies
+nr agents fail
+model 9 fail 19 / 97  successful
+model 9 success 20 / 98  successful
+nr assignments fail
+model 9 fail 20 / 99  successful
+agent dies
+nr agents fail
+model 9 fail 20 / 100  successful
+writing to file
+[3972, 3871, 4497, 3535, 4272, 4654, 5221, 5005, 3515, 3276, 6962, 3991, 6280, 4723, 4172, 2869, 3222, 2999, 4286, 4379]
+loading model CNNboxUNCERTAINONLY10
+nr assignments fail
+model 10 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 10 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 10 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 10 fail 0 / 4  successful
+agent dies
+nr agents fail
+model 10 fail 0 / 5  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 0 / 6  successful
+model 10 success 1 / 7  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 1 / 8  successful
+agent dies
+nr agents fail
+model 10 fail 1 / 9  successful
+model 10 success 2 / 10  successful
+agent dies
+nr agents fail
+model 10 fail 2 / 11  successful
+nr assignments fail
+model 10 fail 2 / 12  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 2 / 13  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 2 / 14  successful
+agent dies
+nr agents fail
+model 10 fail 2 / 15  successful
+model 10 success 3 / 16  successful
+agent dies
+nr agents fail
+model 10 fail 3 / 17  successful
+model 10 success 4 / 18  successful
+agent dies
+nr agents fail
+model 10 fail 4 / 19  successful
+agent dies
+nr agents fail
+model 10 fail 4 / 20  successful
+model 10 success 5 / 21  successful
+agent dies
+nr agents fail
+model 10 fail 5 / 22  successful
+nr assignments fail
+model 10 fail 5 / 23  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 5 / 24  successful
+agent dies
+nr agents fail
+model 10 fail 5 / 25  successful
+agent dies
+nr agents fail
+model 10 fail 5 / 26  successful
+model 10 success 6 / 27  successful
+model 10 success 7 / 28  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 29  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 30  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 31  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 7 / 32  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 33  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 34  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 35  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 36  successful
+agent dies
+nr agents fail
+model 10 fail 7 / 37  successful
+model 10 success 8 / 38  successful
+Waypoint was outside the environment!
+waypoint fail
+model 10 fail 8 / 39  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 8 / 40  successful
+model 10 success 9 / 41  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 42  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 43  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 9 / 44  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 45  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 46  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 47  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 48  successful
+agent dies
+nr agents fail
+model 10 fail 9 / 49  successful
+model 10 success 10 / 50  successful
+agent dies
+nr agents fail
+model 10 fail 10 / 51  successful
+agent dies
+nr agents fail
+model 10 fail 10 / 52  successful
+agent dies
+nr agents fail
+model 10 fail 10 / 53  successful
+model 10 success 11 / 54  successful
+agent dies
+nr agents fail
+model 10 fail 11 / 55  successful
+model 10 success 12 / 56  successful
+model 10 success 13 / 57  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 13 / 58  successful
+agent dies
+nr agents fail
+model 10 fail 13 / 59  successful
+agent dies
+nr agents fail
+model 10 fail 13 / 60  successful
+model 10 success 14 / 61  successful
+model 10 success 15 / 62  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 63  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 64  successful
+agent dies
+agent dies
+agent dies
+nr agents fail
+model 10 fail 15 / 65  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 15 / 66  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 67  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 68  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 69  successful
+Waypoint was outside the environment!
+waypoint fail
+model 10 fail 15 / 70  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 71  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 72  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 73  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 15 / 74  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 75  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 76  successful
+Waypoint was outside the environment!
+waypoint fail
+model 10 fail 15 / 77  successful
+agent dies
+agent dies
+nr agents fail
+model 10 fail 15 / 78  successful
+agent dies
+nr agents fail
+model 10 fail 15 / 79  successful
+model 10 success 16 / 80  successful
+agent dies
+nr agents fail
+model 10 fail 16 / 81  successful
+agent dies
+nr agents fail
+model 10 fail 16 / 82  successful
+agent dies
+nr agents fail
+model 10 fail 16 / 83  successful
+agent dies
+nr agents fail
+model 10 fail 16 / 84  successful
+model 10 success 17 / 85  successful
+agent dies
+nr agents fail
+model 10 fail 17 / 86  successful
+agent dies
+nr agents fail
+model 10 fail 17 / 87  successful
+agent dies
+nr agents fail
+model 10 fail 17 / 88  successful
+agent dies
+nr agents fail
+model 10 fail 17 / 89  successful
+agent dies
+nr agents fail
+model 10 fail 17 / 90  successful
+model 10 success 18 / 91  successful
+model 10 success 19 / 92  successful
+Waypoint was outside the environment!
+waypoint fail
+model 10 fail 19 / 93  successful
+agent dies
+nr agents fail
+model 10 fail 19 / 94  successful
+agent dies
+nr agents fail
+model 10 fail 19 / 95  successful
+agent dies
+nr agents fail
+model 10 fail 19 / 96  successful
+model 10 success 20 / 97  successful
+agent dies
+nr agents fail
+model 10 fail 20 / 98  successful
+model 10 success 21 / 99  successful
+agent dies
+nr agents fail
+model 10 fail 21 / 100  successful
+writing to file
+[5593, 3648, 4830, 5325, 2025, 3242, 5721, 1523, 5085, 4035, 1991, 1701, 3628, 4805, 4203, 5252, 2524, 4067, 3681, 4240, 1857]
+loading model CNNboxUNCERTAINONLY11
+agent dies
+nr agents fail
+model 11 fail 0 / 1  successful
+model 11 success 1 / 2  successful
+agent dies
+nr agents fail
+model 11 fail 1 / 3  successful
+agent dies
+nr agents fail
+model 11 fail 1 / 4  successful
+model 11 success 2 / 5  successful
+agent dies
+nr agents fail
+model 11 fail 2 / 6  successful
+model 11 success 3 / 7  successful
+agent dies
+nr agents fail
+model 11 fail 3 / 8  successful
+agent dies
+nr agents fail
+model 11 fail 3 / 9  successful
+agent dies
+nr agents fail
+model 11 fail 3 / 10  successful
+agent dies
+nr agents fail
+model 11 fail 3 / 11  successful
+agent dies
+nr agents fail
+model 11 fail 3 / 12  successful
+agent dies
+nr agents fail
+model 11 fail 3 / 13  successful
+model 11 success 4 / 14  successful
+agent dies
+nr agents fail
+model 11 fail 4 / 15  successful
+agent dies
+nr agents fail
+model 11 fail 4 / 16  successful
+agent dies
+nr agents fail
+model 11 fail 4 / 17  successful
+model 11 success 5 / 18  successful
+agent dies
+nr agents fail
+model 11 fail 5 / 19  successful
+agent dies
+nr agents fail
+model 11 fail 5 / 20  successful
+agent dies
+nr agents fail
+model 11 fail 5 / 21  successful
+model 11 success 6 / 22  successful
+model 11 success 7 / 23  successful
+model 11 success 8 / 24  successful
+agent dies
+nr agents fail
+model 11 fail 8 / 25  successful
+agent dies
+nr agents fail
+model 11 fail 8 / 26  successful
+agent dies
+nr agents fail
+model 11 fail 8 / 27  successful
+agent dies
+nr agents fail
+model 11 fail 8 / 28  successful
+nr assignments fail
+model 11 fail 8 / 29  successful
+agent dies
+nr agents fail
+model 11 fail 8 / 30  successful
+agent dies
+nr agents fail
+model 11 fail 8 / 31  successful
+model 11 success 9 / 32  successful
+agent dies
+nr agents fail
+model 11 fail 9 / 33  successful
+agent dies
+nr agents fail
+model 11 fail 9 / 34  successful
+agent dies
+nr agents fail
+model 11 fail 9 / 35  successful
+Waypoint was outside the environment!
+waypoint fail
+model 11 fail 9 / 36  successful
+agent dies
+nr agents fail
+model 11 fail 9 / 37  successful
+model 11 success 10 / 38  successful
+model 11 success 11 / 39  successful
+model 11 success 12 / 40  successful
+agent dies
+nr agents fail
+model 11 fail 12 / 41  successful
+model 11 success 13 / 42  successful
+agent dies
+nr agents fail
+model 11 fail 13 / 43  successful
+agent dies
+nr agents fail
+model 11 fail 13 / 44  successful
+agent dies
+nr agents fail
+model 11 fail 13 / 45  successful
+model 11 success 14 / 46  successful
+model 11 success 15 / 47  successful
+model 11 success 16 / 48  successful
+agent dies
+nr agents fail
+model 11 fail 16 / 49  successful
+agent dies
+nr agents fail
+model 11 fail 16 / 50  successful
+model 11 success 17 / 51  successful
+agent dies
+nr agents fail
+model 11 fail 17 / 52  successful
+agent dies
+nr agents fail
+model 11 fail 17 / 53  successful
+agent dies
+nr agents fail
+model 11 fail 17 / 54  successful
+agent dies
+nr agents fail
+model 11 fail 17 / 55  successful
+model 11 success 18 / 56  successful
+agent dies
+nr agents fail
+model 11 fail 18 / 57  successful
+agent dies
+nr agents fail
+model 11 fail 18 / 58  successful
+agent dies
+nr agents fail
+model 11 fail 18 / 59  successful
+agent dies
+nr agents fail
+model 11 fail 18 / 60  successful
+agent dies
+nr agents fail
+model 11 fail 18 / 61  successful
+agent dies
+nr agents fail
+model 11 fail 18 / 62  successful
+model 11 success 19 / 63  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 64  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 65  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 66  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 67  successful
+Waypoint was outside the environment!
+waypoint fail
+model 11 fail 19 / 68  successful
+Waypoint was outside the environment!
+waypoint fail
+model 11 fail 19 / 69  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 70  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 71  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 72  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 73  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 74  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 75  successful
+Waypoint was outside the environment!
+waypoint fail
+model 11 fail 19 / 76  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 77  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 78  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 79  successful
+agent dies
+nr agents fail
+model 11 fail 19 / 80  successful
+Waypoint was outside the environment!
+waypoint fail
+model 11 fail 19 / 81  successful
+model 11 success 20 / 82  successful
+agent dies
+agent dies
+nr agents fail
+model 11 fail 20 / 83  successful
+agent dies
+nr agents fail
+model 11 fail 20 / 84  successful
+model 11 success 21 / 85  successful
+agent dies
+nr agents fail
+model 11 fail 21 / 86  successful
+model 11 success 22 / 87  successful
+model 11 success 23 / 88  successful
+model 11 success 24 / 89  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 90  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 91  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 92  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 93  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 94  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 95  successful
+agent dies
+nr agents fail
+model 11 fail 24 / 96  successful
+model 11 success 25 / 97  successful
+agent dies
+nr agents fail
+model 11 fail 25 / 98  successful
+agent dies
+nr agents fail
+model 11 fail 25 / 99  successful
+Waypoint was outside the environment!
+waypoint fail
+model 11 fail 25 / 100  successful
+writing to file
+[4144, 4180, 3213, 3414, 3512, 4589, 4789, 4726, 3354, 3615, 5459, 3764, 3982, 4598, 4248, 4503, 3486, 4000, 4993, 4356, 3714, 4541, 6444, 4902, 4595]
+loading model CNNboxUNCERTAINONLY12
+agent dies
+nr agents fail
+model 12 fail 0 / 1  successful
+model 12 success 1 / 2  successful
+model 12 success 2 / 3  successful
+agent dies
+nr agents fail
+model 12 fail 2 / 4  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 2 / 5  successful
+agent dies
+nr agents fail
+model 12 fail 2 / 6  successful
+model 12 success 3 / 7  successful
+agent dies
+nr agents fail
+model 12 fail 3 / 8  successful
+agent dies
+nr agents fail
+model 12 fail 3 / 9  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 3 / 10  successful
+agent dies
+nr agents fail
+model 12 fail 3 / 11  successful
+nr assignments fail
+model 12 fail 3 / 12  successful
+agent dies
+nr agents fail
+model 12 fail 3 / 13  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 3 / 14  successful
+model 12 success 4 / 15  successful
+agent dies
+nr agents fail
+model 12 fail 4 / 16  successful
+agent dies
+nr agents fail
+model 12 fail 4 / 17  successful
+model 12 success 5 / 18  successful
+model 12 success 6 / 19  successful
+model 12 success 7 / 20  successful
+agent dies
+nr agents fail
+model 12 fail 7 / 21  successful
+model 12 success 8 / 22  successful
+nr assignments fail
+model 12 fail 8 / 23  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 24  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 25  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 26  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 27  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 28  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 29  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 30  successful
+agent dies
+nr agents fail
+model 12 fail 8 / 31  successful
+model 12 success 9 / 32  successful
+agent dies
+nr agents fail
+model 12 fail 9 / 33  successful
+agent dies
+nr agents fail
+model 12 fail 9 / 34  successful
+model 12 success 10 / 35  successful
+agent dies
+nr agents fail
+model 12 fail 10 / 36  successful
+model 12 success 11 / 37  successful
+agent dies
+nr agents fail
+model 12 fail 11 / 38  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 11 / 39  successful
+agent dies
+agent dies
+nr agents fail
+model 12 fail 11 / 40  successful
+agent dies
+nr agents fail
+model 12 fail 11 / 41  successful
+model 12 success 12 / 42  successful
+agent dies
+nr agents fail
+model 12 fail 12 / 43  successful
+model 12 success 13 / 44  successful
+model 12 success 14 / 45  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 14 / 46  successful
+agent dies
+nr agents fail
+model 12 fail 14 / 47  successful
+agent dies
+nr agents fail
+model 12 fail 14 / 48  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 14 / 49  successful
+agent dies
+nr agents fail
+model 12 fail 14 / 50  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 14 / 51  successful
+agent dies
+nr agents fail
+model 12 fail 14 / 52  successful
+agent dies
+nr agents fail
+model 12 fail 14 / 53  successful
+nr assignments fail
+model 12 fail 14 / 54  successful
+model 12 success 15 / 55  successful
+agent dies
+nr agents fail
+model 12 fail 15 / 56  successful
+agent dies
+nr agents fail
+model 12 fail 15 / 57  successful
+agent dies
+nr agents fail
+model 12 fail 15 / 58  successful
+nr assignments fail
+model 12 fail 15 / 59  successful
+model 12 success 16 / 60  successful
+model 12 success 17 / 61  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 62  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 63  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 64  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 65  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 66  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 67  successful
+agent dies
+nr agents fail
+model 12 fail 17 / 68  successful
+model 12 success 18 / 69  successful
+model 12 success 19 / 70  successful
+model 12 success 20 / 71  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 72  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 73  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 74  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 75  successful
+agent dies
+agent dies
+nr agents fail
+model 12 fail 20 / 76  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 77  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 78  successful
+agent dies
+nr agents fail
+model 12 fail 20 / 79  successful
+model 12 success 21 / 80  successful
+model 12 success 22 / 81  successful
+model 12 success 23 / 82  successful
+agent dies
+nr agents fail
+model 12 fail 23 / 83  successful
+agent dies
+nr agents fail
+model 12 fail 23 / 84  successful
+model 12 success 24 / 85  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 86  successful
+nr assignments fail
+model 12 fail 24 / 87  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 88  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 89  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 90  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 91  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 92  successful
+Waypoint was outside the environment!
+waypoint fail
+model 12 fail 24 / 93  successful
+agent dies
+nr agents fail
+model 12 fail 24 / 94  successful
+model 12 success 25 / 95  successful
+model 12 success 26 / 96  successful
+model 12 success 27 / 97  successful
+agent dies
+agent dies
+nr agents fail
+model 12 fail 27 / 98  successful
+model 12 success 28 / 99  successful
+agent dies
+nr agents fail
+model 12 fail 28 / 100  successful
+writing to file
+[7330, 4775, 3162, 7537, 4582, 3375, 5870, 3780, 5963, 5906, 3346, 4907, 4132, 6498, 3956, 6857, 5867, 3287, 4397, 5249, 5758, 7015, 6040, 4182, 2982, 4805, 4044, 3935]
+loading model CNNboxUNCERTAINONLY13
+agent dies
+nr agents fail
+model 13 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 13 fail 0 / 2  successful
+nr assignments fail
+model 13 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 13 fail 0 / 4  successful
+agent dies
+nr agents fail
+model 13 fail 0 / 5  successful
+agent dies
+nr agents fail
+model 13 fail 0 / 6  successful
+agent dies
+nr agents fail
+model 13 fail 0 / 7  successful
+agent dies
+nr agents fail
+model 13 fail 0 / 8  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 0 / 9  successful
+model 13 success 1 / 10  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 11  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 12  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 13  successful
+Waypoint was outside the environment!
+waypoint fail
+model 13 fail 1 / 14  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 15  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 16  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 17  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 18  successful
+agent dies
+nr agents fail
+model 13 fail 1 / 19  successful
+nr assignments fail
+model 13 fail 1 / 20  successful
+model 13 success 2 / 21  successful
+agent dies
+nr agents fail
+model 13 fail 2 / 22  successful
+agent dies
+nr agents fail
+model 13 fail 2 / 23  successful
+agent dies
+nr agents fail
+model 13 fail 2 / 24  successful
+nr assignments fail
+model 13 fail 2 / 25  successful
+agent dies
+nr agents fail
+model 13 fail 2 / 26  successful
+model 13 success 3 / 27  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 28  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 29  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 30  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 31  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 32  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 33  successful
+agent dies
+nr agents fail
+model 13 fail 3 / 34  successful
+model 13 success 4 / 35  successful
+nr assignments fail
+model 13 fail 4 / 36  successful
+agent dies
+nr agents fail
+model 13 fail 4 / 37  successful
+Waypoint was outside the environment!
+waypoint fail
+model 13 fail 4 / 38  successful
+agent dies
+nr agents fail
+model 13 fail 4 / 39  successful
+agent dies
+nr agents fail
+model 13 fail 4 / 40  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 4 / 41  successful
+model 13 success 5 / 42  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 5 / 43  successful
+model 13 success 6 / 44  successful
+agent dies
+nr agents fail
+model 13 fail 6 / 45  successful
+model 13 success 7 / 46  successful
+agent dies
+nr agents fail
+model 13 fail 7 / 47  successful
+agent dies
+nr agents fail
+model 13 fail 7 / 48  successful
+agent dies
+nr agents fail
+model 13 fail 7 / 49  successful
+Waypoint was outside the environment!
+waypoint fail
+model 13 fail 7 / 50  successful
+agent dies
+nr agents fail
+model 13 fail 7 / 51  successful
+model 13 success 8 / 52  successful
+agent dies
+nr agents fail
+model 13 fail 8 / 53  successful
+agent dies
+nr agents fail
+model 13 fail 8 / 54  successful
+agent dies
+nr agents fail
+model 13 fail 8 / 55  successful
+model 13 success 9 / 56  successful
+model 13 success 10 / 57  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 58  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 10 / 59  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 60  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 61  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 62  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 63  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 64  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 65  successful
+agent dies
+nr agents fail
+model 13 fail 10 / 66  successful
+model 13 success 11 / 67  successful
+Waypoint was outside the environment!
+waypoint fail
+model 13 fail 11 / 68  successful
+model 13 success 12 / 69  successful
+agent dies
+nr agents fail
+model 13 fail 12 / 70  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 12 / 71  successful
+agent dies
+nr agents fail
+model 13 fail 12 / 72  successful
+agent dies
+nr agents fail
+model 13 fail 12 / 73  successful
+model 13 success 13 / 74  successful
+model 13 success 14 / 75  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 76  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 77  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 78  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 14 / 79  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 80  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 81  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 82  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 83  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 84  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 85  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 86  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 87  successful
+agent dies
+nr agents fail
+model 13 fail 14 / 88  successful
+model 13 success 15 / 89  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 15 / 90  successful
+model 13 success 16 / 91  successful
+agent dies
+nr agents fail
+model 13 fail 16 / 92  successful
+agent dies
+nr agents fail
+model 13 fail 16 / 93  successful
+agent dies
+agent dies
+nr agents fail
+model 13 fail 16 / 94  successful
+agent dies
+nr agents fail
+model 13 fail 16 / 95  successful
+model 13 success 17 / 96  successful
+agent dies
+nr agents fail
+model 13 fail 17 / 97  successful
+agent dies
+nr agents fail
+model 13 fail 17 / 98  successful
+nr assignments fail
+model 13 fail 17 / 99  successful
+model 13 success 18 / 100  successful
+writing to file
+[6706, 3700, 2260, 3029, 4562, 3798, 4703, 3819, 3398, 4962, 5309, 1155, 5590, 1937, 4261, 2703, 2870, 5028]
+loading model CNNboxUNCERTAINONLY14
+agent dies
+nr agents fail
+model 14 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 14 fail 0 / 2  successful
+agent dies
+agent dies
+nr agents fail
+model 14 fail 0 / 3  successful
+model 14 success 1 / 4  successful
+agent dies
+nr agents fail
+model 14 fail 1 / 5  successful
+agent dies
+nr agents fail
+model 14 fail 1 / 6  successful
+model 14 success 2 / 7  successful
+agent dies
+agent dies
+nr agents fail
+model 14 fail 2 / 8  successful
+agent dies
+nr agents fail
+model 14 fail 2 / 9  successful
+model 14 success 3 / 10  successful
+agent dies
+nr agents fail
+model 14 fail 3 / 11  successful
+agent dies
+nr agents fail
+model 14 fail 3 / 12  successful
+model 14 success 4 / 13  successful
+nr assignments fail
+model 14 fail 4 / 14  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 15  successful
+agent dies
+agent dies
+agent dies
+nr agents fail
+model 14 fail 4 / 16  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 17  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 18  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 19  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 20  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 21  successful
+agent dies
+nr agents fail
+model 14 fail 4 / 22  successful
+model 14 success 5 / 23  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 24  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 25  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 26  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 27  successful
+nr assignments fail
+model 14 fail 5 / 28  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 29  successful
+agent dies
+agent dies
+nr agents fail
+model 14 fail 5 / 30  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 31  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 32  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 33  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 34  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 35  successful
+agent dies
+nr agents fail
+model 14 fail 5 / 36  successful
+model 14 success 6 / 37  successful
+model 14 success 7 / 38  successful
+model 14 success 8 / 39  successful
+agent dies
+nr agents fail
+model 14 fail 8 / 40  successful
+agent dies
+nr agents fail
+model 14 fail 8 / 41  successful
+agent dies
+nr agents fail
+model 14 fail 8 / 42  successful
+agent dies
+nr agents fail
+model 14 fail 8 / 43  successful
+model 14 success 9 / 44  successful
+agent dies
+nr agents fail
+model 14 fail 9 / 45  successful
+model 14 success 10 / 46  successful
+agent dies
+nr agents fail
+model 14 fail 10 / 47  successful
+nr assignments fail
+model 14 fail 10 / 48  successful
+agent dies
+nr agents fail
+model 14 fail 10 / 49  successful
+agent dies
+nr agents fail
+model 14 fail 10 / 50  successful
+agent dies
+nr agents fail
+model 14 fail 10 / 51  successful
+agent dies
+agent dies
+nr agents fail
+model 14 fail 10 / 52  successful
+model 14 success 11 / 53  successful
+Waypoint was outside the environment!
+waypoint fail
+model 14 fail 11 / 54  successful
+agent dies
+nr agents fail
+model 14 fail 11 / 55  successful
+model 14 success 12 / 56  successful
+Waypoint was outside the environment!
+waypoint fail
+model 14 fail 12 / 57  successful
+nr assignments fail
+model 14 fail 12 / 58  successful
+agent dies
+nr agents fail
+model 14 fail 12 / 59  successful
+agent dies
+nr agents fail
+model 14 fail 12 / 60  successful
+agent dies
+nr agents fail
+model 14 fail 12 / 61  successful
+nr assignments fail
+model 14 fail 12 / 62  successful
+agent dies
+nr agents fail
+model 14 fail 12 / 63  successful
+agent dies
+nr agents fail
+model 14 fail 12 / 64  successful
+model 14 success 13 / 65  successful
+agent dies
+nr agents fail
+model 14 fail 13 / 66  successful
+agent dies
+nr agents fail
+model 14 fail 13 / 67  successful
+model 14 success 14 / 68  successful
+agent dies
+nr agents fail
+model 14 fail 14 / 69  successful
+agent dies
+nr agents fail
+model 14 fail 14 / 70  successful
+model 14 success 15 / 71  successful
+agent dies
+nr agents fail
+model 14 fail 15 / 72  successful
+model 14 success 16 / 73  successful
+agent dies
+nr agents fail
+model 14 fail 16 / 74  successful
+agent dies
+nr agents fail
+model 14 fail 16 / 75  successful
+agent dies
+nr agents fail
+model 14 fail 16 / 76  successful
+agent dies
+nr agents fail
+model 14 fail 16 / 77  successful
+agent dies
+nr agents fail
+model 14 fail 16 / 78  successful
+agent dies
+nr agents fail
+model 14 fail 16 / 79  successful
+model 14 success 17 / 80  successful
+agent dies
+nr agents fail
+model 14 fail 17 / 81  successful
+model 14 success 18 / 82  successful
+agent dies
+agent dies
+nr agents fail
+model 14 fail 18 / 83  successful
+model 14 success 19 / 84  successful
+agent dies
+nr agents fail
+model 14 fail 19 / 85  successful
+agent dies
+nr agents fail
+model 14 fail 19 / 86  successful
+model 14 success 20 / 87  successful
+agent dies
+nr agents fail
+model 14 fail 20 / 88  successful
+agent dies
+nr agents fail
+model 14 fail 20 / 89  successful
+model 14 success 21 / 90  successful
+agent dies
+nr agents fail
+model 14 fail 21 / 91  successful
+agent dies
+nr agents fail
+model 14 fail 21 / 92  successful
+model 14 success 22 / 93  successful
+agent dies
+nr agents fail
+model 14 fail 22 / 94  successful
+model 14 success 23 / 95  successful
+model 14 success 24 / 96  successful
+model 14 success 25 / 97  successful
+agent dies
+nr agents fail
+model 14 fail 25 / 98  successful
+agent dies
+nr agents fail
+model 14 fail 25 / 99  successful
+nr assignments fail
+model 14 fail 25 / 100  successful
+writing to file
+[1841, 4031, 4915, 3483, 2635, 4859, 5035, 6277, 4546, 4747, 4917, 3787, 2945, 6040, 4345, 5499, 4171, 6454, 6251, 3604, 2364, 3776, 4292, 4900, 3233]
+loading model CNNboxUNCERTAINONLY15
+agent dies
+nr agents fail
+model 15 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 15 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 15 fail 0 / 3  successful
+Waypoint was outside the environment!
+waypoint fail
+model 15 fail 0 / 4  successful
+agent dies
+nr agents fail
+model 15 fail 0 / 5  successful
+agent dies
+nr agents fail
+model 15 fail 0 / 6  successful
+model 15 success 1 / 7  successful
+model 15 success 2 / 8  successful
+agent dies
+nr agents fail
+model 15 fail 2 / 9  successful
+model 15 success 3 / 10  successful
+agent dies
+nr agents fail
+model 15 fail 3 / 11  successful
+model 15 success 4 / 12  successful
+agent dies
+agent dies
+nr agents fail
+model 15 fail 4 / 13  successful
+agent dies
+nr agents fail
+model 15 fail 4 / 14  successful
+agent dies
+nr agents fail
+model 15 fail 4 / 15  successful
+model 15 success 5 / 16  successful
+model 15 success 6 / 17  successful
+model 15 success 7 / 18  successful
+agent dies
+nr agents fail
+model 15 fail 7 / 19  successful
+model 15 success 8 / 20  successful
+agent dies
+nr agents fail
+model 15 fail 8 / 21  successful
+nr assignments fail
+model 15 fail 8 / 22  successful
+model 15 success 9 / 23  successful
+agent dies
+nr agents fail
+model 15 fail 9 / 24  successful
+agent dies
+nr agents fail
+model 15 fail 9 / 25  successful
+model 15 success 10 / 26  successful
+model 15 success 11 / 27  successful
+agent dies
+agent dies
+agent dies
+nr agents fail
+model 15 fail 11 / 28  successful
+model 15 success 12 / 29  successful
+model 15 success 13 / 30  successful
+model 15 success 14 / 31  successful
+agent dies
+nr agents fail
+model 15 fail 14 / 32  successful
+agent dies
+nr agents fail
+model 15 fail 14 / 33  successful
+model 15 success 15 / 34  successful
+agent dies
+nr agents fail
+model 15 fail 15 / 35  successful
+agent dies
+nr agents fail
+model 15 fail 15 / 36  successful
+model 15 success 16 / 37  successful
+agent dies
+nr agents fail
+model 15 fail 16 / 38  successful
+agent dies
+nr agents fail
+model 15 fail 16 / 39  successful
+model 15 success 17 / 40  successful
+agent dies
+nr agents fail
+model 15 fail 17 / 41  successful
+Waypoint was outside the environment!
+waypoint fail
+model 15 fail 17 / 42  successful
+model 15 success 18 / 43  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 44  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 45  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 46  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 47  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 48  successful
+agent dies
+nr agents fail
+model 15 fail 18 / 49  successful
+Waypoint was outside the environment!
+waypoint fail
+model 15 fail 18 / 50  successful
+model 15 success 19 / 51  successful
+agent dies
+nr agents fail
+model 15 fail 19 / 52  successful
+agent dies
+nr agents fail
+model 15 fail 19 / 53  successful
+model 15 success 20 / 54  successful
+agent dies
+nr agents fail
+model 15 fail 20 / 55  successful
+agent dies
+nr agents fail
+model 15 fail 20 / 56  successful
+model 15 success 21 / 57  successful
+agent dies
+nr agents fail
+model 15 fail 21 / 58  successful
+agent dies
+nr agents fail
+model 15 fail 21 / 59  successful
+agent dies
+nr agents fail
+model 15 fail 21 / 60  successful
+nr assignments fail
+model 15 fail 21 / 61  successful
+model 15 success 22 / 62  successful
+agent dies
+nr agents fail
+model 15 fail 22 / 63  successful
+model 15 success 23 / 64  successful
+model 15 success 24 / 65  successful
+agent dies
+nr agents fail
+model 15 fail 24 / 66  successful
+agent dies
+nr agents fail
+model 15 fail 24 / 67  successful
+agent dies
+nr agents fail
+model 15 fail 24 / 68  successful
+model 15 success 25 / 69  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 70  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 71  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 72  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 73  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 74  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 75  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 76  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 77  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 78  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 79  successful
+agent dies
+nr agents fail
+model 15 fail 25 / 80  successful
+model 15 success 26 / 81  successful
+model 15 success 27 / 82  successful
+agent dies
+nr agents fail
+model 15 fail 27 / 83  successful
+agent dies
+agent dies
+nr agents fail
+model 15 fail 27 / 84  successful
+agent dies
+nr agents fail
+model 15 fail 27 / 85  successful
+agent dies
+nr agents fail
+model 15 fail 27 / 86  successful
+model 15 success 28 / 87  successful
+Waypoint was outside the environment!
+waypoint fail
+model 15 fail 28 / 88  successful
+agent dies
+nr agents fail
+model 15 fail 28 / 89  successful
+agent dies
+nr agents fail
+model 15 fail 28 / 90  successful
+agent dies
+nr agents fail
+model 15 fail 28 / 91  successful
+agent dies
+nr agents fail
+model 15 fail 28 / 92  successful
+agent dies
+nr agents fail
+model 15 fail 28 / 93  successful
+agent dies
+nr agents fail
+model 15 fail 28 / 94  successful
+model 15 success 29 / 95  successful
+agent dies
+nr agents fail
+model 15 fail 29 / 96  successful
+agent dies
+nr agents fail
+model 15 fail 29 / 97  successful
+model 15 success 30 / 98  successful
+agent dies
+nr agents fail
+model 15 fail 30 / 99  successful
+model 15 success 31 / 100  successful
+writing to file
+[4009, 1567, 3829, 2758, 3917, 4079, 5537, 4488, 3169, 3921, 3682, 7318, 4293, 4317, 5506, 5077, 6642, 2052, 2989, 5160, 2671, 3154, 2183, 3807, 6098, 3799, 4949, 6307, 4538, 6417, 4761]
+loading model CNNboxUNCERTAINONLY16
+agent dies
+nr agents fail
+model 16 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 16 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 16 fail 0 / 3  successful
+model 16 success 1 / 4  successful
+agent dies
+nr agents fail
+model 16 fail 1 / 5  successful
+agent dies
+nr agents fail
+model 16 fail 1 / 6  successful
+model 16 success 2 / 7  successful
+model 16 success 3 / 8  successful
+model 16 success 4 / 9  successful
+agent dies
+nr agents fail
+model 16 fail 4 / 10  successful
+agent dies
+nr agents fail
+model 16 fail 4 / 11  successful
+model 16 success 5 / 12  successful
+model 16 success 6 / 13  successful
+model 16 success 7 / 14  successful
+agent dies
+nr agents fail
+model 16 fail 7 / 15  successful
+model 16 success 8 / 16  successful
+agent dies
+agent dies
+nr agents fail
+model 16 fail 8 / 17  successful
+model 16 success 9 / 18  successful
+agent dies
+nr agents fail
+model 16 fail 9 / 19  successful
+model 16 success 10 / 20  successful
+agent dies
+nr agents fail
+model 16 fail 10 / 21  successful
+model 16 success 11 / 22  successful
+model 16 success 12 / 23  successful
+agent dies
+nr agents fail
+model 16 fail 12 / 24  successful
+agent dies
+nr agents fail
+model 16 fail 12 / 25  successful
+nr assignments fail
+model 16 fail 12 / 26  successful
+model 16 success 13 / 27  successful
+agent dies
+nr agents fail
+model 16 fail 13 / 28  successful
+agent dies
+nr agents fail
+model 16 fail 13 / 29  successful
+agent dies
+nr agents fail
+model 16 fail 13 / 30  successful
+agent dies
+nr agents fail
+model 16 fail 13 / 31  successful
+agent dies
+nr agents fail
+model 16 fail 13 / 32  successful
+model 16 success 14 / 33  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 34  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 35  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 36  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 37  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 38  successful
+Waypoint was outside the environment!
+waypoint fail
+model 16 fail 14 / 39  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 40  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 41  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 42  successful
+agent dies
+nr agents fail
+model 16 fail 14 / 43  successful
+model 16 success 15 / 44  successful
+agent dies
+nr agents fail
+model 16 fail 15 / 45  successful
+agent dies
+nr agents fail
+model 16 fail 15 / 46  successful
+model 16 success 16 / 47  successful
+agent dies
+nr agents fail
+model 16 fail 16 / 48  successful
+Waypoint was outside the environment!
+waypoint fail
+model 16 fail 16 / 49  successful
+model 16 success 17 / 50  successful
+agent dies
+nr agents fail
+model 16 fail 17 / 51  successful
+model 16 success 18 / 52  successful
+model 16 success 19 / 53  successful
+model 16 success 20 / 54  successful
+agent dies
+nr agents fail
+model 16 fail 20 / 55  successful
+model 16 success 21 / 56  successful
+agent dies
+nr agents fail
+model 16 fail 21 / 57  successful
+agent dies
+nr agents fail
+model 16 fail 21 / 58  successful
+agent dies
+nr agents fail
+model 16 fail 21 / 59  successful
+agent dies
+nr agents fail
+model 16 fail 21 / 60  successful
+agent dies
+nr agents fail
+model 16 fail 21 / 61  successful
+model 16 success 22 / 62  successful
+model 16 success 23 / 63  successful
+agent dies
+nr agents fail
+model 16 fail 23 / 64  successful
+agent dies
+nr agents fail
+model 16 fail 23 / 65  successful
+agent dies
+nr agents fail
+model 16 fail 23 / 66  successful
+agent dies
+nr agents fail
+model 16 fail 23 / 67  successful
+model 16 success 24 / 68  successful
+agent dies
+nr agents fail
+model 16 fail 24 / 69  successful
+agent dies
+nr agents fail
+model 16 fail 24 / 70  successful
+agent dies
+nr agents fail
+model 16 fail 24 / 71  successful
+agent dies
+nr agents fail
+model 16 fail 24 / 72  successful
+agent dies
+nr agents fail
+model 16 fail 24 / 73  successful
+Waypoint was outside the environment!
+waypoint fail
+model 16 fail 24 / 74  successful
+agent dies
+nr agents fail
+model 16 fail 24 / 75  successful
+model 16 success 25 / 76  successful
+agent dies
+agent dies
+nr agents fail
+model 16 fail 25 / 77  successful
+model 16 success 26 / 78  successful
+agent dies
+agent dies
+nr agents fail
+model 16 fail 26 / 79  successful
+agent dies
+nr agents fail
+model 16 fail 26 / 80  successful
+model 16 success 27 / 81  successful
+agent dies
+nr agents fail
+model 16 fail 27 / 82  successful
+agent dies
+nr agents fail
+model 16 fail 27 / 83  successful
+agent dies
+nr agents fail
+model 16 fail 27 / 84  successful
+agent dies
+nr agents fail
+model 16 fail 27 / 85  successful
+nr assignments fail
+model 16 fail 27 / 86  successful
+nr assignments fail
+model 16 fail 27 / 87  successful
+model 16 success 28 / 88  successful
+agent dies
+agent dies
+nr agents fail
+model 16 fail 28 / 89  successful
+nr assignments fail
+model 16 fail 28 / 90  successful
+agent dies
+nr agents fail
+model 16 fail 28 / 91  successful
+model 16 success 29 / 92  successful
+nr assignments fail
+model 16 fail 29 / 93  successful
+agent dies
+nr agents fail
+model 16 fail 29 / 94  successful
+agent dies
+nr agents fail
+model 16 fail 29 / 95  successful
+nr assignments fail
+model 16 fail 29 / 96  successful
+agent dies
+nr agents fail
+model 16 fail 29 / 97  successful
+model 16 success 30 / 98  successful
+agent dies
+nr agents fail
+model 16 fail 30 / 99  successful
+agent dies
+nr agents fail
+model 16 fail 30 / 100  successful
+writing to file
+[3760, 3523, 4986, 4082, 3942, 3664, 3243, 3527, 4200, 3076, 3577, 3386, 2205, 4044, 4598, 4709, 4165, 5326, 2549, 3911, 3573, 4455, 6791, 7060, 4441, 3580, 2681, 5944, 3506, 3445]
+loading model CNNboxUNCERTAINONLY17
+nr assignments fail
+model 17 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 17 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 17 fail 0 / 3  successful
+model 17 success 1 / 4  successful
+agent dies
+nr agents fail
+model 17 fail 1 / 5  successful
+agent dies
+nr agents fail
+model 17 fail 1 / 6  successful
+agent dies
+nr agents fail
+model 17 fail 1 / 7  successful
+agent dies
+nr agents fail
+model 17 fail 1 / 8  successful
+agent dies
+nr agents fail
+model 17 fail 1 / 9  successful
+agent dies
+agent dies
+nr agents fail
+model 17 fail 1 / 10  successful
+model 17 success 2 / 11  successful
+agent dies
+nr agents fail
+model 17 fail 2 / 12  successful
+model 17 success 3 / 13  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 14  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 15  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 16  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 17  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 18  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 19  successful
+nr assignments fail
+model 17 fail 3 / 20  successful
+agent dies
+nr agents fail
+model 17 fail 3 / 21  successful
+model 17 success 4 / 22  successful
+agent dies
+nr agents fail
+model 17 fail 4 / 23  successful
+nr assignments fail
+model 17 fail 4 / 24  successful
+model 17 success 5 / 25  successful
+agent dies
+nr agents fail
+model 17 fail 5 / 26  successful
+agent dies
+nr agents fail
+model 17 fail 5 / 27  successful
+model 17 success 6 / 28  successful
+agent dies
+nr agents fail
+model 17 fail 6 / 29  successful
+model 17 success 7 / 30  successful
+nr assignments fail
+model 17 fail 7 / 31  successful
+agent dies
+nr agents fail
+model 17 fail 7 / 32  successful
+agent dies
+nr agents fail
+model 17 fail 7 / 33  successful
+nr assignments fail
+model 17 fail 7 / 34  successful
+model 17 success 8 / 35  successful
+model 17 success 9 / 36  successful
+agent dies
+agent dies
+nr agents fail
+model 17 fail 9 / 37  successful
+agent dies
+nr agents fail
+model 17 fail 9 / 38  successful
+agent dies
+nr agents fail
+model 17 fail 9 / 39  successful
+agent dies
+nr agents fail
+model 17 fail 9 / 40  successful
+agent dies
+nr agents fail
+model 17 fail 9 / 41  successful
+nr assignments fail
+model 17 fail 9 / 42  successful
+model 17 success 10 / 43  successful
+model 17 success 11 / 44  successful
+agent dies
+nr agents fail
+model 17 fail 11 / 45  successful
+model 17 success 12 / 46  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 47  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 48  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 49  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 50  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 51  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 52  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 53  successful
+agent dies
+nr agents fail
+model 17 fail 12 / 54  successful
+model 17 success 13 / 55  successful
+agent dies
+agent dies
+nr agents fail
+model 17 fail 13 / 56  successful
+model 17 success 14 / 57  successful
+model 17 success 15 / 58  successful
+model 17 success 16 / 59  successful
+agent dies
+nr agents fail
+model 17 fail 16 / 60  successful
+agent dies
+nr agents fail
+model 17 fail 16 / 61  successful
+model 17 success 17 / 62  successful
+agent dies
+nr agents fail
+model 17 fail 17 / 63  successful
+model 17 success 18 / 64  successful
+agent dies
+nr agents fail
+model 17 fail 18 / 65  successful
+agent dies
+nr agents fail
+model 17 fail 18 / 66  successful
+agent dies
+nr agents fail
+model 17 fail 18 / 67  successful
+agent dies
+nr agents fail
+model 17 fail 18 / 68  successful
+agent dies
+nr agents fail
+model 17 fail 18 / 69  successful
+model 17 success 19 / 70  successful
+Waypoint was outside the environment!
+waypoint fail
+model 17 fail 19 / 71  successful
+model 17 success 20 / 72  successful
+model 17 success 21 / 73  successful
+agent dies
+nr agents fail
+model 17 fail 21 / 74  successful
+model 17 success 22 / 75  successful
+model 17 success 23 / 76  successful
+Waypoint was outside the environment!
+waypoint fail
+model 17 fail 23 / 77  successful
+agent dies
+nr agents fail
+model 17 fail 23 / 78  successful
+agent dies
+nr agents fail
+model 17 fail 23 / 79  successful
+model 17 success 24 / 80  successful
+agent dies
+nr agents fail
+model 17 fail 24 / 81  successful
+agent dies
+nr agents fail
+model 17 fail 24 / 82  successful
+model 17 success 25 / 83  successful
+model 17 success 26 / 84  successful
+agent dies
+nr agents fail
+model 17 fail 26 / 85  successful
+agent dies
+nr agents fail
+model 17 fail 26 / 86  successful
+agent dies
+nr agents fail
+model 17 fail 26 / 87  successful
+nr assignments fail
+model 17 fail 26 / 88  successful
+agent dies
+nr agents fail
+model 17 fail 26 / 89  successful
+model 17 success 27 / 90  successful
+model 17 success 28 / 91  successful
+agent dies
+nr agents fail
+model 17 fail 28 / 92  successful
+agent dies
+nr agents fail
+model 17 fail 28 / 93  successful
+model 17 success 29 / 94  successful
+agent dies
+nr agents fail
+model 17 fail 29 / 95  successful
+Waypoint was outside the environment!
+waypoint fail
+model 17 fail 29 / 96  successful
+agent dies
+nr agents fail
+model 17 fail 29 / 97  successful
+model 17 success 30 / 98  successful
+agent dies
+nr agents fail
+model 17 fail 30 / 99  successful
+model 17 success 31 / 100  successful
+writing to file
+[6568, 2884, 3577, 7786, 3836, 3304, 3625, 2877, 4825, 5153, 2882, 2639, 4640, 3237, 4485, 4874, 6155, 5569, 4258, 2966, 6080, 5313, 7738, 5947, 3676, 5663, 3313, 4707, 4895, 8089, 5242]
+loading model CNNboxUNCERTAINONLY18
+agent dies
+nr agents fail
+model 18 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 18 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 18 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 18 fail 0 / 4  successful
+model 18 success 1 / 5  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 6  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 1 / 7  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 1 / 8  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 9  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 10  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 11  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 12  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 13  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 14  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 15  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 16  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 17  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 18  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 19  successful
+agent dies
+agent dies
+nr agents fail
+model 18 fail 1 / 20  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 21  successful
+agent dies
+nr agents fail
+model 18 fail 1 / 22  successful
+model 18 success 2 / 23  successful
+agent dies
+nr agents fail
+model 18 fail 2 / 24  successful
+agent dies
+nr agents fail
+model 18 fail 2 / 25  successful
+agent dies
+nr agents fail
+model 18 fail 2 / 26  successful
+agent dies
+nr agents fail
+model 18 fail 2 / 27  successful
+agent dies
+nr agents fail
+model 18 fail 2 / 28  successful
+agent dies
+nr agents fail
+model 18 fail 2 / 29  successful
+model 18 success 3 / 30  successful
+model 18 success 4 / 31  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 32  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 33  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 34  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 35  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 36  successful
+agent dies
+agent dies
+nr agents fail
+model 18 fail 4 / 37  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 38  successful
+agent dies
+nr agents fail
+model 18 fail 4 / 39  successful
+model 18 success 5 / 40  successful
+agent dies
+nr agents fail
+model 18 fail 5 / 41  successful
+agent dies
+nr agents fail
+model 18 fail 5 / 42  successful
+agent dies
+nr agents fail
+model 18 fail 5 / 43  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 5 / 44  successful
+model 18 success 6 / 45  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 46  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 47  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 48  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 49  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 50  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 51  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 52  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 53  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 54  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 55  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 56  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 6 / 57  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 58  successful
+agent dies
+nr agents fail
+model 18 fail 6 / 59  successful
+model 18 success 7 / 60  successful
+agent dies
+nr agents fail
+model 18 fail 7 / 61  successful
+agent dies
+nr agents fail
+model 18 fail 7 / 62  successful
+agent dies
+nr agents fail
+model 18 fail 7 / 63  successful
+agent dies
+nr agents fail
+model 18 fail 7 / 64  successful
+model 18 success 8 / 65  successful
+agent dies
+nr agents fail
+model 18 fail 8 / 66  successful
+model 18 success 9 / 67  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 9 / 68  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 69  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 70  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 71  successful
+nr assignments fail
+model 18 fail 9 / 72  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 73  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 9 / 74  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 75  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 9 / 76  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 77  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 78  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 79  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 9 / 80  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 81  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 82  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 83  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 84  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 85  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 86  successful
+agent dies
+nr agents fail
+model 18 fail 9 / 87  successful
+model 18 success 10 / 88  successful
+agent dies
+nr agents fail
+model 18 fail 10 / 89  successful
+model 18 success 11 / 90  successful
+model 18 success 12 / 91  successful
+agent dies
+nr agents fail
+model 18 fail 12 / 92  successful
+Waypoint was outside the environment!
+waypoint fail
+model 18 fail 12 / 93  successful
+agent dies
+nr agents fail
+model 18 fail 12 / 94  successful
+model 18 success 13 / 95  successful
+agent dies
+nr agents fail
+model 18 fail 13 / 96  successful
+model 18 success 14 / 97  successful
+agent dies
+nr agents fail
+model 18 fail 14 / 98  successful
+agent dies
+nr agents fail
+model 18 fail 14 / 99  successful
+agent dies
+nr agents fail
+model 18 fail 14 / 100  successful
+writing to file
+[4757, 2843, 3898, 4265, 4979, 4755, 3914, 2679, 4323, 4911, 2519, 2789, 4625, 5344]
+loading model CNNboxUNCERTAINONLY19
+agent dies
+nr agents fail
+model 19 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 19 fail 0 / 2  successful
+Waypoint was outside the environment!
+waypoint fail
+model 19 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 19 fail 0 / 4  successful
+agent dies
+nr agents fail
+model 19 fail 0 / 5  successful
+nr assignments fail
+model 19 fail 0 / 6  successful
+model 19 success 1 / 7  successful
+Waypoint was outside the environment!
+waypoint fail
+model 19 fail 1 / 8  successful
+model 19 success 2 / 9  successful
+agent dies
+nr agents fail
+model 19 fail 2 / 10  successful
+agent dies
+nr agents fail
+model 19 fail 2 / 11  successful
+model 19 success 3 / 12  successful
+Waypoint was outside the environment!
+waypoint fail
+model 19 fail 3 / 13  successful
+agent dies
+nr agents fail
+model 19 fail 3 / 14  successful
+agent dies
+nr agents fail
+model 19 fail 3 / 15  successful
+model 19 success 4 / 16  successful
+agent dies
+nr agents fail
+model 19 fail 4 / 17  successful
+agent dies
+nr agents fail
+model 19 fail 4 / 18  successful
+agent dies
+agent dies
+nr agents fail
+model 19 fail 4 / 19  successful
+agent dies
+nr agents fail
+model 19 fail 4 / 20  successful
+agent dies
+nr agents fail
+model 19 fail 4 / 21  successful
+agent dies
+nr agents fail
+model 19 fail 4 / 22  successful
+nr assignments fail
+model 19 fail 4 / 23  successful
+model 19 success 5 / 24  successful
+model 19 success 6 / 25  successful
+model 19 success 7 / 26  successful
+agent dies
+agent dies
+nr agents fail
+model 19 fail 7 / 27  successful
+agent dies
+nr agents fail
+model 19 fail 7 / 28  successful
+agent dies
+nr agents fail
+model 19 fail 7 / 29  successful
+agent dies
+nr agents fail
+model 19 fail 7 / 30  successful
+agent dies
+nr agents fail
+model 19 fail 7 / 31  successful
+model 19 success 8 / 32  successful
+agent dies
+nr agents fail
+model 19 fail 8 / 33  successful
+model 19 success 9 / 34  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 35  successful
+Waypoint was outside the environment!
+waypoint fail
+model 19 fail 9 / 36  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 37  successful
+nr assignments fail
+model 19 fail 9 / 38  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 39  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 40  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 41  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 42  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 43  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 44  successful
+agent dies
+nr agents fail
+model 19 fail 9 / 45  successful
+model 19 success 10 / 46  successful
+nr assignments fail
+model 19 fail 10 / 47  successful
+agent dies
+nr agents fail
+model 19 fail 10 / 48  successful
+agent dies
+nr agents fail
+model 19 fail 10 / 49  successful
+agent dies
+nr agents fail
+model 19 fail 10 / 50  successful
+model 19 success 11 / 51  successful
+model 19 success 12 / 52  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 53  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 54  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 55  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 56  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 57  successful
+agent dies
+agent dies
+nr agents fail
+model 19 fail 12 / 58  successful
+nr assignments fail
+model 19 fail 12 / 59  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 60  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 61  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 62  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 63  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 64  successful
+agent dies
+nr agents fail
+model 19 fail 12 / 65  successful
+model 19 success 13 / 66  successful
+model 19 success 14 / 67  successful
+agent dies
+nr agents fail
+model 19 fail 14 / 68  successful
+model 19 success 15 / 69  successful
+agent dies
+nr agents fail
+model 19 fail 15 / 70  successful
+agent dies
+nr agents fail
+model 19 fail 15 / 71  successful
+agent dies
+nr agents fail
+model 19 fail 15 / 72  successful
+nr assignments fail
+model 19 fail 15 / 73  successful
+agent dies
+nr agents fail
+model 19 fail 15 / 74  successful
+model 19 success 16 / 75  successful
+model 19 success 17 / 76  successful
+agent dies
+nr agents fail
+model 19 fail 17 / 77  successful
+model 19 success 18 / 78  successful
+agent dies
+nr agents fail
+model 19 fail 18 / 79  successful
+agent dies
+nr agents fail
+model 19 fail 18 / 80  successful
+model 19 success 19 / 81  successful
+agent dies
+nr agents fail
+model 19 fail 19 / 82  successful
+model 19 success 20 / 83  successful
+agent dies
+nr agents fail
+model 19 fail 20 / 84  successful
+model 19 success 21 / 85  successful
+agent dies
+nr agents fail
+model 19 fail 21 / 86  successful
+agent dies
+nr agents fail
+model 19 fail 21 / 87  successful
+Waypoint was outside the environment!
+waypoint fail
+model 19 fail 21 / 88  successful
+nr assignments fail
+model 19 fail 21 / 89  successful
+agent dies
+nr agents fail
+model 19 fail 21 / 90  successful
+agent dies
+nr agents fail
+model 19 fail 21 / 91  successful
+model 19 success 22 / 92  successful
+agent dies
+nr agents fail
+model 19 fail 22 / 93  successful
+agent dies
+nr agents fail
+model 19 fail 22 / 94  successful
+model 19 success 23 / 95  successful
+agent dies
+nr agents fail
+model 19 fail 23 / 96  successful
+agent dies
+nr agents fail
+model 19 fail 23 / 97  successful
+nr assignments fail
+model 19 fail 23 / 98  successful
+model 19 success 24 / 99  successful
+model 19 success 25 / 100  successful
+writing to file
+[4604, 2909, 5533, 3312, 2305, 3969, 3953, 3721, 4737, 3486, 3834, 7517, 2479, 3458, 3038, 5070, 3908, 2576, 4723, 2522, 5283, 4179, 6574, 4692, 5629]
+loading model CNNboxUNCERTAINONLY20
+model 20 success 1 / 1  successful
+model 20 success 2 / 2  successful
+agent dies
+nr agents fail
+model 20 fail 2 / 3  successful
+nr assignments fail
+model 20 fail 2 / 4  successful
+agent dies
+nr agents fail
+model 20 fail 2 / 5  successful
+agent dies
+agent dies
+nr agents fail
+model 20 fail 2 / 6  successful
+model 20 success 3 / 7  successful
+agent dies
+nr agents fail
+model 20 fail 3 / 8  successful
+agent dies
+nr agents fail
+model 20 fail 3 / 9  successful
+agent dies
+nr agents fail
+model 20 fail 3 / 10  successful
+nr assignments fail
+model 20 fail 3 / 11  successful
+agent dies
+nr agents fail
+model 20 fail 3 / 12  successful
+agent dies
+nr agents fail
+model 20 fail 3 / 13  successful
+model 20 success 4 / 14  successful
+agent dies
+nr agents fail
+model 20 fail 4 / 15  successful
+model 20 success 5 / 16  successful
+nr assignments fail
+model 20 fail 5 / 17  successful
+model 20 success 6 / 18  successful
+agent dies
+nr agents fail
+model 20 fail 6 / 19  successful
+model 20 success 7 / 20  successful
+nr assignments fail
+model 20 fail 7 / 21  successful
+agent dies
+nr agents fail
+model 20 fail 7 / 22  successful
+nr assignments fail
+model 20 fail 7 / 23  successful
+model 20 success 8 / 24  successful
+agent dies
+nr agents fail
+model 20 fail 8 / 25  successful
+agent dies
+nr agents fail
+model 20 fail 8 / 26  successful
+agent dies
+nr agents fail
+model 20 fail 8 / 27  successful
+agent dies
+nr agents fail
+model 20 fail 8 / 28  successful
+agent dies
+nr agents fail
+model 20 fail 8 / 29  successful
+model 20 success 9 / 30  successful
+model 20 success 10 / 31  successful
+model 20 success 11 / 32  successful
+model 20 success 12 / 33  successful
+model 20 success 13 / 34  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 13 / 35  successful
+model 20 success 14 / 36  successful
+model 20 success 15 / 37  successful
+agent dies
+nr agents fail
+model 20 fail 15 / 38  successful
+agent dies
+nr agents fail
+model 20 fail 15 / 39  successful
+model 20 success 16 / 40  successful
+model 20 success 17 / 41  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 17 / 42  successful
+model 20 success 18 / 43  successful
+model 20 success 19 / 44  successful
+agent dies
+nr agents fail
+model 20 fail 19 / 45  successful
+agent dies
+nr agents fail
+model 20 fail 19 / 46  successful
+model 20 success 20 / 47  successful
+nr assignments fail
+model 20 fail 20 / 48  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 20 / 49  successful
+nr assignments fail
+model 20 fail 20 / 50  successful
+nr assignments fail
+model 20 fail 20 / 51  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 20 / 52  successful
+model 20 success 21 / 53  successful
+model 20 success 22 / 54  successful
+nr assignments fail
+model 20 fail 22 / 55  successful
+agent dies
+nr agents fail
+model 20 fail 22 / 56  successful
+agent dies
+nr agents fail
+model 20 fail 22 / 57  successful
+agent dies
+nr agents fail
+model 20 fail 22 / 58  successful
+agent dies
+agent dies
+nr agents fail
+model 20 fail 22 / 59  successful
+model 20 success 23 / 60  successful
+agent dies
+nr agents fail
+model 20 fail 23 / 61  successful
+model 20 success 24 / 62  successful
+model 20 success 25 / 63  successful
+model 20 success 26 / 64  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 26 / 65  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 26 / 66  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 67  successful
+nr assignments fail
+model 20 fail 26 / 68  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 69  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 70  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 71  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 72  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 73  successful
+agent dies
+nr agents fail
+model 20 fail 26 / 74  successful
+model 20 success 27 / 75  successful
+model 20 success 28 / 76  successful
+nr assignments fail
+model 20 fail 28 / 77  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 28 / 78  successful
+agent dies
+nr agents fail
+model 20 fail 28 / 79  successful
+nr assignments fail
+model 20 fail 28 / 80  successful
+agent dies
+nr agents fail
+model 20 fail 28 / 81  successful
+agent dies
+nr agents fail
+model 20 fail 28 / 82  successful
+agent dies
+agent dies
+nr agents fail
+model 20 fail 28 / 83  successful
+Waypoint was outside the environment!
+waypoint fail
+model 20 fail 28 / 84  successful
+agent dies
+nr agents fail
+model 20 fail 28 / 85  successful
+agent dies
+nr agents fail
+model 20 fail 28 / 86  successful
+agent dies
+nr agents fail
+model 20 fail 28 / 87  successful
+model 20 success 29 / 88  successful
+nr assignments fail
+model 20 fail 29 / 89  successful
+agent dies
+nr agents fail
+model 20 fail 29 / 90  successful
+model 20 success 30 / 91  successful
+model 20 success 31 / 92  successful
+agent dies
+nr agents fail
+model 20 fail 31 / 93  successful
+agent dies
+nr agents fail
+model 20 fail 31 / 94  successful
+model 20 success 32 / 95  successful
+model 20 success 33 / 96  successful
+agent dies
+nr agents fail
+model 20 fail 33 / 97  successful
+nr assignments fail
+model 20 fail 33 / 98  successful
+agent dies
+nr agents fail
+model 20 fail 33 / 99  successful
+model 20 success 34 / 100  successful
+writing to file
+[4886, 1387, 5388, 3412, 3957, 2840, 7210, 3533, 5468, 5437, 4059, 6272, 5678, 3975, 4880, 3114, 4705, 5644, 4844, 2037, 5034, 3979, 4117, 5020, 3723, 6048, 4608, 4724, 3313, 5709, 4127, 3103, 3337, 3400]
+loading model CNNboxUNCERTAINONLY21
+nr assignments fail
+model 21 fail 0 / 1  successful
+nr assignments fail
+model 21 fail 0 / 2  successful
+model 21 success 1 / 3  successful
+model 21 success 2 / 4  successful
+agent dies
+nr agents fail
+model 21 fail 2 / 5  successful
+model 21 success 3 / 6  successful
+model 21 success 4 / 7  successful
+nr assignments fail
+model 21 fail 4 / 8  successful
+model 21 success 5 / 9  successful
+model 21 success 6 / 10  successful
+model 21 success 7 / 11  successful
+model 21 success 8 / 12  successful
+model 21 success 9 / 13  successful
+model 21 success 10 / 14  successful
+model 21 success 11 / 15  successful
+model 21 success 12 / 16  successful
+agent dies
+nr agents fail
+model 21 fail 12 / 17  successful
+agent dies
+nr agents fail
+model 21 fail 12 / 18  successful
+agent dies
+nr agents fail
+model 21 fail 12 / 19  successful
+agent dies
+nr agents fail
+model 21 fail 12 / 20  successful
+agent dies
+nr agents fail
+model 21 fail 12 / 21  successful
+model 21 success 13 / 22  successful
+model 21 success 14 / 23  successful
+model 21 success 15 / 24  successful
+agent dies
+nr agents fail
+model 21 fail 15 / 25  successful
+model 21 success 16 / 26  successful
+agent dies
+nr agents fail
+model 21 fail 16 / 27  successful
+model 21 success 17 / 28  successful
+model 21 success 18 / 29  successful
+model 21 success 19 / 30  successful
+model 21 success 20 / 31  successful
+agent dies
+nr agents fail
+model 21 fail 20 / 32  successful
+agent dies
+nr agents fail
+model 21 fail 20 / 33  successful
+model 21 success 21 / 34  successful
+agent dies
+nr agents fail
+model 21 fail 21 / 35  successful
+model 21 success 22 / 36  successful
+model 21 success 23 / 37  successful
+agent dies
+nr agents fail
+model 21 fail 23 / 38  successful
+model 21 success 24 / 39  successful
+agent dies
+nr agents fail
+model 21 fail 24 / 40  successful
+nr assignments fail
+model 21 fail 24 / 41  successful
+model 21 success 25 / 42  successful
+model 21 success 26 / 43  successful
+agent dies
+nr agents fail
+model 21 fail 26 / 44  successful
+model 21 success 27 / 45  successful
+agent dies
+nr agents fail
+model 21 fail 27 / 46  successful
+nr assignments fail
+model 21 fail 27 / 47  successful
+model 21 success 28 / 48  successful
+agent dies
+nr agents fail
+model 21 fail 28 / 49  successful
+model 21 success 29 / 50  successful
+agent dies
+nr agents fail
+model 21 fail 29 / 51  successful
+agent dies
+nr agents fail
+model 21 fail 29 / 52  successful
+model 21 success 30 / 53  successful
+model 21 success 31 / 54  successful
+nr assignments fail
+model 21 fail 31 / 55  successful
+model 21 success 32 / 56  successful
+model 21 success 33 / 57  successful
+nr assignments fail
+model 21 fail 33 / 58  successful
+model 21 success 34 / 59  successful
+model 21 success 35 / 60  successful
+agent dies
+nr agents fail
+model 21 fail 35 / 61  successful
+model 21 success 36 / 62  successful
+agent dies
+nr agents fail
+model 21 fail 36 / 63  successful
+model 21 success 37 / 64  successful
+model 21 success 38 / 65  successful
+model 21 success 39 / 66  successful
+agent dies
+nr agents fail
+model 21 fail 39 / 67  successful
+agent dies
+nr agents fail
+model 21 fail 39 / 68  successful
+agent dies
+nr agents fail
+model 21 fail 39 / 69  successful
+model 21 success 40 / 70  successful
+agent dies
+nr agents fail
+model 21 fail 40 / 71  successful
+agent dies
+nr agents fail
+model 21 fail 40 / 72  successful
+agent dies
+nr agents fail
+model 21 fail 40 / 73  successful
+agent dies
+nr agents fail
+model 21 fail 40 / 74  successful
+model 21 success 41 / 75  successful
+agent dies
+nr agents fail
+model 21 fail 41 / 76  successful
+model 21 success 42 / 77  successful
+model 21 success 43 / 78  successful
+agent dies
+nr agents fail
+model 21 fail 43 / 79  successful
+agent dies
+nr agents fail
+model 21 fail 43 / 80  successful
+agent dies
+nr agents fail
+model 21 fail 43 / 81  successful
+model 21 success 44 / 82  successful
+model 21 success 45 / 83  successful
+model 21 success 46 / 84  successful
+agent dies
+nr agents fail
+model 21 fail 46 / 85  successful
+agent dies
+nr agents fail
+model 21 fail 46 / 86  successful
+agent dies
+nr agents fail
+model 21 fail 46 / 87  successful
+model 21 success 47 / 88  successful
+agent dies
+nr agents fail
+model 21 fail 47 / 89  successful
+agent dies
+nr agents fail
+model 21 fail 47 / 90  successful
+agent dies
+nr agents fail
+model 21 fail 47 / 91  successful
+model 21 success 48 / 92  successful
+model 21 success 49 / 93  successful
+agent dies
+agent dies
+agent dies
+nr agents fail
+model 21 fail 49 / 94  successful
+agent dies
+nr agents fail
+model 21 fail 49 / 95  successful
+model 21 success 50 / 96  successful
+model 21 success 51 / 97  successful
+agent dies
+nr agents fail
+model 21 fail 51 / 98  successful
+model 21 success 52 / 99  successful
+model 21 success 53 / 100  successful
+writing to file
+[5217, 5013, 4542, 4769, 5531, 4724, 5560, 5818, 4758, 4002, 3426, 4653, 3289, 5745, 6264, 4590, 4254, 4676, 2764, 6981, 4075, 4827, 3082, 1459, 4192, 3350, 2611, 4092, 5699, 5029, 4072, 3441, 4012, 1550, 4628, 5417, 5832, 5076, 3725, 2046, 5620, 4465, 5139, 3902, 3471, 4150, 4082, 4702, 4338, 2963, 4197, 4300, 2996]
+loading model CNNboxUNCERTAINONLY22
+agent dies
+agent dies
+agent dies
+nr agents fail
+model 22 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 22 fail 0 / 2  successful
+model 22 success 1 / 3  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 1 / 4  successful
+agent dies
+nr agents fail
+model 22 fail 1 / 5  successful
+model 22 success 2 / 6  successful
+agent dies
+nr agents fail
+model 22 fail 2 / 7  successful
+model 22 success 3 / 8  successful
+agent dies
+nr agents fail
+model 22 fail 3 / 9  successful
+nr assignments fail
+model 22 fail 3 / 10  successful
+model 22 success 4 / 11  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 4 / 12  successful
+model 22 success 5 / 13  successful
+agent dies
+nr agents fail
+model 22 fail 5 / 14  successful
+agent dies
+nr agents fail
+model 22 fail 5 / 15  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 5 / 16  successful
+agent dies
+nr agents fail
+model 22 fail 5 / 17  successful
+nr assignments fail
+model 22 fail 5 / 18  successful
+agent dies
+nr agents fail
+model 22 fail 5 / 19  successful
+agent dies
+nr agents fail
+model 22 fail 5 / 20  successful
+model 22 success 6 / 21  successful
+agent dies
+nr agents fail
+model 22 fail 6 / 22  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 6 / 23  successful
+agent dies
+nr agents fail
+model 22 fail 6 / 24  successful
+agent dies
+nr agents fail
+model 22 fail 6 / 25  successful
+model 22 success 7 / 26  successful
+model 22 success 8 / 27  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 8 / 28  successful
+model 22 success 9 / 29  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 9 / 30  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 31  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 32  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 9 / 33  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 34  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 35  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 36  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 37  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 9 / 38  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 39  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 9 / 40  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 41  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 9 / 42  successful
+agent dies
+nr agents fail
+model 22 fail 9 / 43  successful
+model 22 success 10 / 44  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 10 / 45  successful
+agent dies
+nr agents fail
+model 22 fail 10 / 46  successful
+agent dies
+nr agents fail
+model 22 fail 10 / 47  successful
+agent dies
+nr agents fail
+model 22 fail 10 / 48  successful
+model 22 success 11 / 49  successful
+agent dies
+nr agents fail
+model 22 fail 11 / 50  successful
+agent dies
+nr agents fail
+model 22 fail 11 / 51  successful
+agent dies
+nr agents fail
+model 22 fail 11 / 52  successful
+agent dies
+nr agents fail
+model 22 fail 11 / 53  successful
+model 22 success 12 / 54  successful
+model 22 success 13 / 55  successful
+agent dies
+nr agents fail
+model 22 fail 13 / 56  successful
+agent dies
+nr agents fail
+model 22 fail 13 / 57  successful
+model 22 success 14 / 58  successful
+nr assignments fail
+model 22 fail 14 / 59  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 60  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 61  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 62  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 14 / 63  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 64  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 65  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 66  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 67  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 68  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 69  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 14 / 70  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 14 / 71  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 72  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 14 / 73  successful
+agent dies
+nr agents fail
+model 22 fail 14 / 74  successful
+model 22 success 15 / 75  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 15 / 76  successful
+agent dies
+nr agents fail
+model 22 fail 15 / 77  successful
+agent dies
+nr agents fail
+model 22 fail 15 / 78  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 15 / 79  successful
+agent dies
+nr agents fail
+model 22 fail 15 / 80  successful
+model 22 success 16 / 81  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 82  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 16 / 83  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 16 / 84  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 85  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 16 / 86  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 87  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 88  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 89  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 90  successful
+Waypoint was outside the environment!
+waypoint fail
+model 22 fail 16 / 91  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 92  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 93  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 94  successful
+agent dies
+agent dies
+nr agents fail
+model 22 fail 16 / 95  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 96  successful
+agent dies
+nr agents fail
+model 22 fail 16 / 97  successful
+model 22 success 17 / 98  successful
+agent dies
+nr agents fail
+model 22 fail 17 / 99  successful
+agent dies
+nr agents fail
+model 22 fail 17 / 100  successful
+writing to file
+[5782, 3836, 4213, 4231, 5482, 5310, 5183, 6085, 4183, 4438, 6194, 4853, 3865, 4735, 4908, 1729, 4197]
+loading model CNNboxUNCERTAINONLY23
+agent dies
+nr agents fail
+model 23 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 23 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 23 fail 0 / 3  successful
+model 23 success 1 / 4  successful
+agent dies
+nr agents fail
+model 23 fail 1 / 5  successful
+model 23 success 2 / 6  successful
+agent dies
+nr agents fail
+model 23 fail 2 / 7  successful
+agent dies
+nr agents fail
+model 23 fail 2 / 8  successful
+nr assignments fail
+model 23 fail 2 / 9  successful
+agent dies
+nr agents fail
+model 23 fail 2 / 10  successful
+agent dies
+nr agents fail
+model 23 fail 2 / 11  successful
+model 23 success 3 / 12  successful
+model 23 success 4 / 13  successful
+agent dies
+agent dies
+nr agents fail
+model 23 fail 4 / 14  successful
+agent dies
+nr agents fail
+model 23 fail 4 / 15  successful
+model 23 success 5 / 16  successful
+agent dies
+nr agents fail
+model 23 fail 5 / 17  successful
+model 23 success 6 / 18  successful
+model 23 success 7 / 19  successful
+model 23 success 8 / 20  successful
+nr assignments fail
+model 23 fail 8 / 21  successful
+model 23 success 9 / 22  successful
+nr assignments fail
+model 23 fail 9 / 23  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 24  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 25  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 26  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 27  successful
+Waypoint was outside the environment!
+waypoint fail
+model 23 fail 9 / 28  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 29  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 30  successful
+Waypoint was outside the environment!
+waypoint fail
+model 23 fail 9 / 31  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 32  successful
+agent dies
+nr agents fail
+model 23 fail 9 / 33  successful
+model 23 success 10 / 34  successful
+agent dies
+nr agents fail
+model 23 fail 10 / 35  successful
+nr assignments fail
+model 23 fail 10 / 36  successful
+agent dies
+nr agents fail
+model 23 fail 10 / 37  successful
+agent dies
+nr agents fail
+model 23 fail 10 / 38  successful
+agent dies
+nr agents fail
+model 23 fail 10 / 39  successful
+agent dies
+nr agents fail
+model 23 fail 10 / 40  successful
+agent dies
+nr agents fail
+model 23 fail 10 / 41  successful
+model 23 success 11 / 42  successful
+agent dies
+nr agents fail
+model 23 fail 11 / 43  successful
+agent dies
+nr agents fail
+model 23 fail 11 / 44  successful
+agent dies
+nr agents fail
+model 23 fail 11 / 45  successful
+model 23 success 12 / 46  successful
+agent dies
+nr agents fail
+model 23 fail 12 / 47  successful
+agent dies
+nr agents fail
+model 23 fail 12 / 48  successful
+model 23 success 13 / 49  successful
+model 23 success 14 / 50  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 51  successful
+nr assignments fail
+model 23 fail 14 / 52  successful
+nr assignments fail
+model 23 fail 14 / 53  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 54  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 55  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 56  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 57  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 58  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 59  successful
+agent dies
+nr agents fail
+model 23 fail 14 / 60  successful
+model 23 success 15 / 61  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 62  successful
+Waypoint was outside the environment!
+waypoint fail
+model 23 fail 15 / 63  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 64  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 65  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 66  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 67  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 68  successful
+nr assignments fail
+model 23 fail 15 / 69  successful
+agent dies
+nr agents fail
+model 23 fail 15 / 70  successful
+model 23 success 16 / 71  successful
+model 23 success 17 / 72  successful
+agent dies
+nr agents fail
+model 23 fail 17 / 73  successful
+Waypoint was outside the environment!
+waypoint fail
+model 23 fail 17 / 74  successful
+agent dies
+nr agents fail
+model 23 fail 17 / 75  successful
+model 23 success 18 / 76  successful
+agent dies
+nr agents fail
+model 23 fail 18 / 77  successful
+model 23 success 19 / 78  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 79  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 80  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 81  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 82  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 83  successful
+Waypoint was outside the environment!
+waypoint fail
+model 23 fail 19 / 84  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 85  successful
+agent dies
+nr agents fail
+model 23 fail 19 / 86  successful
+model 23 success 20 / 87  successful
+agent dies
+nr agents fail
+model 23 fail 20 / 88  successful
+agent dies
+nr agents fail
+model 23 fail 20 / 89  successful
+model 23 success 21 / 90  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 91  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 92  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 93  successful
+nr assignments fail
+model 23 fail 21 / 94  successful
+nr assignments fail
+model 23 fail 21 / 95  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 96  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 97  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 98  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 99  successful
+agent dies
+nr agents fail
+model 23 fail 21 / 100  successful
+writing to file
+[5530, 4181, 6295, 5683, 1470, 3973, 3095, 6792, 5448, 4047, 3980, 6813, 4158, 3956, 5084, 7157, 4105, 3108, 5621, 5027, 7536]
+loading model CNNboxUNCERTAINONLY24
+nr assignments fail
+model 24 fail 0 / 1  successful
+model 24 success 1 / 2  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 1 / 3  successful
+agent dies
+nr agents fail
+model 24 fail 1 / 4  successful
+agent dies
+nr agents fail
+model 24 fail 1 / 5  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 1 / 6  successful
+agent dies
+nr agents fail
+model 24 fail 1 / 7  successful
+model 24 success 2 / 8  successful
+agent dies
+nr agents fail
+model 24 fail 2 / 9  successful
+model 24 success 3 / 10  successful
+model 24 success 4 / 11  successful
+model 24 success 5 / 12  successful
+model 24 success 6 / 13  successful
+model 24 success 7 / 14  successful
+agent dies
+nr agents fail
+model 24 fail 7 / 15  successful
+model 24 success 8 / 16  successful
+agent dies
+nr agents fail
+model 24 fail 8 / 17  successful
+agent dies
+nr agents fail
+model 24 fail 8 / 18  successful
+model 24 success 9 / 19  successful
+agent dies
+nr agents fail
+model 24 fail 9 / 20  successful
+model 24 success 10 / 21  successful
+agent dies
+nr agents fail
+model 24 fail 10 / 22  successful
+agent dies
+nr agents fail
+model 24 fail 10 / 23  successful
+agent dies
+nr agents fail
+model 24 fail 10 / 24  successful
+model 24 success 11 / 25  successful
+agent dies
+nr agents fail
+model 24 fail 11 / 26  successful
+agent dies
+nr agents fail
+model 24 fail 11 / 27  successful
+agent dies
+nr agents fail
+model 24 fail 11 / 28  successful
+agent dies
+nr agents fail
+model 24 fail 11 / 29  successful
+model 24 success 12 / 30  successful
+agent dies
+nr agents fail
+model 24 fail 12 / 31  successful
+model 24 success 13 / 32  successful
+agent dies
+nr agents fail
+model 24 fail 13 / 33  successful
+agent dies
+nr agents fail
+model 24 fail 13 / 34  successful
+model 24 success 14 / 35  successful
+model 24 success 15 / 36  successful
+model 24 success 16 / 37  successful
+agent dies
+nr agents fail
+model 24 fail 16 / 38  successful
+agent dies
+nr agents fail
+model 24 fail 16 / 39  successful
+agent dies
+nr agents fail
+model 24 fail 16 / 40  successful
+agent dies
+nr agents fail
+model 24 fail 16 / 41  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 16 / 42  successful
+agent dies
+nr agents fail
+model 24 fail 16 / 43  successful
+model 24 success 17 / 44  successful
+model 24 success 18 / 45  successful
+agent dies
+nr agents fail
+model 24 fail 18 / 46  successful
+model 24 success 19 / 47  successful
+model 24 success 20 / 48  successful
+agent dies
+nr agents fail
+model 24 fail 20 / 49  successful
+agent dies
+nr agents fail
+model 24 fail 20 / 50  successful
+agent dies
+nr agents fail
+model 24 fail 20 / 51  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 20 / 52  successful
+model 24 success 21 / 53  successful
+model 24 success 22 / 54  successful
+model 24 success 23 / 55  successful
+agent dies
+nr agents fail
+model 24 fail 23 / 56  successful
+nr assignments fail
+model 24 fail 23 / 57  successful
+agent dies
+nr agents fail
+model 24 fail 23 / 58  successful
+agent dies
+nr agents fail
+model 24 fail 23 / 59  successful
+model 24 success 24 / 60  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 61  successful
+nr assignments fail
+model 24 fail 24 / 62  successful
+nr assignments fail
+model 24 fail 24 / 63  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 64  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 65  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 24 / 66  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 67  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 68  successful
+agent dies
+nr agents fail
+model 24 fail 24 / 69  successful
+model 24 success 25 / 70  successful
+agent dies
+agent dies
+nr agents fail
+model 24 fail 25 / 71  successful
+model 24 success 26 / 72  successful
+agent dies
+nr agents fail
+model 24 fail 26 / 73  successful
+agent dies
+nr agents fail
+model 24 fail 26 / 74  successful
+agent dies
+nr agents fail
+model 24 fail 26 / 75  successful
+model 24 success 27 / 76  successful
+model 24 success 28 / 77  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 78  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 79  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 80  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 81  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 82  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 83  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 84  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 85  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 86  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 87  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 88  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 89  successful
+nr assignments fail
+model 24 fail 28 / 90  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 91  successful
+agent dies
+nr agents fail
+model 24 fail 28 / 92  successful
+model 24 success 29 / 93  successful
+agent dies
+nr agents fail
+model 24 fail 29 / 94  successful
+agent dies
+nr agents fail
+model 24 fail 29 / 95  successful
+agent dies
+nr agents fail
+model 24 fail 29 / 96  successful
+model 24 success 30 / 97  successful
+agent dies
+nr agents fail
+model 24 fail 30 / 98  successful
+model 24 success 31 / 99  successful
+model 24 success 32 / 100  successful
+writing to file
+[4710, 3303, 5031, 7453, 3037, 3814, 4645, 5299, 3938, 4723, 6755, 3455, 4482, 3088, 4151, 3201, 3300, 3102, 4691, 3698, 3016, 6243, 4222, 4490, 3122, 4685, 4828, 2696, 3979, 2736, 8076, 2546]
+loading model CNNboxUNCERTAINONLY25
+model 25 success 1 / 1  successful
+agent dies
+nr agents fail
+model 25 fail 1 / 2  successful
+agent dies
+nr agents fail
+model 25 fail 1 / 3  successful
+model 25 success 2 / 4  successful
+model 25 success 3 / 5  successful
+model 25 success 4 / 6  successful
+agent dies
+agent dies
+nr agents fail
+model 25 fail 4 / 7  successful
+model 25 success 5 / 8  successful
+model 25 success 6 / 9  successful
+agent dies
+nr agents fail
+model 25 fail 6 / 10  successful
+model 25 success 7 / 11  successful
+agent dies
+agent dies
+nr agents fail
+model 25 fail 7 / 12  successful
+agent dies
+nr agents fail
+model 25 fail 7 / 13  successful
+agent dies
+nr agents fail
+model 25 fail 7 / 14  successful
+agent dies
+nr agents fail
+model 25 fail 7 / 15  successful
+model 25 success 8 / 16  successful
+agent dies
+nr agents fail
+model 25 fail 8 / 17  successful
+model 25 success 9 / 18  successful
+agent dies
+nr agents fail
+model 25 fail 9 / 19  successful
+model 25 success 10 / 20  successful
+model 25 success 11 / 21  successful
+model 25 success 12 / 22  successful
+agent dies
+nr agents fail
+model 25 fail 12 / 23  successful
+agent dies
+nr agents fail
+model 25 fail 12 / 24  successful
+agent dies
+nr agents fail
+model 25 fail 12 / 25  successful
+agent dies
+agent dies
+nr agents fail
+model 25 fail 12 / 26  successful
+agent dies
+nr agents fail
+model 25 fail 12 / 27  successful
+agent dies
+nr agents fail
+model 25 fail 12 / 28  successful
+agent dies
+nr agents fail
+model 25 fail 12 / 29  successful
+model 25 success 13 / 30  successful
+agent dies
+nr agents fail
+model 25 fail 13 / 31  successful
+agent dies
+nr agents fail
+model 25 fail 13 / 32  successful
+agent dies
+nr agents fail
+model 25 fail 13 / 33  successful
+model 25 success 14 / 34  successful
+nr assignments fail
+model 25 fail 14 / 35  successful
+model 25 success 15 / 36  successful
+model 25 success 16 / 37  successful
+agent dies
+nr agents fail
+model 25 fail 16 / 38  successful
+model 25 success 17 / 39  successful
+agent dies
+nr agents fail
+model 25 fail 17 / 40  successful
+model 25 success 18 / 41  successful
+agent dies
+nr agents fail
+model 25 fail 18 / 42  successful
+model 25 success 19 / 43  successful
+agent dies
+nr agents fail
+model 25 fail 19 / 44  successful
+model 25 success 20 / 45  successful
+model 25 success 21 / 46  successful
+model 25 success 22 / 47  successful
+agent dies
+nr agents fail
+model 25 fail 22 / 48  successful
+agent dies
+nr agents fail
+model 25 fail 22 / 49  successful
+agent dies
+nr agents fail
+model 25 fail 22 / 50  successful
+model 25 success 23 / 51  successful
+nr assignments fail
+model 25 fail 23 / 52  successful
+agent dies
+nr agents fail
+model 25 fail 23 / 53  successful
+agent dies
+nr agents fail
+model 25 fail 23 / 54  successful
+nr assignments fail
+model 25 fail 23 / 55  successful
+agent dies
+nr agents fail
+model 25 fail 23 / 56  successful
+model 25 success 24 / 57  successful
+nr assignments fail
+model 25 fail 24 / 58  successful
+agent dies
+nr agents fail
+model 25 fail 24 / 59  successful
+nr assignments fail
+model 25 fail 24 / 60  successful
+model 25 success 25 / 61  successful
+model 25 success 26 / 62  successful
+model 25 success 27 / 63  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 64  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 65  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 66  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 67  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 68  successful
+agent dies
+agent dies
+nr agents fail
+model 25 fail 27 / 69  successful
+nr assignments fail
+model 25 fail 27 / 70  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 71  successful
+agent dies
+nr agents fail
+model 25 fail 27 / 72  successful
+model 25 success 28 / 73  successful
+agent dies
+nr agents fail
+model 25 fail 28 / 74  successful
+nr assignments fail
+model 25 fail 28 / 75  successful
+model 25 success 29 / 76  successful
+agent dies
+nr agents fail
+model 25 fail 29 / 77  successful
+agent dies
+nr agents fail
+model 25 fail 29 / 78  successful
+model 25 success 30 / 79  successful
+agent dies
+nr agents fail
+model 25 fail 30 / 80  successful
+agent dies
+nr agents fail
+model 25 fail 30 / 81  successful
+agent dies
+nr agents fail
+model 25 fail 30 / 82  successful
+agent dies
+nr agents fail
+model 25 fail 30 / 83  successful
+agent dies
+nr agents fail
+model 25 fail 30 / 84  successful
+model 25 success 31 / 85  successful
+model 25 success 32 / 86  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 87  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 88  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 89  successful
+nr assignments fail
+model 25 fail 32 / 90  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 91  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 92  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 93  successful
+agent dies
+nr agents fail
+model 25 fail 32 / 94  successful
+model 25 success 33 / 95  successful
+agent dies
+nr agents fail
+model 25 fail 33 / 96  successful
+agent dies
+nr agents fail
+model 25 fail 33 / 97  successful
+model 25 success 34 / 98  successful
+nr assignments fail
+model 25 fail 34 / 99  successful
+agent dies
+nr agents fail
+model 25 fail 34 / 100  successful
+writing to file
+[4020, 4486, 4416, 3145, 4385, 2615, 4767, 2211, 5248, 6217, 2999, 3533, 2465, 5847, 3738, 5122, 3995, 3265, 3985, 5312, 5984, 4636, 4816, 2185, 4181, 5106, 5355, 5062, 4186, 4564, 2872, 4699, 4984, 3327]
+loading model CNNboxUNCERTAINONLY26
+agent dies
+nr agents fail
+model 26 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 26 fail 0 / 2  successful
+agent dies
+nr agents fail
+model 26 fail 0 / 3  successful
+agent dies
+nr agents fail
+model 26 fail 0 / 4  successful
+model 26 success 1 / 5  successful
+model 26 success 2 / 6  successful
+model 26 success 3 / 7  successful
+model 26 success 4 / 8  successful
+model 26 success 5 / 9  successful
+model 26 success 6 / 10  successful
+agent dies
+nr agents fail
+model 26 fail 6 / 11  successful
+agent dies
+nr agents fail
+model 26 fail 6 / 12  successful
+agent dies
+nr agents fail
+model 26 fail 6 / 13  successful
+model 26 success 7 / 14  successful
+nr assignments fail
+model 26 fail 7 / 15  successful
+model 26 success 8 / 16  successful
+agent dies
+nr agents fail
+model 26 fail 8 / 17  successful
+model 26 success 9 / 18  successful
+agent dies
+nr agents fail
+model 26 fail 9 / 19  successful
+model 26 success 10 / 20  successful
+nr assignments fail
+model 26 fail 10 / 21  successful
+model 26 success 11 / 22  successful
+agent dies
+agent dies
+nr agents fail
+model 26 fail 11 / 23  successful
+agent dies
+nr agents fail
+model 26 fail 11 / 24  successful
+model 26 success 12 / 25  successful
+agent dies
+nr agents fail
+model 26 fail 12 / 26  successful
+model 26 success 13 / 27  successful
+agent dies
+nr agents fail
+model 26 fail 13 / 28  successful
+agent dies
+nr agents fail
+model 26 fail 13 / 29  successful
+model 26 success 14 / 30  successful
+Waypoint was outside the environment!
+waypoint fail
+model 26 fail 14 / 31  successful
+agent dies
+nr agents fail
+model 26 fail 14 / 32  successful
+agent dies
+nr agents fail
+model 26 fail 14 / 33  successful
+agent dies
+nr agents fail
+model 26 fail 14 / 34  successful
+model 26 success 15 / 35  successful
+agent dies
+agent dies
+nr agents fail
+model 26 fail 15 / 36  successful
+model 26 success 16 / 37  successful
+model 26 success 17 / 38  successful
+agent dies
+nr agents fail
+model 26 fail 17 / 39  successful
+agent dies
+nr agents fail
+model 26 fail 17 / 40  successful
+model 26 success 18 / 41  successful
+Waypoint was outside the environment!
+waypoint fail
+model 26 fail 18 / 42  successful
+model 26 success 19 / 43  successful
+model 26 success 20 / 44  successful
+nr assignments fail
+model 26 fail 20 / 45  successful
+agent dies
+nr agents fail
+model 26 fail 20 / 46  successful
+model 26 success 21 / 47  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 48  successful
+agent dies
+agent dies
+nr agents fail
+model 26 fail 21 / 49  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 50  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 51  successful
+Waypoint was outside the environment!
+waypoint fail
+model 26 fail 21 / 52  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 53  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 54  successful
+Waypoint was outside the environment!
+waypoint fail
+model 26 fail 21 / 55  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 56  successful
+agent dies
+nr agents fail
+model 26 fail 21 / 57  successful
+model 26 success 22 / 58  successful
+agent dies
+nr agents fail
+model 26 fail 22 / 59  successful
+agent dies
+nr agents fail
+model 26 fail 22 / 60  successful
+nr assignments fail
+model 26 fail 22 / 61  successful
+model 26 success 23 / 62  successful
+model 26 success 24 / 63  successful
+nr assignments fail
+model 26 fail 24 / 64  successful
+agent dies
+nr agents fail
+model 26 fail 24 / 65  successful
+agent dies
+nr agents fail
+model 26 fail 24 / 66  successful
+model 26 success 25 / 67  successful
+agent dies
+nr agents fail
+model 26 fail 25 / 68  successful
+agent dies
+nr agents fail
+model 26 fail 25 / 69  successful
+nr assignments fail
+model 26 fail 25 / 70  successful
+agent dies
+nr agents fail
+model 26 fail 25 / 71  successful
+agent dies
+nr agents fail
+model 26 fail 25 / 72  successful
+agent dies
+nr agents fail
+model 26 fail 25 / 73  successful
+agent dies
+nr agents fail
+model 26 fail 25 / 74  successful
+model 26 success 26 / 75  successful
+nr assignments fail
+model 26 fail 26 / 76  successful
+agent dies
+nr agents fail
+model 26 fail 26 / 77  successful
+model 26 success 27 / 78  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 79  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 80  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 81  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 82  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 83  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 84  successful
+agent dies
+nr agents fail
+model 26 fail 27 / 85  successful
+model 26 success 28 / 86  successful
+model 26 success 29 / 87  successful
+agent dies
+nr agents fail
+model 26 fail 29 / 88  successful
+model 26 success 30 / 89  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 90  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 91  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 92  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 93  successful
+nr assignments fail
+model 26 fail 30 / 94  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 95  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 96  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 97  successful
+agent dies
+nr agents fail
+model 26 fail 30 / 98  successful
+model 26 success 31 / 99  successful
+agent dies
+nr agents fail
+model 26 fail 31 / 100  successful
+writing to file
+[4434, 3911, 7605, 2705, 2747, 4892, 3187, 5036, 4840, 4014, 6304, 4357, 4208, 3092, 2838, 2032, 3074, 3083, 7153, 6477, 5103, 6168, 4287, 5959, 6203, 4417, 5523, 3936, 3968, 4470, 3005]
+loading model CNNboxUNCERTAINONLY27
+agent dies
+nr agents fail
+model 27 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 27 fail 0 / 2  successful
+model 27 success 1 / 3  successful
+model 27 success 2 / 4  successful
+agent dies
+nr agents fail
+model 27 fail 2 / 5  successful
+agent dies
+nr agents fail
+model 27 fail 2 / 6  successful
+agent dies
+nr agents fail
+model 27 fail 2 / 7  successful
+model 27 success 3 / 8  successful
+agent dies
+nr agents fail
+model 27 fail 3 / 9  successful
+model 27 success 4 / 10  successful
+model 27 success 5 / 11  successful
+agent dies
+nr agents fail
+model 27 fail 5 / 12  successful
+agent dies
+nr agents fail
+model 27 fail 5 / 13  successful
+agent dies
+nr agents fail
+model 27 fail 5 / 14  successful
+model 27 success 6 / 15  successful
+model 27 success 7 / 16  successful
+model 27 success 8 / 17  successful
+agent dies
+nr agents fail
+model 27 fail 8 / 18  successful
+agent dies
+nr agents fail
+model 27 fail 8 / 19  successful
+agent dies
+nr agents fail
+model 27 fail 8 / 20  successful
+model 27 success 9 / 21  successful
+model 27 success 10 / 22  successful
+agent dies
+nr agents fail
+model 27 fail 10 / 23  successful
+agent dies
+nr agents fail
+model 27 fail 10 / 24  successful
+model 27 success 11 / 25  successful
+agent dies
+nr agents fail
+model 27 fail 11 / 26  successful
+agent dies
+nr agents fail
+model 27 fail 11 / 27  successful
+agent dies
+agent dies
+nr agents fail
+model 27 fail 11 / 28  successful
+nr assignments fail
+model 27 fail 11 / 29  successful
+agent dies
+nr agents fail
+model 27 fail 11 / 30  successful
+model 27 success 12 / 31  successful
+agent dies
+nr agents fail
+model 27 fail 12 / 32  successful
+agent dies
+nr agents fail
+model 27 fail 12 / 33  successful
+model 27 success 13 / 34  successful
+model 27 success 14 / 35  successful
+agent dies
+nr agents fail
+model 27 fail 14 / 36  successful
+model 27 success 15 / 37  successful
+agent dies
+nr agents fail
+model 27 fail 15 / 38  successful
+agent dies
+nr agents fail
+model 27 fail 15 / 39  successful
+agent dies
+nr agents fail
+model 27 fail 15 / 40  successful
+agent dies
+nr agents fail
+model 27 fail 15 / 41  successful
+agent dies
+nr agents fail
+model 27 fail 15 / 42  successful
+model 27 success 16 / 43  successful
+agent dies
+nr agents fail
+model 27 fail 16 / 44  successful
+agent dies
+nr agents fail
+model 27 fail 16 / 45  successful
+model 27 success 17 / 46  successful
+agent dies
+nr agents fail
+model 27 fail 17 / 47  successful
+agent dies
+nr agents fail
+model 27 fail 17 / 48  successful
+agent dies
+nr agents fail
+model 27 fail 17 / 49  successful
+model 27 success 18 / 50  successful
+agent dies
+nr agents fail
+model 27 fail 18 / 51  successful
+agent dies
+agent dies
+nr agents fail
+model 27 fail 18 / 52  successful
+nr assignments fail
+model 27 fail 18 / 53  successful
+agent dies
+agent dies
+nr agents fail
+model 27 fail 18 / 54  successful
+model 27 success 19 / 55  successful
+agent dies
+nr agents fail
+model 27 fail 19 / 56  successful
+agent dies
+nr agents fail
+model 27 fail 19 / 57  successful
+agent dies
+nr agents fail
+model 27 fail 19 / 58  successful
+model 27 success 20 / 59  successful
+agent dies
+nr agents fail
+model 27 fail 20 / 60  successful
+model 27 success 21 / 61  successful
+agent dies
+nr agents fail
+model 27 fail 21 / 62  successful
+agent dies
+nr agents fail
+model 27 fail 21 / 63  successful
+agent dies
+nr agents fail
+model 27 fail 21 / 64  successful
+nr assignments fail
+model 27 fail 21 / 65  successful
+agent dies
+nr agents fail
+model 27 fail 21 / 66  successful
+model 27 success 22 / 67  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 68  successful
+agent dies
+agent dies
+nr agents fail
+model 27 fail 22 / 69  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 70  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 71  successful
+agent dies
+agent dies
+nr agents fail
+model 27 fail 22 / 72  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 73  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 74  successful
+Waypoint was outside the environment!
+waypoint fail
+model 27 fail 22 / 75  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 76  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 77  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 78  successful
+nr assignments fail
+model 27 fail 22 / 79  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 80  successful
+Waypoint was outside the environment!
+waypoint fail
+model 27 fail 22 / 81  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 82  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 83  successful
+agent dies
+nr agents fail
+model 27 fail 22 / 84  successful
+model 27 success 23 / 85  successful
+agent dies
+nr agents fail
+model 27 fail 23 / 86  successful
+model 27 success 24 / 87  successful
+agent dies
+nr agents fail
+model 27 fail 24 / 88  successful
+model 27 success 25 / 89  successful
+Waypoint was outside the environment!
+waypoint fail
+model 27 fail 25 / 90  successful
+agent dies
+nr agents fail
+model 27 fail 25 / 91  successful
+model 27 success 26 / 92  successful
+agent dies
+nr agents fail
+model 27 fail 26 / 93  successful
+agent dies
+nr agents fail
+model 27 fail 26 / 94  successful
+agent dies
+nr agents fail
+model 27 fail 26 / 95  successful
+model 27 success 27 / 96  successful
+model 27 success 28 / 97  successful
+agent dies
+nr agents fail
+model 27 fail 28 / 98  successful
+agent dies
+nr agents fail
+model 27 fail 28 / 99  successful
+model 27 success 29 / 100  successful
+writing to file
+[3230, 5092, 3558, 3001, 2408, 3237, 2153, 3819, 4250, 6341, 4034, 4896, 2966, 3354, 7383, 4361, 4980, 5519, 6261, 4913, 4362, 4758, 3408, 3031, 3488, 3856, 2951, 3093, 3434]
+loading model CNNboxUNCERTAINONLY28
+agent dies
+nr agents fail
+model 28 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 28 fail 0 / 2  successful
+model 28 success 1 / 3  successful
+model 28 success 2 / 4  successful
+agent dies
+nr agents fail
+model 28 fail 2 / 5  successful
+model 28 success 3 / 6  successful
+model 28 success 4 / 7  successful
+agent dies
+nr agents fail
+model 28 fail 4 / 8  successful
+model 28 success 5 / 9  successful
+agent dies
+agent dies
+nr agents fail
+model 28 fail 5 / 10  successful
+agent dies
+nr agents fail
+model 28 fail 5 / 11  successful
+agent dies
+nr agents fail
+model 28 fail 5 / 12  successful
+agent dies
+nr agents fail
+model 28 fail 5 / 13  successful
+agent dies
+nr agents fail
+model 28 fail 5 / 14  successful
+agent dies
+nr agents fail
+model 28 fail 5 / 15  successful
+model 28 success 6 / 16  successful
+agent dies
+nr agents fail
+model 28 fail 6 / 17  successful
+model 28 success 7 / 18  successful
+model 28 success 8 / 19  successful
+model 28 success 9 / 20  successful
+nr assignments fail
+model 28 fail 9 / 21  successful
+model 28 success 10 / 22  successful
+model 28 success 11 / 23  successful
+agent dies
+agent dies
+nr agents fail
+model 28 fail 11 / 24  successful
+nr assignments fail
+model 28 fail 11 / 25  successful
+agent dies
+nr agents fail
+model 28 fail 11 / 26  successful
+model 28 success 12 / 27  successful
+model 28 success 13 / 28  successful
+model 28 success 14 / 29  successful
+model 28 success 15 / 30  successful
+nr assignments fail
+model 28 fail 15 / 31  successful
+agent dies
+nr agents fail
+model 28 fail 15 / 32  successful
+agent dies
+nr agents fail
+model 28 fail 15 / 33  successful
+agent dies
+nr agents fail
+model 28 fail 15 / 34  successful
+model 28 success 16 / 35  successful
+model 28 success 17 / 36  successful
+agent dies
+nr agents fail
+model 28 fail 17 / 37  successful
+model 28 success 18 / 38  successful
+model 28 success 19 / 39  successful
+agent dies
+nr agents fail
+model 28 fail 19 / 40  successful
+model 28 success 20 / 41  successful
+model 28 success 21 / 42  successful
+agent dies
+nr agents fail
+model 28 fail 21 / 43  successful
+agent dies
+nr agents fail
+model 28 fail 21 / 44  successful
+model 28 success 22 / 45  successful
+agent dies
+nr agents fail
+model 28 fail 22 / 46  successful
+model 28 success 23 / 47  successful
+nr assignments fail
+model 28 fail 23 / 48  successful
+model 28 success 24 / 49  successful
+agent dies
+nr agents fail
+model 28 fail 24 / 50  successful
+model 28 success 25 / 51  successful
+agent dies
+nr agents fail
+model 28 fail 25 / 52  successful
+agent dies
+nr agents fail
+model 28 fail 25 / 53  successful
+model 28 success 26 / 54  successful
+model 28 success 27 / 55  successful
+agent dies
+nr agents fail
+model 28 fail 27 / 56  successful
+model 28 success 28 / 57  successful
+agent dies
+nr agents fail
+model 28 fail 28 / 58  successful
+model 28 success 29 / 59  successful
+model 28 success 30 / 60  successful
+agent dies
+nr agents fail
+model 28 fail 30 / 61  successful
+agent dies
+agent dies
+nr agents fail
+model 28 fail 30 / 62  successful
+agent dies
+nr agents fail
+model 28 fail 30 / 63  successful
+model 28 success 31 / 64  successful
+model 28 success 32 / 65  successful
+agent dies
+nr agents fail
+model 28 fail 32 / 66  successful
+agent dies
+nr agents fail
+model 28 fail 32 / 67  successful
+agent dies
+nr agents fail
+model 28 fail 32 / 68  successful
+agent dies
+nr agents fail
+model 28 fail 32 / 69  successful
+agent dies
+nr agents fail
+model 28 fail 32 / 70  successful
+model 28 success 33 / 71  successful
+agent dies
+nr agents fail
+model 28 fail 33 / 72  successful
+agent dies
+nr agents fail
+model 28 fail 33 / 73  successful
+model 28 success 34 / 74  successful
+model 28 success 35 / 75  successful
+nr assignments fail
+model 28 fail 35 / 76  successful
+model 28 success 36 / 77  successful
+model 28 success 37 / 78  successful
+agent dies
+nr agents fail
+model 28 fail 37 / 79  successful
+agent dies
+nr agents fail
+model 28 fail 37 / 80  successful
+model 28 success 38 / 81  successful
+agent dies
+nr agents fail
+model 28 fail 38 / 82  successful
+agent dies
+nr agents fail
+model 28 fail 38 / 83  successful
+agent dies
+nr agents fail
+model 28 fail 38 / 84  successful
+agent dies
+nr agents fail
+model 28 fail 38 / 85  successful
+agent dies
+nr agents fail
+model 28 fail 38 / 86  successful
+model 28 success 39 / 87  successful
+agent dies
+nr agents fail
+model 28 fail 39 / 88  successful
+model 28 success 40 / 89  successful
+agent dies
+nr agents fail
+model 28 fail 40 / 90  successful
+model 28 success 41 / 91  successful
+agent dies
+nr agents fail
+model 28 fail 41 / 92  successful
+model 28 success 42 / 93  successful
+model 28 success 43 / 94  successful
+agent dies
+nr agents fail
+model 28 fail 43 / 95  successful
+model 28 success 44 / 96  successful
+agent dies
+nr agents fail
+model 28 fail 44 / 97  successful
+model 28 success 45 / 98  successful
+agent dies
+nr agents fail
+model 28 fail 45 / 99  successful
+agent dies
+nr agents fail
+model 28 fail 45 / 100  successful
+writing to file
+[3842, 6029, 5291, 2933, 3852, 4942, 3857, 3774, 2600, 2081, 3447, 4981, 3469, 4671, 3212, 2216, 3017, 3709, 5552, 1894, 4999, 2628, 5156, 3035, 4227, 3125, 5473, 3275, 4254, 3936, 3930, 4344, 4500, 6877, 3085, 3640, 5262, 3249, 2940, 3598, 6650, 5196, 4288, 2764, 4314]
+loading model CNNboxUNCERTAINONLY29
+agent dies
+nr agents fail
+model 29 fail 0 / 1  successful
+agent dies
+nr agents fail
+model 29 fail 0 / 2  successful
+model 29 success 1 / 3  successful
+agent dies
+nr agents fail
+model 29 fail 1 / 4  successful
+agent dies
+nr agents fail
+model 29 fail 1 / 5  successful
+agent dies
+nr agents fail
+model 29 fail 1 / 6  successful
+agent dies
+agent dies
+nr agents fail
+model 29 fail 1 / 7  successful
+agent dies
+nr agents fail
+model 29 fail 1 / 8  successful
+model 29 success 2 / 9  successful
+agent dies
+nr agents fail
+model 29 fail 2 / 10  successful
+model 29 success 3 / 11  successful
+agent dies
+nr agents fail
+model 29 fail 3 / 12  successful
+agent dies
+nr agents fail
+model 29 fail 3 / 13  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 3 / 14  successful
+agent dies
+nr agents fail
+model 29 fail 3 / 15  successful
+agent dies
+nr agents fail
+model 29 fail 3 / 16  successful
+nr assignments fail
+model 29 fail 3 / 17  successful
+nr assignments fail
+model 29 fail 3 / 18  successful
+agent dies
+nr agents fail
+model 29 fail 3 / 19  successful
+agent dies
+nr agents fail
+model 29 fail 3 / 20  successful
+model 29 success 4 / 21  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 22  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 23  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 24  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 25  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 26  successful
+agent dies
+agent dies
+nr agents fail
+model 29 fail 4 / 27  successful
+agent dies
+nr agents fail
+model 29 fail 4 / 28  successful
+model 29 success 5 / 29  successful
+agent dies
+nr agents fail
+model 29 fail 5 / 30  successful
+agent dies
+nr agents fail
+model 29 fail 5 / 31  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 5 / 32  successful
+agent dies
+agent dies
+nr agents fail
+model 29 fail 5 / 33  successful
+agent dies
+nr agents fail
+model 29 fail 5 / 34  successful
+model 29 success 6 / 35  successful
+agent dies
+nr agents fail
+model 29 fail 6 / 36  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 6 / 37  successful
+nr assignments fail
+model 29 fail 6 / 38  successful
+agent dies
+nr agents fail
+model 29 fail 6 / 39  successful
+nr assignments fail
+model 29 fail 6 / 40  successful
+agent dies
+nr agents fail
+model 29 fail 6 / 41  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 6 / 42  successful
+agent dies
+nr agents fail
+model 29 fail 6 / 43  successful
+model 29 success 7 / 44  successful
+model 29 success 8 / 45  successful
+agent dies
+nr agents fail
+model 29 fail 8 / 46  successful
+agent dies
+nr agents fail
+model 29 fail 8 / 47  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 8 / 48  successful
+model 29 success 9 / 49  successful
+agent dies
+nr agents fail
+model 29 fail 9 / 50  successful
+agent dies
+nr agents fail
+model 29 fail 9 / 51  successful
+agent dies
+agent dies
+nr agents fail
+model 29 fail 9 / 52  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 9 / 53  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 9 / 54  successful
+agent dies
+nr agents fail
+model 29 fail 9 / 55  successful
+nr assignments fail
+model 29 fail 9 / 56  successful
+agent dies
+nr agents fail
+model 29 fail 9 / 57  successful
+model 29 success 10 / 58  successful
+agent dies
+nr agents fail
+model 29 fail 10 / 59  successful
+agent dies
+nr agents fail
+model 29 fail 10 / 60  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 10 / 61  successful
+model 29 success 11 / 62  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 11 / 63  successful
+agent dies
+nr agents fail
+model 29 fail 11 / 64  successful
+model 29 success 12 / 65  successful
+model 29 success 13 / 66  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 13 / 67  successful
+model 29 success 14 / 68  successful
+model 29 success 15 / 69  successful
+agent dies
+nr agents fail
+model 29 fail 15 / 70  successful
+agent dies
+nr agents fail
+model 29 fail 15 / 71  successful
+agent dies
+agent dies
+nr agents fail
+model 29 fail 15 / 72  successful
+agent dies
+nr agents fail
+model 29 fail 15 / 73  successful
+agent dies
+nr agents fail
+model 29 fail 15 / 74  successful
+model 29 success 16 / 75  successful
+agent dies
+nr agents fail
+model 29 fail 16 / 76  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 16 / 77  successful
+agent dies
+nr agents fail
+model 29 fail 16 / 78  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 16 / 79  successful
+model 29 success 17 / 80  successful
+model 29 success 18 / 81  successful
+model 29 success 19 / 82  successful
+model 29 success 20 / 83  successful
+agent dies
+nr agents fail
+model 29 fail 20 / 84  successful
+model 29 success 21 / 85  successful
+agent dies
+nr agents fail
+model 29 fail 21 / 86  successful
+agent dies
+nr agents fail
+model 29 fail 21 / 87  successful
+model 29 success 22 / 88  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 22 / 89  successful
+model 29 success 23 / 90  successful
+agent dies
+nr agents fail
+model 29 fail 23 / 91  successful
+agent dies
+nr agents fail
+model 29 fail 23 / 92  successful
+nr assignments fail
+model 29 fail 23 / 93  successful
+agent dies
+nr agents fail
+model 29 fail 23 / 94  successful
+agent dies
+agent dies
+nr agents fail
+model 29 fail 23 / 95  successful
+agent dies
+nr agents fail
+model 29 fail 23 / 96  successful
+agent dies
+nr agents fail
+model 29 fail 23 / 97  successful
+Waypoint was outside the environment!
+waypoint fail
+model 29 fail 23 / 98  successful
+agent dies
+nr agents fail
+model 29 fail 23 / 99  successful
+model 29 success 24 / 100  successful
+writing to file
+[3946, 2163, 4571, 7004, 3267, 3950, 3091, 4232, 6850, 3298, 4394, 4572, 5633, 5720, 3480, 3994, 4208, 4217, 5842, 3686, 4088, 3326, 4885, 5195]
+
+
+###############################################################################
+Peregrine Cluster
+Job 20953790 for user 'f118885'
+Finished at: Fri Jul  9 14:17:55 CEST 2021
+
+Job details:
+============
+
+Job ID              : 20953790
+Name                : results
+User                : f118885
+Partition           : regular
+Nodes               : pg-node173
+Number of Nodes     : 1
+Cores               : 1
+State               : COMPLETED
+Submit              : 2021-07-09T09:22:45
+Start               : 2021-07-09T09:22:50
+End                 : 2021-07-09T14:17:55
+Reserved walltime   : 08:00:00
+Used walltime       : 04:55:05
+Used CPU time       : 04:54:54 (efficiency: 99.94%)
+% User (Computation): 99.40%
+% System (I/O)      :  0.60%
+Mem reserved        : 30G/node
+Max Mem used        : 2.36G (pg-node173)
+Max Disk Write      : 174.08K (pg-node173)
+Max Disk Read       : 4.85M (pg-node173)
+Hints and tips      :
+ 1) You requested much more memory than your program used.
+    Please reduce the requested amount of memory.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/peregrine/additional_information/job_hints
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
+
+################################################################################

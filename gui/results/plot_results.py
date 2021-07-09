@@ -27,8 +27,8 @@ def barplot_with_error(all_data, labels, ylabel):
 
     x_pos = np.arange(len(labels))
 
-    architectures = ['xy', 'angle']
-    architecture_colors = ['blue', 'orange']
+    architectures = ['xy', 'angle', 'box']
+    architecture_colors = ['blue', 'orange', 'red']
 
     bar_width = 0.3
     fig, ax = plt.subplots()
@@ -77,10 +77,11 @@ def parse_file(filename):
 if __name__ == "__main__":
     files1 = ["xy/xySTOCHASTIC.txt", "xy/xyUNCERTAINONLY.txt", "xy/xyWINDONLY.txt", "xy/xyUNCERTAIN+WIND.txt"]
     files2 = ["angle/angleSTOCHASTIC.txt", "angle/angleUNCERTAINONLY.txt", "angle/angleWINDONLY.txt", "angle/angleUNCERTAIN+WIND.txt"]
+    files3 = ["box/boxSTOCHASTIC.txt", "box/boxUNCERTAINONLY.txt", "box/boxWINDONLY.txt", "box/boxUNCERTAIN+WIND.txt"]
 
     all_success = []
     all_burned = []
-    file_lists = [files1, files2]
+    file_lists = [files1, files2, files3]
     for file_list in file_lists:
         success_data = []
         burned_data = []

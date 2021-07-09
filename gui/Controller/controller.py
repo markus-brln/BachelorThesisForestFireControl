@@ -260,14 +260,14 @@ class Controller:
        by using the NN output."""
     if self.NN_variant == "box":
       #print("outputs[0]", outputs[0])
-      bad_wp = 0
       for agent_nr in range(0, 5):
         positions, dig_drive = outputs
+        #print("agent pos", self.model.agents[agent_nr].position)
         # print("len", len(positions), "agent_nr no.", self.agent_no)
         new_wp, digging = self.postprocess_output_NN_box(positions[agent_nr], self.model.agents[agent_nr], dig_drive[agent_nr])
-
+        #print("new wp", new_wp)
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
-          print("Waypoint was outside the environment! Press backspace to discard episode!")
+          print("Waypoint was outside the environment!")
           return -1
 
         self.model.highlight_agent(agent_nr)
@@ -285,7 +285,7 @@ class Controller:
           exit()
 
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
-          print("Waypoint was outside the environment! Press backspace to discard episode!")
+          print("Waypoint was outside the environment!")
           return -1                                         # waypoint outside of environment, FAIL!
 
         # print("pos: ", new_wp, "dig: ", digging)
@@ -338,20 +338,21 @@ class Controller:
 
     #print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
-
     if not digging:                                   # double range for driving
       wp = (wp[0] * 2, wp[1] * 2)
 
+
     # print("indx:", waypointIdx, "wp", wp)
-    if self.waypointValid(wp, agent):
-      delta_x = wp[0]
-      delta_y = wp[1]
+    #if self.waypointValid(wp, agent):
+    #  return None, None
 
       #print("x", delta_x, "y", delta_y)
       # if (abs(delta_x) + abs(delta_y)) > 15:
       #   digging = 1
       #print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
-      output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
+
+    output = agent.position[0] + int(wp[0]), agent.position[1] + int(wp[1])
+    #print("wp in post", wp)
     #else:
     #  print("invalid waypoint position agent stops")   # M got rid of that because there is a check for it in set_waypoints_NN()
     #  output = agent.position[0], agent.position[1]

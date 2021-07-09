@@ -12,7 +12,7 @@ def main():
   architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   variant = architecture_variants[2]
-  experiment = experiments[1]
+  experiment = experiments[2]
   n_NN_to_test = 30
   n_runs_per_NN = 100
 

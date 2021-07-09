@@ -1,5 +1,5 @@
 #!/bin/bash              
-#SBATCH --time=01:30:00                                                                                                                      
+#SBATCH --time=00:25:00                                                                                                                      
 #SBATCH --nodes=1                                                                                                                            
 #SBATCH --ntasks-per-node=1                                                                                                                  
 #SBATCH --mem=25G                                                                                                                            
@@ -18,7 +18,10 @@ echo Overview of modules that are loaded
 echo starting CNN
 
 # the number behind again stands for the variant!
-python CNN_segments.py $1 0
+for i in {0..3};
+do
+    python CNN_segments.py $1 $i
+done
 
 
 # execute with:                                                                                                                              

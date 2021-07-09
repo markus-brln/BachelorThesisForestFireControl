@@ -261,17 +261,15 @@ class Controller:
     if self.NN_variant == "box":
       #print("outputs[0]", outputs[0])
       bad_wp = 0
-      for agent in range(0, 5):
+      for agent_nr in range(0, 5):
         positions, dig_drive = outputs
-        # print("len", len(positions), "agent no.", self.agent_no)
-        new_wp, digging = self.postprocess_output_NN_box(positions[agent], self.model.agents[agent], dig_drive[agent])
-        #print("pos: ", new_wp, "dig: ", digging)
-        #print(" ")
-        #self.model.highlight_agent(agent)
-        #print(new_wp)
+        # print("len", len(positions), "agent_nr no.", self.agent_no)
+        new_wp, digging = self.postprocess_output_NN_box(positions[agent_nr], self.model.agents[agent_nr], dig_drive[agent_nr])
+
         if not 0 < new_wp[0] < utils.size or not 0 < new_wp[1] < utils.size:
           print("Waypoint was outside the environment! Press backspace to discard episode!")
 
+        self.model.highlight_agent(agent_nr)
         self.model.select_square(new_wp, digging=digging)
         self.agent_no += 1
     else:
@@ -329,8 +327,7 @@ class Controller:
     """All operations needed to transform the raw normalized NN output
     to pixel coords of the waypoints and a drive/dig (0/1) decision.
     """
-
-    print("pay attention", max(output), "digging:", output[1])
+    #print("pay attention", max(output), "digging:", output[1])
     digging = dig_drive > self.digging_threshold
     # digging = 0
     waypointIdx = 0
@@ -338,7 +335,7 @@ class Controller:
       if output[idx] == max(output):
         waypointIdx = idx
 
-    print("agent pos", agent.position[0], agent.position[1])
+    #print("agent pos", agent.position[0], agent.position[1])
     wp = self.arrayIndex2WaypointPos(waypointIdx)
 
     if not digging:                                   # double range for driving
@@ -349,14 +346,14 @@ class Controller:
       delta_x = wp[0]
       delta_y = wp[1]
 
-      print("x", delta_x, "y", delta_y)
+      #print("x", delta_x, "y", delta_y)
       # if (abs(delta_x) + abs(delta_y)) > 15:
       #   digging = 1
-      print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
+      #print("agent moves to", agent.position[0] + delta_x, agent.position[1] + delta_y)
       output = agent.position[0] + int(delta_x), agent.position[1] + int(delta_y)
-    else:
-      print("invalid waypoint position agent stops")
-      output = agent.position[0], agent.position[1]
+    #else:
+    #  print("invalid waypoint position agent stops")   # M got rid of that because there is a check for it in set_waypoints_NN()
+    #  output = agent.position[0], agent.position[1]
 
 
     return output, digging
@@ -553,6 +550,8 @@ class Controller:
       #self.plot_np_image(agent_image)
       all_images.append(agent_image)                        # 1 picture per agent
 
+    #print("plot np image")
+    #self.plot_np_image(all_images[0])
     return np.asarray(all_images)
     #return [np.asarray(all_images), np.asarray(agent_positions)]   concat version
 

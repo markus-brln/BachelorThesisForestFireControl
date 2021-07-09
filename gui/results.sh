@@ -20,7 +20,7 @@ module list
 
 # Run R using the code from mandelbrot.R
 echo starting main
-python main.py 0 4      # CHANGE architecture, experiment
+python main.py 2 1      # CHANGE architecture, experiment
 
 
 # execute with:

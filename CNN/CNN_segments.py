@@ -35,10 +35,10 @@ def build_model(input_shape, size = 16):
     downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
     downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
     downscaled = Flatten()(downscaled)
-    out = Dense(48, activation='sigmoid')(downscaled)
-    seg_out = Dense(32, activation='sigmoid')(out)
+    out = Dense(48, activation='softmax')(downscaled)
+    seg_out = Dense(32, activation='softmax')(out)
     seg_out = Dense(size, name='seg', activation='sigmoid')(seg_out)                                     # nothing specified, so linear output
-    dig_out = Dense(4, activation='sigmoid')(out)
+    dig_out = Dense(4, activation='softmax')(out)
     dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
 
     model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])

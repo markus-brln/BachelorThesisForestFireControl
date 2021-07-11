@@ -18,7 +18,7 @@ echo Overview of modules that are loaded
 module list
 
 echo starting data_translator
-python3 data_translator_segments.py $1
+python3 data_translator_new_architectures.py 3 $1
 
 
 # execute with:

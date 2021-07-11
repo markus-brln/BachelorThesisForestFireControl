@@ -17,8 +17,8 @@ module load matplotlib/3.1.1-foss-2019b-Python-3.7.4
 echo Overview of modules that are loaded
 echo starting CNN
 
-# the number behind again stands for the variant!
-python train_models_markus.py 3
+# python train_models.py [architecture variant] [experiment]
+python train_models.py 3 0
 
 
 # execute with:                                                                                                                              

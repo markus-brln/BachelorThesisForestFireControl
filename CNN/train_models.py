@@ -285,6 +285,8 @@ def run_experiments(architecture_variant, experiment, n_runs):
         size = 16
         segments = np.asarray([x[:size] for x in outputs])
         dig = np.asarray([[x[size]] for x in outputs], dtype=np.float16)
+        callback = tf.keras.callbacks.EarlyStopping(monitor='val_seg_categorical_accuracy', patience=10, restore_best_weights=True)
+        
         model = build_model_segments(images[0].shape)
         model.fit([images],
                   [segments, dig],
@@ -311,7 +313,7 @@ if __name__ == "__main__":
   experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   architecture_variant = architecture_variants[2]
   experiment = experiments[0]
-  n_runs = 2
+  n_runs = 30
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
     architecture_variant = architecture_variants[int(sys.argv[1])]

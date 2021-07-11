@@ -23,7 +23,7 @@ def load_data(out_variant, experiment):
     return images, outputs
 
 
-def build_model_segments(input_shape, size=16):
+def build_model(input_shape, size=16):
   """
   The angle of the waypoint is encoded in 'size' different segments.
   :param input_shape: shape of the multi-channel image

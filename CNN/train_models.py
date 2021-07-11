@@ -168,6 +168,39 @@ def build_model_angle(input_shape):
   return model
 
 
+def build_model_segments(input_shape, size=16):
+  """
+  The angle of the waypoint is encoded in 'size' different segments.
+  :param input_shape: shape of the multi-channel image
+  :param size: amounts of segments to encode angle
+  """
+
+  downscaleInput = Input(shape=input_shape)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+    downscaleInput)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = Flatten()(downscaled)
+  downscaled = Dropout(0.2)(downscaled)
+  out = Dense(64, activation='relu')(downscaled)
+  seg_out = Dense(32, activation='relu')(out)
+  seg_out = Dropout(0.2)(seg_out)
+  seg_out = Dense(size, name='seg', activation='softmax')(seg_out)  # nothing specified, so linear output
+  dig_out = Dense(16, activation='relu')(out)
+  dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
+
+  model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
+  adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # initial learning rate faster
+
+  model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
+                optimizer=adam,
+                metrics=['categorical_accuracy'])
+
+  return model
+
+
 def check_performance(test_data, model):
   """ONLY FOR XY, ANGLE VARIANTS
   Check average deviation of x,y,dig/drive outputs from desired
@@ -192,7 +225,7 @@ def check_performance(test_data, model):
   return delta_0, delta_1, delta_2, delta_3
 
 
-def run_experiments():
+def run_experiments(architecture_variant, experiment, n_runs):
   """Choose the architecture variant from the list below, make sure
   you have translated all experiment data files according to your
   architecture:
@@ -201,85 +234,91 @@ def run_experiments():
   import time
   start = time.time()
 
-  n_runs = 30
-  architecture_variants = ["xy", "angle", "box"]  # our 3 individual network output variants
-  architecture_variant = architecture_variants[2]
-  experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  images, outputs = load_data(architecture_variant, experiment)
+  image_shape = images[0].shape
+  for run in range(0, n_runs):
+    if architecture_variant == 'box':
+      print(experiment, "run:", run)
+      box = []
+      dig_drive = []
+      boxArr = []
+      for out in outputs:
+        box = out[:-1]
+        dig_drive.append(out[-1])
+        boxArr.append(box)
+      boxes = np.asarray(boxArr, dtype=np.float16)
+      boxID = [0] * 61
+      for box in boxes:
+        for i in range(len(box)):
+          if box[i] == 1:
+            boxID[i] += 1
 
-  experiment_nr = 0
-  if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
-    experiment_nr = int(sys.argv[1])
+      class_weight = create_class_weight(boxID)
+      dig_drive = np.asarray(dig_drive, dtype=np.float16)
 
-  for exp, experiment in enumerate(experiments[0+experiment_nr:1+experiment_nr]):
+      model = build_model_box(image_shape, class_weight)
+      callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=15,
+                                                  restore_best_weights=True)
+      model.fit(images,  # used to be list of 2 inputs to model
+                [boxes, dig_drive],
+                batch_size=64,  # 64
+                epochs=100,  # 50
+                shuffle=True,
+                callbacks=[callback],
+                validation_split=0.2,
+                verbose=2)  # 0.2
+    else:
+      callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
 
-    # performances = open("performance_data/performance" + architecture_variant + experiment + ".txt", mode='w')
-    # performances.write("Experiment" + experiment + "\n")
-    images, outputs = load_data(architecture_variant, experiment)
-    image_shape = images[0].shape
-    for run in range(0, n_runs):
-      if architecture_variant == 'box':
-        print(experiment, "run:", run)
-        box = []
-        dig_drive = []
-        boxArr = []
-        for out in outputs:
-          box = out[:-1]
-          dig_drive.append(out[-1])
-          boxArr.append(box)
-        boxes = np.asarray(boxArr, dtype=np.float16)
-        boxID = [0] * 61
-        for box in boxes:
-          for i in range(len(box)):
-            if box[i] == 1:
-              boxID[i] += 1
-
-        class_weight = create_class_weight(boxID)
-        dig_drive = np.asarray(dig_drive, dtype=np.float16)
-
-        model = build_model_box(image_shape, class_weight)
-        callback = tf.keras.callbacks.EarlyStopping(monitor='val_box_categorical_accuracy', patience=15,
-                                                    restore_best_weights=True)
-        model.fit(images,  # used to be list of 2 inputs to model
-                  [boxes, dig_drive],
-                  batch_size=64,  # 64
-                  epochs=100,  # 50
-                  shuffle=True,
-                  callbacks=[callback],
-                  validation_split=0.2,
-                  verbose=2)  # 0.2
-      else:
-        ##model = build_model_xy(images[0].shape)
-        model = build_model_angle(images[0].shape)
-
-        callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+      if architecture_variant in ['xy', 'angle']:
+        if architecture_variant == 'xy':
+          model = build_model_xy(images[0].shape)
+        if architecture_variant == 'angle':
+          model = build_model_angle(images[0].shape)
         model.fit(images, outputs,
                   batch_size=64, epochs=100, shuffle=True,
                   callbacks=[callback],
                   validation_split=0.2,
                   verbose=2)
-      save(model, "CNN" + architecture_variant + experiment + str(run))
-      # performances.write(str(check_performance(test_data, model)) + "\n")
 
-      print(f"model {exp * n_runs + run + 1}/{len(experiments) * n_runs}")
-      end = time.time()
-      hours, rem = divmod(end - start, 3600)
-      minutes, seconds = divmod(rem, 60)
-      print("time elapsed:")
-      print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
+      if architecture_variant == 'segments':
+        size = 16
+        segments = np.asarray([x[:size] for x in outputs])
+        dig = np.asarray([[x[size]] for x in outputs], dtype=np.float16)
+        model = build_model_segments(images[0].shape)
+        model.fit([images],
+                  [segments, dig],
+                  batch_size=64,
+                  epochs=100,
+                  shuffle=True,
+                  callbacks=[callback],
+                  validation_split=0.2,
+                  verbose=2)
 
-      time_left = ((len(experiments) * n_runs) / (exp * n_runs + run + 1)) * (end - start) - (end - start)
+    save(model, "CNN" + architecture_variant + experiment + str(run))
 
-      hours, rem = divmod(time_left, 3600)
-      minutes, seconds = divmod(rem, 60)
-      print("estimated time left:")
-      print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds), "\n\n")
-
-    # performances.close()
+    print(f"model {run + 1}/{n_runs}")
+    end = time.time()
+    hours, rem = divmod(end - start, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("time elapsed:")
+    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
 
 
 if __name__ == "__main__":
-  run_experiments()
-  exit()
+
+  architecture_variants = ["xy", "angle", "box", "segments"]  # our 3 individual network output variants
+  experiments = ["STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
+  architecture_variant = architecture_variants[2]
+  experiment = experiments[0]
+  n_runs = 2
+
+  if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
+    architecture_variant = architecture_variants[int(sys.argv[1])]
+  if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
+    experiment = experiments[int(sys.argv[2])]
+
+  run_experiments(architecture_variant, experiment, n_runs)
 
 # import random
 #

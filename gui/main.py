@@ -22,13 +22,13 @@ def main():
   architecture_variants = ["xy", "angle", "box", "segments"]  # our 3 individual network output variants
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   variant = architecture_variants[3]
-  experiment = experiments[2]
+  experiment = experiments[3]
   NN_number = 0
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(architecture_variants):
-      variant = architecture_variants[int(sys.argv[1])]
+    variant = architecture_variants[int(sys.argv[1])]
   if len(sys.argv) > 2 and int(sys.argv[2]) < len(experiments):
-      experiment = experiments[int(sys.argv[2])]
+    experiment = experiments[int(sys.argv[2])]
   if len(sys.argv) > 3 and int(sys.argv[3]) < 10:
     NN_number = int(sys.argv[3])
 

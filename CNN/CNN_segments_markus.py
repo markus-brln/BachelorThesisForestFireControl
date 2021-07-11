@@ -23,34 +23,37 @@ def load_data(out_variant, experiment):
     return images, outputs
 
 
-def build_model(input_shape, size = 16):
-    """
-    and outputs [cos(pos_angle), sin(pos_angle), radius, drive/dig] with x,y relative to the active agent's position."""
+def build_model_segments(input_shape, size=16):
+  """
+  The angle of the waypoint is encoded in 'size' different segments.
+  :param input_shape: shape of the multi-channel image
+  :param size: amounts of segments to encode angle
+  """
 
-    downscaleInput = Input(shape=input_shape)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), activation="relu", padding="same")(downscaleInput)
-    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2,2), activation="relu", padding="same")(downscaled)
-    #downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
-    downscaled = Flatten()(downscaled)
-    downscaled = Dropout(0.2)(downscaled)
-    out = Dense(64, activation='relu')(downscaled)
-    seg_out = Dense(32, activation='relu')(out)
-    seg_out = Dropout(0.2)(seg_out)
-    seg_out = Dense(size, name='seg', activation='softmax')(seg_out)                                     # nothing specified, so linear output
-    dig_out = Dense(16, activation='relu')(out)
-    dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
+  downscaleInput = Input(shape=input_shape)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+    downscaleInput)
+  downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+  downscaled = Flatten()(downscaled)
+  downscaled = Dropout(0.2)(downscaled)
+  out = Dense(64, activation='relu')(downscaled)
+  seg_out = Dense(32, activation='relu')(out)
+  seg_out = Dropout(0.2)(seg_out)
+  seg_out = Dense(size, name='seg', activation='softmax')(seg_out)  # nothing specified, so linear output
+  dig_out = Dense(16, activation='relu')(out)
+  dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
 
-    model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
-    adam = tf.keras.optimizers.Adam(learning_rate=0.001)    # initial learning rate faster
+  model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
+  adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # initial learning rate faster
 
-    model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
-                  optimizer=adam,
-                  metrics=['categorical_accuracy'])
+  model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
+                optimizer=adam,
+                metrics=['categorical_accuracy'])
 
-    return model
+  return model
 
 if __name__ == "__main__":
     size = 16 ## Size of segments
@@ -58,7 +61,7 @@ if __name__ == "__main__":
     ## experiment type
     out_variant = "segments"
     experiments =  ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
-    experiment = experiments[2]                             # dictates model name
+    experiment = experiments[3]                             # dictates model name
     nn_number = "0"
 
     if len(sys.argv) > 1 and int(sys.argv[1]) < len(experiments):
@@ -96,7 +99,7 @@ if __name__ == "__main__":
               callbacks=[callback],
               # class_weight=class_weights,
               validation_split=0.2,
-              verbose=1)                                    # progress bar
+              verbose=2)                                    # progress bar
 
     save(model, "CNNsegments" + experiment + nn_number)  # utils
     print(f"saving as CNNsegments{experiment}" + nn_number)

@@ -367,8 +367,14 @@ class Controller:
     delta_x = round(math.cos(angle) * utils.timeframe)
     delta_y = round(math.sin(angle) * utils.timeframe)
     print(f"Direction: {highest}, delta_x: {delta_x}, delta_y: {delta_y}")
+    wanted_len = utils.timeframe  # agents can dig 1 step per timestep
+    if not digging:
+      wanted_len *= 2  # driving twice as fast
 
-    output = agent.position[0] + delta_x, agent.position[1] + delta_y
+    scale = wanted_len / (abs(delta_x) + abs(delta_y))
+    output = agent.position[0] + int(scale * delta_x), agent.position[1] + int(scale * delta_y)
+
+    #output = agent.position[0] + delta_x, agent.position[1] + delta_y
     return output, digging
 
 
@@ -604,6 +610,42 @@ class Controller:
                   )
     return model
 
+  @staticmethod
+  def build_model_segments(input_shape, size=16):
+    """
+    The angle of the waypoint is encoded in 'size' different segments.
+    :param input_shape: shape of the multi-channel image
+    :param size: amounts of segments to encode angle
+    """
+    import tensorflow as tf
+    from tensorflow.keras import Input, Model
+    from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
+
+    downscaleInput = Input(shape=input_shape)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), activation="relu", padding="same")(
+      downscaleInput)
+    downscaled = Conv2D(filters=16, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = MaxPooling2D(pool_size=(2, 2))(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Conv2D(filters=32, kernel_size=(2, 2), strides=(2, 2), activation="relu", padding="same")(downscaled)
+    downscaled = Flatten()(downscaled)
+    downscaled = Dropout(0.2)(downscaled)
+    out = Dense(64, activation='relu')(downscaled)
+    seg_out = Dense(32, activation='relu')(out)
+    seg_out = Dropout(0.2)(seg_out)
+    seg_out = Dense(size, name='seg', activation='softmax')(seg_out)  # nothing specified, so linear output
+    dig_out = Dense(16, activation='relu')(out)
+    dig_out = Dense(1, name='dig', activation='sigmoid')(dig_out)
+
+    model = Model(inputs=downscaleInput, outputs=[seg_out, dig_out])
+    adam = tf.keras.optimizers.Adam(learning_rate=0.001)  # initial learning rate faster
+
+    model.compile(loss=['categorical_crossentropy', 'binary_crossentropy'],
+                  optimizer=adam,
+                  metrics=['categorical_accuracy'])
+
+    return model
+
 
   @staticmethod
   def load_NN(filename):
@@ -616,6 +658,9 @@ class Controller:
 
     if "box" in filename:
       model = Controller.build_model_box((256, 256, 7))
+      model.load_weights('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
+    elif "segments" in filename:
+      model = Controller.build_model_segments((256, 256, 7))
       model.load_weights('..' + os.sep + 'CNN' + os.sep + 'saved_models' + os.sep + filename + ".h5")
     else:
       # load json and create model

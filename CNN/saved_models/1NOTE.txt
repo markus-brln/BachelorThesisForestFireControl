@@ -1,0 +1,7 @@
+These are the 480 models that were trained on this branch (using
+CNN/train_models.py) used to generate our results (on the
+results_gathering branch).
+
+4 architectures * 4 experiments * 30 models each = 480
+
+

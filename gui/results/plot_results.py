@@ -27,10 +27,10 @@ def barplot_with_error(all_data, labels, ylabel):
 
     x_pos = np.arange(len(labels))
 
-    architectures = ['xy', 'angle', 'box']
-    architecture_colors = ['blue', 'orange', 'red']
+    architectures = ['xy', 'angle', 'box', 'segments']
+    architecture_colors = ['blue', 'green', 'orange', 'red']
 
-    bar_width = 0.3
+    bar_width = 0.2
     fig, ax = plt.subplots()
     for means, SDs, idx in zip(all_means, all_SDs, range(len(all_data))):
         barlist = ax.bar(x_pos - (((len(all_data) - 1) / 2) - idx) * bar_width,
@@ -51,7 +51,7 @@ def barplot_with_error(all_data, labels, ylabel):
     ax.set_xticklabels(labels)
     ax.yaxis.grid(True)
 
-    plt.tight_layout()
+    #plt.tight_layout()
     #plt.savefig('bar_plot_containment_rate.png')
     plt.show()
 
@@ -78,10 +78,11 @@ if __name__ == "__main__":
     files1 = ["xy/xySTOCHASTIC.txt", "xy/xyUNCERTAINONLY.txt", "xy/xyWINDONLY.txt", "xy/xyUNCERTAIN+WIND.txt"]
     files2 = ["angle/angleSTOCHASTIC.txt", "angle/angleUNCERTAINONLY.txt", "angle/angleWINDONLY.txt", "angle/angleUNCERTAIN+WIND.txt"]
     files3 = ["box/boxSTOCHASTIC.txt", "box/boxUNCERTAINONLY.txt", "box/boxWINDONLY.txt", "box/boxUNCERTAIN+WIND.txt"]
-
+    files4 = ["segments/segmentsSTOCHASTIC.txt", "segments/segmentsUNCERTAINONLY.txt", "segments/segmentsWINDONLY.txt",
+              "segments/segmentsUNCERTAIN+WIND.txt"]
     all_success = []
     all_burned = []
-    file_lists = [files1, files2, files3]
+    file_lists = [files1, files2, files3, files4]
     for file_list in file_lists:
         success_data = []
         burned_data = []
@@ -92,6 +93,6 @@ if __name__ == "__main__":
         all_success.append(success_data)
         all_burned.append(burned_data)
 
-    labels = ["STOCHASTIC", "UNCERTAIN", "WIND", "UNCERTAIN+WIND"]
+    labels = ["BASELINE", "UNCERTAIN", "WIND", "UNCERTAIN+WIND"]
     barplot_with_error(all_success, labels, "Mean successfully contained fires out of 100")
     barplot_with_error(all_burned, labels, "Mean amount of burned cells")

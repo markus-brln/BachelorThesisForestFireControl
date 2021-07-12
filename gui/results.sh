@@ -19,7 +19,7 @@ echo Overview of modules that are loaded
 module list
 
 echo starting main
-python main.py 2 4      # CHANGE architecture, experiment
+python main.py 3 4      # CHANGE architecture, experiment
 
 
 # execute with:

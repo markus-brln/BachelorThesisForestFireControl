@@ -13,8 +13,8 @@ def main():
   experiments = ["BASIC", "STOCHASTIC", "WINDONLY", "UNCERTAINONLY", "UNCERTAIN+WIND"]
   variant = architecture_variants[3]
   experiment = experiments[4]
-  n_NN_to_test = 1
-  n_runs_per_NN = 5
+  n_NN_to_test = 30
+  n_runs_per_NN = 100
 
   if len(sys.argv) > 1 and int(sys.argv[1]) < len(sys.argv):
       variant = architecture_variants[int(sys.argv[1])]

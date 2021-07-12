@@ -1,15 +1,17 @@
 # BachelorThesisForestFireControl
 
 
-Welcome on the data collection and CNN training branch.
+###Data collection and CNN training branch
 
-Folder description:
+###Folder explanation:
 - CNN: data translation + CNN training
-- Documentation: I/O representations of current and past ideas for network architectures
+- Documentation: I/O representations of current and past ideas 
+  for network architectures, experiment descriptions
 - gui: manual data collection
 - PastPapersAndNotes: previous work and summaries of it
 
-Pipeline
+
+###Pipeline
 1. Collect training data manually (gui/main.py with NN_control = False)
    - Spacebar: progress simulation
    - Left Mouse Button: assign digging waypoint to agent marked as yellow

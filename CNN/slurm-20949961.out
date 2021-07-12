@@ -1,486 +1,0 @@
-
-The following have been reloaded with a version change:
-  1) FFTW/3.3.8-gompic-2019b => FFTW/3.3.8-gompi-2019b
-  2) OpenMPI/3.1.4-gcccuda-2019b => OpenMPI/3.1.4-GCC-8.3.0
-  3) ScaLAPACK/2.0.2-gompic-2019b => ScaLAPACK/2.0.2-gompi-2019b
-  4) SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4 => SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
-
-Overview of modules that are loaded
-starting CNN
-2021-07-08 20:46:46.915987: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
---------------------------------------------------------------------------
-A process has executed an operation involving a call to the
-"fork()" system call to create a child process.  Open MPI is currently
-operating in a condition that could result in memory corruption or
-other system errors; your job may hang, crash, or produce silent
-data corruption.  The use of fork() (or system() or other calls that
-create child processes) is strongly discouraged.
-
-The process that invoked fork was:
-
-  Local host:          [[38112,1],0] (PID 9751)
-
-If you are *absolutely sure* that your application will successfully
-and correctly survive a call to fork(), you may disable this warning
-by setting the mpi_warn_on_fork MCA parameter to 0.
---------------------------------------------------------------------------
-2021-07-08 20:46:49.790041: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
-2021-07-08 20:46:49.814431: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:46:49.814499: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:46:49.817598: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:46:49.820060: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:46:49.820792: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:46:49.823224: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:46:49.824523: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:46:49.829317: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:46:49.830753: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:46:49.834469: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:46:49.834520: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:46:49.834561: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:46:49.834601: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:46:49.834641: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:46:49.834681: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:46:49.834720: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:46:49.834760: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:46:49.836384: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:46:49.836439: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:46:50.205575: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
-2021-07-08 20:46:50.205687: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
-2021-07-08 20:46:50.205709: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
-2021-07-08 20:46:50.208318: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10630 MB memory) -> physical GPU (device: 0, name: Tesla K40m, pci bus id: 0000:03:00.0, compute capability: 3.5)
-2021-07-08 20:46:50.208699: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
-2021-07-08 20:46:52.388254: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:46:52.606295: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-loading data:/home/f118885/data/thesis/segmentsWINDONLY.npy
-input images:  (125, 256, 256, 7)
-outputs:  (125, 17)
-Model: "functional_1"
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to                     
-==================================================================================================
-input_1 (InputLayer)            [(None, 256, 256, 7) 0                                            
-__________________________________________________________________________________________________
-conv2d (Conv2D)                 (None, 256, 256, 16) 464         input_1[0][0]                    
-__________________________________________________________________________________________________
-conv2d_1 (Conv2D)               (None, 128, 128, 16) 1040        conv2d[0][0]                     
-__________________________________________________________________________________________________
-max_pooling2d (MaxPooling2D)    (None, 64, 64, 16)   0           conv2d_1[0][0]                   
-__________________________________________________________________________________________________
-conv2d_2 (Conv2D)               (None, 32, 32, 32)   2080        max_pooling2d[0][0]              
-__________________________________________________________________________________________________
-conv2d_3 (Conv2D)               (None, 16, 16, 32)   4128        conv2d_2[0][0]                   
-__________________________________________________________________________________________________
-max_pooling2d_1 (MaxPooling2D)  (None, 8, 8, 32)     0           conv2d_3[0][0]                   
-__________________________________________________________________________________________________
-flatten (Flatten)               (None, 2048)         0           max_pooling2d_1[0][0]            
-__________________________________________________________________________________________________
-dense (Dense)                   (None, 48)           98352       flatten[0][0]                    
-__________________________________________________________________________________________________
-dense_1 (Dense)                 (None, 32)           1568        dense[0][0]                      
-__________________________________________________________________________________________________
-dense_2 (Dense)                 (None, 4)            196         dense[0][0]                      
-__________________________________________________________________________________________________
-seg (Dense)                     (None, 16)           528         dense_1[0][0]                    
-__________________________________________________________________________________________________
-dig (Dense)                     (None, 1)            5           dense_2[0][0]                    
-==================================================================================================
-Total params: 108,361
-Trainable params: 108,361
-Non-trainable params: 0
-__________________________________________________________________________________________________
-None
-Epoch 1/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.3857 - seg_loss: 2.8384 - dig_loss: 0.5473 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - ETA: 0s - loss: 3.3681 - seg_loss: 2.8302 - dig_loss: 0.5379 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.00002/2 [==============================] - 1s 475ms/step - loss: 3.3681 - seg_loss: 2.8302 - dig_loss: 0.5379 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.4328 - val_seg_loss: 2.8616 - val_dig_loss: 0.5712 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 2/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.3112 - seg_loss: 2.8071 - dig_loss: 0.5041 - seg_categorical_accuracy: 0.0781 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.2975 - seg_loss: 2.8169 - dig_loss: 0.4806 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3969 - val_seg_loss: 2.8440 - val_dig_loss: 0.5529 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 3/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2014 - seg_loss: 2.8189 - dig_loss: 0.3825 - seg_categorical_accuracy: 0.1406 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.2451 - seg_loss: 2.8070 - dig_loss: 0.4381 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3762 - val_seg_loss: 2.8268 - val_dig_loss: 0.5494 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 4/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2262 - seg_loss: 2.8115 - dig_loss: 0.4147 - seg_categorical_accuracy: 0.0938 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.2011 - seg_loss: 2.7955 - dig_loss: 0.4056 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3628 - val_seg_loss: 2.8123 - val_dig_loss: 0.5505 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 5/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2107 - seg_loss: 2.8078 - dig_loss: 0.4029 - seg_categorical_accuracy: 0.0938 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 54ms/step - loss: 3.1814 - seg_loss: 2.7863 - dig_loss: 0.3950 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3517 - val_seg_loss: 2.8001 - val_dig_loss: 0.5516 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 6/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2066 - seg_loss: 2.8064 - dig_loss: 0.4002 - seg_categorical_accuracy: 0.0781 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.1700 - seg_loss: 2.7786 - dig_loss: 0.3914 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3424 - val_seg_loss: 2.7901 - val_dig_loss: 0.5523 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 7/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1856 - seg_loss: 2.7665 - dig_loss: 0.4191 - seg_categorical_accuracy: 0.0938 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 57ms/step - loss: 3.1611 - seg_loss: 2.7715 - dig_loss: 0.3895 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3334 - val_seg_loss: 2.7806 - val_dig_loss: 0.5528 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 8/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1498 - seg_loss: 2.7744 - dig_loss: 0.3754 - seg_categorical_accuracy: 0.0938 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 54ms/step - loss: 3.1546 - seg_loss: 2.7659 - dig_loss: 0.3888 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3245 - val_seg_loss: 2.7713 - val_dig_loss: 0.5532 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 9/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.0717 - seg_loss: 2.7620 - dig_loss: 0.3097 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 61ms/step - loss: 3.1476 - seg_loss: 2.7594 - dig_loss: 0.3882 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3159 - val_seg_loss: 2.7623 - val_dig_loss: 0.5535 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-saving model CNNsegmentsWINDONLY0
-saving as CNNsegmentsWINDONLY
-2021-07-08 20:46:59.119154: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
---------------------------------------------------------------------------
-A process has executed an operation involving a call to the
-"fork()" system call to create a child process.  Open MPI is currently
-operating in a condition that could result in memory corruption or
-other system errors; your job may hang, crash, or produce silent
-data corruption.  The use of fork() (or system() or other calls that
-create child processes) is strongly discouraged.
-
-The process that invoked fork was:
-
-  Local host:          [[38028,1],0] (PID 9844)
-
-If you are *absolutely sure* that your application will successfully
-and correctly survive a call to fork(), you may disable this warning
-by setting the mpi_warn_on_fork MCA parameter to 0.
---------------------------------------------------------------------------
-2021-07-08 20:47:01.437813: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
-2021-07-08 20:47:01.459458: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:47:01.459541: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:01.462039: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:01.464279: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:47:01.465251: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:47:01.467506: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:47:01.468575: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:47:01.473235: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:47:01.474622: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:47:01.478616: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:47:01.478663: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:01.478702: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:01.478739: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:47:01.478776: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:47:01.478813: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:47:01.478850: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:47:01.478886: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:47:01.480432: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:47:01.480483: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:01.838701: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
-2021-07-08 20:47:01.838812: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
-2021-07-08 20:47:01.838832: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
-2021-07-08 20:47:01.841129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10630 MB memory) -> physical GPU (device: 0, name: Tesla K40m, pci bus id: 0000:03:00.0, compute capability: 3.5)
-2021-07-08 20:47:01.841885: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
-2021-07-08 20:47:03.811976: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:04.044357: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-loading data:/home/f118885/data/thesis/segmentsWINDONLY.npy
-input images:  (125, 256, 256, 7)
-outputs:  (125, 17)
-Model: "functional_1"
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to                     
-==================================================================================================
-input_1 (InputLayer)            [(None, 256, 256, 7) 0                                            
-__________________________________________________________________________________________________
-conv2d (Conv2D)                 (None, 256, 256, 16) 464         input_1[0][0]                    
-__________________________________________________________________________________________________
-conv2d_1 (Conv2D)               (None, 128, 128, 16) 1040        conv2d[0][0]                     
-__________________________________________________________________________________________________
-max_pooling2d (MaxPooling2D)    (None, 64, 64, 16)   0           conv2d_1[0][0]                   
-__________________________________________________________________________________________________
-conv2d_2 (Conv2D)               (None, 32, 32, 32)   2080        max_pooling2d[0][0]              
-__________________________________________________________________________________________________
-conv2d_3 (Conv2D)               (None, 16, 16, 32)   4128        conv2d_2[0][0]                   
-__________________________________________________________________________________________________
-max_pooling2d_1 (MaxPooling2D)  (None, 8, 8, 32)     0           conv2d_3[0][0]                   
-__________________________________________________________________________________________________
-flatten (Flatten)               (None, 2048)         0           max_pooling2d_1[0][0]            
-__________________________________________________________________________________________________
-dense (Dense)                   (None, 48)           98352       flatten[0][0]                    
-__________________________________________________________________________________________________
-dense_1 (Dense)                 (None, 32)           1568        dense[0][0]                      
-__________________________________________________________________________________________________
-dense_2 (Dense)                 (None, 4)            196         dense[0][0]                      
-__________________________________________________________________________________________________
-seg (Dense)                     (None, 16)           528         dense_1[0][0]                    
-__________________________________________________________________________________________________
-dig (Dense)                     (None, 1)            5           dense_2[0][0]                    
-==================================================================================================
-Total params: 108,361
-Trainable params: 108,361
-Non-trainable params: 0
-__________________________________________________________________________________________________
-None
-Epoch 1/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.4733 - seg_loss: 2.8440 - dig_loss: 0.6292 - seg_categorical_accuracy: 0.0312 - dig_categorical_accuracy: 1.00002/2 [==============================] - ETA: 0s - loss: 3.4501 - seg_loss: 2.8270 - dig_loss: 0.6231 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.00002/2 [==============================] - 1s 484ms/step - loss: 3.4501 - seg_loss: 2.8270 - dig_loss: 0.6231 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.0000 - val_loss: 3.4802 - val_seg_loss: 2.8608 - val_dig_loss: 0.6194 - val_seg_categorical_accuracy: 0.0000e+00 - val_dig_categorical_accuracy: 1.0000
-Epoch 2/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.3774 - seg_loss: 2.8016 - dig_loss: 0.5758 - seg_categorical_accuracy: 0.0312 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 57ms/step - loss: 3.3959 - seg_loss: 2.8148 - dig_loss: 0.5811 - seg_categorical_accuracy: 0.0238 - dig_categorical_accuracy: 1.0000 - val_loss: 3.4295 - val_seg_loss: 2.8400 - val_dig_loss: 0.5895 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 3/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.3307 - seg_loss: 2.7925 - dig_loss: 0.5382 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.3330 - seg_loss: 2.8031 - dig_loss: 0.5298 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3873 - val_seg_loss: 2.8202 - val_dig_loss: 0.5670 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 4/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2754 - seg_loss: 2.7858 - dig_loss: 0.4896 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.2790 - seg_loss: 2.7938 - dig_loss: 0.4851 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3581 - val_seg_loss: 2.8019 - val_dig_loss: 0.5562 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 5/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2304 - seg_loss: 2.7703 - dig_loss: 0.4602 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.2376 - seg_loss: 2.7833 - dig_loss: 0.4543 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3382 - val_seg_loss: 2.7858 - val_dig_loss: 0.5524 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 6/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2108 - seg_loss: 2.7648 - dig_loss: 0.4460 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 53ms/step - loss: 3.2129 - seg_loss: 2.7742 - dig_loss: 0.4386 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3217 - val_seg_loss: 2.7705 - val_dig_loss: 0.5511 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 7/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1642 - seg_loss: 2.7412 - dig_loss: 0.4230 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 51ms/step - loss: 3.1984 - seg_loss: 2.7666 - dig_loss: 0.4318 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3073 - val_seg_loss: 2.7568 - val_dig_loss: 0.5506 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 8/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1575 - seg_loss: 2.7391 - dig_loss: 0.4184 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.1877 - seg_loss: 2.7595 - dig_loss: 0.4283 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2948 - val_seg_loss: 2.7446 - val_dig_loss: 0.5503 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 9/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2149 - seg_loss: 2.7498 - dig_loss: 0.4651 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 54ms/step - loss: 3.1786 - seg_loss: 2.7524 - dig_loss: 0.4262 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2830 - val_seg_loss: 2.7330 - val_dig_loss: 0.5500 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 10/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1756 - seg_loss: 2.7606 - dig_loss: 0.4150 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 61ms/step - loss: 3.1713 - seg_loss: 2.7463 - dig_loss: 0.4250 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2703 - val_seg_loss: 2.7205 - val_dig_loss: 0.5498 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-saving model CNNsegmentsWINDONLY1
-saving as CNNsegmentsWINDONLY
-2021-07-08 20:47:10.948319: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
---------------------------------------------------------------------------
-A process has executed an operation involving a call to the
-"fork()" system call to create a child process.  Open MPI is currently
-operating in a condition that could result in memory corruption or
-other system errors; your job may hang, crash, or produce silent
-data corruption.  The use of fork() (or system() or other calls that
-create child processes) is strongly discouraged.
-
-The process that invoked fork was:
-
-  Local host:          [[37935,1],0] (PID 9938)
-
-If you are *absolutely sure* that your application will successfully
-and correctly survive a call to fork(), you may disable this warning
-by setting the mpi_warn_on_fork MCA parameter to 0.
---------------------------------------------------------------------------
-2021-07-08 20:47:13.232457: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
-2021-07-08 20:47:13.254248: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:47:13.254312: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:13.256807: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:13.258980: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:47:13.259576: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:47:13.261811: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:47:13.262890: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:47:13.267474: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:47:13.268863: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:47:13.273376: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:47:13.273425: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:13.273466: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:13.273505: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:47:13.273543: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:47:13.273581: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:47:13.273619: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:47:13.273657: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:47:13.275095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:47:13.275148: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:13.683257: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
-2021-07-08 20:47:13.683371: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
-2021-07-08 20:47:13.683391: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
-2021-07-08 20:47:13.685991: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10630 MB memory) -> physical GPU (device: 0, name: Tesla K40m, pci bus id: 0000:03:00.0, compute capability: 3.5)
-2021-07-08 20:47:13.686372: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
-2021-07-08 20:47:15.681796: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:15.902523: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-loading data:/home/f118885/data/thesis/segmentsWINDONLY.npy
-input images:  (125, 256, 256, 7)
-outputs:  (125, 17)
-Model: "functional_1"
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to                     
-==================================================================================================
-input_1 (InputLayer)            [(None, 256, 256, 7) 0                                            
-__________________________________________________________________________________________________
-conv2d (Conv2D)                 (None, 256, 256, 16) 464         input_1[0][0]                    
-__________________________________________________________________________________________________
-conv2d_1 (Conv2D)               (None, 128, 128, 16) 1040        conv2d[0][0]                     
-__________________________________________________________________________________________________
-max_pooling2d (MaxPooling2D)    (None, 64, 64, 16)   0           conv2d_1[0][0]                   
-__________________________________________________________________________________________________
-conv2d_2 (Conv2D)               (None, 32, 32, 32)   2080        max_pooling2d[0][0]              
-__________________________________________________________________________________________________
-conv2d_3 (Conv2D)               (None, 16, 16, 32)   4128        conv2d_2[0][0]                   
-__________________________________________________________________________________________________
-max_pooling2d_1 (MaxPooling2D)  (None, 8, 8, 32)     0           conv2d_3[0][0]                   
-__________________________________________________________________________________________________
-flatten (Flatten)               (None, 2048)         0           max_pooling2d_1[0][0]            
-__________________________________________________________________________________________________
-dense (Dense)                   (None, 48)           98352       flatten[0][0]                    
-__________________________________________________________________________________________________
-dense_1 (Dense)                 (None, 32)           1568        dense[0][0]                      
-__________________________________________________________________________________________________
-dense_2 (Dense)                 (None, 4)            196         dense[0][0]                      
-__________________________________________________________________________________________________
-seg (Dense)                     (None, 16)           528         dense_1[0][0]                    
-__________________________________________________________________________________________________
-dig (Dense)                     (None, 1)            5           dense_2[0][0]                    
-==================================================================================================
-Total params: 108,361
-Trainable params: 108,361
-Non-trainable params: 0
-__________________________________________________________________________________________________
-None
-Epoch 1/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1488 - seg_loss: 2.7902 - dig_loss: 0.3585 - seg_categorical_accuracy: 0.0625 - dig_categorical_accuracy: 1.00002/2 [==============================] - ETA: 0s - loss: 3.1711 - seg_loss: 2.7974 - dig_loss: 0.3737 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.00002/2 [==============================] - 1s 452ms/step - loss: 3.1711 - seg_loss: 2.7974 - dig_loss: 0.3737 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3345 - val_seg_loss: 2.7533 - val_dig_loss: 0.5812 - val_seg_categorical_accuracy: 0.0476 - val_dig_categorical_accuracy: 1.0000
-Epoch 2/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1529 - seg_loss: 2.7790 - dig_loss: 0.3738 - seg_categorical_accuracy: 0.0625 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 54ms/step - loss: 3.1466 - seg_loss: 2.7826 - dig_loss: 0.3640 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3268 - val_seg_loss: 2.7323 - val_dig_loss: 0.5945 - val_seg_categorical_accuracy: 0.0476 - val_dig_categorical_accuracy: 1.0000
-Epoch 3/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1193 - seg_loss: 2.7797 - dig_loss: 0.3396 - seg_categorical_accuracy: 0.0469 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.1271 - seg_loss: 2.7670 - dig_loss: 0.3600 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3166 - val_seg_loss: 2.7125 - val_dig_loss: 0.6041 - val_seg_categorical_accuracy: 0.0476 - val_dig_categorical_accuracy: 1.0000
-Epoch 4/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1163 - seg_loss: 2.7490 - dig_loss: 0.3673 - seg_categorical_accuracy: 0.0625 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 54ms/step - loss: 3.1118 - seg_loss: 2.7546 - dig_loss: 0.3573 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2988 - val_seg_loss: 2.6955 - val_dig_loss: 0.6033 - val_seg_categorical_accuracy: 0.0476 - val_dig_categorical_accuracy: 1.0000
-Epoch 5/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1185 - seg_loss: 2.7517 - dig_loss: 0.3668 - seg_categorical_accuracy: 0.0312 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 61ms/step - loss: 3.0985 - seg_loss: 2.7430 - dig_loss: 0.3556 - seg_categorical_accuracy: 0.0476 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2775 - val_seg_loss: 2.6804 - val_dig_loss: 0.5971 - val_seg_categorical_accuracy: 0.1905 - val_dig_categorical_accuracy: 1.0000
-Epoch 6/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1250 - seg_loss: 2.7303 - dig_loss: 0.3947 - seg_categorical_accuracy: 0.2031 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.0895 - seg_loss: 2.7356 - dig_loss: 0.3539 - seg_categorical_accuracy: 0.1667 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2573 - val_seg_loss: 2.6683 - val_dig_loss: 0.5890 - val_seg_categorical_accuracy: 0.1905 - val_dig_categorical_accuracy: 1.0000
-Epoch 7/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.0457 - seg_loss: 2.7150 - dig_loss: 0.3307 - seg_categorical_accuracy: 0.1562 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.0779 - seg_loss: 2.7276 - dig_loss: 0.3503 - seg_categorical_accuracy: 0.1310 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2404 - val_seg_loss: 2.6591 - val_dig_loss: 0.5812 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 8/100
-1/2 [==============>...............] - ETA: 0s - loss: 2.9843 - seg_loss: 2.7140 - dig_loss: 0.2703 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 59ms/step - loss: 3.0664 - seg_loss: 2.7217 - dig_loss: 0.3446 - seg_categorical_accuracy: 0.1190 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2133 - val_seg_loss: 2.6506 - val_dig_loss: 0.5627 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 9/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.0173 - seg_loss: 2.7228 - dig_loss: 0.2945 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 59ms/step - loss: 3.0513 - seg_loss: 2.7149 - dig_loss: 0.3365 - seg_categorical_accuracy: 0.1190 - dig_categorical_accuracy: 1.0000 - val_loss: 3.1748 - val_seg_loss: 2.6419 - val_dig_loss: 0.5329 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 10/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.0506 - seg_loss: 2.7093 - dig_loss: 0.3413 - seg_categorical_accuracy: 0.1562 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 53ms/step - loss: 3.0409 - seg_loss: 2.7086 - dig_loss: 0.3324 - seg_categorical_accuracy: 0.1190 - dig_categorical_accuracy: 1.0000 - val_loss: 3.1410 - val_seg_loss: 2.6350 - val_dig_loss: 0.5060 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 11/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.0453 - seg_loss: 2.7151 - dig_loss: 0.3302 - seg_categorical_accuracy: 0.0781 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 53ms/step - loss: 3.0233 - seg_loss: 2.7024 - dig_loss: 0.3209 - seg_categorical_accuracy: 0.1190 - dig_categorical_accuracy: 1.0000 - val_loss: 3.1222 - val_seg_loss: 2.6319 - val_dig_loss: 0.4904 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 12/100
-1/2 [==============>...............] - ETA: 0s - loss: 2.9904 - seg_loss: 2.7030 - dig_loss: 0.2874 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 54ms/step - loss: 2.9939 - seg_loss: 2.6958 - dig_loss: 0.2980 - seg_categorical_accuracy: 0.1190 - dig_categorical_accuracy: 1.0000 - val_loss: 3.1158 - val_seg_loss: 2.6313 - val_dig_loss: 0.4845 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 13/100
-1/2 [==============>...............] - ETA: 0s - loss: 2.9350 - seg_loss: 2.6890 - dig_loss: 0.2460 - seg_categorical_accuracy: 0.0781 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 57ms/step - loss: 2.9681 - seg_loss: 2.6906 - dig_loss: 0.2775 - seg_categorical_accuracy: 0.1190 - dig_categorical_accuracy: 1.0000 - val_loss: 3.0774 - val_seg_loss: 2.6255 - val_dig_loss: 0.4519 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-saving model CNNsegmentsWINDONLY2
-saving as CNNsegmentsWINDONLY
-2021-07-08 20:47:23.322585: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
---------------------------------------------------------------------------
-A process has executed an operation involving a call to the
-"fork()" system call to create a child process.  Open MPI is currently
-operating in a condition that could result in memory corruption or
-other system errors; your job may hang, crash, or produce silent
-data corruption.  The use of fork() (or system() or other calls that
-create child processes) is strongly discouraged.
-
-The process that invoked fork was:
-
-  Local host:          [[38336,1],0] (PID 10040)
-
-If you are *absolutely sure* that your application will successfully
-and correctly survive a call to fork(), you may disable this warning
-by setting the mpi_warn_on_fork MCA parameter to 0.
---------------------------------------------------------------------------
-2021-07-08 20:47:25.521883: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
-2021-07-08 20:47:25.543428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:47:25.543512: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:25.546028: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:25.548201: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:47:25.548808: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:47:25.551046: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:47:25.552174: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:47:25.556709: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:47:25.558109: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:47:25.562098: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
-pciBusID: 0000:03:00.0 name: Tesla K40m computeCapability: 3.5
-coreClock: 0.745GHz coreCount: 15 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 268.58GiB/s
-2021-07-08 20:47:25.562144: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:25.562182: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:25.562220: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
-2021-07-08 20:47:25.562257: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
-2021-07-08 20:47:25.562293: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
-2021-07-08 20:47:25.562330: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
-2021-07-08 20:47:25.562366: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-2021-07-08 20:47:25.563808: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
-2021-07-08 20:47:25.563856: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
-2021-07-08 20:47:25.965731: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
-2021-07-08 20:47:25.965838: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
-2021-07-08 20:47:25.965859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
-2021-07-08 20:47:25.968177: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10630 MB memory) -> physical GPU (device: 0, name: Tesla K40m, pci bus id: 0000:03:00.0, compute capability: 3.5)
-2021-07-08 20:47:25.968910: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 12. Tune using inter_op_parallelism_threads for best performance.
-2021-07-08 20:47:27.962958: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
-2021-07-08 20:47:28.181142: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
-loading data:/home/f118885/data/thesis/segmentsWINDONLY.npy
-input images:  (125, 256, 256, 7)
-outputs:  (125, 17)
-Model: "functional_1"
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to                     
-==================================================================================================
-input_1 (InputLayer)            [(None, 256, 256, 7) 0                                            
-__________________________________________________________________________________________________
-conv2d (Conv2D)                 (None, 256, 256, 16) 464         input_1[0][0]                    
-__________________________________________________________________________________________________
-conv2d_1 (Conv2D)               (None, 128, 128, 16) 1040        conv2d[0][0]                     
-__________________________________________________________________________________________________
-max_pooling2d (MaxPooling2D)    (None, 64, 64, 16)   0           conv2d_1[0][0]                   
-__________________________________________________________________________________________________
-conv2d_2 (Conv2D)               (None, 32, 32, 32)   2080        max_pooling2d[0][0]              
-__________________________________________________________________________________________________
-conv2d_3 (Conv2D)               (None, 16, 16, 32)   4128        conv2d_2[0][0]                   
-__________________________________________________________________________________________________
-max_pooling2d_1 (MaxPooling2D)  (None, 8, 8, 32)     0           conv2d_3[0][0]                   
-__________________________________________________________________________________________________
-flatten (Flatten)               (None, 2048)         0           max_pooling2d_1[0][0]            
-__________________________________________________________________________________________________
-dense (Dense)                   (None, 48)           98352       flatten[0][0]                    
-__________________________________________________________________________________________________
-dense_1 (Dense)                 (None, 32)           1568        dense[0][0]                      
-__________________________________________________________________________________________________
-dense_2 (Dense)                 (None, 4)            196         dense[0][0]                      
-__________________________________________________________________________________________________
-seg (Dense)                     (None, 16)           528         dense_1[0][0]                    
-__________________________________________________________________________________________________
-dig (Dense)                     (None, 1)            5           dense_2[0][0]                    
-==================================================================================================
-Total params: 108,361
-Trainable params: 108,361
-Non-trainable params: 0
-__________________________________________________________________________________________________
-None
-Epoch 1/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.3060 - seg_loss: 2.8409 - dig_loss: 0.4652 - seg_categorical_accuracy: 0.0469 - dig_categorical_accuracy: 1.00002/2 [==============================] - ETA: 0s - loss: 3.2913 - seg_loss: 2.8347 - dig_loss: 0.4566 - seg_categorical_accuracy: 0.0357 - dig_categorical_accuracy: 1.00002/2 [==============================] - 1s 474ms/step - loss: 3.2913 - seg_loss: 2.8347 - dig_loss: 0.4566 - seg_categorical_accuracy: 0.0357 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3921 - val_seg_loss: 2.8408 - val_dig_loss: 0.5513 - val_seg_categorical_accuracy: 0.0476 - val_dig_categorical_accuracy: 1.0000
-Epoch 2/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2908 - seg_loss: 2.8503 - dig_loss: 0.4405 - seg_categorical_accuracy: 0.0469 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 61ms/step - loss: 3.2529 - seg_loss: 2.8209 - dig_loss: 0.4320 - seg_categorical_accuracy: 0.0833 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3675 - val_seg_loss: 2.8176 - val_dig_loss: 0.5500 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 3/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.2518 - seg_loss: 2.8173 - dig_loss: 0.4345 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 57ms/step - loss: 3.2141 - seg_loss: 2.8082 - dig_loss: 0.4059 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3510 - val_seg_loss: 2.7941 - val_dig_loss: 0.5570 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 4/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1982 - seg_loss: 2.7843 - dig_loss: 0.4139 - seg_categorical_accuracy: 0.1250 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 58ms/step - loss: 3.1805 - seg_loss: 2.7945 - dig_loss: 0.3860 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3381 - val_seg_loss: 2.7716 - val_dig_loss: 0.5666 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 5/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1928 - seg_loss: 2.7799 - dig_loss: 0.4129 - seg_categorical_accuracy: 0.0938 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.1570 - seg_loss: 2.7815 - dig_loss: 0.3755 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3254 - val_seg_loss: 2.7535 - val_dig_loss: 0.5719 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 6/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1466 - seg_loss: 2.7667 - dig_loss: 0.3800 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 55ms/step - loss: 3.1399 - seg_loss: 2.7692 - dig_loss: 0.3707 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3131 - val_seg_loss: 2.7389 - val_dig_loss: 0.5742 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 7/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1015 - seg_loss: 2.7481 - dig_loss: 0.3534 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 59ms/step - loss: 3.1277 - seg_loss: 2.7583 - dig_loss: 0.3694 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.3021 - val_seg_loss: 2.7269 - val_dig_loss: 0.5753 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 8/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1084 - seg_loss: 2.7292 - dig_loss: 0.3791 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 60ms/step - loss: 3.1178 - seg_loss: 2.7491 - dig_loss: 0.3687 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2924 - val_seg_loss: 2.7165 - val_dig_loss: 0.5759 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 9/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1549 - seg_loss: 2.7494 - dig_loss: 0.4055 - seg_categorical_accuracy: 0.1094 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 59ms/step - loss: 3.1104 - seg_loss: 2.7420 - dig_loss: 0.3684 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2831 - val_seg_loss: 2.7071 - val_dig_loss: 0.5760 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-Epoch 10/100
-1/2 [==============>...............] - ETA: 0s - loss: 3.1234 - seg_loss: 2.7449 - dig_loss: 0.3785 - seg_categorical_accuracy: 0.0938 - dig_categorical_accuracy: 1.00002/2 [==============================] - 0s 51ms/step - loss: 3.1041 - seg_loss: 2.7358 - dig_loss: 0.3684 - seg_categorical_accuracy: 0.1071 - dig_categorical_accuracy: 1.0000 - val_loss: 3.2743 - val_seg_loss: 2.6987 - val_dig_loss: 0.5757 - val_seg_categorical_accuracy: 0.1429 - val_dig_categorical_accuracy: 1.0000
-saving model CNNsegmentsWINDONLY3
-saving as CNNsegmentsWINDONLY
-
-
-###############################################################################
-Peregrine Cluster
-Job 20949961 for user 'f118885'
-Finished at: Thu Jul  8 20:47:34 CEST 2021
-
-Job details:
-============
-
-Job ID              : 20949961
-Name                : CNN_job
-User                : f118885
-Partition           : gpu
-Nodes               : pg-gpu01
-Number of Nodes     : 1
-Cores               : 12
-State               : COMPLETED
-Submit              : 2021-07-08T20:30:14
-Start               : 2021-07-08T20:46:42
-End                 : 2021-07-08T20:47:34
-Reserved walltime   : 00:25:00
-Used walltime       : 00:00:52
-Used CPU time       : 00:00:53 (efficiency:  8.54%)
-% User (Computation): 73.45%
-% System (I/O)      : 26.55%
-Mem reserved        : 25G/node
-Max Mem used        : 410.23M (pg-gpu01)
-Max Disk Write      : 1.12M (pg-gpu01)
-Max Disk Read       : 298.62M (pg-gpu01)
-Average GPU usage   : 24.5% (pg-gpu01)
-
-
-Acknowledgements:
-=================
-
-Please see this page for information about acknowledging Peregrine in your publications:
-
-https://wiki.hpc.rug.nl/peregrine/introduction/scientific_output
-
-################################################################################

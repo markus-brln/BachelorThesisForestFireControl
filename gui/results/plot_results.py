@@ -25,9 +25,16 @@ def barplot_with_error(all_data, labels, ylabel):
         all_means.append(means)
         all_SDs.append(SDs)
 
+    #print(np.asarray(all_means).shape)
     x_pos = np.arange(len(labels))
 
     print(len(all_data[0][0]))
+    for i in range(4):
+        for mean_exp, sd_exp in zip(all_means, all_SDs):
+        #    for me, sd in zip(mean_exp, sd_exp):
+            print(round(mean_exp[i],1), ' & ', round(sd_exp[i],1))
+
+    #exit()
     print("means", all_means)
     print("SDs", all_SDs)
     architectures = ['xy', 'angle', 'box', 'segments']
@@ -76,6 +83,57 @@ def parse_file(filename):
 
     return n_successes, all_burned
 
+def prepare_stat_tests():
+    files1 = ["xy/xySTOCHASTIC.txt", "xy/xyUNCERTAINONLY.txt", "xy/xyWINDONLY.txt", "xy/xyUNCERTAIN+WIND.txt"]
+    files2 = ["angle/angleSTOCHASTIC.txt", "angle/angleUNCERTAINONLY.txt", "angle/angleWINDONLY.txt",
+              "angle/angleUNCERTAIN+WIND.txt"]
+    files3 = ["box/boxSTOCHASTIC.txt", "box/boxUNCERTAINONLY.txt", "box/boxWINDONLY.txt", "box/boxUNCERTAIN+WIND.txt"]
+    files4 = ["segments/segmentsSTOCHASTIC.txt", "segments/segmentsUNCERTAINONLY.txt", "segments/segmentsWINDONLY.txt",
+              "segments/segmentsUNCERTAIN+WIND.txt"]
+
+
+    burned_cells_per_exp = []
+    for files_exp in zip(files1, files2, files3, files4):
+        burned_exp = []
+        for file_exp in files_exp:
+            n_successes, burned_cells = parse_file(file_exp)
+            burned_exp.extend(burned_cells)
+        burned_cells_per_exp.append(burned_exp)
+
+    print([len(li) for li in burned_cells_per_exp])
+
+    for exp in burned_cells_per_exp:
+        print("mean", np.mean(np.asarray(exp)))
+        print("SD", np.std(np.asarray(exp)))
+    #file = open("file", 'w')
+    #for num in burned_cells_per_exp[3]:
+    #    file.write(str(num))
+    #    file.write("\n")
+
+
+def something():
+    files1 = ["xy/xySTOCHASTIC.txt", "xy/xyUNCERTAINONLY.txt", "xy/xyWINDONLY.txt", "xy/xyUNCERTAIN+WIND.txt"]
+    files2 = ["angle/angleSTOCHASTIC.txt", "angle/angleUNCERTAINONLY.txt", "angle/angleWINDONLY.txt",
+              "angle/angleUNCERTAIN+WIND.txt"]
+    files3 = ["box/boxSTOCHASTIC.txt", "box/boxUNCERTAINONLY.txt", "box/boxWINDONLY.txt", "box/boxUNCERTAIN+WIND.txt"]
+    files4 = ["segments/segmentsSTOCHASTIC.txt", "segments/segmentsUNCERTAINONLY.txt", "segments/segmentsWINDONLY.txt",
+              "segments/segmentsUNCERTAIN+WIND.txt"]
+
+    # burned_cells_per_exp = []
+    successes_per_exp = []
+    for files_exp in zip(files1, files2, files3, files4):
+        # burned_exp = []
+        successes_exp = []
+        for file_exp in files_exp:
+            n_successes, burned_cells = parse_file(file_exp)
+            successes_exp.append(n_successes)
+            # burned_exp.extend(burned_cells)
+        # burned_cells_per_exp.append(burned_exp)
+        successes_per_exp.append(successes_exp)
+
+    print(successes_per_exp)
+    print(np.asarray(successes_per_exp, dtype=object).shape)
+
 
 if __name__ == "__main__":
     files1 = ["xy/xySTOCHASTIC.txt", "xy/xyUNCERTAINONLY.txt", "xy/xyWINDONLY.txt", "xy/xyUNCERTAIN+WIND.txt"]
@@ -96,6 +154,8 @@ if __name__ == "__main__":
         all_success.append(success_data)
         all_burned.append(burned_data)
 
+    #print(np.asarray(all_success, dtype=object).shape)
+    #exit()
     labels = ["BASELINE", "UNCERTAIN", "WIND", "UNCERTAIN+WIND"]
     barplot_with_error(all_success, labels, "Mean successfully contained fires out of 100")
     barplot_with_error(all_burned, labels, "Mean amount of burned cells (lower is better)")

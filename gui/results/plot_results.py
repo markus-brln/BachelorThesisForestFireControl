@@ -27,6 +27,9 @@ def barplot_with_error(all_data, labels, ylabel):
 
     x_pos = np.arange(len(labels))
 
+    print(len(all_data[0][0]))
+    print("means", all_means)
+    print("SDs", all_SDs)
     architectures = ['xy', 'angle', 'box', 'segments']
     architecture_colors = ['blue', 'green', 'orange', 'red']
 
@@ -95,4 +98,4 @@ if __name__ == "__main__":
 
     labels = ["BASELINE", "UNCERTAIN", "WIND", "UNCERTAIN+WIND"]
     barplot_with_error(all_success, labels, "Mean successfully contained fires out of 100")
-    barplot_with_error(all_burned, labels, "Mean amount of burned cells")
+    barplot_with_error(all_burned, labels, "Mean amount of burned cells (lower is better)")
